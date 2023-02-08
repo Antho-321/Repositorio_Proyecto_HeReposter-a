@@ -1,0 +1,202 @@
+body {
+    margin: 0px;
+    width: 100vw;
+    overflow-x: hidden;
+}
+#Cabecera{
+    display: flex;
+    padding: 0px 30px;
+    justify-content: space-between;
+    align-items: center;
+}
+#LogoPankey{
+    height: 100px;
+    width: 100px;
+    padding: 10px;
+}
+#seccion_botones{
+    display: flex;
+    align-items: center;
+}
+
+#Catalogo{
+    display: flex;
+    flex-direction: column;
+}
+
+.Btn_Catalogo{
+    
+    cursor: default !important;
+}
+#Catalogo:hover .Menu_Catalogo{
+    visibility: visible;
+}
+.Menu_Catalogo{
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    position: absolute;
+    
+    background-color: rgb(108, 179, 102);
+    z-index: 10;
+}
+input:hover, a:hover {
+    cursor: pointer;
+    color: #7c7c7c41;
+}
+#seccion_iconos{
+    display: flex;
+    align-items: center;
+}
+input, a{
+    width: 120px;
+    font: normal normal normal 1.6vw/1.4em Century Gothic;
+    font-size: 16px;
+    background-color: transparent;    
+    padding: 12px 0px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: rgb(31, 31, 31);
+    margin: 0px 4vw;
+    text-align: center;
+}
+input{
+    font: normal normal normal 1.6vw/1.4em Century Gothic;
+    font-size: 16px;
+    background-color: transparent;  
+}
+a{
+    text-decoration: none;
+}
+#btn_ingresar{
+    cursor: pointer;
+    width: auto;
+    margin: 0px;
+}
+#seccion_iconos>img, #seccion_iconos>a>img{
+    width: 50px;
+    height: 50px;
+    padding: 12px;
+    cursor: pointer;
+}
+#seccion_iconos>a{
+    all: initial;
+}
+ #Salto {
+     background-color: black;
+     width: 100%;
+     height: 30px;
+     justify-content: center;
+     color: aliceblue;
+     text-align: center;
+ }
+ #contenido_principal {
+    opacity: 1 !important;
+     height: 100%;
+     width: 100%;
+     background-color: antiquewhite;
+ }
+ .tabla_info {
+    display: table;
+    width: 100%;
+}
+
+.fila {
+    display: table-row;
+}
+.fila>div{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+.fila>div>img{
+    height: 100px;
+    width: 100px;
+}
+.col {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 12px;
+    text-align: center;
+    width: 12.6vw !important;
+}
+
+
+
+#DestacadoPrincipal {
+    position: relative;
+    display: inline-flex;
+    background: lightblue;
+    width: 100%;
+    justify-content: center;
+    z-index: 2;
+}
+
+#Derechos {
+    display: flex;
+    width: 100%;
+    height: 70px;
+    font: normal normal normal 17px/1.4em Century Gothic;
+    align-items: center;
+    justify-content: center;
+    color: rgb(80, 80, 80);
+}
+footer {
+    width: 100%;
+    padding: 10px 0px;
+    background:aliceblue;
+    font: normal normal normal 17px/1.4em Century Gothic;
+    text-align: center;
+    color: rgb(70, 70, 70);
+}
+
+
+@media screen and (max-width: 968px) {
+    #seccion_botones>li{     
+        margin: 0px;
+        width: auto;     
+     }
+}
+@media screen and (max-width: 693px) {
+    #seccion_botones{     
+        width: auto;     
+     }
+}
+@media screen and (max-width: 600px) {
+     #Cabecera{
+        display: block;
+     }
+     #Logo {
+        width: 100%;
+        height: 80px;
+     }
+     
+     #seccion_iconos>li>img{
+        width: 5vw;
+        height: 5vw;
+    }
+    #seccion_iconos{
+        height: 50px;
+     }
+
+}
+
+@media screen and (max-width: 400px) {
+    input{
+        font-size: 3.5vw;
+    }
+    .Carrito, .Busqueda, .Ingresar{
+        padding-right: 0.9vw;   
+        padding-left: 0.9vw;  
+     }
+     
+}
+
+/*
+.col-2 {
+    width: 25.2vw !important;
+    position: absolute;
+}
+*/
