@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../styles/estilo_VentanaDeIngreso.css" id="estilo">
     <title>REPOSTERIA</title>
 </head>
+
 <body>
 
     <!-- //////////////////////////////////////////////////////////////////////////ENCABEZADO///////////////////////////////////////////////////////////////////////////////////////////// -->
@@ -18,7 +20,7 @@
         <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
 
         <!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
-        
+
         <input type="checkbox" id="check">
         <label for="check" class="mostrar_menu">
             &#8801
@@ -45,8 +47,10 @@
             <!-- //////////////////////////////////////////ICONOS/////////////////////////////////////////////// -->
 
             <nav class="iconos">
-                <li><a href="../html/CarritoDeCompras.html"><img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo"></a></li>
-                <li onclick="mostrarBúsqueda(this)"><a><img src="../iconos/lupa1.png" type="button" value="Catalogo"></a></li>
+                <li><a href="../html/CarritoDeCompras.html"><img src="../iconos/carro-de-la-carretilla.png"
+                            type="button" value="Catalogo"></a></li>
+                <li onclick="mostrarBúsqueda(this)"><a><img src="../iconos/lupa1.png" type="button"
+                            value="Catalogo"></a></li>
                 <li id="seccion_busqueda"><a><input type="search" id="búsqueda"></a></li>
                 <li><a href="#">Ingresar</li>
                 <label for="check" class="esconder_menu">
@@ -55,7 +59,7 @@
             </nav>
         </nav>
     </header>
-    
+
     <div id="Salto">
     </div>
 
@@ -67,19 +71,21 @@
                 <div class="btnHaciaDerecha">
                     <input type="button" value="✕" id="btn_salir">
                 </div>
-                <h2>Ingresar</h2>
-                <label for="correo">Correo electrónico:</label>
-                <input type="email" id="correo" class="entrada_texto">
-                <label for="contraseña">Contraseña:</label>
-                <input type="password" id="contraseña" class="entrada_texto">
-                <div class="btnHaciaDerecha">
-                    <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?">
-                </div>
-                <input type="button" id="ingresar" value="Ingresar">
-                <div id="SinCuenta">
-                    <label for="contraseña">¿No tienes una cuenta?</label>
-                <input type="button" id="sin_cuenta" value="Registrarse" onclick="MostrarVentanaDeRegistro()">
-                </div>
+                <form action="" id="Ventana">
+                    <h2>Ingresar</h2>
+                    <label for="correo">Correo electrónico:</label>
+                    <input type="email" id="correo" class="entrada_texto">
+                    <label for="contraseña">Contraseña:</label>
+                    <input type="password" id="contraseña" class="entrada_texto">
+                    <div class="btnHaciaDerecha">
+                        <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?">
+                    </div>
+                    <input type="button" id="ingresar" value="Ingresar">
+                    <div id="SinCuenta">
+                        <label for="contraseña">¿No tienes una cuenta?</label>
+                        <input type="button" id="sin_cuenta" value="Registrarse" onclick="MostrarVentanaDeRegistro()">
+                    </div>
+                </form>
             </div>
         </div>
         <!-- //////////////////////////////////////////PRODUCTOS DESATACADOS/////////////////////////////////////////////// -->
@@ -94,7 +100,7 @@
 
 
             </ul>
-          
+
         </div>
         <h1>PRODUCTOS DESTACADOS</h1>
         <section id="seccion_productos"></section>
@@ -106,4 +112,5 @@
         </div>
     </footer>
 </body>
+
 </html>
