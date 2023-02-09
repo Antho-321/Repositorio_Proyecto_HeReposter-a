@@ -353,23 +353,25 @@ function MostrarVentanaDeIngreso(){
     if (event.target.tagName != "H3"){
         document.head.appendChild(estilo_Ingreso_Registro);
     divVentanaIngreso.innerHTML=`
-    <div id="Ventana">
+            <div id="Ventana">
                 <div class="btnHaciaDerecha">
                     <input type="button" value="✕" id="btn_salir">
                 </div>
-                <h2>Ingresar</h2>
-                <label for="correo">Correo electrónico:</label>
-                <input type="email" id="correo" class="entrada_texto">
-                <label for="contraseña">Contraseña:</label>
-                <input type="password" id="contraseña" class="entrada_texto">
-                <div class="btnHaciaDerecha">
-                    <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?">
-                </div>
-                <input type="button" id="ingresar" value="Ingresar">
-                <div id="SinCuenta">
-                    <label for="contraseña">¿No tienes una cuenta?</label>
-                <input type="button" id="sin_cuenta" value="Registrarse" onclick="MostrarVentanaDeRegistro()">
-                </div>
+                <form action="" id="Ventana">
+                    <h2>Ingresar</h2>
+                    <label for="correo">Correo electrónico:</label>
+                    <input type="email" id="correo" class="entrada_texto">
+                    <label for="contraseña">Contraseña:</label>
+                    <input type="password" id="contraseña" class="entrada_texto">
+                    <div class="btnHaciaDerecha">
+                        <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?">
+                    </div>
+                    <input type="button" id="ingresar" value="Ingresar">
+                    <div id="SinCuenta">
+                        <label for="contraseña">¿No tienes una cuenta?</label>
+                        <input type="button" id="sin_cuenta" value="Registrarse" onclick="MostrarVentanaDeRegistro()">
+                    </div>
+                </form>
             </div>
     `;
     contenido_principal.prepend(divVentanaIngreso);
@@ -380,35 +382,36 @@ function MostrarVentanaDeRegistro(){
     contenido_principal.firstChild.style.display="none";
     divVentanaRegistro.innerHTML=`
     <div id="Ventana">
-                <div class="btnHaciaDerecha">
-                    <input type="button" value="✕" id="btn_salir">
-                </div>
-                <form action="../php/Registro.php" method="POST" class="Formulario_Registro" id="Ventana">
-                <h2>Registrarse</h2>
-                <div class="campos_adicionales">
-                    <label for="cedula">Cédula:</label>
-                    <input type="text" id="cedula">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre">
-                </div>
-                <div class="campos_adicionales">
-                    <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido">
-                    <label for="dirección">Dirección:</label>
-                    <input type="text" id="dirección">
-                </div>
-                <label for="correo">Correo electrónico:</label>
-                <input type="email" id="correo" class="entrada_texto">
-                <label for="contraseña">Contraseña:</label>
-                <input type="password" id="contraseña" class="entrada_texto">
-                <label for="rep_contraseña">Repita la contraseña:</label>
-                <input type="password" id="rep_contraseña" class="entrada_texto">
-                <!------LA FUNCIÓN runQuery está en el archivo script_Registro.js------>
-                <!--PARA QUE FUNCIONE BIEN DEBES INICIAR EL MAMP E INGRESAR COMO LOCALHOST-->
-                <button id="registro">Registrarse</button>
-                </form>
-                <script src="../script/script_Registro.js"></script>
+    <div class="btnHaciaDerecha">
+        <input type="button" value="✕" id="btn_salir">
+    </div>
+    <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
+    <form action="../php/Registro.php" method="POST" class="Formulario_Registro" id="Ventana">
+        <h2>Registrarse</h2>
+        <div class="campos_adicionales">
+            <label for="cedula">Cédula:</label>
+            <input type="text" id="cedula">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre">
         </div>
+        <div class="campos_adicionales">
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido">
+            <label for="dirección">Dirección:</label>
+            <input type="text" id="dirección">
+        </div>
+        <label for="correo">Correo electrónico:</label>
+        <input type="email" id="correo" class="entrada_texto">
+        <label for="contraseña">Contraseña:</label>
+        <input type="password" id="contraseña" class="entrada_texto">
+        <label for="rep_contraseña">Repita la contraseña:</label>
+        <input type="password" id="rep_contraseña" class="entrada_texto">
+        <!------LA FUNCIÓN runQuery está en el archivo script_Registro.js------>
+        <!--PARA QUE FUNCIONE BIEN DEBES INICIAR EL MAMP E INGRESAR COMO LOCALHOST-->
+        <button id="registro">Registrarse</button>
+        <script src="../script/script_Registro.js"></script>
+    </form>
+</div>
     `;
     contenido_principal.prepend(divVentanaRegistro);
 }
