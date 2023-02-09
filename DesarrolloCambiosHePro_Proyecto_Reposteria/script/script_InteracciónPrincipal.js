@@ -349,14 +349,15 @@ function enviarInfoACarrito(){
 }
 //AQUI EMPIEZA LA VENTANA DE INGRESO 
 function MostrarVentanaDeIngreso(){  
-    //estilo.href = "../styles/estilo_VentanaDeIngreso.css";
-    console.log(event.target.id == "Ingreso");
     if (event.target.id == "Ingreso"){
-        document.head.appendChild(estilo_Ingreso_Registro);  
+        if(divVentanaIngreso.style.display=="none"){
+            divVentanaIngreso.style.display="";
+        }
+        document.head.appendChild(estilo_Ingreso_Registro);
     divVentanaIngreso.innerHTML=`
             <div id="Ventana">
                 <div class="btnHaciaDerecha">
-                    <input type="button" value="✕" id="btn_salir">
+                    <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaIngreso()">
                 </div>
                 <form action="" id="Ventana">
                     <h2>Ingresar</h2>
@@ -385,7 +386,7 @@ function MostrarVentanaDeRegistro(){
     divVentanaRegistro.innerHTML=`
     <div id="Ventana">
     <div class="btnHaciaDerecha">
-        <input type="button" value="✕" id="btn_salir">
+        <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaRegistro()">
     </div>
     <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
     <form action="../php/Registro.php" method="POST" class="Formulario_Registro" id="Ventana">
@@ -416,4 +417,15 @@ function MostrarVentanaDeRegistro(){
 </div>
     `;
     contenido_principal.prepend(divVentanaRegistro);
+}
+
+function CerrarVentanaIngreso(){
+    document.getElementsByTagName("style")[0].remove();
+    document.getElementById("VentanaDeIngreso").remove();
+    //console.log(aux);
+}
+function CerrarVentanaRegistro(){
+    document.getElementsByTagName("style")[0].remove();
+    document.getElementById("VentanaDeRegistro").remove();
+    //console.log(aux);
 }

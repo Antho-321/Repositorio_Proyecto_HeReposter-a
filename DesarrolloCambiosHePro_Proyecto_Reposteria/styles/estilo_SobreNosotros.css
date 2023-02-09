@@ -169,10 +169,9 @@ input {
 
 
 /*-----------------------------------*/
-a:hover {
+header a:hover {
     cursor: pointer;
     color: rgb(214, 208, 199);
-
 }
 
 a {
