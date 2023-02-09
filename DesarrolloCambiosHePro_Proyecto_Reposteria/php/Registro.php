@@ -1,4 +1,5 @@
 <?php
+//Utiliza la clase base creada
 require("./Conexion.php");
 $connection = new Conexion;
 
@@ -14,6 +15,8 @@ $Rep_contraseña = $_POST['Rep_contraseña'];
 //Uso de una operación en sql
 $connection->OperSql("INSERT INTO `cliente`(`Cedula`, `Nombre`, `Apellido`, `Direccion`) VALUES ('$cedula','$nombre' ,'$apellido','$direccion')");
 $connection->OperSql("INSERT INTO `usuario`(`Cedula`, `Email`,  `Password`) VALUES ('$cedula','$correo','$contraseña')");
+//Necesario para cambiar a otra pagina después del registro
 echo '<script>window.location = "../html/VentanaDeRegistro.html";</script>';
+//Cierra la conexión
 $connection->closeConnection();
 ?>
