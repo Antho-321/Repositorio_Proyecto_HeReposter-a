@@ -150,7 +150,7 @@ function AgregarContenido(CategoríaSeleccionada) {
             ---------------------------------------------------------------------------------------------
                 EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:    
             */
-            direccion_producto = "https://i.pinimg.com/originals/c2/81/bf/c281bf4918c1ec9a981722e9330e2ba2.jpg";
+            direccion_producto = "../imagenes/Key.png";
         }else{
             /* 
             ---------------------------------------------------------------------------------------------
