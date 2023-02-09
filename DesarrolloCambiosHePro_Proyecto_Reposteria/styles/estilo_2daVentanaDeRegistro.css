@@ -17,7 +17,7 @@ body {
     margin: 0px;
     width: 100vw;
     overflow-x: hidden;
-    background-color: aliceblue;
+    background-color: rgb(249, 245, 239);
 }
 /*////////////////////////////////////////HEADER///////////////////////////////////////////////*/
 
@@ -187,7 +187,7 @@ a {
 #DestacadoPrincipal {
     position: relative;
     display: inline-flex;
-    background: lightblue;
+
     width: 100%;
     justify-content: center;
     z-index: 2;
@@ -242,6 +242,79 @@ footer {
 }
 
 /*///////////////////////////////////////////////////RESPONSIVE////////////////////////////////////////////////*/
+
+
+@media (max-width: 1230px) {
+
+    .menu_horizontal>li>a {
+        padding: 10px 50px;
+    }
+
+}
+
+@media (max-width: 928px) {
+
+    .menu_horizontal>li>a {
+        padding: 10px 30px;
+    }
+
+}
+
+@media (max-width: 868px) {
+
+    .menu_horizontal>li>a {
+        padding: 10px 20px;
+    }
+
+}
+
+@media (max-width: 670px) {
+
+    .mostrar_menu,
+    .esconder_menu {
+        display: block;
+        transition: 0.8s;
+    }
+
+    .mostrar_menu {
+        padding: 0px 30vw;
+    }
+
+    .menu {
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        background: aliceblue;
+        right: -100%;
+        top: 0;
+        text-align: center;
+        padding: 100px 0px;
+        z-index: 200;
+        transition: 0.8s;
+    }
+
+    .menu_horizontal,
+    .iconos {
+        display: block;
+    }
+
+    .menu a {
+        display: block;
+        padding: 5px 20px;
+    }
+
+    .esconder_menu {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+    }
+
+    #check:checked~.menu {
+        right: 0;
+        transition: 0.8s;
+    }
+
+}
 
 @media screen and (max-width: 968px) {
     #seccion_botones>li{     
@@ -306,7 +379,7 @@ body *:not(#VentanaDeIngreso>*) {
     opacity: 1 !important;
 }
 #Ventana{
-    background-color: aliceblue !important;  
+    background-color: rgb(255, 255, 255) !important;  
     width: 50vw;
     height: 50vh;
     display: flex;
@@ -335,6 +408,7 @@ label{
 #Ventana>input, .btnHaciaDerecha>input {
     border: 1px solid;
     border-color: black;   
+    background-color: aliceblue;
     width: auto;
 }
 #contraseña_olvidada{
@@ -348,9 +422,11 @@ label{
 }
 #btn_salir{
     border-color: transparent;
+    background-color: aliceblue;
     font-size: 30px;
     padding: 0px;
 }
 #finalización_registro{
     padding: 10px;
+    background-color: aliceblue;
 }
