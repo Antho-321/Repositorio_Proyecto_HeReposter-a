@@ -4,6 +4,8 @@
 //VIEJOS ARRECHOS 2
 require("./Conexion.php");
 $connection = new Conexion;
+
+//ESTA ES OTRA MODIFICACIÓN
 //Todo lo que envía el post a este lugar
 $cedula = $_POST['Cedula'];
 $nombre = $_POST['Nombre'];
