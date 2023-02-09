@@ -17,7 +17,7 @@ body {
     margin: 0px;
     width: 100vw;
     overflow-x: hidden;
-    background-color: aliceblue;
+    background-color: rgb(249, 245, 239);
 }
 /*////////////////////////////////////////HEADER///////////////////////////////////////////////*/
 
@@ -187,7 +187,7 @@ a {
 #DestacadoPrincipal {
     position: relative;
     display: inline-flex;
-    background: lightblue;
+
     width: 100%;
     justify-content: center;
     z-index: 2;
