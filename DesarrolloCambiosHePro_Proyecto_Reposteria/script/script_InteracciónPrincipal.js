@@ -11,6 +11,7 @@ let estilo_Ingreso_Registro=document.createElement("style");
 let productos_ingresados=true;
 let divVentanaIngreso = document.createElement("div");
 let divVentanaRegistro = document.createElement("div");
+let salto = document.getElementById("Salto");
 divVentanaRegistro.id="VentanaDeRegistro";
 divVentanaIngreso.id="VentanaDeIngreso";
 estilo_Ingreso_Registro.innerHTML=`
@@ -311,7 +312,7 @@ if (productos_ingresados==false) {
     let seccionIzq = document.getElementById("Productos");
     let seccionDer = document.getElementById("Info_adicional");
     let cabecera = document.getElementById("Cabecera");
-    let salto = document.getElementById("Salto");
+    salto = document.getElementById("Salto");
     let estilo = document.createElement("style");
     let footer = document.getElementsByTagName("footer")[0];
     estilo.innerHTML=`
@@ -376,13 +377,17 @@ function MostrarVentanaDeIngreso(){
                 </form>
             </div>
     `;
-    contenido_principal.prepend(divVentanaIngreso);
+    //salto.insertAdjacentElement("afterend",divVentanaIngreso);
+    salto.appendChild(divVentanaIngreso);
+    //contenido_principal.prepend(divVentanaIngreso);
     }
     
 }
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
 function MostrarVentanaDeRegistro(){
-    contenido_principal.firstChild.style.display="none";
+    //salto = document.getElementById("Salto");
+    console.log(document.getElementById("VentanaDeIngreso"));
+    document.getElementById("VentanaDeIngreso").remove();  
     divVentanaRegistro.innerHTML=`
     <div id="Ventana">
     <div class="btnHaciaDerecha">
@@ -416,7 +421,8 @@ function MostrarVentanaDeRegistro(){
     </form>
 </div>
     `;
-    contenido_principal.prepend(divVentanaRegistro);
+    salto.appendChild(divVentanaRegistro);
+    //contenido_principal.prepend(divVentanaRegistro);
 }
 
 function CerrarVentanaIngreso(){
