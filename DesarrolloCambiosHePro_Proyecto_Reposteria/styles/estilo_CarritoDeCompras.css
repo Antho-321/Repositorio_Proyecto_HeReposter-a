@@ -21,6 +21,10 @@ body>a{
     height: 100%;
     flex-direction: column;
     top: 100px;
+    cursor: default;
+}
+body>a *{
+    cursor: auto !important;
 }
 
 /*HEADER*/
@@ -154,7 +158,7 @@ input {
     position: relative;
 }
 
-a:hover {
+header a:hover {
     cursor: pointer;
     color: rgb(214, 208, 199);
 }
@@ -397,3 +401,32 @@ h3:hover+img {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*CAMBIOS DE ANTHONY*/
+/*
+p{
+    cursor: auto !important;
+}
+*/

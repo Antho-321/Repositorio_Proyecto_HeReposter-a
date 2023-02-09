@@ -349,8 +349,8 @@ function enviarInfoACarrito(){
 }
 function MostrarVentanaDeIngreso(){  
     //estilo.href = "../styles/estilo_VentanaDeIngreso.css";
-    console.log(event.target.tagName != "H3");
-    if (event.target.tagName != "H3"){
+    console.log(event.target.id == "Ingreso");
+    if (event.target.id == "Ingreso"){
         document.head.appendChild(estilo_Ingreso_Registro);
     divVentanaIngreso.innerHTML=`
             <div id="Ventana">
