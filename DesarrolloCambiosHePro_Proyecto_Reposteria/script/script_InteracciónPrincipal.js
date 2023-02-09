@@ -377,16 +377,12 @@ function MostrarVentanaDeIngreso(){
                 </form>
             </div>
     `;
-    //salto.insertAdjacentElement("afterend",divVentanaIngreso);
     salto.appendChild(divVentanaIngreso);
-    //contenido_principal.prepend(divVentanaIngreso);
     }
     
 }
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
 function MostrarVentanaDeRegistro(){
-    //salto = document.getElementById("Salto");
-    console.log(document.getElementById("VentanaDeIngreso"));
     document.getElementById("VentanaDeIngreso").remove();  
     divVentanaRegistro.innerHTML=`
     <div id="Ventana">
@@ -422,16 +418,13 @@ function MostrarVentanaDeRegistro(){
 </div>
     `;
     salto.appendChild(divVentanaRegistro);
-    //contenido_principal.prepend(divVentanaRegistro);
 }
 
 function CerrarVentanaIngreso(){
     document.getElementsByTagName("style")[0].remove();
     document.getElementById("VentanaDeIngreso").remove();
-    //console.log(aux);
 }
 function CerrarVentanaRegistro(){
     document.getElementsByTagName("style")[0].remove();
     document.getElementById("VentanaDeRegistro").remove();
-    //console.log(aux);
 }
