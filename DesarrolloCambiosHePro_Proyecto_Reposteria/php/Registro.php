@@ -1,4 +1,5 @@
 <?php
+//el luna es chevere y guapo
 require("./Conexion.php");
 $connection = new Conexion;
 //Todo lo que envía el post a este lugar
