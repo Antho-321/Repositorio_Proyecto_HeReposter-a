@@ -20,6 +20,19 @@ body {
     background-color: aliceblue;
 }
 
+body>a{
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    top: 100px;
+    cursor: default;
+}
+body>a *{
+    cursor: auto !important;
+}
+
+/*HEADER*/
 /*////////////////////////////////////////HEADER///////////////////////////////////////////////*/
 
 header {
@@ -153,6 +166,10 @@ input {
     display: block;
 }
 
+.menu_horizontal>li {
+    position: relative;
+}
+
 a:hover {
     cursor: pointer;
     color: rgb(214, 208, 199);
@@ -184,7 +201,7 @@ a {
     width: 100%;
     background-color: aliceblue;
     height: 100%;
-    padding-top: 120px;
+    padding-top: 25px;
 }
 
 #Productos{
@@ -304,7 +321,7 @@ h3:hover+img {
 
 footer {
     background-color: black;
-    position: absolute;
+    
     bottom: 0;
     width: 100%;
    
@@ -401,3 +418,32 @@ footer {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*CAMBIOS DE ANTHONY*/
+/*
+p{
+    cursor: auto !important;
+}
+*/
