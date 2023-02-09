@@ -347,11 +347,12 @@ function añadirBtnPago() {
 function enviarInfoACarrito(){
     console.log("img: "+img.src);
 }
+//AQUI EMPIEZA LA VENTANA DE INGRESO 
 function MostrarVentanaDeIngreso(){  
     //estilo.href = "../styles/estilo_VentanaDeIngreso.css";
     console.log(event.target.id == "Ingreso");
     if (event.target.id == "Ingreso"){
-        document.head.appendChild(estilo_Ingreso_Registro);
+        document.head.appendChild(estilo_Ingreso_Registro);  
     divVentanaIngreso.innerHTML=`
             <div id="Ventana">
                 <div class="btnHaciaDerecha">
@@ -378,6 +379,7 @@ function MostrarVentanaDeIngreso(){
     }
     
 }
+//AQUI EMPIEZA LA VENTANA DE REGISTRO
 function MostrarVentanaDeRegistro(){
     contenido_principal.firstChild.style.display="none";
     divVentanaRegistro.innerHTML=`
@@ -390,22 +392,22 @@ function MostrarVentanaDeRegistro(){
         <h2>Registrarse</h2>
         <div class="campos_adicionales">
             <label for="cedula">Cédula:</label>
-            <input type="text" id="cedula">
+            <input type="text" id="cedula" name="Cedula">
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre">
+            <input type="text" id="nombre" name="Nombre">
         </div>
         <div class="campos_adicionales">
             <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido">
+            <input type="text" id="apellido" name="Apellido">
             <label for="dirección">Dirección:</label>
-            <input type="text" id="dirección">
+            <input type="text" id="dirección" name="Direccion">
         </div>
         <label for="correo">Correo electrónico:</label>
-        <input type="email" id="correo" class="entrada_texto">
+        <input type="email" id="correo" name="Correo" class="entrada_texto">
         <label for="contraseña">Contraseña:</label>
-        <input type="password" id="contraseña" class="entrada_texto">
+        <input type="password" id="contraseña" name="Contraseña" class="entrada_texto">
         <label for="rep_contraseña">Repita la contraseña:</label>
-        <input type="password" id="rep_contraseña" class="entrada_texto">
+        <input type="password" id="rep_contraseña" name="Rep_contraseña" class="entrada_texto">
         <!------LA FUNCIÓN runQuery está en el archivo script_Registro.js------>
         <!--PARA QUE FUNCIONE BIEN DEBES INICIAR EL MAMP E INGRESAR COMO LOCALHOST-->
         <button id="registro">Registrarse</button>
