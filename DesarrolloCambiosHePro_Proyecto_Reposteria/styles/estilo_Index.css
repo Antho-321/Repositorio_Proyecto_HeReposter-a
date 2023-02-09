@@ -312,9 +312,9 @@ footer {
     width: 100%;
     padding: 50px 0px 0px 0px;
     background-color: rgb(249, 245, 239);
-    font: normal normal normal 17px/1.4em Century Gothic;
+
     text-align: center;
-    color: rgb(173, 173, 173);
+ 
 }
 
 #Derechos {
@@ -322,7 +322,7 @@ footer {
     width: 100%;
     height: 70px;
     background: black;
-    font: normal normal normal 17px/1.4em Century Gothic;
+    font: normal normal normal 14px/1.4em Century Gothic;
     align-items: center;
     justify-content: center;
     color: rgb(173, 173, 173);
