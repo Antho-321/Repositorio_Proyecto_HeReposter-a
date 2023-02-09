@@ -1,11 +1,4 @@
 <?php
-//el luna es chevere y guapo
-//VIEJOS ARRECHOS 1
-//VIEJOS ARRECHOS 2
-//Hola mundo
-
-//Salazar
-
 require("./Conexion.php");
 $connection = new Conexion;
 
