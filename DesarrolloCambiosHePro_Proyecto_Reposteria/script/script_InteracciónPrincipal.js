@@ -16,10 +16,10 @@ divVentanaRegistro.id="VentanaDeRegistro";
 divVentanaIngreso.id="VentanaDeIngreso";
 estilo_Ingreso_Registro.innerHTML=`
 body {
-    /*opacity: 0.77 !important;*/
+    opacity: 0.77 !important;
   }
   header *{
-    /*opacity: 0.77 !important;*/
+    opacity: 0.77 !important;
   }
 #VentanaDeIngreso, #VentanaDeRegistro{
     opacity: 1 !important;
