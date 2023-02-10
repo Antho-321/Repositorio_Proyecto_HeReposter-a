@@ -426,6 +426,8 @@ function MostrarVentanaDeRegistro(){
 }
 
 function CerrarVentanaIngreso(){
+    //ELIMINO EL ESTILO QUE HACE QUE TODO SE PONGA GRIS: document.getElementsByTagName("style")[0]
+    console.log(document.getElementsByTagName("style")[0]);
     document.getElementsByTagName("style")[0].remove();
     document.getElementById("VentanaDeIngreso").remove();
 }
