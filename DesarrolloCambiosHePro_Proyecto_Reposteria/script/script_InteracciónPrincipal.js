@@ -1,4 +1,4 @@
-let cantidadInput, precio_producto, num_productos, img, descripción_adicional, porciones, masa, cobertura, sabor, relleno;
+let cantidadInput, precio_producto, num_productos, img, descripción_adicional, porciones, masa, cobertura, sabor, relleno, id_producto, cantidad_producto_carr;
 let left = 0;
 let productos = [];
 let lupa = document.getElementById("lupa");
@@ -103,7 +103,7 @@ if (contenido_categorías!=null) {
 }
 function AgregarContenido(CategoríaSeleccionada) {
     seccion_productos = document.getElementById("seccion_productos");
-    let direccion_producto, div, imagen, h3, a, x, ancho_imagen, alto_imagen;    
+    let direccion_producto, div, imagen, h3, a;    
     let div_aux = document.createElement("div");
     if (CategoríaSeleccionada=="") {
         num_productos = 12;
@@ -215,12 +215,11 @@ function mostrarBúsqueda(lupa) {
 function ProductoSeleccionado(event) {
     let div = document.getElementsByTagName("div");
     VerificaciónCuadroDeBúsqueda();
-    //document.getElementsByTagName("style")[0].remove();
-    console.log(document.getElementsByTagName("head").children);
-    img = event.target.nextSibling;
     estilo = document.getElementById("estilo");
     estilo.href = "../styles/estilo_ProductoSeleccionado.css";
-    //-------------LO QUE SE VA A OBTENER DE LA BASE DE DATOS-----------
+    img = event.target.nextSibling;
+    //-------------LO QUE SE VA A OBTENER DE LA BASE DE DATOS A PARTIR DEL LINK DE LA IMAGEN SELECCIONADA-----------
+    id_producto=1;
     precio_producto = 20;
     descripción_adicional = "Descripción adicional (en caso de existir)";
     porciones = "10-12";
@@ -345,8 +344,14 @@ function añadirBtnPago() {
     btnFinPedido.remove();
     scripts[scripts.length-1].remove();
 }
-function enviarInfoACarrito(){
-    console.log("img: "+img.src);
+function enviarInfoACarrito(){ 
+    cantidad_producto_carr=document.getElementById("cantidad").value;
+    //LA INFORMACIÓN QUE TENEMOS LA ENVIAMOS AL CARRITO
+    console.log("id: "+id_producto+"\n cantidad: "+cantidad_producto_carr+"\n img: "+img.src+"\n precio del producto: "+precio_producto+"\n descripción adicional: "+descripción_adicional+"\n porciones: "+porciones+"\n masa: "+masa+"\n cobertura: "+cobertura+"\n sabor: "+sabor+"\n relleno: "+relleno);
+    /*
+    INSERT INTO carrito (id_producto,cantidad)
+    SELECT id_producto,cantidad
+    */
 }
 //AQUI EMPIEZA LA VENTANA DE INGRESO 
 function MostrarVentanaDeIngreso(){  
