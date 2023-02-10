@@ -361,16 +361,16 @@ function MostrarVentanaDeIngreso(){
         }
         document.head.appendChild(estilo_Ingreso_Registro);
     divVentanaIngreso.innerHTML=`
-            <div id="Ventana">
+            <form action="../php/Login.php" method="POST" class="Formulario_Ingreso" id="Ventana">
                 <div class="btnHaciaDerecha">
                     <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaIngreso()">
                 </div>
                 <form action="" id="Ventana">
                     <h2>Ingresar</h2>
                     <label for="correo">Correo electrónico:</label>
-                    <input type="email" id="correo" class="entrada_texto">
+                    <input type="email" id="correo" name="Correo" class="entrada_texto">
                     <label for="contraseña">Contraseña:</label>
-                    <input type="password" id="contraseña" class="entrada_texto">
+                    <input type="password" id="contraseña" name="Contraseña" class="entrada_texto">
                     <div class="btnHaciaDerecha">
                         <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?">
                     </div>
@@ -426,7 +426,6 @@ function MostrarVentanaDeRegistro(){
 }
 
 function CerrarVentanaIngreso(){
-    //ELIMINO EL ESTILO QUE HACE QUE TODO SE PONGA GRIS: document.getElementsByTagName("style")[0]
     console.log(document.getElementsByTagName("style")[0]);
     let aux=document.getElementById("operaUserStyle");
     if (aux!=null&&aux!=undefined) {
