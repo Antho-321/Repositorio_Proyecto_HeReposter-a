@@ -7,14 +7,14 @@ let contenido_categorías = document.querySelector(".Menu_Catalogo");
 let contenido_principal = document.getElementById("contenido_principal");
 let seccion_productos = document.getElementById("seccion_productos");
 let estilo = document.getElementById("estilo");
-let estilo_Ingreso_Registro=document.createElement("style");
-let productos_ingresados=true;
+let estilo_Ingreso_Registro = document.createElement("style");
+let productos_ingresados = true;
 let divVentanaIngreso = document.createElement("div");
 let divVentanaRegistro = document.createElement("div");
 let salto = document.getElementById("Salto");
-divVentanaRegistro.id="VentanaDeRegistro";
-divVentanaIngreso.id="VentanaDeIngreso";
-estilo_Ingreso_Registro.innerHTML=`
+divVentanaRegistro.id = "VentanaDeRegistro";
+divVentanaIngreso.id = "VentanaDeIngreso";
+estilo_Ingreso_Registro.innerHTML = `
 body {
     opacity: 0.77 !important;
   }
@@ -92,10 +92,10 @@ h3{
     visibility: hidden;
 }
 `;
-if (seccion_productos!=null) {
+if (seccion_productos != null) {
     window.onload = AgregarContenido("");
 }
-if (contenido_categorías!=null) {
+if (contenido_categorías != null) {
     let tamaño = contenido_categorías.children.length;
     for (let i = 0; i < tamaño; i++) {
         contenido_categorías.children[i].firstChild.addEventListener("click", funcCategoríaSeleccionada);
@@ -103,11 +103,11 @@ if (contenido_categorías!=null) {
 }
 function AgregarContenido(CategoríaSeleccionada) {
     seccion_productos = document.getElementById("seccion_productos");
-    let direccion_producto, div, imagen, h3, a;    
+    let direccion_producto, div, imagen, h3, a;
     let div_aux = document.createElement("div");
-    if (CategoríaSeleccionada=="") {
+    if (CategoríaSeleccionada == "") {
         num_productos = 12;
-    }else{
+    } else {
         /* 
         ---------------------------------------------------------------------------------------------
             num_productos sería el resultado de la consulta:
@@ -116,16 +116,16 @@ function AgregarContenido(CategoríaSeleccionada) {
         ---------------------------------------------------------------------------------------------
             EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:        
         */
-        num_productos=4;
+        num_productos = 4;
     }
-    
+
     for (let i = 1; i <= num_productos; i++) {
         div = document.createElement("div");
         imagen = document.createElement("img");
         h3 = document.createElement("h3");
         a = 15.0;
         x = document.body.getBoundingClientRect().width;
-        if (CategoríaSeleccionada=="") {
+        if (CategoríaSeleccionada == "") {
 
             /*
             ---------------------------------------------------------------------------------------------
@@ -152,7 +152,7 @@ function AgregarContenido(CategoríaSeleccionada) {
                 EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:    
             */
             direccion_producto = "../imagenes/Key.png";
-        }else{
+        } else {
             /* 
             ---------------------------------------------------------------------------------------------
                 EL valor de la variable direccion_producto sería el resultado de la consulta:
@@ -162,12 +162,12 @@ function AgregarContenido(CategoríaSeleccionada) {
             ---------------------------------------------------------------------------------------------
                 EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:     
             */
-            if (CategoríaSeleccionada=="Cumpleaños") {
+            if (CategoríaSeleccionada == "Cumpleaños") {
                 direccion_producto = "https://d320djwtwnl5uo.cloudfront.net/recetas/share/share_fsr8al91ct_confeti.jpg";
-            }else{
+            } else {
                 direccion_producto = "https://cdn0.bodas.com.mx/article-real-wedding/799/3_2/1280/jpg/1466243.webp";
-            } 
-        }      
+            }
+        }
         imagen.src = direccion_producto;
         imagen.style.paddingRight = a + "px";
         imagen.style.paddingTop = (a / 2) + "px";
@@ -200,10 +200,10 @@ function mostrarBúsqueda(lupa) {
     console.log(lupa.nextElementSibling);
     let width = 0;
     cuadro_búsqueda.type = "search";
-    cuadro_búsqueda.style.width = "0px";    
+    cuadro_búsqueda.style.width = "0px";
     const intervalId = setInterval(function () {
-        if(width==0){
-            lupa.nextElementSibling.style.display="initial";
+        if (width == 0) {
+            lupa.nextElementSibling.style.display = "initial";
         }
         width += 1;
         cuadro_búsqueda.style.width = width + "px";
@@ -219,7 +219,7 @@ function ProductoSeleccionado(event) {
     estilo.href = "../styles/estilo_ProductoSeleccionado.css";
     img = event.target.nextSibling;
     //-------------LO QUE SE VA A OBTENER DE LA BASE DE DATOS A PARTIR DEL LINK DE LA IMAGEN SELECCIONADA-----------
-    id_producto=1;
+    id_producto = 1;
     precio_producto = 20;
     descripción_adicional = "Descripción adicional (en caso de existir)";
     porciones = "10-12";
@@ -232,7 +232,7 @@ function ProductoSeleccionado(event) {
     if (div[3].id != "Salto") {
         div[3].remove();
     }
-    
+
     contenido_principal.innerHTML = `
             <div id="DestacadoPrincipal">
                 <img src="`+ img.src + `" alt="imagenes">
@@ -271,9 +271,9 @@ function ProductoSeleccionado(event) {
                 </div>
             </div>
             `;
-            if (descripción_adicional==""){
-                document.getElementById("infoAdicional").remove();
-            }
+    if (descripción_adicional == "") {
+        document.getElementById("infoAdicional").remove();
+    }
 }
 function funcCategoríaSeleccionada(event) {
     VerificaciónCuadroDeBúsqueda();
@@ -281,32 +281,32 @@ function funcCategoríaSeleccionada(event) {
     let h1 = document.getElementsByTagName("h1")[0];
     let destacado_principal = document.getElementById("DestacadoPrincipal");
     seccion_productos = document.getElementById("seccion_productos");
-    if (destacado_principal!=null) {
+    if (destacado_principal != null) {
         destacado_principal.remove();
-    }   
-    if (seccion_productos!=null) {
+    }
+    if (seccion_productos != null) {
         document.querySelector("#seccion_productos>div").remove();
-    }else{
-        contenido_principal.innerHTML=`
+    } else {
+        contenido_principal.innerHTML = `
         <h1 align="center">Bodas</h1>
         <section id="seccion_productos"></section>
         `;
-        document.getElementById("estilo").href="../styles/estilo_Index.css";;
+        document.getElementById("estilo").href = "../styles/estilo_Index.css";;
     }
-    if (h1==undefined) {
+    if (h1 == undefined) {
         h1 = document.getElementsByTagName("h1")[0];
     }
     h1.innerHTML = título;
-    h1.align="center";
+    h1.align = "center";
     AgregarContenido(título);
 }
-function VerificaciónCuadroDeBúsqueda(){
-    let seccion_busqueda=document.getElementById("seccion_busqueda");
-    if (seccion_busqueda.style.display!="none"){
-        seccion_busqueda.style.display="none";
+function VerificaciónCuadroDeBúsqueda() {
+    let seccion_busqueda = document.getElementById("seccion_busqueda");
+    if (seccion_busqueda.style.display != "none") {
+        seccion_busqueda.style.display = "none";
     }
 }
-if (productos_ingresados==false) {
+if (productos_ingresados == false) {
     let contenido_principal = document.getElementById("contenido_principal");
     let seccionIzq = document.getElementById("Productos");
     let seccionDer = document.getElementById("Info_adicional");
@@ -314,9 +314,9 @@ if (productos_ingresados==false) {
     salto = document.getElementById("Salto");
     let estilo = document.createElement("style");
     let footer = document.getElementsByTagName("footer")[0];
-    estilo.innerHTML=`
+    estilo.innerHTML = `
     #contenido_principal {
-        height: calc(100vh - `+cabecera.offsetHeight+`px - `+salto.offsetHeight+`px - `+footer.offsetHeight+`px);
+        height: calc(100vh - `+ cabecera.offsetHeight + `px - ` + salto.offsetHeight + `px - ` + footer.offsetHeight + `px);
         align-items: center;
         justify-content: center;
     }
@@ -326,7 +326,7 @@ if (productos_ingresados==false) {
     `;
     seccionIzq.remove();
     seccionDer.remove();
-    contenido_principal.innerHTML=`
+    contenido_principal.innerHTML = `
     <h1>No se ha ingresado productos</h1>
     `;
     document.head.appendChild(estilo);
@@ -336,31 +336,31 @@ function añadirBtnPago() {
     let btnFinPedido = document.getElementById("fin_pedido");
     let script = document.createElement("script");
     let contenedorBtnPaypal = document.createElement("div");
-    contenedorBtnPaypal.id="paypal-button-container";
-    contenedorBtnPaypal.style.width="25vw";
-    script.src="../script/script_FinalizaciónDePedido.js";
-    btnFinPedido.insertAdjacentElement("afterend",contenedorBtnPaypal);
-    contenedorBtnPaypal.insertAdjacentElement("afterend",script);
+    contenedorBtnPaypal.id = "paypal-button-container";
+    contenedorBtnPaypal.style.width = "25vw";
+    script.src = "../script/script_FinalizaciónDePedido.js";
+    btnFinPedido.insertAdjacentElement("afterend", contenedorBtnPaypal);
+    contenedorBtnPaypal.insertAdjacentElement("afterend", script);
     btnFinPedido.remove();
-    scripts[scripts.length-1].remove();
+    scripts[scripts.length - 1].remove();
 }
-function enviarInfoACarrito(){ 
-    cantidad_producto_carr=document.getElementById("cantidad").value;
+function enviarInfoACarrito() {
+    cantidad_producto_carr = document.getElementById("cantidad").value;
     //LA INFORMACIÓN QUE TENEMOS LA ENVIAMOS AL CARRITO
-    console.log("id: "+id_producto+"\n cantidad: "+cantidad_producto_carr+"\n img: "+img.src+"\n precio del producto: "+precio_producto+"\n descripción adicional: "+descripción_adicional+"\n porciones: "+porciones+"\n masa: "+masa+"\n cobertura: "+cobertura+"\n sabor: "+sabor+"\n relleno: "+relleno);
+    console.log("id: " + id_producto + "\n cantidad: " + cantidad_producto_carr + "\n img: " + img.src + "\n precio del producto: " + precio_producto + "\n descripción adicional: " + descripción_adicional + "\n porciones: " + porciones + "\n masa: " + masa + "\n cobertura: " + cobertura + "\n sabor: " + sabor + "\n relleno: " + relleno);
     /*
     INSERT INTO carrito (id_carrito, id_producto, id_usuario, Cantidad, Subtotal)
     SELECT id_producto, id_usuario, cantidad_producto_carr
     */
 }
 //AQUI EMPIEZA LA VENTANA DE INGRESO 
-function MostrarVentanaDeIngreso(){  
-    if (event.target.id == "Ingreso"){
-        if(divVentanaIngreso.style.display=="none"){
-            divVentanaIngreso.style.display="";
+function MostrarVentanaDeIngreso() {
+    if (event.target.id == "Ingreso") {
+        if (divVentanaIngreso.style.display == "none") {
+            divVentanaIngreso.style.display = "";
         }
         document.head.appendChild(estilo_Ingreso_Registro);
-    divVentanaIngreso.innerHTML=`
+        divVentanaIngreso.innerHTML = `
             <form action="../php/Login.php" method="POST" class="Formulario_Ingreso" id="Ventana">
                 <div class="btnHaciaDerecha">
                     <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaIngreso()">
@@ -382,14 +382,14 @@ function MostrarVentanaDeIngreso(){
                 </form>
             </div>
     `;
-    salto.appendChild(divVentanaIngreso);
+        salto.appendChild(divVentanaIngreso);
     }
-    
+
 }
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
-function MostrarVentanaDeRegistro(){
-    document.getElementById("VentanaDeIngreso").remove();  
-    divVentanaRegistro.innerHTML=`
+function MostrarVentanaDeRegistro() {
+    document.getElementById("VentanaDeIngreso").remove();
+    divVentanaRegistro.innerHTML = `
     <div id="Ventana">
     <div class="btnHaciaDerecha">
         <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaRegistro()">
@@ -425,16 +425,16 @@ function MostrarVentanaDeRegistro(){
     salto.appendChild(divVentanaRegistro);
 }
 
-function CerrarVentanaIngreso(){
+function CerrarVentanaIngreso() {
     console.log(document.getElementsByTagName("style")[0]);
-    let aux=document.getElementById("operaUserStyle");
-    if (aux!=null&&aux!=undefined) {
+    let aux = document.getElementById("operaUserStyle");
+    if (aux != null && aux != undefined) {
         aux.remove();
     }
     document.getElementsByTagName("style")[0].remove();
     document.getElementById("VentanaDeIngreso").remove();
 }
-function CerrarVentanaRegistro(){
+function CerrarVentanaRegistro() {
     document.getElementsByTagName("style")[0].remove();
     document.getElementById("VentanaDeRegistro").remove();
 }
