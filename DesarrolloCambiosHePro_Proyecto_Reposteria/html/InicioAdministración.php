@@ -21,9 +21,9 @@
             <h3>Administración</h3>
         </div>
         <div id="op_principales">
-            <a href="../html/IngresoDeProductos.html">Ingresar Producto</a>
-            <a href="../html/ActualizaciónDeInformación.html">Actualizar información</a>
-            <a href="../html/EliminaciónDeProductos.html">Eliminar producto</a>
+            <a href="../html/IngresoDeProductos.php">Ingresar Producto</a>
+            <a href="../html/ActualizaciónDeInformación.php">Actualizar información</a>
+            <a href="../html/EliminaciónDeProductos.php">Eliminar producto</a>
         </div>
         <script src="../script/script_InicioAdministración.js"></script>
     </section>

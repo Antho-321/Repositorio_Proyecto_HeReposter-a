@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../styles/estilo_2daVentanaDeRegistro.css" id="estilo">
+    <link rel="stylesheet" type="text/css" href="../styles/estilo_Index.css" id="estilo">
+    
+    
     <title>REPOSTERIA</title>
 </head>
 <body>
+
+    <!-- //////////////////////////////////////////////////////////////////////////ENCABEZADO///////////////////////////////////////////////////////////////////////////////////////////// -->
+
     <header>
 
         <!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
@@ -22,8 +27,8 @@
         </label>
         <nav class="menu">
             <ul class="menu_horizontal">
-                <li> <a href="Index.html">Inicio</a></li>
-                <li><a href="SobreNosotros.html">Sobre Nosotros</a></li>
+                <li> <a href="Index.php">Inicio</a></li>
+                <li><a href="SobreNosotros.php">Sobre Nosotros</a></li>
                 <li>
                     <a href="#"> Catalogo</a>
                     <ul class="Menu_Catalogo">
@@ -42,45 +47,49 @@
             <!-- //////////////////////////////////////////ICONOS/////////////////////////////////////////////// -->
 
             <nav class="iconos">
-                <li><a href="../html/CarritoDeCompras.html"><img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo"></a></li>
-                <li onclick="mostrarBúsqueda(this)"><a><img src="../iconos/busqueda.png" type="button" value="Catalogo"></a></li>
+                <li><a href="../html/CarritoDeCompras.php"><img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo"></a></li>
+                <li onclick="mostrarBúsqueda(this)"><a><img src="../iconos/lupa1.png" type="button" value="Catalogo"></a></li>
                 <li id="seccion_busqueda"><a><input type="search" id="búsqueda"></a></li>
-                <li><a href="#">Ingresar</li>
+                <li><a id="Ingreso" onclick="MostrarVentanaDeIngreso()">Ingresar</li>
                 <label for="check" class="esconder_menu">
                     &#215
                 </label>
             </nav>
         </nav>
     </header>
+    
+    <div id="Salto">
+    </div>
 
+    <!-- ///////////////////////////////////////////////////////////////////CONTENIDO PRINCIPAL//////////////////////////////////////////////////////////////////////////////////////// -->
 
-
-
-
-    <div id="Salto"></div>
     <div id="contenido_principal">
-        <div id="VentanaDeIngreso">
-            <div id="Ventana">
-                <div class="btnHaciaDerecha">
-                    <input type="button" value="✕" id="btn_salir">
-                </div>
-                <h2>REGISTRARSE</h2>
-                <label for="correo">Ingrese el código enviado al correo electrónico:</label>
-                <input type="number" id="código" class="entrada_texto">
-                <input type="button" id="finalización_registro" value="Finalizar registro">
-            </div>
-        </div>
+
+        <!-- //////////////////////////////////////////PRODUCTOS DESATACADOS/////////////////////////////////////////////// -->
+
         <div id="DestacadoPrincipal">
+
+            <ul>
+                <li><img src="../imagenes/Slider1.jpg" alt=""></li>
+                <li><img src="../imagenes/Slider2.jpg" alt=""></li>
+                <li><img src="../imagenes/Slider3.jpg" alt=""></li>
+                <li><img src="../imagenes/Slider4.jpg" alt=""></li>
+            </ul>
           
         </div>
-        <h1 align="center">Productos destacados</h1>
+        <h1>PRODUCTOS DESTACADOS</h1>
         <section id="seccion_productos"></section>
-        <script src="../script/testing.js"></script>
+        <!--
+            <script src="../script/bundle.js"></script>
+            
+        -->
+        <script src="../script/script_InteracciónPrincipal.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/nodemailer@0.7.1/lib/nodemailer.js"></script>
     </div>
-<footer>
-    <div id="Derechos">
-        © 2023 Pagina Web. Creado por Tito Córdova, De la Cruz Brayan, Luna Anthony
-    </div>
-</footer>
+    <footer>
+        <div id="Derechos">
+            © 2023 Web Personal. Creado por Tito Córdova, De la Cruz Brayan, Luna Anthony
+        </div>
+    </footer>
 </body>
 </html>

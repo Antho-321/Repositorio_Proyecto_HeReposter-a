@@ -11,8 +11,8 @@
     <header id="Cabecera">
         <img src="../imagenes/LOGO_PANKEY.png" alt="LOGO_PANKEY" id="LogoPankey">
         <section id="seccion_botones">
-            <a href="Index.html">Inicio</a>
-            <a href="SobreNosotros.html">Sobre Nosotros</a>
+            <a href="Index.php">Inicio</a>
+            <a href="SobreNosotros.php">Sobre Nosotros</a>
             <div id="Catalogo">
                 <input class="Btn_Catalogo" type="button" value="Catalogo" >
                 <div>
@@ -32,7 +32,7 @@
             </div>
         </section>
         <section id="seccion_iconos">
-            <a href="../html/CarritoDeCompras.html">
+            <a href="../html/CarritoDeCompras.php">
                 <img src="../iconos/carro-de-la-carretilla.png"  type="button" value="Catalogo"><br>
             </a>
                 <img src="../iconos/lupa1.png"  type="button" value="Catalogo"><br>

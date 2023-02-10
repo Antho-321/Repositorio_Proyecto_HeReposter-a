@@ -10,7 +10,7 @@ $nombre = $_POST['Nombre'];
 $apellido = $_POST['Apellido'];
 $direccion = $_POST['Direccion'];
 $correo = $_POST['Correo'];
-$contraseña = $_POST['Contraseña'];
+$contraseña = md5($_POST['Contraseña']) ;
 $Rep_contraseña = $_POST['Rep_contraseña'];
 //Uso de una operación en sql
 $connection->OperSql("INSERT INTO `cliente`(`Cedula`, `Nombre`, `Apellido`, `Direccion`) VALUES ('$cedula','$nombre' ,'$apellido','$direccion')");

@@ -26,8 +26,8 @@
         </label>
         <nav class="menu">
             <ul class="menu_horizontal">
-                <li> <a href="Index.html">Inicio</a></li>
-                <li><a href="SobreNosotros.html">Sobre Nosotros</a></li>
+                <li> <a href="Index.php">Inicio</a></li>
+                <li><a href="SobreNosotros.php">Sobre Nosotros</a></li>
                 <li>
                     <a href="#"> Catalogo</a>
                     <ul class="Menu_Catalogo">
@@ -46,7 +46,7 @@
             <!-- //////////////////////////////////////////ICONOS/////////////////////////////////////////////// -->
 
             <nav class="iconos">
-                <li><a href="../html/CarritoDeCompras.html"><img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo"></a></li>
+                <li><a href="../html/CarritoDeCompras.php"><img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo"></a></li>
                 <li onclick="mostrarBúsqueda(this)"><a><img src="../iconos/busqueda.png" type="button" value="Catalogo"></a></li>
                 <li id="seccion_busqueda"><a><input type="search" id="búsqueda"></a></li>
                 <li><a id="Ingreso" onclick="MostrarVentanaDeIngreso()">Ingresar</li>

@@ -42,7 +42,7 @@ async function sendEmail() {
 
   let info = await transporter.sendMail({
     from: "pankey.ibarra@gmail.com", // sender address
-    to: "anthonyluisluna225@gmail.com", // list of receivers
+    to: "bd6787101@gmail.com", // list of receivers
     subject: "OTRA PRUEBA", // Subject line
     text: "TESTEANDOOOO", // plain text body
     html: "<b>Cuerpo del correo en HTML</b>", // html body
