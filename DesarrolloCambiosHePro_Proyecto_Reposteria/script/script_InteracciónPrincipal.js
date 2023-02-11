@@ -395,7 +395,7 @@ function MostrarVentanaDeRegistro(){
         <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaRegistro()">
     </div>
     <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
-    <form action="../php/Registro.php" method="POST" class="Formulario_Registro" id="Ventana">
+    <form action="enviar_correo.php" method="POST" class="Formulario_Registro" id="Ventana">
         <h2>Registrarse</h2>
         <div class="campos_adicionales">
             <label for="cedula">Cédula:</label>
@@ -410,14 +410,14 @@ function MostrarVentanaDeRegistro(){
             <input type="text" id="dirección" name="Direccion">
         </div>
         <label for="correo">Correo electrónico:</label>
-        <input type="email" id="correo" name="Correo" class="entrada_texto">
+        <input type="email" id="correo" name="para" class="entrada_texto">
         <label for="contraseña">Contraseña:</label>
         <input type="password" id="contraseña" name="Contraseña" class="entrada_texto">
         <label for="rep_contraseña">Repita la contraseña:</label>
         <input type="password" id="rep_contraseña" name="Rep_contraseña" class="entrada_texto">
         <!------LA FUNCIÓN runQuery está en el archivo script_Registro.js------>
         <!--PARA QUE FUNCIONE BIEN DEBES INICIAR EL MAMP E INGRESAR COMO LOCALHOST-->
-        <button id="registro">Registrarse</button>
+        <input type="submit" value="Registrarse">
         <script src="../script/script_Registro.js"></script>
     </form>
 </div>
