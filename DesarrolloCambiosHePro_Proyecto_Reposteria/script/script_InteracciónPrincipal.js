@@ -438,37 +438,3 @@ function CerrarVentanaRegistro(){
     document.getElementsByTagName("style")[0].remove();
     document.getElementById("VentanaDeRegistro").remove();
 }
-
-const nodemailer = require('nodemailer');
-
-// Crear un transportador de Gmail
-let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-        type: 'OAuth2',
-        user: 'anthonyluisluna225@gmail.com',
-        clientId: '584701648639-lkdkq6he7o3bg1df3eelk6iu7oujen08.apps.googleusercontent.com',
-        clientSecret: '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',
-        refreshToken: 'https://oauth2.googleapis.com/token'
-    }
-});
-
-// Definir la información del correo electrónico
-let mailOptions = {
-    from: 'anthonyluisluna225@gmail.com',
-    to: 'gvillotasarzona@gmail.com',
-    subject: 'Prueba',
-    text: 'Código 12345',
-    html: '<p>Mensaje HTML</p>'
-};
-
-// Enviar el correo electrónico
-transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-        console.log(error);
-    } else {
-        console.log('Correo electrónico enviado: ' + info.response);
-    }
-});
