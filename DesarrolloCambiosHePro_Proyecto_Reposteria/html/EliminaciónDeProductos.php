@@ -18,6 +18,6 @@
     </section>
     <h2>Resultados:</h2>
     <section id="seccion_productos"></section>
-    <script src="../script/estilo_EliminaciónDeProductos.js"></script>
+    <script src="../script/script_EliminaciónDeProductos.js"></script>
 </body>
 </html>

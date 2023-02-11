@@ -17,7 +17,6 @@
                 <div class="fila">
                     <label class="col" for="lista_categoría">Categoría:</label>
                     <select name="lista_categoría" id="lista_categoría" class="col">
-                        <option value="nueva_cat">Nueva categoría</option>
                         <option value="saab">Bodas</option>
                         <option value="opel">Bautizos</option>
                         <option value="audi">XV años</option>
@@ -27,13 +26,12 @@
                         <option value="audi">Vísperas de Santos</option>
                         <option value="audi">Navidad</option>
                     </select>
-                    <p class="col">Nombre de categoría:</p>
-                    <input class="col" type="text">
                 </div>
                 
                 <div class="fila">
                     <p class="col">Imagen:</p>
-                    <input class="col" type="file">
+                    <input class="col" type="file" id="ingresoArchivo">
+                    <button class="col" id="btnsubirArchivo" onclick="subirArchivo()">Seleccionar archivo</button>
                     <label class="col" for="">o</label>
                     <input class="col" type="url" value="Ingresar enlace">
                 </div>
@@ -143,27 +141,12 @@
         <div id="seccion__Der">
             <h2>Previsualización de producto:</h2>
             <img src="../iconos/imagenes.png" alt="Imagen de pastel">
-            <div>
-                <p>¿Muestra un personaje específco?</p>
-                <div>
-                    <input class="col" type="radio" id="mediana">
-                    <label for="mediana">Sí</label>
-                </div>
-                <div>
-                    <input class="col" type="radio" id="mediana">
-                    <label for="mediana">No</label>
-                </div>
-            </div>
-            <div>
-                <label for="nombre_personaje">Nombre del personaje:</label>
-                <input type="text" id="nombre_personaje">
-            </div>
         </div>
     </section>
     <div id="seccion_btn">
         <input type="submit" value="Añadir producto">
     </div>
-
+    <script src="../script/script_IngresoDeProductos.js"></script>
 </body>
 
 </html>
