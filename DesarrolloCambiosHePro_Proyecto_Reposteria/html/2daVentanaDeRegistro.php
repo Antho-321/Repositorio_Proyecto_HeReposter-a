@@ -15,6 +15,8 @@ if($contraseña!=$Rep_contraseña){
     window.location = "../html/Index.php";
     </script>';
 }
+//Si pasó ese if entonces viene a la parte de código en la que crea un código
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
