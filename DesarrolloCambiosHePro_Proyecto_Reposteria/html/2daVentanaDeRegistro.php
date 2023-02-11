@@ -9,11 +9,8 @@
 </head>
 <body>
     <header>
-
         <!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
-
         <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
-
         <!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
         
         <input type="checkbox" id="check">
@@ -38,9 +35,7 @@
                     </ul>
                 </li>
             </ul>
-
             <!-- //////////////////////////////////////////ICONOS/////////////////////////////////////////////// -->
-
             <nav class="iconos">
                 <li><a href="../html/CarritoDeCompras.php"><img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo"></a></li>
                 <li onclick="mostrarBúsqueda(this)"><a><img src="../iconos/busqueda.png" type="button" value="Catalogo"></a></li>
@@ -52,30 +47,18 @@
             </nav>
         </nav>
     </header>
-
-
-
-
-
     <div id="Salto"></div>
     <div id="contenido_principal">
         <div id="VentanaDeIngreso">
-
-                <form action="" id="Ventana">
+            <div id="Ventana">
                 <div class="btnHaciaDerecha">
                     <input type="button" value="✕" id="btn_salir">
                 </div>
                 <h2>REGISTRARSE</h2>
-                <label for="mascota">Nombre de tu mascota:</label>
-                <input type="text" id="mascota" class="entrada_texto">
-                <label for="color">Color favorito:</label>
-                <input type="text" id="color" class="entrada_texto">
-                <label for="comida">Comida favorita:</label>
-                <input type="text" id="comida" class="entrada_texto">
-                <button id="finalización_registro">Finalizar registro</button>
-                </form>
-                
-
+                <label for="correo">Ingrese el código enviado al correo electrónico:</label>
+                <input type="number" id="código" class="entrada_texto">
+                <input type="button" id="finalización_registro" value="Finalizar registro">
+            </div>
         </div>
         <div id="DestacadoPrincipal">
           
