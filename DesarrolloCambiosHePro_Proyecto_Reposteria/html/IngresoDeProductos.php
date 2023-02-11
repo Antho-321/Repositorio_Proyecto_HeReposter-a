@@ -114,26 +114,26 @@
                             <label for="mora">Mermelada de mora</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="mediana">
-                            <label for="mediana">Glass de frutilla con crema</label>
+                            <input class="col" type="radio" id="glass">
+                            <label for="glass">Glass de frutilla con crema</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="mediana">
-                            <label for="mediana">Crema napolitana</label>
+                            <input class="col" type="radio" id="napolitana">
+                            <label for="napolitana">Crema napolitana</label>
                         </div>
                     </div>
                 </div>
                 <div>
                     <div class="fila">
-                        <label class="col" for="lista_categoría">Precio:</label>
+                        <label class="col">Precio:</label>
                         <div class="col">
-                            <label for="">$</label>
-                            <input type="number" step="0.1">
+                            <label for="precio">$</label>
+                            <input id="precio" type="number" step="0.1">
                         </div>
                     </div>
                     <div class="fila">
                         <p class="col">Descripción adicional:</p>
-                        <textarea class="col" name="" id="">(Opcional)</textarea>
+                        <textarea class="col" name="descAdicional" id="descAdicional">(Opcional)</textarea>
                     </div>
 
                 </div>
