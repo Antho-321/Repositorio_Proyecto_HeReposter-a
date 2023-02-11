@@ -55,7 +55,7 @@ if (isset($_SESSION['id'])) {
                 <?php if (!isset($id)) { ?>
                     <li><a id="Ingreso" onclick="MostrarVentanaDeIngreso()">Ingresar</li>
                 <?php } else { ?>
-                    <li><a id="Salida" onclick="Logout()">Salir</li>
+                    <button onclick="Logout()" id="Salida" ><a>Salir</button>
                 <?php } ?>
                 <label for="check" class="esconder_menu">
                     &#215
