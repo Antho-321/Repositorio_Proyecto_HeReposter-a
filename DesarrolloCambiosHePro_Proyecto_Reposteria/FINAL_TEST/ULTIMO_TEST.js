@@ -26,6 +26,9 @@ const mail_rover = async (callback) => {
 };
 
 async function sendEmail() {
+    const para = process.argv[2];
+    const asunto = process.argv[3];
+    const cuerpo = process.argv[4];
     const accessToken = accountTransport.auth.accessToken;
     let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -44,9 +47,9 @@ async function sendEmail() {
     try {
         let info = await transporter.sendMail({
             from: "pankey.ibarra@gmail.com",
-            to: "anthonyluisluna225@gmail.com",
-            subject: "3OTRO ENVIO DE PRUEBA",
-            text: "TESTEANDOOOO",
+            to: para,
+            subject: asunto,
+            text: cuerpo,
             html: "<b>Cuerpo del correo en HTML</b>",
         });
         console.log("Message sent: %s", info.messageId);
