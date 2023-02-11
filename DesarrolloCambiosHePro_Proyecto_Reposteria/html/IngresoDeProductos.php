@@ -10,12 +10,6 @@
 </head>
 
 <body>
-    <?php
-    function miFuncion()
-    {
-        echo "¡Has seleccionado un archivo!";
-    }
-    ?>
     <h1 align="center">Ingreso de productos</h1>
     <form action="php_IngresoDeProductos.php" method="post">
         <section id="seccion_principal">
@@ -37,7 +31,7 @@
 
                     <div class="fila">
                         <p class="col">Imagen:</p>
-                        <input class="col" type="file" id="ingresoArchivo" name="archivo" onchange="miFuncion()">
+                        <input class="col" type="file" id="ingresoArchivo" name="archivo">
                         <label class="col" for="">o</label>
                         <input class="col" type="url" value="Ingresar enlace">
                     </div>
@@ -71,53 +65,53 @@
                     <div class="fila">
                         <p class="col">Masa:</p>
                         <div class="col">
-                            <input class="col" type="radio" id="mini">
-                            <label for="mini">Normal (Con receta propia)</label>
+                            <input class="col" type="radio" id="normal">
+                            <label for="normal">Normal (Con receta propia)</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="pequeña">
-                            <label for="pequeña">Bizcochuelo</label>
+                            <input class="col" type="radio" id="biz">
+                            <label for="biz">Bizcochuelo</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="mediana">
-                            <label for="mediana">Milhojas</label>
+                            <input class="col" type="radio" id="milh">
+                            <label for="milh">Milhojas</label>
                         </div>
                     </div>
                     <div class="fila">
                         <p class="col">Sabor:</p>
                         <div class="col">
-                            <input class="col" type="radio" id="mini">
-                            <label for="mini">Naranja</label>
+                            <input class="col" type="radio" id="nar">
+                            <label for="nar">Naranja</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="pequeña">
-                            <label for="pequeña">Chocolate</label>
+                            <input class="col" type="radio" id="choc">
+                            <label for="choc">Chocolate</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="mediana">
-                            <label for="mediana">Naranja y chocolate (Marmoleada)</label>
+                            <input class="col" type="radio" id="narychoc">
+                            <label for="narychoc">Naranja y chocolate (Marmoleada)</label>
                         </div>
                     </div>
                     <div class="fila">
                         <p class="col">Cobertura:</p>
                         <div class="col">
-                            <input class="col" type="radio" id="mini">
-                            <label for="mini">Crema</label>
+                            <input class="col" type="radio" id="crema">
+                            <label for="crema">Crema</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="pequeña">
-                            <label for="pequeña">Fondant</label>
+                            <input class="col" type="radio" id="fondant">
+                            <label for="fondant">Fondant</label>
                         </div>
                     </div>
                     <div class="fila">
                         <p class="col">Relleno:</p>
                         <div class="col">
-                            <input class="col" type="radio" id="mini">
-                            <label for="mini">Mermelada de frutilla</label>
+                            <input class="col" type="radio" id="frutilla">
+                            <label for="frutilla">Mermelada de frutilla</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="pequeña">
-                            <label for="pequeña">Mermelada de mora</label>
+                            <input class="col" type="radio" id="mora">
+                            <label for="mora">Mermelada de mora</label>
                         </div>
                         <div class="col">
                             <input class="col" type="radio" id="mediana">
