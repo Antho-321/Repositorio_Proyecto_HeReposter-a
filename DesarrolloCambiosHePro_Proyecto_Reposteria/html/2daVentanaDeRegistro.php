@@ -60,22 +60,29 @@
     <div id="Salto"></div>
     <div id="contenido_principal">
         <div id="VentanaDeIngreso">
-            <div id="Ventana">
+
+                <form action="" id="Ventana">
                 <div class="btnHaciaDerecha">
                     <input type="button" value="✕" id="btn_salir">
                 </div>
                 <h2>REGISTRARSE</h2>
-                <label for="correo">Ingrese el código enviado al correo electrónico:</label>
-                <input type="number" id="código" class="entrada_texto">
-                <input type="button" id="finalización_registro" value="Finalizar registro">
-            </div>
+                <label for="mascota">Nombre de tu mascota:</label>
+                <input type="text" id="mascota" class="entrada_texto">
+                <label for="color">Color favorito:</label>
+                <input type="text" id="color" class="entrada_texto">
+                <label for="comida">Comida favorita:</label>
+                <input type="text" id="comida" class="entrada_texto">
+                <button id="finalización_registro">Finalizar registro</button>
+                </form>
+                
+
         </div>
         <div id="DestacadoPrincipal">
           
         </div>
         <h1 align="center">Productos destacados</h1>
         <section id="seccion_productos"></section>
-        <script src="../script/testing.js"></script>
+        <script src="../script/script_2daVentanaDeRegistro.js"></script>
     </div>
 <footer>
     <div id="Derechos">
