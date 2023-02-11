@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "googleapis": "^111.0.0",
+    "http2": "^3.3.7",
+    "nodemailer": "^6.9.1",
+    "process": "^0.11.10"
+  },
+  "name": "final_test",
+  "version": "1.0.0",
+  "main": "ULTIMO_TEST.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
