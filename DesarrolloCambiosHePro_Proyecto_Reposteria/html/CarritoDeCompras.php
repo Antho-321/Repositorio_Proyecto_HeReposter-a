@@ -1,3 +1,10 @@
+<?php
+//Inicia la sesión y checa si hay un id, lo que indica que ya esta logueado alguien
+session_start();
+if (isset($_SESSION['id'])) {
+    $id = $_SESSION['id'];
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -49,7 +56,11 @@
                 <li><a href="../html/CarritoDeCompras.php"><img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo"></a></li>
                 <li onclick="mostrarBúsqueda(this)"><a><img src="../iconos/busqueda.png" type="button" value="Catalogo"></a></li>
                 <li id="seccion_busqueda"><a><input type="search" id="búsqueda"></a></li>
-                <li><a id="Ingreso" onclick="MostrarVentanaDeIngreso()">Ingresar</li>
+                <?php if (!isset($id)) { ?>
+                    <li><a id="Ingreso" onclick="MostrarVentanaDeIngreso()">Ingresar</li>
+                <?php } else { ?>
+                    <li><a id="Salida" onclick="Logout()">Salir</li>
+                <?php } ?>
                 <label for="check" class="esconder_menu">
                     &#215
                 </label>
@@ -153,6 +164,7 @@
             © 2023 Blog Personal. Creado por Tito Córdova, De la Cruz Brayan, Luna Anthony
         </div>
     </footer>
+    <script src="../script/script_querys.js"></script>
     <script src="../script/script_InteracciónPrincipal.js"></script>
 </body>
 </html>

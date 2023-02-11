@@ -1,14 +1,22 @@
+<?php
+//Inicia la sesión y checa si hay un id, lo que indica que ya esta logueado alguien
+session_start();
+if (isset($_SESSION['id'])) {
+    $id = $_SESSION['id'];
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/estilo_Index.css" id="estilo">
-    
-    
+
     <title>REPOSTERIA</title>
 </head>
+
 <body>
 
     <!-- //////////////////////////////////////////////////////////////////////////ENCABEZADO///////////////////////////////////////////////////////////////////////////////////////////// -->
@@ -20,7 +28,7 @@
         <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
 
         <!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
-        
+
         <input type="checkbox" id="check">
         <label for="check" class="mostrar_menu">
             &#8801
@@ -50,14 +58,19 @@
                 <li><a href="../html/CarritoDeCompras.php"><img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo"></a></li>
                 <li onclick="mostrarBúsqueda(this)"><a><img src="../iconos/lupa1.png" type="button" value="Catalogo"></a></li>
                 <li id="seccion_busqueda"><a><input type="search" id="búsqueda"></a></li>
-                <li><a id="Ingreso" onclick="MostrarVentanaDeIngreso()">Ingresar</li>
+
+                <?php if (!isset($id)) { ?>
+                    <li><a id="Ingreso" onclick="MostrarVentanaDeIngreso()">Ingresar</li>
+                <?php } else { ?>
+                    <li><a id="Salida"  onclick="Logout()">Salir</li>
+                    <?php } ?>
                 <label for="check" class="esconder_menu">
                     &#215
                 </label>
             </nav>
         </nav>
     </header>
-    
+
     <div id="Salto">
     </div>
 
@@ -75,7 +88,7 @@
                 <li><img src="../imagenes/Slider3.jpg" alt=""></li>
                 <li><img src="../imagenes/Slider4.jpg" alt=""></li>
             </ul>
-          
+
         </div>
         <h1>PRODUCTOS DESTACADOS</h1>
         <section id="seccion_productos"></section>
@@ -83,6 +96,7 @@
             <script src="../script/bundle.js"></script>
             
         -->
+        <script src="../script/script_querys.js"></script>
         <script src="../script/script_InteracciónPrincipal.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/nodemailer@0.7.1/lib/nodemailer.js"></script>
     </div>
@@ -92,4 +106,5 @@
         </div>
     </footer>
 </body>
+
 </html>
