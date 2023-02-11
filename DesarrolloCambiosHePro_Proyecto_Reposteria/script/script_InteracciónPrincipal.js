@@ -395,7 +395,7 @@ function MostrarVentanaDeRegistro(){
         <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaRegistro()">
     </div>
     <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
-    <form action="enviar_correo.php" method="POST" class="Formulario_Registro" id="Ventana">
+
         <h2>Registrarse</h2>
         <div class="campos_adicionales">
             <label for="cedula">Cédula:</label>
@@ -417,13 +417,41 @@ function MostrarVentanaDeRegistro(){
         <input type="password" id="rep_contraseña" name="Rep_contraseña" class="entrada_texto">
         <!------LA FUNCIÓN runQuery está en el archivo script_Registro.js------>
         <!--PARA QUE FUNCIONE BIEN DEBES INICIAR EL MAMP E INGRESAR COMO LOCALHOST-->
-        <input type="submit" value="Registrarse">
+        <input type="submit" id="envio" value="Registrarse">
         <script src="../script/script_Registro.js"></script>
-    </form>
+
 </div>
     `;
     salto.appendChild(divVentanaRegistro);
+    document.getElementById("envio").addEventListener('click', function() {
+        /*
+        divVentanaRegistro.innerHTML=`
+        <div id="Ventana">
+        <div class="btnHaciaDerecha">
+            <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaRegistro()">
+        </div>
+        <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
+    
+            <h2>REGISTRARSE</h2>
+            <label for="correo">Ingrese el código enviado al correo electrónico:</label>
+                <input type="number" id="código" class="entrada_texto">
+                <input type="button" id="finalización_registro" value="Finalizar registro">
+    
+    </div>
+        `;
+*/
+        let html = document.documentElement.innerHTML;
+    //console.log(html);
+    // Selecciona los elementos que no quieres incluir y elimínalos de la cadena HTML
+    
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'enviar_correo.php');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('html=' + encodeURIComponent(html));
+      });
+    
 }
+
 
 function CerrarVentanaIngreso(){
     console.log(document.getElementsByTagName("style")[0]);
