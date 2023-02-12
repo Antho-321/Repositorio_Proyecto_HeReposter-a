@@ -3,6 +3,8 @@
 session_start();
 if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
+}else if(isset($_SESSION['contraseña'])){
+    header("Location: ../php/Logout.php");
 }
 ?>
 <!DOCTYPE html>
