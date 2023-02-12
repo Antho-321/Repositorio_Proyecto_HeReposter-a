@@ -1,47 +1,3 @@
-<?php
-include("../php/Conexion.php");
-$conexion = new Conexion;
-$random = rand(10000, 100000);
-//Parte de registro
-//Todo lo que envía el post a este lugar
-$cedula = $_POST['Cedula'];
-$nombre = $_POST['Nombre'];
-$apellido = $_POST['Apellido'];
-$direccion = $_POST['Direccion'];
-$correo = $_POST['Correo'];
-$contraseña = $_POST['Contraseña'];
-$Rep_contraseña = $_POST['Rep_contraseña'];
-//Inicia la consulta
-$correoExiste= $conexion->OperSql("SELECT  `Email` FROM `usuario` WHERE `Email`='$correo';");
-$existe = mysqli_fetch_array($correoExiste);
-$cedulaExiste= $conexion->OperSql("SELECT  `Cedula` FROM `usuario` WHERE `Cedula`='$cedula';");
-$existe2 = mysqli_fetch_array($cedulaExiste);
-//Valida y ejecuta
-if(isset($existe)||isset($existe2)){
-    echo '<script>
-    window.alert("ERROR DE REGISTRO: Correo o cedula ya registrados por otro usuario"); 
-    window.location = "../html/Index.php";
-    </script>';
-}else if ($contraseña != $Rep_contraseña) {
-    echo '<script>
-    window.alert("ERROR DE REGISTRO: Las contraseñas no coinciden"); 
-    window.location = "../html/Index.php";
-    </script>';
-} else {
-    $para = $correo;
-    $asunto = "Codigo: " . $random;
-    $cuerpo = "<html>Su código por favor si</html>";
-    $salida = shell_exec('node ULTIMO_TEST.js "' . $para . '" "' . $asunto . '" "' . $cuerpo . '"');
-    session_start();
-    $_SESSION['cedula'] = $cedula;
-    $_SESSION['nombre'] = $nombre;
-    $_SESSION['apellido'] = $apellido;
-    $_SESSION['direccion'] = $direccion;
-    $_SESSION['correo'] = $correo;
-    $_SESSION['contraseña'] = $contraseña;
-    $_SESSION['random'] = $random;
-}
-?> 
 <!DOCTYPE html>
 <html lang="es">
 
@@ -65,8 +21,8 @@ if(isset($existe)||isset($existe2)){
         </label>
         <nav class="menu">
             <ul class="menu_horizontal">
-                <li> <a href="../html/Index.php">Inicio</a></li>
-                <li><a href="../html/SobreNosotros.php">Sobre Nosotros</a></li>
+                <li> <a href="Index.php">Inicio</a></li>
+                <li><a href="SobreNosotros.php">Sobre Nosotros</a></li>
                 <li>
                     <a href="#"> Catalogo</a>
                     <ul class="Menu_Catalogo">
@@ -98,14 +54,12 @@ if(isset($existe)||isset($existe2)){
         <div id="VentanaDeIngreso">
             <div id="Ventana">
                 <div class="btnHaciaDerecha">
-                    <input type="button" value="✕" id="btn_salir" onclick="irAIndex()">
+                    <input type="button" value="✕" id="btn_salir">
                 </div>
-                <form action="../php/Validación de datos.php" method="POST" id="Ventana">
-                    <h2>REGISTRARSE</h2>
-                    <label for="correo">Ingrese el código enviado al correo electrónico:</label>
-                    <input type="number" id="código" name="comparacion" class="entrada_texto">
-                    <button id="finalización_registro">Finalizar registro</button>
-                </form>
+                <h2>RECUPERACIÓN DE CUENTA</h2>
+                <label for="correo">Ingrese el código enviado al correo electrónico:</label>
+                <input type="number" id="código" class="entrada_texto">
+                <input type="button" id="finalización_registro" value="Iniciar sesión">
             </div>
         </div>
         <div id="DestacadoPrincipal">
