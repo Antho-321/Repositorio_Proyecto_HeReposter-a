@@ -103,7 +103,6 @@ if (isset($_SESSION['id'])) {
         -->
         <script src="../script/script_querys.js"></script>
         <script src="../script/script_InteracciónPrincipal.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/nodemailer@0.7.1/lib/nodemailer.js"></script>
     </div>
     <footer>
         <div id="Derechos">

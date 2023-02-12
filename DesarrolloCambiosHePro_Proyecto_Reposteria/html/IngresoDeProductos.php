@@ -18,14 +18,14 @@
                     <div class="fila">
                         <label class="col" for="lista_categoría">Categoría:</label>
                         <select name="lista_categoría" id="lista_categoría" class="col">
-                            <option value="saab">Bodas</option>
-                            <option value="opel">Bautizos</option>
-                            <option value="audi">XV años</option>
-                            <option value="audi">Cumpleaños</option>
-                            <option value="audi">Baby Shower</option>
-                            <option value="audi">San Valentin</option>
-                            <option value="audi">Vísperas de Santos</option>
-                            <option value="audi">Navidad</option>
+                            <option value="Bodas">Bodas</option>
+                            <option value="Bautizos">Bautizos</option>
+                            <option value="XV_años">XV años</option>
+                            <option value="Cumpleaños">Cumpleaños</option>
+                            <option value="Baby_Shower">Baby Shower</option>
+                            <option value="San_Valentin">San Valentin</option>
+                            <option value="Vísperas_de_Santos">Vísperas de Santos</option>
+                            <option value="Navidad">Navidad</option>
                         </select>
                     </div>
 
