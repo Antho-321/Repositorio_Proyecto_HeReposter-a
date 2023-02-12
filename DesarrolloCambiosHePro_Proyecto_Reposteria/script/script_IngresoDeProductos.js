@@ -12,6 +12,7 @@ const param1Value = searchParams.get("param1");
 if (param1Value!=null) {
   imagePreview.src=param1Value;
   h1.innerHTML="Actualización de productos";
+  document.getElementsByTagName("form")[0].action="../php/php_ActualizaciónDeProductos.php";
 }
 
 fileInput.addEventListener('change', () => {
