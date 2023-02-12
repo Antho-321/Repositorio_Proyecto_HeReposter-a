@@ -24,8 +24,14 @@ if ($email != null) {
         $_SESSION['cedula'] = $Ci['Cedula'];
         echo '<script>window.location = "../html/Index.php";</script>';
     } else {
-        echo "contraseña incorrecta";
+        echo '<script>
+        window.alert("ERROR DE INGRESO: contraseña incorrecta"); 
+        window.location = "../html/Index.php";
+        </script>';
     }
 } else {
-    echo "No existe alguna cuenta registrada con ese correo";
+    echo '<script>
+        window.alert("ERROR DE INGRESO: correo no registrado"); 
+        window.location = "../html/Index.php";
+        </script>';
 }

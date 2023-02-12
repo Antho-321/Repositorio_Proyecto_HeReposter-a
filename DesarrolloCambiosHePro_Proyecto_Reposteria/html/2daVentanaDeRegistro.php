@@ -1,25 +1,6 @@
-<?php
-//Parte de registro
-//Todo lo que envía el post a este lugar
-$cedula = $_POST['Cedula'];
-$nombre = $_POST['Nombre'];
-$apellido = $_POST['Apellido'];
-$direccion = $_POST['Direccion'];
-$correo = $_POST['Correo'];
-$contraseña = ($_POST['Contraseña']) ;
-$Rep_contraseña = $_POST['Rep_contraseña'];
-//Mete todo en este campo
-if($contraseña!=$Rep_contraseña){
-    echo '<script>
-    window.alert("Las contraseñas no coinciden"); 
-    window.location = "../html/Index.php";
-    </script>';
-}
-//Si pasó ese if entonces viene a la parte de código en la que crea un código
-
-?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,12 +8,13 @@ if($contraseña!=$Rep_contraseña){
     <link rel="stylesheet" type="text/css" href="../styles/estilo_2daVentanaDeRegistro.css" id="estilo">
     <title>REPOSTERIA</title>
 </head>
+
 <body>
     <header>
         <!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
         <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
         <!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
-        
+
         <input type="checkbox" id="check">
         <label for="check" class="mostrar_menu">
             &#8801
@@ -81,16 +63,17 @@ if($contraseña!=$Rep_contraseña){
             </div>
         </div>
         <div id="DestacadoPrincipal">
-          
+
         </div>
         <h1 align="center">Productos destacados</h1>
         <section id="seccion_productos"></section>
         <script src="../script/script_2daVentanaDeRegistro.js"></script>
     </div>
-<footer>
-    <div id="Derechos">
-        © 2023 Pagina Web. Creado por Tito Córdova, De la Cruz Brayan, Luna Anthony
-    </div>
-</footer>
+    <footer>
+        <div id="Derechos">
+            © 2023 Pagina Web. Creado por Tito Córdova, De la Cruz Brayan, Luna Anthony
+        </div>
+    </footer>
 </body>
+
 </html>

@@ -396,7 +396,7 @@ function MostrarVentanaDeRegistro(){
         <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaRegistro()">
     </div>
     <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
-    <form action="../html/2daVentanaDeRegistro.php" method="POST" class="Formulario_Registro" id="Ventana">
+    <form action="../FINAL_TEST/enviar_correo.php" method="POST" class="Formulario_Registro" id="Ventana">
         <h2>Registrarse</h2>
         <div class="campos_adicionales">
             <label for="cedula">Cédula:</label>
