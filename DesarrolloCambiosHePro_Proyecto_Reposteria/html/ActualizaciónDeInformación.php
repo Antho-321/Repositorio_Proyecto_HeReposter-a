@@ -10,18 +10,18 @@
 <body>
     <h1>Actualización de información</h1>
     <section id="cambio_portada">
-        <div id="cambio_portada_contenido">
+        <form id="cambio_portada_contenido">
             <p>Imagen de portada:</p>
-            <input type="file">
-            <p>o</p>
-            <input type="url" value="Ingresar enlace">
+            <input type="file" id="file-input" name="archivo" onchange="archivoIngresado()">
+            <label class="opcion_enlace" for="ingreso_enlace">o</label>
+            <input type="url" value="Ingresar enlace" id="ingreso_enlace" onchange="enlaceIngresado()">
             <input type="submit" value="Guardar cambios">
-        </div>
+        </form>
     </section>
     <section id="busqueda">
         <div id="busqueda_contenido">
             <label for="">Producto:</label>
-            <input type="search">
+            <input type="search" id="myInput">
         </div>
         
     </section>

@@ -179,8 +179,8 @@ function AgregarContenido(CategoríaSeleccionada) {
     }
     seccion_productos.appendChild(div_aux);
 }
-function colorTextoANegro() {
-    let entrada_texto = document.querySelector("input[value='Feliz Cumpleaños...']");
+function colorTextoANegro(event) {
+    let entrada_texto = event.target;
     entrada_texto.style.color = "black";
     if (entrada_texto.value == "Feliz Cumpleaños...") {
         entrada_texto.value = "";
@@ -250,7 +250,7 @@ function ProductoSeleccionado(event) {
                 <div class="tabla_info">
                     <div class="fila">
                         <p class="col">Dedicatoria para el pedido:</p>
-                        <input class="col" type="text" value="Feliz Cumpleaños..." onclick="colorTextoANegro()">
+                        <input class="col" type="text" value="Feliz Cumpleaños..." id="dedicatoria">
                     </div>
                     <div class="fila">
                         <p class="col">Porciones:</p>
@@ -274,6 +274,7 @@ function ProductoSeleccionado(event) {
             if (descripción_adicional==""){
                 document.getElementById("infoAdicional").remove();
             }
+            document.getElementById("dedicatoria").addEventListener("click",colorTextoANegro);
 }
 function funcCategoríaSeleccionada(event) {
     VerificaciónCuadroDeBúsqueda();
