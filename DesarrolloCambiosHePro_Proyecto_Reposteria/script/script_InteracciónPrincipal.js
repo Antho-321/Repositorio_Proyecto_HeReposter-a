@@ -138,7 +138,7 @@ divVentanaRecuperaciónCuentaCorreo.innerHTML = `
 divVentanaRegistro.innerHTML = `
 <div id="Ventana">
     <div class="btnHaciaDerecha">
-        <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana(event)">
+        <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
     </div>
     <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
     <form action="../FINAL_TEST/enviar_correo.php" method="POST" class="Formulario_Registro" id="Ventana">
@@ -589,14 +589,7 @@ function recuperaciónCuenta_Código() {
         }
     }
 }
-function CerrarVentana(event) {
-    // let str_direccion = "" + window.location.href;
-    // const index = str_direccion.lastIndexOf("?")
-    // const result = str_direccion.substring(0, index);
-    // window.location.href = result;
-    // if (str_direccion.includes("#")) {
-    //     location.reload(true);
-    // }
+function CerrarVentana() {
     document.getElementById("Salto").innerHTML="";
     document.getElementsByTagName("style")[0].remove();
 }
