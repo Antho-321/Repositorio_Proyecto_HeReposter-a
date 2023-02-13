@@ -12,6 +12,7 @@ let productos_ingresados=true;
 let divVentana = document.createElement("div");
 let salto = document.getElementById("Salto");
 divVentana.id="VentanaForm";
+document.querySelector("body>a").removeAttribute("onclick");
 estilo_Ingreso_Registro.innerHTML=`
 body {
     opacity: 0.77 !important;
@@ -383,8 +384,8 @@ function MostrarVentanaDeIngreso(){
     
 }
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
-function MostrarVentanaDeRegistro(){
-    document.getElementById("VentanaDeIngreso").remove();  
+function MostrarVentanaDeRegistro(){ 
+    salto.innerHTML="";
     divVentana.innerHTML=`
     <div id="Ventana">
     <div class="btnHaciaDerecha">
@@ -426,6 +427,6 @@ function MostrarVentanaRecuperación_Correo(){
 }
 
 function CerrarVentana() {
-    document.getElementById("Salto").innerHTML="";
+    salto.innerHTML="";
     document.getElementsByTagName("style")[0].remove();
 }
