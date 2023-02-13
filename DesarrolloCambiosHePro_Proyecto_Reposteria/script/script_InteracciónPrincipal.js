@@ -63,7 +63,6 @@ label{
     padding: 10px;
 }
 .btnHaciaDerecha{
-
     display: flex;
     width: 100%;
     justify-content: flex-end;
@@ -355,8 +354,9 @@ function enviarInfoACarrito(){
 }
 //AQUI EMPIEZA LA VENTANA DE INGRESO 
 function MostrarVentanaDeIngreso(){  
-    if (event.target.id == "Ingreso"){
+    if (event.target.id != "RegresarAIngreso"){
         document.head.appendChild(estilo_Ingreso_Registro);
+    }     
     divVentana.innerHTML=`
             <form action="../php/Login.php" method="POST" class="Formulario_Ingreso" id="Ventana">
                 <div class="btnHaciaDerecha">
@@ -369,7 +369,7 @@ function MostrarVentanaDeIngreso(){
                     <label for="contraseña">Contraseña:</label>
                     <input type="password" id="contraseña" name="Contraseña" class="entrada_texto">
                     <div class="btnHaciaDerecha">
-                        <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?">
+                        <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?" onclick="MostrarVentanaRecuperación_Correo()">
                     </div>
                     <button>Ingresar</button>
                     <div id="SinCuenta">
@@ -380,7 +380,7 @@ function MostrarVentanaDeIngreso(){
             </div>
     `;
     salto.appendChild(divVentana);
-    }
+
     
 }
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
@@ -415,6 +415,9 @@ function MostrarVentanaDeRegistro(){
         <!------LA FUNCIÓN runQuery está en el archivo script_Registro.js------>
         <!--PARA QUE FUNCIONE BIEN DEBES INICIAR EL MAMP E INGRESAR COMO LOCALHOST-->
         <button id="registro">Registrarse</button>
+            <label for="RegresarAIngreso">¿Ya tienes una cuenta?</label>
+            <input type="button" value="Ingresar" id="RegresarAIngreso" onclick="MostrarVentanaDeIngreso()">
+       
         <script src="../script/script_Registro.js"></script>
     </form>
 </div>
@@ -423,9 +426,35 @@ function MostrarVentanaDeRegistro(){
 }
 
 function MostrarVentanaRecuperación_Correo(){
-
+    salto.innerHTML="";
+    divVentana.innerHTML=`
+    <form id="Ventana">
+    <div class="btnHaciaDerecha">
+        <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
+    </div>
+    <h2>RECUPERACIÓN DE CUENTA</h2>
+    <label for="correo">Correo electrónico:</label>
+    <input type="email" id="correo" name="Correo" class="entrada_texto">
+    <input type="button" id="finalización_registro" value="Ingresar" onclick="MostrarVentanaRecuperación_Código()">
+</form>
+    `;
+    salto.appendChild(divVentana);
 }
-
+function MostrarVentanaRecuperación_Código(){
+    salto.innerHTML="";
+    divVentana.innerHTML=`
+    <form id="Ventana">
+    <div class="btnHaciaDerecha">
+        <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
+    </div>
+    <h2>RECUPERACIÓN DE CUENTA</h2>
+    <label for="correo">Ingrese el código enviado al correo electrónico:</label>
+    <input type="number" id="código" class="entrada_texto">
+    <input type="button" id="finalización_registro" value="Iniciar sesión">
+</form>
+    `;
+    salto.appendChild(divVentana);
+}
 function CerrarVentana() {
     salto.innerHTML="";
     document.getElementsByTagName("style")[0].remove();
