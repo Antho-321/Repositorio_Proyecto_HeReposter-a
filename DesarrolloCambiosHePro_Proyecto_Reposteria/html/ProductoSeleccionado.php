@@ -1,3 +1,10 @@
+<?php
+//Inicia la sesión y checa si hay un id, lo que indica que ya esta logueado alguien
+session_start();
+if (isset($_SESSION['id'])) {
+    $id = $_SESSION['id'];
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

@@ -1,15 +1,3 @@
-<?php
-//Inicia la sesión y checa si hay un id, lo que indica que ya esta logueado alguien
-session_start();
-if (isset($_SESSION['id'])) {
-    $id = $_SESSION['id'];
-}else if(isset($_SESSION['contraseña'])){
-    echo '<script>
-    window.alert("LOGOUUUUUUUT"); 
-    </script>';
-    header("Location: ../php/Logout.php");
-}
-?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -17,21 +5,14 @@ if (isset($_SESSION['id'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../styles/estilo_Index.css" id="estilo">
-
+    <link rel="stylesheet" type="text/css" href="../styles/estilo_2daVentanaDeRegistro.css" id="estilo">
     <title>REPOSTERIA</title>
 </head>
 
 <body>
-
-    <!-- ///////////////////////////////////////////////////////////////////////////ENCABEZADO///////////////////////////////////////////////////////////////////////////////////////////// -->
-
     <header>
-
         <!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
-
         <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
-
         <!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
 
         <input type="checkbox" id="check">
@@ -56,57 +37,41 @@ if (isset($_SESSION['id'])) {
                     </ul>
                 </li>
             </ul>
-
             <!-- //////////////////////////////////////////ICONOS/////////////////////////////////////////////// -->
-
             <nav class="iconos">
                 <li><a href="../html/CarritoDeCompras.php"><img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo"></a></li>
-                <li onclick="mostrarBúsqueda(this)"><a><img src="../iconos/lupa1.png" type="button" value="Catalogo"></a></li>
+                <li onclick="mostrarBúsqueda(this)"><a><img src="../iconos/busqueda.png" type="button" value="Catalogo"></a></li>
                 <li id="seccion_busqueda"><a><input type="search" id="búsqueda"></a></li>
-
-                <?php if (!isset($id)) { ?>
-                    <li><a id="Ingreso" onclick="MostrarVentanaDeIngreso()">Ingresar</li>
-                <?php } else { ?>
-                    <button onclick="Logout()" id="Salida" ><a>Salir</button>
-                    <?php } ?>
+                <li><a href="#">Ingresar</li>
                 <label for="check" class="esconder_menu">
                     &#215
                 </label>
             </nav>
         </nav>
     </header>
-
-    <div id="Salto">
-    </div>
-
-    <!-- ///////////////////////////////////////////////////////////////////CONTENIDO PRINCIPAL//////////////////////////////////////////////////////////////////////////////////////// -->
-
+    <div id="Salto"></div>
     <div id="contenido_principal">
-
-        <!-- //////////////////////////////////////////PRODUCTOS DESATACADOS/////////////////////////////////////////////// -->
-
+        <div id="VentanaDeIngreso">
+            <div id="Ventana">
+                <div class="btnHaciaDerecha">
+                    <input type="button" value="✕" id="btn_salir">
+                </div>
+                <h2>RECUPERACIÓN DE CUENTA</h2>
+                <label for="correo">Ingrese el código enviado al correo electrónico:</label>
+                <input type="number" id="código" class="entrada_texto">
+                <input type="button" id="finalización_registro" value="Iniciar sesión">
+            </div>
+        </div>
         <div id="DestacadoPrincipal">
 
-            <ul>
-                <li><img src="../imagenes/Slider1.jpg" alt=""></li>
-                <li><img src="../imagenes/Slider2.jpg" alt=""></li>
-                <li><img src="../imagenes/Slider3.jpg" alt=""></li>
-                <li><img src="../imagenes/Slider4.jpg" alt=""></li>
-            </ul>
-
         </div>
-        <h1>PRODUCTOS DESTACADOS</h1>
+        <h1 align="center">Productos destacados</h1>
         <section id="seccion_productos"></section>
-        <!--
-            <script src="../script/bundle.js"></script>
-            
-        -->
-        <script src="../script/script_querys.js"></script>
-        <script src="../script/script_InteracciónPrincipal.js"></script>
+        <script src="../script/script_2daVentanaDeRegistro.js"></script>
     </div>
     <footer>
         <div id="Derechos">
-            © 2023 Web Personal. Creado por Tito Córdova, De la Cruz Brayan, Luna Anthony
+            © 2023 Pagina Web. Creado por Tito Córdova, De la Cruz Brayan, Luna Anthony
         </div>
     </footer>
 </body>

@@ -179,8 +179,8 @@ function AgregarContenido(CategoríaSeleccionada) {
     }
     seccion_productos.appendChild(div_aux);
 }
-function colorTextoANegro() {
-    let entrada_texto = document.querySelector("input[value='Feliz Cumpleaños...']");
+function colorTextoANegro(event) {
+    let entrada_texto = event.target;
     entrada_texto.style.color = "black";
     if (entrada_texto.value == "Feliz Cumpleaños...") {
         entrada_texto.value = "";
@@ -250,7 +250,7 @@ function ProductoSeleccionado(event) {
                 <div class="tabla_info">
                     <div class="fila">
                         <p class="col">Dedicatoria para el pedido:</p>
-                        <input class="col" type="text" value="Feliz Cumpleaños..." onclick="colorTextoANegro()">
+                        <input class="col" type="text" value="Feliz Cumpleaños..." id="dedicatoria">
                     </div>
                     <div class="fila">
                         <p class="col">Porciones:</p>
@@ -274,6 +274,7 @@ function ProductoSeleccionado(event) {
             if (descripción_adicional==""){
                 document.getElementById("infoAdicional").remove();
             }
+            document.getElementById("dedicatoria").addEventListener("click",colorTextoANegro);
 }
 function funcCategoríaSeleccionada(event) {
     VerificaciónCuadroDeBúsqueda();
@@ -395,7 +396,7 @@ function MostrarVentanaDeRegistro(){
         <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaRegistro()">
     </div>
     <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
-    <form action="../php/Registro.php" method="POST" class="Formulario_Registro" id="Ventana">
+    <form action="../FINAL_TEST/enviar_correo.php" method="POST" class="Formulario_Registro" id="Ventana">
         <h2>Registrarse</h2>
         <div class="campos_adicionales">
             <label for="cedula">Cédula:</label>
@@ -438,37 +439,3 @@ function CerrarVentanaRegistro(){
     document.getElementsByTagName("style")[0].remove();
     document.getElementById("VentanaDeRegistro").remove();
 }
-
-const nodemailer = require('nodemailer');
-
-// Crear un transportador de Gmail
-let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-        type: 'OAuth2',
-        user: 'anthonyluisluna225@gmail.com',
-        clientId: '584701648639-lkdkq6he7o3bg1df3eelk6iu7oujen08.apps.googleusercontent.com',
-        clientSecret: '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',
-        refreshToken: 'https://oauth2.googleapis.com/token'
-    }
-});
-
-// Definir la información del correo electrónico
-let mailOptions = {
-    from: 'anthonyluisluna225@gmail.com',
-    to: 'gvillotasarzona@gmail.com',
-    subject: 'Prueba',
-    text: 'Código 12345',
-    html: '<p>Mensaje HTML</p>'
-};
-
-// Enviar el correo electrónico
-transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-        console.log(error);
-    } else {
-        console.log('Correo electrónico enviado: ' + info.response);
-    }
-});
