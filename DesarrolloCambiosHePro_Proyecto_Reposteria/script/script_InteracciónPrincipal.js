@@ -355,11 +355,8 @@ function enviarInfoACarrito(){
 //AQUI EMPIEZA LA VENTANA DE INGRESO 
 function MostrarVentanaDeIngreso(){  
     if (event.target.id == "Ingreso"){
-        if(divVentanaIngreso.style.display=="none"){
-            divVentanaIngreso.style.display="";
-        }
         document.head.appendChild(estilo_Ingreso_Registro);
-    divVentanaIngreso.innerHTML=`
+    divVentana.innerHTML=`
             <form action="../php/Login.php" method="POST" class="Formulario_Ingreso" id="Ventana">
                 <div class="btnHaciaDerecha">
                     <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
@@ -381,14 +378,14 @@ function MostrarVentanaDeIngreso(){
                 </form>
             </div>
     `;
-    salto.appendChild(divVentanaIngreso);
+    salto.appendChild(divVentana);
     }
     
 }
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
 function MostrarVentanaDeRegistro(){
     document.getElementById("VentanaDeIngreso").remove();  
-    divVentanaRegistro.innerHTML=`
+    divVentana.innerHTML=`
     <div id="Ventana">
     <div class="btnHaciaDerecha">
         <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
@@ -421,7 +418,7 @@ function MostrarVentanaDeRegistro(){
     </form>
 </div>
     `;
-    salto.appendChild(divVentanaRegistro);
+    salto.appendChild(divVentana);
 }
 
 function MostrarVentanaRecuperación_Correo(){
