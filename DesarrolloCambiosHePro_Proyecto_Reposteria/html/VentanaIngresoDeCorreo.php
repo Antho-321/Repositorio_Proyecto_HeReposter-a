@@ -52,7 +52,7 @@
     <div id="Salto"></div>
     <div id="contenido_principal">
         <div id="VentanaDeIngreso">
-            <div id="Ventana">
+            <form id="Ventana">
                 <div class="btnHaciaDerecha">
                     <input type="button" value="✕" id="btn_salir">
                 </div>
@@ -60,7 +60,7 @@
                 <label for="correo">Correo electrónico:</label>
                 <input type="email" id="correo" name="Correo" class="entrada_texto">
                 <input type="button" id="finalización_registro" value="Ingresar">
-            </div>
+</form>
         </div>
         <div id="DestacadoPrincipal">
 

@@ -1,4 +1,4 @@
-let cantidadInput, precio_producto, num_productos, img, descripción_adicional, porciones, masa, cobertura, sabor, relleno, id_producto, cantidad_producto_carr;
+let cantidadInput, precio_producto, num_productos, img, descripción_adicional, porciones, masa, cobertura, sabor, relleno, id_producto, cantidad_producto_carr, tipoVentana, result_aux, result, str_direccion;
 let left = 0;
 let productos = [];
 let lupa = document.getElementById("lupa");
@@ -7,21 +7,32 @@ let contenido_categorías = document.querySelector(".Menu_Catalogo");
 let contenido_principal = document.getElementById("contenido_principal");
 let seccion_productos = document.getElementById("seccion_productos");
 let estilo = document.getElementById("estilo");
-let estilo_Ingreso_Registro=document.createElement("style");
-let productos_ingresados=true;
+let estilo_Ingreso_Registro = document.createElement("style");
+let productos_ingresados = true;
 let divVentanaIngreso = document.createElement("div");
 let divVentanaRegistro = document.createElement("div");
+let divVentanaRecuperaciónCuenta = document.createElement("div");
 let salto = document.getElementById("Salto");
-divVentanaRegistro.id="VentanaDeRegistro";
-divVentanaIngreso.id="VentanaDeIngreso";
-estilo_Ingreso_Registro.innerHTML=`
+const searchString = window.location.search;
+const searchParams = new URLSearchParams(searchString);
+let param1Value = searchParams.get("param1");
+let hash = location.hash;
+let param_hash = hash.substring(hash.indexOf("=") + 1);
+divVentanaRegistro.id = "VentanaDeRegistro";
+divVentanaIngreso.id = "VentanaDeIngreso";
+divVentanaRecuperaciónCuenta.id = "VentanaRecuperaciónCuenta";
+str_direccion = "" + window.location.href;
+index = str_direccion.lastIndexOf("/")
+result = str_direccion.substring(index);
+result_aux = result.substring(result.length - 1);
+estilo_Ingreso_Registro.innerHTML = `
 body {
     opacity: 0.77 !important;
   }
   header *{
     opacity: 0.77 !important;
   }
-#VentanaDeIngreso, #VentanaDeRegistro{
+#VentanaDeIngreso, #VentanaDeRegistro, #VentanaRecuperaciónCuenta{
     opacity: 1 !important;
     width: 100%;
     
@@ -32,7 +43,7 @@ body {
     
     z-index: 5;
 }
-#VentanaDeIngreso *, #VentanaDeRegistro *{
+#VentanaDeIngreso *, #VentanaDeRegistro *, #VentanaRecuperaciónCuenta *{
     opacity: 1 !important;
     z-index: 5;
     color: black;
@@ -92,22 +103,135 @@ h3{
     visibility: hidden;
 }
 `;
-if (seccion_productos!=null) {
+divVentanaIngreso.innerHTML = `
+<form action="../php/Login.php" method="POST" class="Formulario_Ingreso" id="Ventana">
+    <div class="btnHaciaDerecha">
+        <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana(event)">
+    </div>
+    <form action="" id="Ventana">
+                <h2>Ingresar</h2>
+                    <label for="correo">Correo electrónico:</label>
+                    <input type="email" id="correo" name="Correo" class="entrada_texto">
+                    <label for="contraseña">Contraseña:</label>
+                    <input type="password" id="contraseña" name="Contraseña" class="entrada_texto">
+                    <div class="btnHaciaDerecha">
+                        <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?" onclick="recuperaciónCuenta_Correo()">
+                    </div>
+                    <button>Ingresar</button>
+                    <div id="SinCuenta">
+                        <label for="contraseña">¿No tienes una cuenta?</label>
+                        <input type="button" id="sin_cuenta" value="Registrarse" onclick="MostrarVentanaDeRegistro()">
+                    </div>
+                </form>
+            </div>
+    `;
+divVentanaRecuperaciónCuenta.innerHTML = `
+    <form id="Ventana">
+                <div class="btnHaciaDerecha">
+                    <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
+                </div>
+                <h2>RECUPERACIÓN DE CUENTA</h2>
+                <label for="correo">Correo electrónico:</label>
+                <input type="email" id="correo" name="Correo" class="entrada_texto">
+                <input type="button" id="finalización_registro" value="Ingresar" onclick="recuperaciónCuenta_Código()">
+</form>
+    `;
+
+divVentanaRegistro.innerHTML = `
+    <div id="Ventana">
+    <div class="btnHaciaDerecha">
+        <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana(event)">
+    </div>
+    <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
+    <form action="../FINAL_TEST/enviar_correo.php" method="POST" class="Formulario_Registro" id="Ventana">
+        <h2>Registrarse</h2>
+        <div class="campos_adicionales">
+            <label for="cedula">Cédula:</label>
+            <input type="text" id="cedula" name="Cedula">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="Nombre">
+        </div>
+        <div class="campos_adicionales">
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="Apellido">
+            <label for="dirección">Dirección:</label>
+            <input type="text" id="dirección" name="Direccion">
+        </div>
+        <label for="correo">Correo electrónico:</label>
+        <input type="email" id="correo" name="Correo" class="entrada_texto">
+        <label for="contraseña">Contraseña:</label>
+        <input type="password" id="contraseña" name="Contraseña" class="entrada_texto">
+        <label for="rep_contraseña">Repita la contraseña:</label>
+        <input type="password" id="rep_contraseña" name="Rep_contraseña" class="entrada_texto">
+        <!------LA FUNCIÓN runQuery está en el archivo script_Registro.js------>
+        <!--PARA QUE FUNCIONE BIEN DEBES INICIAR EL MAMP E INGRESAR COMO LOCALHOST-->
+        <button id="registro">Registrarse</button>
+        <script src="../script/script_Registro.js"></script>
+    </form>
+</div>
+    `;
+
+document.querySelector("body>a").removeAttribute("onclick");
+if (param_hash != "") {
+    param1Value = param_hash;
+}
+if (param1Value != null) {
+    if (param1Value == "ingreso") {
+        document.head.appendChild(estilo_Ingreso_Registro);
+        salto.appendChild(divVentanaIngreso);
+    } else {
+        if (param1Value == "recuperacion") {
+            //document.getElementById("VentanaDeIngreso").remove();
+            document.head.appendChild(estilo_Ingreso_Registro);
+            salto.appendChild(divVentanaRecuperaciónCuenta);
+        } else {
+            if (param1Value == "recuperacion_correo") {
+                //document.getElementById("VentanaRecuperaciónCuenta").remove();
+                divVentanaRecuperaciónCuenta.innerHTML = `
+    <form id="Ventana">
+                <div class="btnHaciaDerecha">
+                    <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
+                </div>
+                <h2>RECUPERACIÓN DE CUENTA</h2>
+                <label for="correo">Ingrese el código enviado al correo electrónico:</label>
+                <input type="number" id="código" class="entrada_texto">
+                <input type="button" id="finalización_registro" value="Iniciar sesión">
+</form>
+    `;
+                document.head.appendChild(estilo_Ingreso_Registro);
+                salto.appendChild(divVentanaRecuperaciónCuenta);
+            } else {
+                document.head.appendChild(estilo_Ingreso_Registro);
+                if (divVentanaIngreso.style.display == "none") {
+                    divVentanaIngreso.style.display = "";
+                }
+                salto.appendChild(divVentanaRegistro);
+            }
+        }
+    }
+}
+if (seccion_productos != null) {
     window.onload = AgregarContenido("");
 }
-if (contenido_categorías!=null) {
+if (contenido_categorías != null) {
     let tamaño = contenido_categorías.children.length;
     for (let i = 0; i < tamaño; i++) {
         contenido_categorías.children[i].firstChild.addEventListener("click", funcCategoríaSeleccionada);
     }
 }
 function AgregarContenido(CategoríaSeleccionada) {
+    let str_direccion = "" + window.location.href;
+    const index = str_direccion[str_direccion.length - 1];
+    //const result = str_direccion.substring(0,index);
+    console.log(index);
+
+
     seccion_productos = document.getElementById("seccion_productos");
-    let direccion_producto, div, imagen, h3, a;    
+    let direccion_producto, div, imagen, h3, a;
     let div_aux = document.createElement("div");
-    if (CategoríaSeleccionada=="") {
+    if (CategoríaSeleccionada == "") {
         num_productos = 12;
-    }else{
+    } else {
         /* 
         ---------------------------------------------------------------------------------------------
             num_productos sería el resultado de la consulta:
@@ -116,16 +240,16 @@ function AgregarContenido(CategoríaSeleccionada) {
         ---------------------------------------------------------------------------------------------
             EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:        
         */
-        num_productos=4;
+        num_productos = 4;
     }
-    
+
     for (let i = 1; i <= num_productos; i++) {
         div = document.createElement("div");
         imagen = document.createElement("img");
         h3 = document.createElement("h3");
         a = 15.0;
         x = document.body.getBoundingClientRect().width;
-        if (CategoríaSeleccionada=="") {
+        if (CategoríaSeleccionada == "") {
 
             /*
             ---------------------------------------------------------------------------------------------
@@ -152,7 +276,7 @@ function AgregarContenido(CategoríaSeleccionada) {
                 EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:    
             */
             direccion_producto = "../imagenes/Key.png";
-        }else{
+        } else {
             /* 
             ---------------------------------------------------------------------------------------------
                 EL valor de la variable direccion_producto sería el resultado de la consulta:
@@ -162,12 +286,12 @@ function AgregarContenido(CategoríaSeleccionada) {
             ---------------------------------------------------------------------------------------------
                 EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:     
             */
-            if (CategoríaSeleccionada=="Cumpleaños") {
+            if (CategoríaSeleccionada == "Cumpleaños") {
                 direccion_producto = "https://d320djwtwnl5uo.cloudfront.net/recetas/share/share_fsr8al91ct_confeti.jpg";
-            }else{
+            } else {
                 direccion_producto = "https://cdn0.bodas.com.mx/article-real-wedding/799/3_2/1280/jpg/1466243.webp";
-            } 
-        }      
+            }
+        }
         imagen.src = direccion_producto;
         imagen.style.paddingRight = a + "px";
         imagen.style.paddingTop = (a / 2) + "px";
@@ -200,10 +324,10 @@ function mostrarBúsqueda(lupa) {
     console.log(lupa.nextElementSibling);
     let width = 0;
     cuadro_búsqueda.type = "search";
-    cuadro_búsqueda.style.width = "0px";    
+    cuadro_búsqueda.style.width = "0px";
     const intervalId = setInterval(function () {
-        if(width==0){
-            lupa.nextElementSibling.style.display="initial";
+        if (width == 0) {
+            lupa.nextElementSibling.style.display = "initial";
         }
         width += 1;
         cuadro_búsqueda.style.width = width + "px";
@@ -219,7 +343,7 @@ function ProductoSeleccionado(event) {
     estilo.href = "../styles/estilo_ProductoSeleccionado.css";
     img = event.target.nextSibling;
     //-------------LO QUE SE VA A OBTENER DE LA BASE DE DATOS A PARTIR DEL LINK DE LA IMAGEN SELECCIONADA-----------
-    id_producto=1;
+    id_producto = 1;
     precio_producto = 20;
     descripción_adicional = "Descripción adicional (en caso de existir)";
     porciones = "10-12";
@@ -232,7 +356,7 @@ function ProductoSeleccionado(event) {
     if (div[3].id != "Salto") {
         div[3].remove();
     }
-    
+
     contenido_principal.innerHTML = `
             <div id="DestacadoPrincipal">
                 <img src="`+ img.src + `" alt="imagenes">
@@ -271,10 +395,10 @@ function ProductoSeleccionado(event) {
                 </div>
             </div>
             `;
-            if (descripción_adicional==""){
-                document.getElementById("infoAdicional").remove();
-            }
-            document.getElementById("dedicatoria").addEventListener("click",colorTextoANegro);
+    if (descripción_adicional == "") {
+        document.getElementById("infoAdicional").remove();
+    }
+    document.getElementById("dedicatoria").addEventListener("click", colorTextoANegro);
 }
 function funcCategoríaSeleccionada(event) {
     VerificaciónCuadroDeBúsqueda();
@@ -282,32 +406,32 @@ function funcCategoríaSeleccionada(event) {
     let h1 = document.getElementsByTagName("h1")[0];
     let destacado_principal = document.getElementById("DestacadoPrincipal");
     seccion_productos = document.getElementById("seccion_productos");
-    if (destacado_principal!=null) {
+    if (destacado_principal != null) {
         destacado_principal.remove();
-    }   
-    if (seccion_productos!=null) {
+    }
+    if (seccion_productos != null) {
         document.querySelector("#seccion_productos>div").remove();
-    }else{
-        contenido_principal.innerHTML=`
+    } else {
+        contenido_principal.innerHTML = `
         <h1 align="center">Bodas</h1>
         <section id="seccion_productos"></section>
         `;
-        document.getElementById("estilo").href="../styles/estilo_Index.css";;
+        document.getElementById("estilo").href = "../styles/estilo_Index.css";;
     }
-    if (h1==undefined) {
+    if (h1 == undefined) {
         h1 = document.getElementsByTagName("h1")[0];
     }
     h1.innerHTML = título;
-    h1.align="center";
+    h1.align = "center";
     AgregarContenido(título);
 }
-function VerificaciónCuadroDeBúsqueda(){
-    let seccion_busqueda=document.getElementById("seccion_busqueda");
-    if (seccion_busqueda.style.display!="none"){
-        seccion_busqueda.style.display="none";
+function VerificaciónCuadroDeBúsqueda() {
+    let seccion_busqueda = document.getElementById("seccion_busqueda");
+    if (seccion_busqueda.style.display != "none") {
+        seccion_busqueda.style.display = "none";
     }
 }
-if (productos_ingresados==false) {
+if (productos_ingresados == false) {
     let contenido_principal = document.getElementById("contenido_principal");
     let seccionIzq = document.getElementById("Productos");
     let seccionDer = document.getElementById("Info_adicional");
@@ -315,9 +439,9 @@ if (productos_ingresados==false) {
     salto = document.getElementById("Salto");
     let estilo = document.createElement("style");
     let footer = document.getElementsByTagName("footer")[0];
-    estilo.innerHTML=`
+    estilo.innerHTML = `
     #contenido_principal {
-        height: calc(100vh - `+cabecera.offsetHeight+`px - `+salto.offsetHeight+`px - `+footer.offsetHeight+`px);
+        height: calc(100vh - `+ cabecera.offsetHeight + `px - ` + salto.offsetHeight + `px - ` + footer.offsetHeight + `px);
         align-items: center;
         justify-content: center;
     }
@@ -327,7 +451,7 @@ if (productos_ingresados==false) {
     `;
     seccionIzq.remove();
     seccionDer.remove();
-    contenido_principal.innerHTML=`
+    contenido_principal.innerHTML = `
     <h1>No se ha ingresado productos</h1>
     `;
     document.head.appendChild(estilo);
@@ -337,105 +461,84 @@ function añadirBtnPago() {
     let btnFinPedido = document.getElementById("fin_pedido");
     let script = document.createElement("script");
     let contenedorBtnPaypal = document.createElement("div");
-    contenedorBtnPaypal.id="paypal-button-container";
-    contenedorBtnPaypal.style.width="25vw";
-    script.src="../script/script_FinalizaciónDePedido.js";
-    btnFinPedido.insertAdjacentElement("afterend",contenedorBtnPaypal);
-    contenedorBtnPaypal.insertAdjacentElement("afterend",script);
+    contenedorBtnPaypal.id = "paypal-button-container";
+    contenedorBtnPaypal.style.width = "25vw";
+    script.src = "../script/script_FinalizaciónDePedido.js";
+    btnFinPedido.insertAdjacentElement("afterend", contenedorBtnPaypal);
+    contenedorBtnPaypal.insertAdjacentElement("afterend", script);
     btnFinPedido.remove();
-    scripts[scripts.length-1].remove();
+    scripts[scripts.length - 1].remove();
 }
-function enviarInfoACarrito(){ 
-    cantidad_producto_carr=document.getElementById("cantidad").value;
+function enviarInfoACarrito() {
+    cantidad_producto_carr = document.getElementById("cantidad").value;
     //LA INFORMACIÓN QUE TENEMOS LA ENVIAMOS AL CARRITO
-    console.log("id: "+id_producto+"\n cantidad: "+cantidad_producto_carr+"\n img: "+img.src+"\n precio del producto: "+precio_producto+"\n descripción adicional: "+descripción_adicional+"\n porciones: "+porciones+"\n masa: "+masa+"\n cobertura: "+cobertura+"\n sabor: "+sabor+"\n relleno: "+relleno);
+    console.log("id: " + id_producto + "\n cantidad: " + cantidad_producto_carr + "\n img: " + img.src + "\n precio del producto: " + precio_producto + "\n descripción adicional: " + descripción_adicional + "\n porciones: " + porciones + "\n masa: " + masa + "\n cobertura: " + cobertura + "\n sabor: " + sabor + "\n relleno: " + relleno);
     /*
     INSERT INTO carrito (id_carrito, id_producto, id_usuario, Cantidad, Subtotal)
     SELECT id_producto, id_usuario, cantidad_producto_carr
     */
 }
 //AQUI EMPIEZA LA VENTANA DE INGRESO 
-function MostrarVentanaDeIngreso(){  
-    if (event.target.id == "Ingreso"){
-        if(divVentanaIngreso.style.display=="none"){
-            divVentanaIngreso.style.display="";
-        }
-        document.head.appendChild(estilo_Ingreso_Registro);
-    divVentanaIngreso.innerHTML=`
-            <form action="../php/Login.php" method="POST" class="Formulario_Ingreso" id="Ventana">
-                <div class="btnHaciaDerecha">
-                    <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaIngreso()">
-                </div>
-                <form action="" id="Ventana">
-                    <h2>Ingresar</h2>
-                    <label for="correo">Correo electrónico:</label>
-                    <input type="email" id="correo" name="Correo" class="entrada_texto">
-                    <label for="contraseña">Contraseña:</label>
-                    <input type="password" id="contraseña" name="Contraseña" class="entrada_texto">
-                    <div class="btnHaciaDerecha">
-                        <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?">
-                    </div>
-                    <button>Ingresar</button>
-                    <div id="SinCuenta">
-                        <label for="contraseña">¿No tienes una cuenta?</label>
-                        <input type="button" id="sin_cuenta" value="Registrarse" onclick="MostrarVentanaDeRegistro()">
-                    </div>
-                </form>
-            </div>
-    `;
-    salto.appendChild(divVentanaIngreso);
-    }
-    
-}
-//AQUI EMPIEZA LA VENTANA DE REGISTRO
-function MostrarVentanaDeRegistro(){
-    document.getElementById("VentanaDeIngreso").remove();  
-    divVentanaRegistro.innerHTML=`
-    <div id="Ventana">
-    <div class="btnHaciaDerecha">
-        <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaRegistro()">
-    </div>
-    <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
-    <form action="../FINAL_TEST/enviar_correo.php" method="POST" class="Formulario_Registro" id="Ventana">
-        <h2>Registrarse</h2>
-        <div class="campos_adicionales">
-            <label for="cedula">Cédula:</label>
-            <input type="text" id="cedula" name="Cedula">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="Nombre">
-        </div>
-        <div class="campos_adicionales">
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="Apellido">
-            <label for="dirección">Dirección:</label>
-            <input type="text" id="dirección" name="Direccion">
-        </div>
-        <label for="correo">Correo electrónico:</label>
-        <input type="email" id="correo" name="Correo" class="entrada_texto">
-        <label for="contraseña">Contraseña:</label>
-        <input type="password" id="contraseña" name="Contraseña" class="entrada_texto">
-        <label for="rep_contraseña">Repita la contraseña:</label>
-        <input type="password" id="rep_contraseña" name="Rep_contraseña" class="entrada_texto">
-        <!------LA FUNCIÓN runQuery está en el archivo script_Registro.js------>
-        <!--PARA QUE FUNCIONE BIEN DEBES INICIAR EL MAMP E INGRESAR COMO LOCALHOST-->
-        <button id="registro">Registrarse</button>
-        <script src="../script/script_Registro.js"></script>
-    </form>
-</div>
-    `;
-    salto.appendChild(divVentanaRegistro);
-}
+function MostrarVentanaDeIngreso() {
 
-function CerrarVentanaIngreso(){
-    console.log(document.getElementsByTagName("style")[0]);
-    let aux=document.getElementById("operaUserStyle");
-    if (aux!=null&&aux!=undefined) {
-        aux.remove();
+    tipoVentana = "ingreso";
+    str_direccion = "" + window.location.href;
+    index = str_direccion.lastIndexOf("/")
+    result = str_direccion.substring(index);
+    console.log("resultado: " + result.substring(result.length - 1));
+    if (result == "/") {
+        window.location.href += "Index.php?param1=" + tipoVentana;
+    } else {
+        window.location.href += "?param1=" + tipoVentana;
+        if (str_direccion.includes("#")) {
+            location.reload(true);
+        }
     }
-    document.getElementsByTagName("style")[0].remove();
-    document.getElementById("VentanaDeIngreso").remove();
+    if (param1Value == "ingreso") {
+        location.reload(true);
+    }
 }
-function CerrarVentanaRegistro(){
-    document.getElementsByTagName("style")[0].remove();
-    document.getElementById("VentanaDeRegistro").remove();
+console.log("contiene #: " + str_direccion.includes("#"));
+//AQUI EMPIEZA LA VENTANA DE REGISTRO
+function MostrarVentanaDeRegistro() {
+    tipoVentana = "registro";
+    let str_direccion = "" + window.location.href;
+    const index = str_direccion.lastIndexOf("?")
+    const result = str_direccion.substring(0, index);
+    console.log(result);
+    window.location.href = result + "?param1=" + tipoVentana;
+    if (str_direccion.includes("#")) {
+        location.reload(true);
+    }
+}
+function recuperaciónCuenta_Correo() {
+    tipoVentana = "recuperacion";
+    let str_direccion = "" + window.location.href;
+    const index = str_direccion.lastIndexOf("?")
+    const result = str_direccion.substring(0, index);
+    console.log(result);
+    window.location.href = result + "?param1=" + tipoVentana;
+    if (str_direccion.includes("#")) {
+        location.reload(true);
+    }
+}
+function recuperaciónCuenta_Código() {
+    tipoVentana = "recuperacion_correo";
+    let str_direccion = "" + window.location.href;
+    const index = str_direccion.lastIndexOf("?")
+    const result = str_direccion.substring(0, index);
+    console.log(result);
+    window.location.href = result + "?param1=" + tipoVentana;
+    if (str_direccion.includes("#")) {
+        location.reload(true);
+    }
+}
+function CerrarVentana(event) {
+    let str_direccion = "" + window.location.href;
+    const index = str_direccion.lastIndexOf("?")
+    const result = str_direccion.substring(0, index);
+    window.location.href = result;
+    if (str_direccion.includes("#")) {
+        location.reload(true);
+    }
 }
