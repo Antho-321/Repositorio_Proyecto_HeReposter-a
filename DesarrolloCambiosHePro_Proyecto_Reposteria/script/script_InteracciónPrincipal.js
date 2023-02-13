@@ -9,11 +9,9 @@ let seccion_productos = document.getElementById("seccion_productos");
 let estilo = document.getElementById("estilo");
 let estilo_Ingreso_Registro=document.createElement("style");
 let productos_ingresados=true;
-let divVentanaIngreso = document.createElement("div");
-let divVentanaRegistro = document.createElement("div");
+let divVentana = document.createElement("div");
 let salto = document.getElementById("Salto");
-divVentanaRegistro.id="VentanaDeRegistro";
-divVentanaIngreso.id="VentanaDeIngreso";
+divVentana.id="VentanaForm";
 estilo_Ingreso_Registro.innerHTML=`
 body {
     opacity: 0.77 !important;
@@ -21,7 +19,7 @@ body {
   header *{
     opacity: 0.77 !important;
   }
-#VentanaDeIngreso, #VentanaDeRegistro{
+#VentanaForm{
     opacity: 1 !important;
     width: 100%;
     
@@ -32,7 +30,7 @@ body {
     
     z-index: 5;
 }
-#VentanaDeIngreso *, #VentanaDeRegistro *{
+#VentanaForm *{
     opacity: 1 !important;
     z-index: 5;
     color: black;
@@ -364,7 +362,7 @@ function MostrarVentanaDeIngreso(){
     divVentanaIngreso.innerHTML=`
             <form action="../php/Login.php" method="POST" class="Formulario_Ingreso" id="Ventana">
                 <div class="btnHaciaDerecha">
-                    <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaIngreso()">
+                    <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
                 </div>
                 <form action="" id="Ventana">
                     <h2>Ingresar</h2>
@@ -393,7 +391,7 @@ function MostrarVentanaDeRegistro(){
     divVentanaRegistro.innerHTML=`
     <div id="Ventana">
     <div class="btnHaciaDerecha">
-        <input type="button" value="✕" id="btn_salir" onclick="CerrarVentanaRegistro()">
+        <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
     </div>
     <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
     <form action="../FINAL_TEST/enviar_correo.php" method="POST" class="Formulario_Registro" id="Ventana">
@@ -426,16 +424,11 @@ function MostrarVentanaDeRegistro(){
     salto.appendChild(divVentanaRegistro);
 }
 
-function CerrarVentanaIngreso(){
-    console.log(document.getElementsByTagName("style")[0]);
-    let aux=document.getElementById("operaUserStyle");
-    if (aux!=null&&aux!=undefined) {
-        aux.remove();
-    }
-    document.getElementsByTagName("style")[0].remove();
-    document.getElementById("VentanaDeIngreso").remove();
+function MostrarVentanaRecuperación_Correo(){
+
 }
-function CerrarVentanaRegistro(){
+
+function CerrarVentana() {
+    document.getElementById("Salto").innerHTML="";
     document.getElementsByTagName("style")[0].remove();
-    document.getElementById("VentanaDeRegistro").remove();
 }
