@@ -1,4 +1,4 @@
-let cantidadInput, precio_producto, num_productos, img, descripción_adicional, porciones, masa, cobertura, sabor, relleno, id_producto, cantidad_producto_carr, tipoVentana, result_aux, result, str_direccion;
+let cantidadInput, precio_producto, num_productos, img, descripción_adicional, porciones, masa, cobertura, sabor, relleno, id_producto, cantidad_producto_carr, tipoVentana, result_aux, result, str_direccion, aux_categoria, h1, cambio_adicional;
 let left = 0;
 let productos = [];
 let lupa = document.getElementById("lupa");
@@ -11,16 +11,19 @@ let estilo_Ingreso_Registro = document.createElement("style");
 let productos_ingresados = true;
 let divVentanaIngreso = document.createElement("div");
 let divVentanaRegistro = document.createElement("div");
-let divVentanaRecuperaciónCuenta = document.createElement("div");
+let divVentanaRecuperaciónCuentaCorreo = document.createElement("div");
+let divVentanaRecuperaciónCuentaCodigo = document.createElement("div");
 let salto = document.getElementById("Salto");
 const searchString = window.location.search;
 const searchParams = new URLSearchParams(searchString);
 let param1Value = searchParams.get("param1");
+let param2Value = searchParams.get("param2");
 let hash = location.hash;
 let param_hash = hash.substring(hash.indexOf("=") + 1);
 divVentanaRegistro.id = "VentanaDeRegistro";
 divVentanaIngreso.id = "VentanaDeIngreso";
-divVentanaRecuperaciónCuenta.id = "VentanaRecuperaciónCuenta";
+divVentanaRecuperaciónCuentaCorreo.id = "VentanaRecuperaciónCuenta";
+divVentanaRecuperaciónCuentaCodigo.id = "VentanaRecuperaciónCuenta";
 str_direccion = "" + window.location.href;
 index = str_direccion.lastIndexOf("/")
 result = str_direccion.substring(index);
@@ -120,7 +123,7 @@ divVentanaIngreso.innerHTML = `
     </form>
 </div>
     `;
-divVentanaRecuperaciónCuenta.innerHTML = `
+divVentanaRecuperaciónCuentaCorreo.innerHTML = `
 <form id="Ventana">
     <div class="btnHaciaDerecha">
         <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
@@ -165,7 +168,7 @@ divVentanaRegistro.innerHTML = `
     </form>
 </div>
     `;
-divVentanaRecuperaciónCuenta.innerHTML = `
+divVentanaRecuperaciónCuentaCodigo.innerHTML = `
 <form id="Ventana">
     <div class="btnHaciaDerecha">
         <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
@@ -180,19 +183,29 @@ document.querySelector("body>a").removeAttribute("onclick");
 if (param_hash != "") {
     param1Value = param_hash;
 }
+console.log("parametro 2: "+param2Value);
+if (param2Value!=null) {
+    console.log("parametro 2: "+param2Value);
+    if (param2Value.includes("//") || /\d/.test(param2Value)) {
+        ProductoSeleccionado(param2Value);
+    }else{
+        AgregarContenido(param2Value);
+    }
+}
 if (param1Value != null) {
     if (param1Value == "ingreso") {
         document.head.appendChild(estilo_Ingreso_Registro);
         salto.appendChild(divVentanaIngreso);
     } else {
         if (param1Value == "recuperacion") {
+            console.log("ingreso correo");
             //document.getElementById("VentanaDeIngreso").remove();
             document.head.appendChild(estilo_Ingreso_Registro);
-            salto.appendChild(divVentanaRecuperaciónCuenta);
+            salto.appendChild(divVentanaRecuperaciónCuentaCorreo);
         } else {
             if (param1Value == "recuperacion_correo") {
                 document.head.appendChild(estilo_Ingreso_Registro);
-                salto.appendChild(divVentanaRecuperaciónCuenta);
+                salto.appendChild(divVentanaRecuperaciónCuentaCodigo);
             } else {
                 document.head.appendChild(estilo_Ingreso_Registro);
                 if (divVentanaIngreso.style.display == "none") {
@@ -213,15 +226,23 @@ if (contenido_categorías != null) {
     }
 }
 function AgregarContenido(CategoríaSeleccionada) {
+    
     let str_direccion = "" + window.location.href;
     const index = str_direccion[str_direccion.length - 1];
     //const result = str_direccion.substring(0,index);
     console.log(index);
-
-
     seccion_productos = document.getElementById("seccion_productos");
+    if (seccion_productos==null) {
+        cambio_adicional=true;
+        seccion_productos=document.createElement("section");
+        seccion_productos.id="seccion_productos";
+        estilo.href="../styles/estilo_index.css";
+        CategoríaSeleccionada=param2Value;
+    }
+
     let direccion_producto, div, imagen, h3, a;
     let div_aux = document.createElement("div");
+    
     if (CategoríaSeleccionada == "") {
         num_productos = 12;
     } else {
@@ -294,7 +315,14 @@ function AgregarContenido(CategoríaSeleccionada) {
         div.appendChild(imagen);
         div_aux.appendChild(div);
     }
-    seccion_productos.appendChild(div_aux);
+        seccion_productos.appendChild(div_aux);
+    if (cambio_adicional){
+        h1 = document.createElement("h1");
+        h1.innerHTML=param2Value;
+        document.getElementById("contenido_principal").innerHTML="";
+        document.getElementById("contenido_principal").appendChild(h1);
+        document.getElementById("contenido_principal").appendChild(seccion_productos);  
+    }  
 }
 function colorTextoANegro(event) {
     let entrada_texto = event.target;
@@ -330,11 +358,17 @@ function mostrarBúsqueda(lupa) {
     }, 0.01);
 }
 function ProductoSeleccionado(event) {
+    let aux_imagen;
     let div = document.getElementsByTagName("div");
     VerificaciónCuadroDeBúsqueda();
     estilo = document.getElementById("estilo");
     estilo.href = "../styles/estilo_ProductoSeleccionado.css";
-    img = event.target.nextSibling;
+    if (param2Value==null) {
+        img = event.target.nextSibling;
+        aux_imagen=img.src;
+    }else{
+        aux_imagen=param2Value;
+    }
     //-------------LO QUE SE VA A OBTENER DE LA BASE DE DATOS A PARTIR DEL LINK DE LA IMAGEN SELECCIONADA-----------
     id_producto = 1;
     precio_producto = 20;
@@ -350,9 +384,10 @@ function ProductoSeleccionado(event) {
         div[3].remove();
     }
 
+    
     contenido_principal.innerHTML = `
             <div id="DestacadoPrincipal">
-                <img src="`+ img.src + `" alt="imagenes">
+                <img src="`+ aux_imagen + `" alt="imagenes">
                 <p>$`+ precio_producto + `</p>
                 <div id="seccion_cantidad">
                     <label for="cantidad">Cantidad:&nbsp;&nbsp;&nbsp;</label>
@@ -396,7 +431,7 @@ function ProductoSeleccionado(event) {
 function funcCategoríaSeleccionada(event) {
     VerificaciónCuadroDeBúsqueda();
     let título = event.target.innerHTML;
-    let h1 = document.getElementsByTagName("h1")[0];
+    h1 = document.getElementsByTagName("h1")[0];
     let destacado_principal = document.getElementById("DestacadoPrincipal");
     seccion_productos = document.getElementById("seccion_productos");
     if (destacado_principal != null) {
@@ -473,7 +508,6 @@ function enviarInfoACarrito() {
 }
 //AQUI EMPIEZA LA VENTANA DE INGRESO 
 function MostrarVentanaDeIngreso() {
-
     tipoVentana = "ingreso";
     str_direccion = "" + window.location.href;
     index = str_direccion.lastIndexOf("/")
@@ -481,57 +515,88 @@ function MostrarVentanaDeIngreso() {
     console.log("resultado: " + result.substring(result.length - 1));
     if (result == "/") {
         window.location.href += "Index.php?param1=" + tipoVentana;
-    } else {
-        window.location.href += "?param1=" + tipoVentana;
+    } else {     
         if (str_direccion.includes("#")) {
-            location.reload(true);
+            if (img==undefined) {
+                window.location.href = str_direccion.substring(0,str_direccion.length-1)+"?param1="+ tipoVentana+"&param2="+aux_categoria;
+            }else{
+                window.location.href = str_direccion.substring(0,str_direccion.length-1)+"?param1="+ tipoVentana+"&param2="+img.src;
+            }
+        }else{
+            window.location.href = "?param1=" + tipoVentana;
         }
-    }
-    if (param1Value == "ingreso") {
-        location.reload(true);
     }
 }
 console.log("contiene #: " + str_direccion.includes("#"));
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
 function MostrarVentanaDeRegistro() {
     tipoVentana = "registro";
-    let str_direccion = "" + window.location.href;
-    const index = str_direccion.lastIndexOf("?")
-    const result = str_direccion.substring(0, index);
-    console.log(result);
-    window.location.href = result + "?param1=" + tipoVentana;
-    if (str_direccion.includes("#")) {
-        location.reload(true);
+    str_direccion = "" + window.location.href;
+    index = str_direccion.lastIndexOf("/")
+    result = str_direccion.substring(index);
+    console.log("resultado: " + result.substring(result.length - 1));
+    if (result == "/") {
+        window.location.href += "Index.php?param1=" + tipoVentana;
+    } else {     
+        if (str_direccion.includes("#")) {
+            if (img==undefined) {
+                window.location.href = str_direccion.substring(0,str_direccion.length-1)+"?param1="+ tipoVentana+"&param2="+aux_categoria;
+            }else{
+                window.location.href = str_direccion.substring(0,str_direccion.length-1)+"?param1="+ tipoVentana+"&param2="+img.src;
+            }
+        }else{
+            window.location.href = "?param1=" + tipoVentana;
+        }
     }
 }
 function recuperaciónCuenta_Correo() {
     tipoVentana = "recuperacion";
-    let str_direccion = "" + window.location.href;
-    const index = str_direccion.lastIndexOf("?")
-    const result = str_direccion.substring(0, index);
-    console.log(result);
-    window.location.href = result + "?param1=" + tipoVentana;
-    if (str_direccion.includes("#")) {
-        location.reload(true);
+    str_direccion = "" + window.location.href;
+    index = str_direccion.lastIndexOf("/")
+    result = str_direccion.substring(index);
+    console.log("resultado: " + result.substring(result.length - 1));
+    if (result == "/") {
+        window.location.href += "Index.php?param1=" + tipoVentana;
+    } else {     
+        if (str_direccion.includes("#")) {
+            if (img==undefined) {
+                window.location.href = str_direccion.substring(0,str_direccion.length-1)+"?param1="+ tipoVentana+"&param2="+aux_categoria;
+            }else{
+                window.location.href = str_direccion.substring(0,str_direccion.length-1)+"?param1="+ tipoVentana+"&param2="+img.src;
+            }
+        }else{
+            window.location.href = "?param1=" + tipoVentana;
+        }
     }
 }
 function recuperaciónCuenta_Código() {
     tipoVentana = "recuperacion_correo";
-    let str_direccion = "" + window.location.href;
-    const index = str_direccion.lastIndexOf("?")
-    const result = str_direccion.substring(0, index);
-    console.log(result);
-    window.location.href = result + "?param1=" + tipoVentana;
-    if (str_direccion.includes("#")) {
-        location.reload(true);
+    str_direccion = "" + window.location.href;
+    index = str_direccion.lastIndexOf("/")
+    result = str_direccion.substring(index);
+    console.log("resultado: " + result.substring(result.length - 1));
+    if (result == "/") {
+        window.location.href += "Index.php?param1=" + tipoVentana;
+    } else {     
+        if (str_direccion.includes("#")) {
+            if (img==undefined) {
+                window.location.href = str_direccion.substring(0,str_direccion.length-1)+"?param1="+ tipoVentana+"&param2="+aux_categoria;
+            }else{
+                window.location.href = str_direccion.substring(0,str_direccion.length-1)+"?param1="+ tipoVentana+"&param2="+img.src;
+            }
+        }else{
+            window.location.href = "?param1=" + tipoVentana;
+        }
     }
 }
 function CerrarVentana(event) {
-    let str_direccion = "" + window.location.href;
-    const index = str_direccion.lastIndexOf("?")
-    const result = str_direccion.substring(0, index);
-    window.location.href = result;
-    if (str_direccion.includes("#")) {
-        location.reload(true);
-    }
+    // let str_direccion = "" + window.location.href;
+    // const index = str_direccion.lastIndexOf("?")
+    // const result = str_direccion.substring(0, index);
+    // window.location.href = result;
+    // if (str_direccion.includes("#")) {
+    //     location.reload(true);
+    // }
+    document.getElementById("Salto").innerHTML="";
+    document.getElementsByTagName("style")[0].remove();
 }
