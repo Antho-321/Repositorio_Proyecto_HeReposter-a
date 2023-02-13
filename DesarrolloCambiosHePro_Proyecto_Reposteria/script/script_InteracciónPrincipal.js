@@ -28,19 +28,16 @@ result_aux = result.substring(result.length - 1);
 estilo_Ingreso_Registro.innerHTML = `
 body {
     opacity: 0.77 !important;
-  }
-  header *{
+}
+header *{
     opacity: 0.77 !important;
-  }
+}
 #VentanaDeIngreso, #VentanaDeRegistro, #VentanaRecuperaciónCuenta{
     opacity: 1 !important;
     width: 100%;
-    
     display: flex;
     justify-content: center;
-
     position: absolute;
-    
     z-index: 5;
 }
 #VentanaDeIngreso *, #VentanaDeRegistro *, #VentanaRecuperaciónCuenta *{
@@ -75,7 +72,6 @@ label{
     padding: 10px;
 }
 .btnHaciaDerecha{
-
     display: flex;
     width: 100%;
     justify-content: flex-end;
@@ -90,7 +86,6 @@ label{
     text-decoration: underline;
 }
 .entrada_texto{
-
     width: 20vw !important;
     cursor: auto !important;
 }
@@ -109,36 +104,36 @@ divVentanaIngreso.innerHTML = `
         <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana(event)">
     </div>
     <form action="" id="Ventana">
-                <h2>Ingresar</h2>
-                    <label for="correo">Correo electrónico:</label>
-                    <input type="email" id="correo" name="Correo" class="entrada_texto">
-                    <label for="contraseña">Contraseña:</label>
-                    <input type="password" id="contraseña" name="Contraseña" class="entrada_texto">
-                    <div class="btnHaciaDerecha">
-                        <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?" onclick="recuperaciónCuenta_Correo()">
-                    </div>
-                    <button>Ingresar</button>
-                    <div id="SinCuenta">
-                        <label for="contraseña">¿No tienes una cuenta?</label>
-                        <input type="button" id="sin_cuenta" value="Registrarse" onclick="MostrarVentanaDeRegistro()">
-                    </div>
-                </form>
-            </div>
+        <h2>Ingresar</h2>
+        <label for="correo">Correo electrónico:</label>
+        <input type="email" id="correo" name="Correo" class="entrada_texto">
+        <label for="contraseña">Contraseña:</label>
+        <input type="password" id="contraseña" name="Contraseña" class="entrada_texto">
+        <div class="btnHaciaDerecha">
+            <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?" onclick="recuperaciónCuenta_Correo()">
+        </div>
+        <button>Ingresar</button>
+        <div id="SinCuenta">
+            <label for="contraseña">¿No tienes una cuenta?</label>
+            <input type="button" id="sin_cuenta" value="Registrarse" onclick="MostrarVentanaDeRegistro()">
+        </div>
+    </form>
+</div>
     `;
 divVentanaRecuperaciónCuenta.innerHTML = `
-    <form id="Ventana">
-                <div class="btnHaciaDerecha">
-                    <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
-                </div>
-                <h2>RECUPERACIÓN DE CUENTA</h2>
-                <label for="correo">Correo electrónico:</label>
-                <input type="email" id="correo" name="Correo" class="entrada_texto">
-                <input type="button" id="finalización_registro" value="Ingresar" onclick="recuperaciónCuenta_Código()">
+<form id="Ventana">
+    <div class="btnHaciaDerecha">
+        <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
+    </div>
+    <h2>RECUPERACIÓN DE CUENTA</h2>
+    <label for="correo">Correo electrónico:</label>
+    <input type="email" id="correo" name="Correo" class="entrada_texto">
+    <input type="button" id="finalización_registro" value="Ingresar" onclick="recuperaciónCuenta_Código()">
 </form>
     `;
 
 divVentanaRegistro.innerHTML = `
-    <div id="Ventana">
+<div id="Ventana">
     <div class="btnHaciaDerecha">
         <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana(event)">
     </div>
@@ -170,7 +165,17 @@ divVentanaRegistro.innerHTML = `
     </form>
 </div>
     `;
-
+divVentanaRecuperaciónCuenta.innerHTML = `
+<form id="Ventana">
+    <div class="btnHaciaDerecha">
+        <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
+    </div>
+    <h2>RECUPERACIÓN DE CUENTA</h2>
+    <label for="correo">Ingrese el código enviado al correo electrónico:</label>
+    <input type="number" id="código" class="entrada_texto">
+    <input type="button" id="finalización_registro" value="Iniciar sesión">
+</form>
+    `;
 document.querySelector("body>a").removeAttribute("onclick");
 if (param_hash != "") {
     param1Value = param_hash;
@@ -186,18 +191,6 @@ if (param1Value != null) {
             salto.appendChild(divVentanaRecuperaciónCuenta);
         } else {
             if (param1Value == "recuperacion_correo") {
-                //document.getElementById("VentanaRecuperaciónCuenta").remove();
-                divVentanaRecuperaciónCuenta.innerHTML = `
-    <form id="Ventana">
-                <div class="btnHaciaDerecha">
-                    <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
-                </div>
-                <h2>RECUPERACIÓN DE CUENTA</h2>
-                <label for="correo">Ingrese el código enviado al correo electrónico:</label>
-                <input type="number" id="código" class="entrada_texto">
-                <input type="button" id="finalización_registro" value="Iniciar sesión">
-</form>
-    `;
                 document.head.appendChild(estilo_Ingreso_Registro);
                 salto.appendChild(divVentanaRecuperaciónCuenta);
             } else {
