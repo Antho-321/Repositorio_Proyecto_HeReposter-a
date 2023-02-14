@@ -1,4 +1,4 @@
-let cantidadInput, precio_producto, num_productos, img, descripción_adicional, porciones, masa, cobertura, sabor, relleno, id_producto, cantidad_producto_carr;
+let cantidadInput, precio_producto, num_productos, img, descripción_adicional, porciones, masa, cobertura, sabor, relleno, id_producto, cantidad_producto_carr, id_imagen;
 let left = 0;
 let productos = [];
 let lupa = document.getElementById("lupa");
@@ -118,6 +118,7 @@ function AgregarContenido(CategoríaSeleccionada) {
     }
     
     for (let i = 1; i <= num_productos; i++) {
+        
         div = document.createElement("div");
         imagen = document.createElement("img");
         h3 = document.createElement("h3");
@@ -149,13 +150,13 @@ function AgregarContenido(CategoríaSeleccionada) {
             ---------------------------------------------------------------------------------------------
                 EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:    
             */
-            direccion_producto = "../imagenes/Key.png";
+            direccion_producto = "../imagenes/21.png";
         }else{
             /* 
             ---------------------------------------------------------------------------------------------
                 EL valor de la variable direccion_producto sería el resultado de la consulta:
             ---------------------------------------------------------------------------------------------
-                SELECT Ruta_Imagen FROM producto WHERE Categoría=CategoríaSeleccionada LIMIT i-1, 1;
+                direccion_producto=SELECT Ruta_Imagen FROM producto WHERE Categoría=CategoríaSeleccionada LIMIT i-1, 1;
                 NOTA: PARA LA CONSULTA, ALADO DE LIMIT DEBE ESTAR UN NÚMERO ESPECÍFICO, ES DECIR, EL RESULTADO DE i-1
             ---------------------------------------------------------------------------------------------
                 EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:     
@@ -164,7 +165,7 @@ function AgregarContenido(CategoríaSeleccionada) {
                 direccion_producto = "https://d320djwtwnl5uo.cloudfront.net/recetas/share/share_fsr8al91ct_confeti.jpg";
             }else{
                 direccion_producto = "https://cdn0.bodas.com.mx/article-real-wedding/799/3_2/1280/jpg/1466243.webp";
-            } 
+            }
         }      
         imagen.src = direccion_producto;
         imagen.style.paddingRight = a + "px";

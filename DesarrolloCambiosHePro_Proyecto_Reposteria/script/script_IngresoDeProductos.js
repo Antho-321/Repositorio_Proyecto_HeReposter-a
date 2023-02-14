@@ -24,15 +24,17 @@ fileInput.addEventListener('change', () => {
   };
   document.querySelector("label[for='ingreso_enlace']").remove();
   document.getElementById("ingreso_enlace").remove();
+  document.getElementById("verificacion_enlace").value="no";
 });
 
 div_fila.className = "fila";
 document.getElementById("ingreso_enlace").addEventListener("click", colorTextoANegro);
 
 function enlaceIngresado() {
-  document.querySelector("label[for='ingreso_enlace']").remove();
+  document.querySelector("label[for='ingreso_enlace']").disabled = true;
   document.getElementById("file-input").remove();
-  imagePreview.src=document.getElementById("ingreso_enlace").value;
+  imagePreview.src=document.getElementById("ingreso_enlace").remove();
+  document.getElementById("verificacion_enlace").value="si";
 }
 
 function colorTextoANegro(event) {
