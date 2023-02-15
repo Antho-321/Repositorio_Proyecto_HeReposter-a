@@ -9,14 +9,6 @@
 </head>
 <body>
     <h1>Eliminación de productos</h1>
-    <section id="busqueda">
-        <div id="busqueda_contenido">
-            <label for="">Producto:</label>
-            <input type="search">
-        </div>
-        
-    </section>
-    <h2>Resultados:</h2>
     <section id="seccion_productos"></section>
     <script src="../script/script_EliminaciónDeProductos.js"></script>
 </body>
