@@ -136,7 +136,7 @@ function AgregarContenido(CategoríaSeleccionada) {
                 BEGIN
                     DECLARE result INT;
                     SET N = N - 1;
-                    SELECT ID_Producto INTO result
+                    SELECT Codigo INTO result
                     FROM venta
                     ORDER BY Cantidad DESC
                     LIMIT N, 1;
@@ -146,11 +146,20 @@ function AgregarContenido(CategoríaSeleccionada) {
             ---------------------------------------------------------------------------------------------
                 EL valor de la variable direccion_producto sería el resultado de la consulta:
             ---------------------------------------------------------------------------------------------
-                SELECT Ruta_Imagen FROM producto WHERE ID_Producto=enésimo_producto_más_repetido(i);
+                SELECT `Img` FROM producto WHERE `Codigo`=enésimo_producto_más_repetido(i);
             ---------------------------------------------------------------------------------------------
                 EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:    
             */
-            direccion_producto = "../imagenes/21.png";
+                let num=i;
+                //LA CONSULTA SE ENCUENTRA EN EL ARCHIVO runQuery.php
+                //PARA ENVIAR UNA VARIABLE SOLO AGREGAMOS A "../php/runQuery.php LA LÍNEA: ?variable="+variable
+                fetch("../php/runQuery.php?num=" + num)
+                .then(response => response.json())
+                .then(data => { //archivo json       
+                        //console.log(data[0]);
+                        direccion_producto = data[0];
+                });
+            //direccion_producto = "../imagenes/21.png";
         }else{
             /* 
             ---------------------------------------------------------------------------------------------

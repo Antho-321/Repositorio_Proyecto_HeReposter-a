@@ -109,13 +109,13 @@ function opcionesPastel(event) {
       if (event.target.id == "per") {
         tamaño1 = "Mini (2-4 personas)";
         tamaño2 = "Pequeña (8-10 personas)";
-        tamaño3 = "Mediana: 12-14 porciones";
+        tamaño3 = "Mediana: 12-14 personas";
         tamaño4 = "Grande (26-28 personas)";
         tamaño5 = "Extra grande (66-68 personas)";
       } else {
         tamaño1 = "Mini (5-6 personas)";
         tamaño2 = "Pequeña (10-12 personas)";
-        tamaño3 = "Mediana: 16 porciones";
+        tamaño3 = "Mediana: 16 personas";
         tamaño4 = "Grande (30 personas)";
         tamaño5 = "Extra grande (70 personas)";
       }
@@ -142,13 +142,17 @@ function opcionesPastel(event) {
   } else {
     if (event.target.id == "per" || event.target.id == "red") {
       div_fila.insertAdjacentHTML("beforeend", `
-    <div class="col">
-    <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+tamaño4+`">
-    <label for="tamaño3">`+ tamaño4 + `</label>
+      <div class="col">
+      <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+tamaño3+`">
+      <label for="tamaño3">`+ tamaño3 + `</label>
+    </div>
+      <div class="col">
+    <input class="col" type="radio" id="tamaño4" name="tamaño" value="`+tamaño4+`">
+    <label for="tamaño4">`+ tamaño4 + `</label>
   </div>
   <div class="col">
-    <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+tamaño5+`">
-    <label for="tamaño3">`+ tamaño5 + `</label>
+    <input class="col" type="radio" id="tamaño5" name="tamaño" value="`+tamaño5+`">
+    <label for="tamaño5">`+ tamaño5 + `</label>
   </div>
     `);
     }
