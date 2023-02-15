@@ -111,5 +111,5 @@ function myAsyncFunction() {
     });
 }
 function ProductoSeleccionado(event) {
-    alert("producto seleccionado");
+    console.log(event.target.nextSibling.src);
 }
