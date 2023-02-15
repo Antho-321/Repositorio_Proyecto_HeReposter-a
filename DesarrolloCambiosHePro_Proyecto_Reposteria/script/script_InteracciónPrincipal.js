@@ -1,4 +1,4 @@
-let cantidadInput, precio_producto, num_productos, img, descripción_adicional, porciones, masa, cobertura, sabor, relleno;
+let cantidadInput, precio_producto, num_productos;
 let left = 0;
 let productos = [];
 let lupa = document.getElementById("lupa");
@@ -6,91 +6,7 @@ let cuadro_búsqueda = document.getElementById("búsqueda");
 let contenido_categorías = document.querySelector(".Menu_Catalogo");
 let contenido_principal = document.getElementById("contenido_principal");
 let seccion_productos = document.getElementById("seccion_productos");
-let estilo = document.getElementById("estilo");
-let estilo_Ingreso_Registro=document.createElement("style");
 let productos_ingresados=true;
-let divVentanaIngreso = document.createElement("div");
-let divVentanaRegistro = document.createElement("div");
-divVentanaRegistro.id="VentanaDeRegistro";
-divVentanaIngreso.id="VentanaDeIngreso";
-estilo_Ingreso_Registro.innerHTML=`
-body {
-    opacity: 0.77 !important;
-  }
-  header *{
-    opacity: 0.77 !important;
-  }
-#VentanaDeIngreso, #VentanaDeRegistro{
-    opacity: 1 !important;
-    width: 100%;
-    
-    display: flex;
-    justify-content: center;
-
-    position: absolute;
-    
-    z-index: 5;
-}
-#VentanaDeIngreso *, #VentanaDeRegistro *{
-    opacity: 1 !important;
-    z-index: 5;
-    color: black;
-}
-#Ventana{
-    opacity: 1 !important;
-    background-color: aliceblue !important;  
-    width: 50vw;
-    height: 75vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    border-radius: 7%;
-}
-#Ventana>*{
-    opacity: 1 !important;
-    background-color: transparent !important; 
-}
-label{
-    padding: 0px 10px;
-}
-#SinCuenta{
-    display: flex;
-    align-items: center;
-}
-#ingresar, #sin_cuenta{
-    padding: 10px;
-}
-.btnHaciaDerecha{
-
-    display: flex;
-    width: 100%;
-    justify-content: flex-end;
-}
-#Ventana>input, #SinCuenta>input, .btnHaciaDerecha>input {
-    border: 1px solid;
-    border-color: black;   
-    width: auto;
-}
-#contraseña_olvidada{
-    border-color: transparent;
-    text-decoration: underline;
-}
-.entrada_texto{
-
-    width: 20vw !important;
-    cursor: auto !important;
-}
-#btn_salir{
-    border-color: transparent;
-    font-size: 30px;
-    padding: 0px;
-}
-h3{
-    visibility: hidden;
-}
-`;
 if (seccion_productos!=null) {
     window.onload = AgregarContenido("");
 }
@@ -212,23 +128,21 @@ function mostrarBúsqueda(lupa) {
     }, 0.01);
 }
 function ProductoSeleccionado(event) {
-    let div = document.getElementsByTagName("div");
     VerificaciónCuadroDeBúsqueda();
-    //document.getElementsByTagName("style")[0].remove();
-    console.log(document.getElementsByTagName("head").children);
-    img = event.target.nextSibling;
-    estilo = document.getElementById("estilo");
-    estilo.href = "../styles/estilo_ProductoSeleccionado.css";
+    let div = document.getElementsByTagName("div");
+    let img = event.target.nextSibling;
+    let estilo = document.getElementById("estilo");
     //-------------LO QUE SE VA A OBTENER DE LA BASE DE DATOS-----------
     precio_producto = 20;
-    descripción_adicional = "Descripción adicional (en caso de existir)";
-    porciones = "10-12";
-    masa = "Bizcochuelo";
-    cobertura = "Crema";
-    sabor = "Naranja";
-    relleno = "Mermelada de mora";
+    let descripción_adicional = "Descripción adicional (en caso de existir)";
+    let porciones = "10-12";
+    let masa = "Bizcochuelo";
+    let cobertura = "Crema";
+    let sabor = "Naranja";
+    let relleno = "Mermelada de mora";
     //------------------------------------------------------------------
 
+    estilo.href = "../styles/estilo_ProductoSeleccionado.css";
     if (div[3].id != "Salto") {
         div[3].remove();
     }
@@ -243,7 +157,7 @@ function ProductoSeleccionado(event) {
                     <input type="number" id="cantidad" name="cantidad" value="1" readonly>
                     <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadProducto()">
                 </div>
-                <input type="button" value="Añadir al carrito" onclick="enviarInfoACarrito()">
+                <input type="button" value="Añadir al carrito">
             </div>
             <div id="infoDetallada">
                 <p id="infoAdicional">`+ descripción_adicional + `</p>
@@ -343,72 +257,4 @@ function añadirBtnPago() {
     contenedorBtnPaypal.insertAdjacentElement("afterend",script);
     btnFinPedido.remove();
     scripts[scripts.length-1].remove();
-}
-function enviarInfoACarrito(){
-    console.log("img: "+img.src);
-}
-function MostrarVentanaDeIngreso(){  
-    //estilo.href = "../styles/estilo_VentanaDeIngreso.css";
-    console.log(event.target.tagName != "H3");
-    if (event.target.tagName != "H3"){
-        document.head.appendChild(estilo_Ingreso_Registro);
-    divVentanaIngreso.innerHTML=`
-    <div id="Ventana">
-                <div class="btnHaciaDerecha">
-                    <input type="button" value="✕" id="btn_salir">
-                </div>
-                <h2>Ingresar</h2>
-                <label for="correo">Correo electrónico:</label>
-                <input type="email" id="correo" class="entrada_texto">
-                <label for="contraseña">Contraseña:</label>
-                <input type="password" id="contraseña" class="entrada_texto">
-                <div class="btnHaciaDerecha">
-                    <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?">
-                </div>
-                <input type="button" id="ingresar" value="Ingresar">
-                <div id="SinCuenta">
-                    <label for="contraseña">¿No tienes una cuenta?</label>
-                <input type="button" id="sin_cuenta" value="Registrarse" onclick="MostrarVentanaDeRegistro()">
-                </div>
-            </div>
-    `;
-    contenido_principal.prepend(divVentanaIngreso);
-    }
-    
-}
-function MostrarVentanaDeRegistro(){
-    contenido_principal.firstChild.style.display="none";
-    divVentanaRegistro.innerHTML=`
-    <div id="Ventana">
-                <div class="btnHaciaDerecha">
-                    <input type="button" value="✕" id="btn_salir">
-                </div>
-                <form action="../php/Registro.php" method="POST" class="Formulario_Registro" id="Ventana">
-                <h2>Registrarse</h2>
-                <div class="campos_adicionales">
-                    <label for="cedula">Cédula:</label>
-                    <input type="text" id="cedula">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre">
-                </div>
-                <div class="campos_adicionales">
-                    <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido">
-                    <label for="dirección">Dirección:</label>
-                    <input type="text" id="dirección">
-                </div>
-                <label for="correo">Correo electrónico:</label>
-                <input type="email" id="correo" class="entrada_texto">
-                <label for="contraseña">Contraseña:</label>
-                <input type="password" id="contraseña" class="entrada_texto">
-                <label for="rep_contraseña">Repita la contraseña:</label>
-                <input type="password" id="rep_contraseña" class="entrada_texto">
-                <!------LA FUNCIÓN runQuery está en el archivo script_Registro.js------>
-                <!--PARA QUE FUNCIONE BIEN DEBES INICIAR EL MAMP E INGRESAR COMO LOCALHOST-->
-                <button id="registro">Registrarse</button>
-                </form>
-                <script src="../script/script_Registro.js"></script>
-        </div>
-    `;
-    contenido_principal.prepend(divVentanaRegistro);
 }

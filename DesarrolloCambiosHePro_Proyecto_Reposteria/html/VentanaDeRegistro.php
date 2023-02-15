@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../styles/estilo_VentanaDeIngreso.css" id="estilo">
+    <link rel="stylesheet" type="text/css" href="../styles/estilo_VentanaDeRegistro.css" id="estilo">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>REPOSTERIA</title>
 </head>
 <body>
@@ -34,7 +35,7 @@
         <section id="seccion_iconos">
             <a href="../html/CarritoDeCompras.html">
                 <img src="../iconos/carro-de-la-carretilla.png"  type="button" value="Catalogo"><br>
-            </a> 
+            </a>
                 <img src="../iconos/lupa1.png"  type="button" value="Catalogo"><br>
                 <input type="button" value="Ingresar" id="btn_ingresar"><br>
         </section>
@@ -46,19 +47,25 @@
                 <div class="btnHaciaDerecha">
                     <input type="button" value="✕" id="btn_salir">
                 </div>
-                <h2>Ingresar</h2>
+                <h2>Registrarse</h2>
+                <label for="cedula">Cédula:</label>
+                <input type="text" id="cedula" class="entrada_texto">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" class="entrada_texto">
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" class="entrada_texto">
+                <label for="dirección">Dirección:</label>
+                <input type="text" id="dirección" class="entrada_texto">
                 <label for="correo">Correo electrónico:</label>
                 <input type="email" id="correo" class="entrada_texto">
                 <label for="contraseña">Contraseña:</label>
                 <input type="password" id="contraseña" class="entrada_texto">
-                <div class="btnHaciaDerecha">
-                    <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?">
-                </div>
-                <input type="button" id="ingresar" value="Ingresar">
-                <div id="SinCuenta">
-                    <label for="contraseña">¿No tienes una cuenta?</label>
-                <input type="button" id="sin_cuenta" value="Registrarse">
-                </div>
+                <label for="rep_contraseña">Repita la contraseña:</label>
+                <input type="password" id="rep_contraseña" class="entrada_texto">
+                <!--LA FUNCIÓN runQuery está en el archivo script_Registro.js-->
+                <!--PARA QUE FUNCIONE BIEN DEBES INICIAR EL MAMP E INGRESAR COMO LOCALHOST-->
+                <input type="submit" id="registro" value="Registrarse" onclick="runQuery()">
+                <script src="../script/script_Registro.js"></script>
             </div>
         </div>
         <div id="DestacadoPrincipal">
@@ -66,7 +73,7 @@
         </div>
         <h1 align="center">Productos destacados</h1>
         <section id="seccion_productos"></section>
-        <script src="../script/testing.js"></script>
+
     </div>
 <footer>
     <div id="Derechos">

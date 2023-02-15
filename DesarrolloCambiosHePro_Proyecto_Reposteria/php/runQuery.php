@@ -1,6 +1,6 @@
 <?php
   // Conexión a la base de datos
-  $conn = mysqli_connect('localhost', 'root', 'root', 'base_temporal');
+  $conn = mysqli_connect('localhost', 'root', 'root', 'db_pankey');
 
 // Recibir la variable "num" desde la petición fetch
   $num = $_GET['num'];
@@ -11,7 +11,7 @@
   }
 
   // Consulta a la base de datos
-  $sql = "SELECT * FROM producto WHERE ID_Producto = '$num'";
+  $sql = "SELECT `Img` FROM producto WHERE `Categoría`='Bodas' LIMIT 0,1";
   $result = mysqli_query($conn, $sql);
 
   // Verificar consulta
