@@ -198,24 +198,6 @@ function AgregarContenido(CategoríaSeleccionada) {
     ).catch(error => {
         console.error(error);
     });
-
-
-
-
-
-    // for (let i = 0; i < 9; i++) {
-    //     console.log(data[i].Img);
-    //     direccion_producto = data[i].Img;
-    //     imagen.src = direccion_producto;
-    //     imagen.style.paddingRight = a + "px";
-    //     imagen.style.paddingTop = (a / 2) + "px";
-    //     h3.innerHTML = "Mostrar más información";
-    //     div.appendChild(h3);
-    //     h3.addEventListener("click", ProductoSeleccionado);
-    //     div.appendChild(imagen);
-    //     div_aux.appendChild(div);
-    //     seccion_productos.appendChild(div_aux);
-    // }
 }
 
 function myAsyncFunction() {
@@ -228,7 +210,6 @@ function myAsyncFunction() {
             .catch(error => reject(error));
     });
 }
-
 
 function colorTextoANegro(event) {
     let entrada_texto = event.target;
