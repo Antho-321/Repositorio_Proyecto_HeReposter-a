@@ -43,19 +43,19 @@
                     <div class="fila">
                         <p class="col">Forma:</p>
                         <div class="col">
-                            <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" name="forma">
+                            <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" value="Redonda" name="forma">
                             <label for="red">Redonda</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" name="forma">
+                            <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" value="Cuadrada" name="forma">
                             <label for="cuad">Cuadrada</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" name="forma">
+                            <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" value="Rectangular" name="forma">
                             <label for="rec">Rectangular</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" name="forma">
+                            <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" value="Personalizada" name="forma">
                             <label for="per">Personalizada</label>
                         </div>
                     </div>                   

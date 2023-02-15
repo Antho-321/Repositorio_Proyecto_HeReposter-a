@@ -124,18 +124,18 @@ function opcionesPastel(event) {
   div_fila.innerHTML = `
     <p class="col">Tamaño:</p>
     <div class="col">
-      <input class="col" type="radio" id="tamaño1">
+      <input class="col" type="radio" id="tamaño1" name="tamaño" value="`+tamaño1+`">
       <label for="tamaño1">`+ tamaño1 + `</label>
     </div>
     <div class="col">
-      <input class="col" type="radio" id="tamaño2">
+      <input class="col" type="radio" id="tamaño2" name="tamaño" value="`+tamaño2+`">
       <label for="tamaño2">`+ tamaño2 + `</label>
     </div>
   `;
   if (event.target.id == "cuad") {
     div_fila.insertAdjacentHTML("beforeend", `
     <div class="col">
-    <input class="col" type="radio" id="tamaño3">
+    <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+tamaño3+`">
     <label for="tamaño3">`+ tamaño3 + `</label>
   </div>
     `);
@@ -143,11 +143,11 @@ function opcionesPastel(event) {
     if (event.target.id == "per" || event.target.id == "red") {
       div_fila.insertAdjacentHTML("beforeend", `
     <div class="col">
-    <input class="col" type="radio" id="tamaño3">
+    <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+tamaño4+`">
     <label for="tamaño3">`+ tamaño4 + `</label>
   </div>
   <div class="col">
-    <input class="col" type="radio" id="tamaño3">
+    <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+tamaño5+`">
     <label for="tamaño3">`+ tamaño5 + `</label>
   </div>
     `);
@@ -161,60 +161,60 @@ function opcionesPastel(event) {
   <div class="fila">
                         <p class="col">Masa:</p>
                         <div class="col">
-                            <input class="col" type="radio" id="normal" name="masa">
+                            <input class="col" type="radio" id="normal" name="masa" value="Normal (Con receta propia)">
                             <label for="normal">Normal (Con receta propia)</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="biz" name="masa">
+                            <input class="col" type="radio" id="biz" name="masa" value="Bizcochuelo">
                             <label for="biz">Bizcochuelo</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="milh" name="masa">
+                            <input class="col" type="radio" id="milh" name="masa" value="Milhojas">
                             <label for="milh">Milhojas</label>
                         </div>
                     </div>
                     <div class="fila">
                         <p class="col">Sabor:</p>
                         <div class="col">
-                            <input class="col" type="radio" id="nar" name="sabor">
+                            <input class="col" type="radio" id="nar" name="sabor" value="Naranja">
                             <label for="nar">Naranja</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="choc" name="sabor">
+                            <input class="col" type="radio" id="choc" name="sabor" value="Chocolate">
                             <label for="choc">Chocolate</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="narychoc" name="sabor">
+                            <input class="col" type="radio" id="narychoc" name="sabor" value="Naranja y chocolate (Marmoleada)">
                             <label for="narychoc">Naranja y chocolate (Marmoleada)</label>
                         </div>
                     </div>
                     <div class="fila">
                         <p class="col">Cobertura:</p>
                         <div class="col">
-                            <input class="col" type="radio" id="crema" name="cobertura">
+                            <input class="col" type="radio" id="crema" name="cobertura" value="Crema">
                             <label for="crema">Crema</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="fondant" name="cobertura">
+                            <input class="col" type="radio" id="fondant" name="cobertura" value="Fondant">
                             <label for="fondant">Fondant</label>
                         </div>
                     </div>
                     <div class="fila">
                         <p class="col">Relleno:</p>
                         <div class="col">
-                            <input class="col" type="radio" id="frutilla" name="relleno">
+                            <input class="col" type="radio" id="frutilla" name="relleno" value="Mermelada de frutilla">
                             <label for="frutilla">Mermelada de frutilla</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="mora" name="relleno">
+                            <input class="col" type="radio" id="mora" name="relleno" value="Mermelada de mora">
                             <label for="mora">Mermelada de mora</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="glass" name="relleno">
+                            <input class="col" type="radio" id="glass" name="relleno" value="Glass de frutilla con crema">
                             <label for="glass">Glass de frutilla con crema</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="napolitana" name="relleno">
+                            <input class="col" type="radio" id="napolitana" name="relleno" value="Crema napolitana">
                             <label for="napolitana">Crema napolitana</label>
                         </div>
                     </div>
@@ -227,7 +227,7 @@ function opcionesPastel(event) {
                           <label class="col">Precio:</label>
                           <div class="col">
                               <label for="precio">$</label>
-                              <input id="precio" type="number" step="0.1">
+                              <input id="precio" type="number" step="0.1" name="precio">
                           </div>
                       </div>
                       <div class="fila">
