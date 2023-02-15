@@ -1,17 +1,6 @@
-document.getElementById("ingreso_enlace").addEventListener("click", colorTextoANegro);
+
 window.onload = AgregarContenido("");
-const inputElement = document.getElementById("myInput");
-inputElement.addEventListener("input", function (event) {
-    console.log(event.target.value);
-});
-function enlaceIngresado() {
-    document.querySelector("label[for='ingreso_enlace']").remove();
-    document.getElementById("file-input").remove();
-  }
-  function archivoIngresado() {
-    document.querySelector("label[for='ingreso_enlace']").remove();
-    document.getElementById("ingreso_enlace").remove();
-  }
+
 function AgregarContenido(CategoríaSeleccionada) {
     seccion_productos = document.getElementById("seccion_productos");
     let direccion_producto, div, imagen, h3, a;

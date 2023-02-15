@@ -97,6 +97,7 @@ if (isset($_SESSION['id'])) {
         </div>
         <h1>PRODUCTOS DESTACADOS</h1>
         <section id="seccion_productos"></section>
+        <input type="hidden">
         <!--
             <script src="../script/bundle.js"></script>
             
