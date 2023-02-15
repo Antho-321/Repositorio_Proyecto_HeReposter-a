@@ -3,8 +3,8 @@
   $conn = mysqli_connect('localhost', 'root', 'root', 'db_pankey');
 
 // Recibir la variable "num" desde la petición fetch
-  $num = $_GET['num'];
-  $num=$num-1;
+  //$num = $_GET['num'];
+  //$num=$num-1;
 
   // Verificar conexión
   if (!$conn) {
@@ -12,7 +12,7 @@
   }
 
   // Consulta a la base de datos
-  $sql = "SELECT `Img` FROM `producto` LIMIT "+$num+", 1";
+  $sql = "SELECT `Img` FROM producto LIMIT 10";
   $result = mysqli_query($conn, $sql);
 
   // Verificar consulta
