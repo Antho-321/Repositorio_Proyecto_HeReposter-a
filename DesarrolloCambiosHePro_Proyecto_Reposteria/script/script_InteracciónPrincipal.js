@@ -429,29 +429,14 @@ function MostrarVentanaDeRegistro(){
 function MostrarVentanaRecuperación_Correo(){
     salto.innerHTML="";
     divVentana.innerHTML=`
-    <form id="Ventana">
+    <form id="Ventana" action="../FINAL_TEST/confirmacion.php" method="POST" >
     <div class="btnHaciaDerecha">
         <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
     </div>
     <h2>RECUPERACIÓN DE CUENTA</h2>
     <label for="correo">Correo electrónico:</label>
     <input type="email" id="correo" name="Correo" class="entrada_texto">
-    <input type="button" id="finalización_registro" value="Ingresar" onclick="MostrarVentanaRecuperación_Código()">
-</form>
-    `;
-    salto.appendChild(divVentana);
-}
-function MostrarVentanaRecuperación_Código(){
-    salto.innerHTML="";
-    divVentana.innerHTML=`
-    <form id="Ventana">
-    <div class="btnHaciaDerecha">
-        <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
-    </div>
-    <h2>RECUPERACIÓN DE CUENTA</h2>
-    <label for="correo">Ingrese el código enviado al correo electrónico:</label>
-    <input type="number" id="código" class="entrada_texto">
-    <input type="button" id="finalización_registro" value="Iniciar sesión">
+    <button id="finalización_registro">Enviar contraseña al correo</button>
 </form>
     `;
     salto.appendChild(divVentana);

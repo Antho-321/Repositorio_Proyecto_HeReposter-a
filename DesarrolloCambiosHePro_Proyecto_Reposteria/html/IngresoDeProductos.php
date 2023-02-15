@@ -33,7 +33,8 @@
                         <label class="col" for="ingresoArchivo">Imagen:</label>
                         <input class="col" type="file" id="file-input" name="archivo">
                         <label class="col" for="ingreso_enlace">o</label>
-                        <input class="col" type="url" value="Ingresar enlace" name="enlace" id="ingreso_enlace" onchange="enlaceIngresado()">
+                        <input class="col" type="url" value="Ingresar enlace" name="enlace" id="ingreso_enlace">
+                        <p class="col" id="imgNoValida">Enlace de imagen no válido</p>
                         <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
                     </div>
 
@@ -42,19 +43,19 @@
                     <div class="fila">
                         <p class="col">Forma:</p>
                         <div class="col">
-                            <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" name="forma">
+                            <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" value="Redonda" name="forma">
                             <label for="red">Redonda</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" name="forma">
+                            <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" value="Cuadrada" name="forma">
                             <label for="cuad">Cuadrada</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" name="forma">
+                            <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" value="Rectangular" name="forma">
                             <label for="rec">Rectangular</label>
                         </div>
                         <div class="col">
-                            <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" name="forma">
+                            <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" value="Personalizada" name="forma">
                             <label for="per">Personalizada</label>
                         </div>
                     </div>                   
@@ -68,7 +69,7 @@
         </section>
         <input type="hidden" name='formulario'>
         <div id="seccion_btn">
-            <input type="submit" value="Añadir producto">
+            <input type="submit" value="Añadir producto" id="enviarFormulario">
         </div>
     </form>
     <script src="../script/script_IngresoDeProductos.js"></script>

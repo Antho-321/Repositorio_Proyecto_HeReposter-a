@@ -44,6 +44,10 @@ h1{
     padding: 10px;
     text-align: center;
 }
+#imgNoValida{
+    color: red;
+    visibility: hidden;
+}
 select{
     width: 100% !important;
     padding: 5px 0px !important;
