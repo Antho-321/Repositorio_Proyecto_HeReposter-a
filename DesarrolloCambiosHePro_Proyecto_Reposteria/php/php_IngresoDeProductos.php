@@ -43,7 +43,51 @@ if (isset($_POST['formulario'])) {
     $enlace=$ruta;
     echo "ARCHIVO INGRESADO";
   }
-  echo "ID: ".$id."; CATEGORÍA: ".$categoría."; ENLACE: ".$enlace."; FORMA: ".$forma."; TAMAÑO: ".$tamaño."; MASA: ".$masa."; SABOR: ".$sabor."; COBERTURA: ".$cobertura."; RELLENO: ".$relleno."; PRECIO: ".$precio."; DESCRIPCIÓN ADICIONAL: ".$descAdicional;
+
+  ////////////////////////////////////////////////////SEPARA LAS PORCIONES DEL TAMAÑO/////////////////////////////////////////7
+
+$delimiter="(";
+  $chars = explode($delimiter, $tamaño);
+  $tam=$chars[0];
+
+  preg_match_all('!\d+!', $tamaño, $matches);
+  $porciones= $matches[0]; //separa el numero en una cadena de texto
+if (isset($porciones[1])){
+  $porciones=$porciones[0]."-".$porciones[1];
+}else{
+  $porciones=$porciones[0];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+
+ 
+
+
+  // echo "ID: ".$id."; CATEGORÍA: ".$categoría."; ENLACE: ".$enlace."; FORMA: ".$forma."; TAMAÑO: ".$tam."; PORCIONES: ".$porciones."; MASA: ".$masa."; SABOR: ".$sabor."; COBERTURA: ".$cobertura."; RELLENO: ".$relleno."; PRECIO: ".$precio."; DESCRIPCIÓN ADICIONAL: ".$descAdicional;
+
+
+
+ /////////////////////////////77///////////////////////////ENVIAR A LA TABLA PRODUCTOS/////////////////////////////////7/////////////////////
+ 
+ $sql = "INSERT INTO producto (Codigo, Categoría, Tamaño, Masa, Sabor, Cobertura, Relleno, Descripción, Precio, Porciones, Img) 
+ VALUES ('$id', '$categoría', '$tam', '$masa', '$sabor', '$cobertura', '$relleno', '$descAdicional', '$precio', '$porciones', '$enlace')";
+ // Ejecutar la consulta SQL
+if ($conn->query($sql) === TRUE) {
+  echo '<script>
+  window.alert("INGRESADO CORRECTAMENTE"); 
+  window.location = "../html/InicioAdministración.php";
+  </script>';
+} else {
+  echo "Error al insertar los datos: " . $conn->error;
+}
+
+// Cerrar la conexión
+$conn->close();
+
+
+
+ //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
   //$query = "INSERT INTO producto (Codigo,)";
   //$result = mysqli_query($conn, $query);
   
@@ -60,5 +104,6 @@ if (isset($_POST['formulario'])) {
 //   echo "TEST CONSULTA: ".$row[9];
 // }
 
-mysqli_close($conn);
+
 ?>
+
