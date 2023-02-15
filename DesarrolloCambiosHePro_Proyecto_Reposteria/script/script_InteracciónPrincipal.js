@@ -11,6 +11,7 @@ let estilo_Ingreso_Registro = document.createElement("style");
 let productos_ingresados = true;
 let divVentana = document.createElement("div");
 let salto = document.getElementById("Salto");
+let producto_seleccionado=false;
 divVentana.id = "VentanaForm";
 document.querySelector("body>a").removeAttribute("onclick");
 estilo_Ingreso_Registro.innerHTML = `
@@ -176,6 +177,7 @@ function AgregarContenido(CategoríaSeleccionada) {
 
     myData.then(result => {
         console.log(result);
+        
         let div_aux = document.createElement("div");
         for (let i = 0; i < 10; i++) {
             let a = 15.0;
@@ -195,12 +197,11 @@ function AgregarContenido(CategoríaSeleccionada) {
         seccion_productos.appendChild(div_aux);
     }
 
-    ).catch(error => {
-        console.error(error);
-    });
+    )
 }
 
 function myAsyncFunction() {
+    let num=2;
     return new Promise((resolve, reject) => {
         fetch("../php/runQuery.php")
             .then(response => response.json())
@@ -246,6 +247,7 @@ function mostrarBúsqueda(lupa) {
 }
 function ProductoSeleccionado(event) {
     let div = document.getElementsByTagName("div");
+    producto_seleccionado=true;
     VerificaciónCuadroDeBúsqueda();
     estilo = document.getElementById("estilo");
     estilo.href = "../styles/estilo_ProductoSeleccionado.css";

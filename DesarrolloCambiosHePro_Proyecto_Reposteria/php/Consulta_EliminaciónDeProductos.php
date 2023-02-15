@@ -13,7 +13,7 @@
   }
 
   // Consulta a la base de datos
-  $sql = "SELECT `Img` FROM producto LIMIT 10";
+  $sql = "SELECT `Img` FROM producto";
   $result = mysqli_query($conn, $sql);
 
   // Verificar consulta
