@@ -88,21 +88,9 @@ $conn->close();
 
  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  
-  //$query = "INSERT INTO producto (Codigo,)";
-  //$result = mysqli_query($conn, $query);
-  
-  //SI NO SE INGRESA UN ENLACE, EN LA COLUMNA DE LA DIRECCIÓN DE LA IMAGEN SE INGRESARÍA "../imagenes/ID_DE_IMAGEN.png"
-}
-// $query = "SELECT * FROM producto WHERE Codigo=2";
-// $result = mysqli_query($conn, $query);
 
-// if (!$result) {
-//   die("Error al ejecutar la consulta: " . mysqli_error($conn));
-// }else{
-//   //echo "¡PRODUCTO INGRESADO!";
-//   $row=mysqli_fetch_array($result);
-//   echo "TEST CONSULTA: ".$row[9];
-// }
+}
+
 
 
 ?>
