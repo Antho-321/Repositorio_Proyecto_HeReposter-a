@@ -75,7 +75,7 @@ if (isset($porciones[1])){
 if ($conn->query($sql) === TRUE) {
   echo '<script>
   window.alert("INGRESADO CORRECTAMENTE"); 
-  window.location = "../html/IngresoDeProductos.php";
+  window.location = "../html/InicioAdministración.php";
   </script>';
 } else {
   echo "Error al insertar los datos: " . $conn->error;
