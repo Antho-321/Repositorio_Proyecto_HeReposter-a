@@ -31,9 +31,9 @@ div_fila.className = "fila";
 document.getElementById("ingreso_enlace").addEventListener("click", colorTextoANegro);
 
 function enlaceIngresado() {
-  document.querySelector("label[for='ingreso_enlace']").disabled = true;
+  document.querySelector("label[for='ingreso_enlace']").remove();
   document.getElementById("file-input").remove();
-  imagePreview.src=document.getElementById("ingreso_enlace").remove();
+  imagePreview.src=document.getElementById("ingreso_enlace").value;
   document.getElementById("verificacion_enlace").value="si";
 }
 
