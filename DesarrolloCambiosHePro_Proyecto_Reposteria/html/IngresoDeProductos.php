@@ -33,7 +33,8 @@
                         <label class="col" for="ingresoArchivo">Imagen:</label>
                         <input class="col" type="file" id="file-input" name="archivo">
                         <label class="col" for="ingreso_enlace">o</label>
-                        <input class="col" type="url" value="Ingresar enlace" name="enlace" id="ingreso_enlace" onchange="enlaceIngresado()">
+                        <input class="col" type="url" value="Ingresar enlace" name="enlace" id="ingreso_enlace">
+                        <p class="col" id="imgNoValida">Enlace de imagen no válida</p>
                         <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
                     </div>
 
@@ -68,7 +69,7 @@
         </section>
         <input type="hidden" name='formulario'>
         <div id="seccion_btn">
-            <input type="submit" value="Añadir producto">
+            <input type="submit" value="Añadir producto" id="enviarFormulario">
         </div>
     </form>
     <script src="../script/script_IngresoDeProductos.js"></script>

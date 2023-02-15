@@ -3,16 +3,17 @@ let div_fila = document.createElement("div");
 let div_col = document.createElement("div");
 let tabla = document.querySelector(".tabla_info");
 let h1 = document.getElementsByTagName("h1")[0];
+let ingreso_enlace = document.getElementById("ingreso_enlace");
 const fileInput = document.getElementById('file-input');
 const imagePreview = document.getElementById('image-preview');
 const searchString = window.location.search;
 const searchParams = new URLSearchParams(searchString);
 const param1Value = searchParams.get("param1");
 
-if (param1Value!=null) {
-  imagePreview.src=param1Value;
-  h1.innerHTML="Actualización de productos";
-  document.getElementsByTagName("form")[0].action="../php/php_ActualizaciónDeProductos.php";
+if (param1Value != null) {
+  imagePreview.src = param1Value;
+  h1.innerHTML = "Actualización de productos";
+  document.getElementsByTagName("form")[0].action = "../php/php_ActualizaciónDeProductos.php";
 }
 
 fileInput.addEventListener('change', () => {
@@ -24,18 +25,54 @@ fileInput.addEventListener('change', () => {
   };
   document.querySelector("label[for='ingreso_enlace']").remove();
   document.getElementById("ingreso_enlace").remove();
-  document.getElementById("verificacion_enlace").value="no";
+  document.getElementById("verificacion_enlace").value = "no";
 });
 
 div_fila.className = "fila";
-document.getElementById("ingreso_enlace").addEventListener("click", colorTextoANegro);
+ingreso_enlace.addEventListener("click", colorTextoANegro);
 
-function enlaceIngresado() {
-  document.querySelector("label[for='ingreso_enlace']").remove();
-  document.getElementById("file-input").remove();
-  imagePreview.src=document.getElementById("ingreso_enlace").value;
-  document.getElementById("verificacion_enlace").value="si";
+ingreso_enlace.addEventListener('input', () => {
+  if(ingreso_enlace.value!=""){
+    isImage(ingreso_enlace.value).then((result) => {
+      if (result) {
+        console.log('Se ha ingresado una imagen');
+        console.log("ENLACE VALIDO");
+        document.querySelector("label[for='ingreso_enlace']").remove();
+        document.getElementById("file-input").remove();
+        imagePreview.src = document.getElementById("ingreso_enlace").value;
+        document.getElementById("verificacion_enlace").value = "si";
+        document.getElementById("imgNoValida").style.visibility = "hidden";
+        document.getElementById("enviarFormulario").disabled = false;
+      } else {
+        console.log('Link no válido');
+        document.getElementById("imgNoValida").style.visibility = "visible";
+        document.getElementById("enviarFormulario").disabled = true;
+      }
+    });
+  }else{
+    document.getElementById("imgNoValida").style.visibility = "hidden";
+        document.getElementById("enviarFormulario").disabled = false;
+  }
+  
+
+});
+function isImage(url) {
+  return new Promise((resolve, reject) => {
+    try {
+      const img = new Image();
+      img.addEventListener('load', () => resolve(true));
+      img.addEventListener('error', (error) => {
+        //console.error(error); // mostrar el error en la consola
+        resolve(false);
+      });
+      img.src = url;
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
+
+
 
 function colorTextoANegro(event) {
   let entrada_texto = event.target;
@@ -186,6 +223,6 @@ function opcionesPastel(event) {
   
                   </div>
     `);
-    document.getElementById("descAdicional").addEventListener("click",colorTextoANegro);
+    document.getElementById("descAdicional").addEventListener("click", colorTextoANegro);
   }
 }
