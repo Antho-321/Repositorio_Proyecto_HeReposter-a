@@ -11,7 +11,7 @@ let estilo_Ingreso_Registro = document.createElement("style");
 let productos_ingresados = true;
 let divVentana = document.createElement("div");
 let salto = document.getElementById("Salto");
-let producto_seleccionado=false;
+let producto_seleccionado = false;
 divVentana.id = "VentanaForm";
 document.querySelector("body>a").removeAttribute("onclick");
 estilo_Ingreso_Registro.innerHTML = `
@@ -126,7 +126,29 @@ function AgregarContenido(CategoríaSeleccionada) {
     //a = 15.0;
     //x = document.body.getBoundingClientRect().width;
     if (CategoríaSeleccionada == "") {
+        let myData = myAsyncFunction();
 
+        myData.then(result => {
+            console.log(result);
+    
+            let div_aux = document.createElement("div");
+            for (let i = 0; i < 10; i++) {
+                let a = 15.0;
+                let div = document.createElement("div");
+                let imagen = document.createElement("img");
+                let h3 = document.createElement("h3");
+                imagen.src = result[i].Img;
+                imagen.style.paddingRight = a + "px";
+                imagen.style.paddingTop = (a / 2) + "px";
+                h3.innerHTML = "Mostrar más información";
+                div.appendChild(h3);
+                h3.addEventListener("click", ProductoSeleccionado);
+                div.appendChild(imagen);
+                div_aux.appendChild(div);
+            }
+            seccion_productos.appendChild(div_aux);
+        }
+        )
         /*
         ---------------------------------------------------------------------------------------------
             EN PRIMER LUGAR, EN PHPMYADMIN HABRÍA QUE DECLARAR LA FUNCIÓN:
@@ -173,37 +195,23 @@ function AgregarContenido(CategoríaSeleccionada) {
         }
     }
 
-    let myData = myAsyncFunction();
-
-    myData.then(result => {
-        console.log(result);
-        
-        let div_aux = document.createElement("div");
-        for (let i = 0; i < 10; i++) {
-            let a = 15.0;
-            let div = document.createElement("div");
-            let imagen = document.createElement("img");
-            let h3 = document.createElement("h3");
-            imagen.src = result[i].Img;
-            imagen.style.paddingRight = a + "px";
-            imagen.style.paddingTop = (a / 2) + "px";
-            h3.innerHTML = "Mostrar más información";
-            div.appendChild(h3);
-            h3.addEventListener("click", ProductoSeleccionado);
-            div.appendChild(imagen);
-            div_aux.appendChild(div);
-        }
-
-        seccion_productos.appendChild(div_aux);
-    }
-
-    )
+    
 }
 
 function myAsyncFunction() {
-    let num=2;
     return new Promise((resolve, reject) => {
         fetch("../php/runQuery.php")
+            .then(response => response.json())
+            .then(data => { //archivo json       
+                resolve(data);
+            })
+            .catch(error => reject(error));
+    });
+}
+
+function myAsyncFunction2() {
+    return new Promise((resolve, reject) => {
+        fetch("../php/ConsultaProductoSeleccionado.php")
             .then(response => response.json())
             .then(data => { //archivo json       
                 resolve(data);
@@ -247,11 +255,12 @@ function mostrarBúsqueda(lupa) {
 }
 function ProductoSeleccionado(event) {
     let div = document.getElementsByTagName("div");
-    producto_seleccionado=true;
+    producto_seleccionado = true;
     VerificaciónCuadroDeBúsqueda();
     estilo = document.getElementById("estilo");
     estilo.href = "../styles/estilo_ProductoSeleccionado.css";
     img = event.target.nextSibling;
+    
     //-------------LO QUE SE VA A OBTENER DE LA BASE DE DATOS A PARTIR DEL LINK DE LA IMAGEN SELECCIONADA-----------
     id_producto = 1;
     precio_producto = 20;
