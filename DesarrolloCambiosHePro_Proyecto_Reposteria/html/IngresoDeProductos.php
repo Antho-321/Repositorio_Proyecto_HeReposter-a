@@ -34,7 +34,7 @@
                         <input class="col" type="file" id="file-input" name="archivo">
                         <label class="col" for="ingreso_enlace">o</label>
                         <input class="col" type="url" value="Ingresar enlace" name="enlace" id="ingreso_enlace">
-                        <p class="col" id="imgNoValida">Enlace de imagen no válida</p>
+                        <p class="col" id="imgNoValida">Enlace de imagen no válido</p>
                         <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
                     </div>
 
