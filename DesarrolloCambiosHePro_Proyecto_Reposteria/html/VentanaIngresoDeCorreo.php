@@ -56,10 +56,12 @@
                 <div class="btnHaciaDerecha">
                     <input type="button" value="✕" id="btn_salir">
                 </div>
-                <h2>RECUPERACIÓN DE CUENTA</h2>
-                <label for="correo">Correo electrónico:</label>
-                <input type="email" id="correo" name="Correo" class="entrada_texto">
-                <input type="button" id="finalización_registro" value="Ingresar">
+                <form action="../html/CódigoContraseñaOlvidada.php" id="Ventana">
+                    <h2>RECUPERACIÓN DE CUENTA</h2>
+                    <label for="correo">Correo electrónico:</label>
+                    <input type="email" id="correo" name="Correo" class="entrada_texto">
+                    <button id="finalización_registro">Ingresar</button>
+                </form>
             </div>
         </div>
         <div id="DestacadoPrincipal">
