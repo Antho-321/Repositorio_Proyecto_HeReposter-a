@@ -72,7 +72,7 @@ function AgregarContenido(CategoríaSeleccionada) {
         }
     }
 
-    let myData = myAsyncFunction();
+    let myData = myAsyncFunction("");
 
     myData.then(result => {
         console.log(result);
@@ -99,9 +99,10 @@ function AgregarContenido(CategoríaSeleccionada) {
 
     )
 }
-function myAsyncFunction() {
+function myAsyncFunction(imagen) {
+    const encodedImagen = encodeURIComponent(imagen);
     return new Promise((resolve, reject) => {
-        fetch("../php/Consulta_EliminaciónDeProductos.php")
+        fetch("../php/php_EliminacionDeproducto.php?imagen=" + encodedImagen)
             .then(response => response.json())
             .then(data => { //archivo json       
                 resolve(data);
@@ -109,6 +110,16 @@ function myAsyncFunction() {
             .catch(error => reject(error));
     });
 }
+function myAsyncFunction2(imagen) {
+    const encodedImagen = encodeURIComponent(imagen);
+    return new Promise((resolve, reject) => {
+        fetch("../php/php_EliminacionDeproducto.php?imagen=" + encodedImagen);
+    });
+}
 function ProductoSeleccionado(event) {
-    console.log(event.target.nextSibling.src);
+    let myData = myAsyncFunction2(event.target.nextSibling.src);
+    let div = document.getElementsByTagName("div");
+    producto_seleccionado = true;
+    img = event.target.nextSibling;
+    location.reload();
 }

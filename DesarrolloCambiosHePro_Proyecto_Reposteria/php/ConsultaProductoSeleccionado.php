@@ -50,3 +50,4 @@ $imagen = $_GET['imagen'];
 
   // Cerrar conexión
   mysqli_close($conn);
+  ?>
