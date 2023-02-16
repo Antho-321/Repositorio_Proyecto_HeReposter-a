@@ -554,7 +554,7 @@ function AgregarContenidoCarrito() {
         console.log(result);
         for(let i=0;i<result.length;i++){
             primera_fila.insertAdjacentHTML("afterend",`
-        <form class="fila" action="">
+        <form class="fila" action="../php/EliminarItemCarrito.php" method= "POST">
                         <div class="col">
                             <img src="`+result[i].Img+`" alt="Producto">
                         </div>            
@@ -565,7 +565,8 @@ function AgregarContenidoCarrito() {
                             <p class="col" name="precio">$`+result[i].Precio+`</p>
                             <p class="col" name="cantidad">`+result[i].Cantidad_Cliente+`</p>
                             <input type="hidden" name="id_canasta_item" value="`+result[i].Id_Canasta_item+`">
-                            <input class="col" type="submit" value="" id="btn_eliminar">
+                            <button id="btn_eliminar" >◄</button>
+                            
                     </form>
         `);
         }
