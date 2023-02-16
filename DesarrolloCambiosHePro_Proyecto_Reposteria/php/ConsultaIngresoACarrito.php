@@ -13,6 +13,7 @@ $cantidad = $_GET['cantidad'];
     if (!$conn) {
       die("Conexión fallida: " . mysqli_connect_error());
   }
+
   $sql= "SELECT '".$id."','".$cantidad."'";
 
   
@@ -32,9 +33,6 @@ $cantidad = $_GET['cantidad'];
  header('Content-Type: application/json');
  echo json_encode($jsonData);
   
-
-  
- 
-
   // Cerrar conexión
   mysqli_close($conn);
+  ?>
