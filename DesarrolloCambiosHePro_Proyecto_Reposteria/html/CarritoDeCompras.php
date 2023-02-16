@@ -77,7 +77,7 @@ if (isset($_SESSION['id'])) {
     <div id="contenido_principal">
         <section id="Productos">
             <div class="tabla_info">
-                <div class="fila">
+                <div class="fila" id="primera_fila">
                     <br class="col">
                     <p class="col">Masa</p>
                     <p class="col">Sabor</p>
@@ -86,39 +86,7 @@ if (isset($_SESSION['id'])) {
                     <p class="col">Precio unitario</p>
                     <p class="col">Cantidad</p>
                 </div>
-                <div class="fila">
-                    <div class="col">
-                        <img src="../iconos/imagenes.png" alt="Producto">
-                    </div>            
-                        <p class="col">X</p>
-                        <p class="col">X</p>
-                        <p class="col">X</p>
-                        <p class="col">X</p>
-                        <p class="col">$X</p>
-                        <p class="col">X</p>
-                </div>
-                <div class="fila">
-                    <div class="col">
-                        <img src="../iconos/imagenes.png" alt="Producto">
-                    </div>            
-                        <p class="col">X</p>
-                        <p class="col">X</p>
-                        <p class="col">X</p>
-                        <p class="col">X</p>
-                        <p class="col">$X</p>
-                        <p class="col">X</p>
-                </div>
-                <div class="fila">
-                    <div class="col">
-                        <img src="../iconos/imagenes.png" alt="Producto">
-                    </div>            
-                        <p class="col">X</p>
-                        <p class="col">X</p>
-                        <p class="col">X</p>
-                        <p class="col">X</p>
-                        <p class="col">$X</p>
-                        <p class="col">X</p>
-                </div>
+                
             </div>
         </section>
         <section id="Info_adicional">

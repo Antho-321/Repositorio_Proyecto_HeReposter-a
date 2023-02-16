@@ -12,6 +12,7 @@ let productos_ingresados = true;
 let divVentana = document.createElement("div");
 let salto = document.getElementById("Salto");
 let producto_seleccionado = false;
+let ubicación_página=window.location.href;
 divVentana.id = "VentanaForm";
 document.querySelector("body>a").removeAttribute("onclick");
 estilo_Ingreso_Registro.innerHTML = `
@@ -93,6 +94,11 @@ h3{
 `;
 if (seccion_productos != null) {
     window.onload = AgregarContenido("");
+}
+console.log("PÁGINA EN LA QUE ME ENCUENTRO:"+ubicación_página);
+console.log(ubicación_página.substring(ubicación_página.lastIndexOf("/")));
+if (ubicación_página.substring(ubicación_página.lastIndexOf("/"))=="/CarritoDeCompras.php") {
+    window.onload = AgregarContenidoCarrito();
 }
 if (contenido_categorías != null) {
     let tamaño = contenido_categorías.children.length;
@@ -251,6 +257,17 @@ function myAsyncFunction(imagen) {
 function myAsyncFunction2(id, cantidad) {
     return new Promise((resolve, reject) => {
         fetch("../php/ConsultaIngresoACarrito.php?&id="+id+"&cantidad="+cantidad)
+            .then(response => response.json())
+            .then(data => { //archivo json       
+                resolve(data);
+            })
+            .catch(error => reject(error));
+    });
+}
+
+function myAsyncFunction3() {
+    return new Promise((resolve, reject) => {
+        fetch("../php/SacarDatosDeCarrito.php")
             .then(response => response.json())
             .then(data => { //archivo json       
                 resolve(data);
@@ -539,4 +556,25 @@ function MostrarVentanaRecuperación_Correo() {
 function CerrarVentana() {
     salto.innerHTML = "";
     document.getElementsByTagName("style")[0].remove();
+}
+function AgregarContenidoCarrito() {
+    let primera_fila=document.getElementById("primera_fila");
+
+    for(let i=0;i<5;i++){
+        primera_fila.insertAdjacentHTML("afterend",`
+    <div class="fila">
+                    <div class="col">
+                        <img src="../iconos/imagenes.png" alt="Producto">
+                    </div>            
+                        <p class="col">X</p>
+                        <p class="col">X</p>
+                        <p class="col">X</p>
+                        <p class="col">X</p>
+                        <p class="col">$X</p>
+                        <p class="col">X</p>
+                </div>
+    `);
+    }
+    
+
 }
