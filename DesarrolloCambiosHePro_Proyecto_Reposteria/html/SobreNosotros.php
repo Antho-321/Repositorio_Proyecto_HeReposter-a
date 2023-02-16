@@ -21,7 +21,7 @@ if (isset($_SESSION['id'])) {
 
         <!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
 
-        <img src="../imagenes/LOGO_PANKEY.png" alt="LOGO_PANKEY" id="LogoPankey">
+        <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
 
         <!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
         

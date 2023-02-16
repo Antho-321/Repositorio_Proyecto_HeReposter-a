@@ -7,6 +7,46 @@ if (isset($_SESSION['id'])) {
     header("Location: ../php/Logout.php");
 }
 ?>
+
+<?php
+/////////////////////////////////////////////////////////////////////////7CALCULAR SUBTOTALE IVA//////////////////////////////////////////////////////////////////////////////////////////////
+
+// Configuración de la conexión a la base de datos
+$enlace="";
+$host = "localhost";
+$user = "root";
+$pass = "root";
+$dbname = "db_pankey";
+
+// Crear una nueva conexión PDO
+$pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+
+// Preparar la consulta SQL
+$sql = "SELECT Subtotal FROM canasta_item";
+
+// Ejecutar la consulta y obtener los resultados
+$stmt = $pdo->query($sql);
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Defino variables
+$Subtotal=0;
+$Iva=0;
+$Total=0;
+
+
+// Iterar a través de los resultados y mostrar la columna "Sutotal"
+foreach ($results as $row) {
+
+    $Subtotal+= $row['Subtotal'];
+
+}
+$Iva=($Subtotal*12)/100;
+$Total=$Subtotal+$Iva;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -94,15 +134,15 @@ if (isset($_SESSION['id'])) {
             <div class="tabla_info">
                 <div class="fila">
                     <p class="col">Subtotal:</p>
-                    <p class="col">$Precio</p>
+                    <p class="col"><?= $Subtotal?> $</p>
                 </div>
                 <div class="fila">
                     <p class="col">IVA 12%:</p>
-                    <p class="col">$Precio</p>
+                    <p class="col"><?= $Iva?> $</p>
                 </div>
                 <div class="fila">
                     <p class="col">Total:</p>
-                    <p class="col">$Precio</p>
+                    <p class="col"><?= $Total?> $</p>
                 </div>
                 <div class="fila">
                     <label class="col" for="fecha_entrega">Fecha de entrega:</label>
