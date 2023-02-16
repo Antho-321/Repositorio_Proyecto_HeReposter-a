@@ -8,7 +8,26 @@
     <title>Actualización de información</title>
 </head>
 <body>
-<h1>Actualización de información</h1>
+
+    <!-- ///////////////////////////////////////////////////////////////////////////ENCABEZADO///////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <header>
+
+        <!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
+
+        <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
+
+        <!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
+
+        <h1>Actualización de información</h1>
+        <h4>ADMINISTRACIÓN</h4>
+       
+    </header>
+
+    <div id="Salto">
+    </div>
+
+
 <div id="contenido_principal">
 <section id="seccion_productos"></section>
     <script src="../script/script_ActualizaciónDeInformación.js"></script>
