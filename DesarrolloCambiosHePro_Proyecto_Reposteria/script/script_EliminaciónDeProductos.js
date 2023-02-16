@@ -100,7 +100,6 @@ function AgregarContenido(CategoríaSeleccionada) {
     )
 }
 function myAsyncFunction() {
-    let num=2;
     return new Promise((resolve, reject) => {
         fetch("../php/Consulta_EliminaciónDeProductos.php")
             .then(response => response.json())

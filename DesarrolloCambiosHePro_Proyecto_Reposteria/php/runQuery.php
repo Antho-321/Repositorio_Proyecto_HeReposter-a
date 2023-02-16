@@ -4,8 +4,9 @@
 
 // Recibir la variable "num" desde la petición fetch
 
-//$num = $_GET['num'];
-  //print($num);
+
+//$test=$_GET['imagen'];
+//print $test;
 
   // Verificar conexión
   if (!$conn) {

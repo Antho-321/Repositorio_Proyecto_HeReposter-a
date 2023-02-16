@@ -1,10 +1,7 @@
 <?php
-// $doc = new DOMDocument();
-// $doc->loadHTMLFile('path/to/your/file.html');
 
-// // Get the element you want by its ID
-// $element = $doc->getElementById('your-element-id');
-
+$imagen = $_GET['imagen'];
+//print "rgegergerger";
 
 
   // Conexión a la base de datos
@@ -12,33 +9,43 @@
 
 // Recibir la variable "num" desde la petición fetch
 
-//$num = $_GET['num'];
+//$num = $_GET['test'];
   //print($num);
 
   // Verificar conexión
-  if (!$conn) {
+
+  
+    if (!$conn) {
       die("Conexión fallida: " . mysqli_connect_error());
   }
 
   // Consulta a la base de datos
-  $sql = "SELECT `Img` FROM producto";
+  if (strpos($imagen, "http") !== false) {
+    $sql = "SELECT * FROM `producto` WHERE `Img` = '".$imagen."'";
+    //$sql = "SELECT '".$imagen."'";
+  }else{
+    $sql = "SELECT `Img` FROM producto";
+  }
+  
   $result = mysqli_query($conn, $sql);
 
   // Verificar consulta
   if (!$result) {
       die("Consulta fallida: " . mysqli_error($conn));
   }
+ // Convertir resultados en formato JSON
+ $jsonData = array();
+ while ($row = mysqli_fetch_assoc($result)) {
+   $jsonData[] = $row;
+ }
 
-  // Convertir resultados en formato JSON
-  $jsonData = array();
-  while ($row = mysqli_fetch_assoc($result)) {
-    $jsonData[] = $row;
-  }
+ // Enviar respuesta en formato JSON
+ header('Content-Type: application/json');
+ echo json_encode($jsonData);
+  
 
-  // Enviar respuesta en formato JSON
-  header('Content-Type: application/json');
-  echo json_encode($jsonData);
+  
+ 
 
   // Cerrar conexión
   mysqli_close($conn);
-?>
