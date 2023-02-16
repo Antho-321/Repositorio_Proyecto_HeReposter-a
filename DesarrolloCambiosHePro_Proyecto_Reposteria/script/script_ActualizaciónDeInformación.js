@@ -1,6 +1,13 @@
 
 window.onload = AgregarContenido("");
-
+function enlaceIngresado() {
+    document.querySelector("label[for='ingreso_enlace']").remove();
+    document.getElementById("file-input").remove();
+  }
+  function archivoIngresado() {
+    document.querySelector("label[for='ingreso_enlace']").remove();
+    document.getElementById("ingreso_enlace").remove();
+  }
 function AgregarContenido(CategoríaSeleccionada) {
     seccion_productos = document.getElementById("seccion_productos");
     //let div, imagen, h3, a;
