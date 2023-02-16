@@ -158,7 +158,11 @@ $Total=$Subtotal+$Iva;
                              
                 </div>
             </div>
+            <div id="botones_carrito">
             <input id="fin_pedido" type="button" value="Finalizar pedido" onclick="añadirBtnPago()">
+            <input id="gen_factura" type="button" value="Generar factura"  onclick="location.href='../php/crea_factura.php';">
+            </div>
+          
             
             <p>Nota: Pronto incorporaremos la entrega a 
                 domicio. Los pedidos que realices puedes 
