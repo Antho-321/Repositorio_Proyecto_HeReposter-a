@@ -179,6 +179,33 @@ function AgregarContenido(CategoríaSeleccionada) {
 
         //direccion_producto = "../imagenes/21.png";
     } else {
+        
+
+if(CategoríaSeleccionada==" Navidad"){
+CategoríaSeleccionada=CategoríaSeleccionada.substring(1);
+console.log("CATEGORÍA: "+"X"+CategoríaSeleccionada+"X");
+}
+let myData = myAsyncFunction(CategoríaSeleccionada);
+        myData.then(result => {
+            console.log(result);
+            let div_aux = document.createElement("div");
+            for (let i = 0; i < result.length; i++) {
+                let a = 15.0;
+                let div = document.createElement("div");
+                let imagen = document.createElement("img");
+                let h3 = document.createElement("h3");
+                imagen.src = result[i].Img;
+                imagen.style.paddingRight = a + "px";
+                imagen.style.paddingTop = (a / 2) + "px";
+                h3.innerHTML = "Mostrar más información";
+                div.appendChild(h3);
+                h3.addEventListener("click", ProductoSeleccionado);
+                div.appendChild(imagen);
+                div_aux.appendChild(div);
+            }
+            seccion_productos.appendChild(div_aux);
+        }
+        );
         /* 
         ---------------------------------------------------------------------------------------------
             EL valor de la variable direccion_producto sería el resultado de la consulta:
@@ -188,11 +215,11 @@ function AgregarContenido(CategoríaSeleccionada) {
         ---------------------------------------------------------------------------------------------
             EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:     
         */
-        if (CategoríaSeleccionada == "Cumpleaños") {
-            direccion_producto = "https://d320djwtwnl5uo.cloudfront.net/recetas/share/share_fsr8al91ct_confeti.jpg";
-        } else {
-            direccion_producto = "https://cdn0.bodas.com.mx/article-real-wedding/799/3_2/1280/jpg/1466243.webp";
-        }
+        // if (CategoríaSeleccionada == "Cumpleaños") {
+        //     direccion_producto = "https://d320djwtwnl5uo.cloudfront.net/recetas/share/share_fsr8al91ct_confeti.jpg";
+        // } else {
+        //     direccion_producto = "https://cdn0.bodas.com.mx/article-real-wedding/799/3_2/1280/jpg/1466243.webp";
+        // }
     }
 
 

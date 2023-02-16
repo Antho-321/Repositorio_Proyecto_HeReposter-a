@@ -2,10 +2,6 @@
 
 $imagen = $_GET['imagen'];
 
-
-
-
-
   // Conexión a la base de datos
   $conn = mysqli_connect('localhost', 'root', 'root', 'db_pankey');
 
@@ -25,7 +21,12 @@ $imagen = $_GET['imagen'];
   if (strpos($imagen, "http") !== false) {
     $sql = "SELECT * FROM `producto` WHERE `Img` = '".$imagen."'";
   }else{
-    $sql = "SELECT `Img` FROM producto";
+    if($imagen==""){
+      $sql = "SELECT `Img` FROM producto";
+    }else{
+      $sql = "SELECT `Img` FROM `producto` WHERE `Categoría` = '".$imagen."'";
+    }
+    
   }
   
   $result = mysqli_query($conn, $sql);
@@ -44,10 +45,6 @@ $imagen = $_GET['imagen'];
  header('Content-Type: application/json');
  echo json_encode($jsonData);
   
-
-  
- 
-
   // Cerrar conexión
   mysqli_close($conn);
   ?>
