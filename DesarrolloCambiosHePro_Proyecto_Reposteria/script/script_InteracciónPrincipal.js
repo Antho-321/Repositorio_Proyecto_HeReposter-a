@@ -132,7 +132,7 @@ function AgregarContenido(CategoríaSeleccionada) {
             console.log(result);
 
             let div_aux = document.createElement("div");
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < result.length; i++) {
                 let a = 15.0;
                 let div = document.createElement("div");
                 let imagen = document.createElement("img");
