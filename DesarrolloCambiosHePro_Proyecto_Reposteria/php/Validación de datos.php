@@ -15,6 +15,10 @@ $comparacion = $_POST['comparacion'];
 if($random == $comparacion){
     $conexion->OperSql("INSERT INTO `cliente`(`Cedula`, `Nombre`, `Apellido`, `Direccion`) VALUES ('$cedula','$nombre','$apellido','$direccion')");
     $conexion->OperSql("INSERT INTO `usuario`(`Cedula`, `Email`, `Password`) VALUES ('$cedula','$correo','$contraseña')");
+    $id_usuario = $conexion->OperSql("SELECT `Id_Usuario` FROM `Usuario` WHERE `Cedula`='$cedula';");
+    $id_user = $id_usuario->fetch_array();
+    $idd= $id_user['Id_Usuario'];
+    $conexion->OperSql("INSERT INTO `canasta`(`Id_Usuario`) VALUES ('$idd');");
     $conexion->closeConnection();
     echo '<script>
     window.alert("Usuario registrado exitosamente, inicie sesión por favor"); 
