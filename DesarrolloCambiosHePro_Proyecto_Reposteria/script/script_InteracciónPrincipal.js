@@ -565,7 +565,7 @@ function AgregarContenidoCarrito() {
                             <p class="col" name="precio">$`+result[i].Precio+`</p>
                             <p class="col" name="cantidad">`+result[i].Cantidad_Cliente+`</p>
                             <input type="hidden" name="id_canasta_item" value="`+result[i].Id_Canasta_item+`">
-                            <input class="col" type="submit" value="Eliminar producto" id="btn_eliminar">
+                            <input class="col" type="submit" value="" id="btn_eliminar">
                     </form>
         `);
         }
