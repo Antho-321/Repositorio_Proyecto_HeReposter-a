@@ -20,7 +20,7 @@ $aux= $aux->fetch_array();
 $precio= $aux['Precio'];
 //Insertar en el carrito
 //Comprueba si el producto ya está añadido, si lo está, entonces solo aumenta la cantidad
-$aux= $conexion->OperSql("SELECT `Codigo` FROM `canasta_item` WHERE `Codigo`='$id';");
+$aux= $conexion->OperSql("SELECT `Codigo` FROM `canasta_item` WHERE `Codigo`='$id' AND `id_canasta`='$id_canasta';");
 $aux= $aux->fetch_array();
 if(isset($aux)){
 //Actualiza

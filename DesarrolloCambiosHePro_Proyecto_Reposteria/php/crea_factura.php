@@ -8,9 +8,21 @@ $id_usuario= $_SESSION['id'];
 $aux= $conexion->OperSql("SELECT `Nombre`, `Apellido` FROM `cliente` WHERE `Cedula` = '$cedula';");
 $aux= $aux->fetch_array();
 $nombre= $aux['Nombre']." ".$aux['Apellido'];
-
+//Obtiene el id de su canasta
+$aux=$conexion->OperSql("SELECT `Id_Canasta` FROM `canasta` WHERE `Id_Usuario` = '$id_usuario';");
+$aux= $aux->fetch_array();
+$id_canasta= $aux['Id_Canasta'];
+//Obtiene el correo
+$aux= $conexion->OperSql("SELECT `Email` FROM `usuario` WHERE `Cedula`= '$cedula';");
+$aux= $aux->fetch_array();
+$correo= $aux['Email'];
+//Obtiene la dirección
+$aux= $conexion->OperSql("SELECT `Direccion` FROM `cliente` WHERE `Cedula`= '$cedula';");
+$aux= $aux->fetch_array();
+$direccion = $aux['Direccion'];
 //Parte en la que va a obtener los dados 
-
+$aux= $conexion->OperSql("SELECT  `Codigo`, `Cantidad_Cliente`, `Subtotal` FROM `canasta_item` WHERE `Id_canasta` = '$id_canasta';");
+$arreglo= $aux->fetch_all();// arreglo de los datos a poner en la factura
 ?>
 <!DOCTYPE html>
 <html lang="en" >
@@ -51,20 +63,19 @@ $nombre= $aux['Nombre']." ".$aux['Apellido'];
       <div class="col-3">
         <h5>Enviar a</h5>
         <p>
-          Cotui, Sanchez Ramirez
-          Santa Fe, #19
-          arianmanuel75@gmail.com
+          <?php echo $direccion ?> <br>
+          <?php echo $correo?>
         </p>
       </div>
       <div class="col-3">
         <h5>N° de factura</h5>
-        <h5>Fecha</h5>
-        <h5>Fecha de vencimiento</h5>
+        <h5>Fecha de emisión</h5>
       </div>
       <div class="col-3">
         <h5>103</h5>
-        <p>09/05/2019</p>
-        <p>09/05/2019</p>
+        <p>
+          <?php echo date("Y-m-d"); ?>
+        </p>
       </div>
     </div>
   
@@ -73,9 +84,9 @@ $nombre= $aux['Nombre']." ".$aux['Apellido'];
         <thead>
           <tr>
             <th>Cant.</th>
-            <th>Descripcion</th>
-            <th>Precio Unitario</th>
-            <th>Importe</th>
+            <th>Codigo</th>
+            <th>Precio unitario</th>
+            <th>Subtotal</th>
           </tr>
         </thead>
         <tbody>
@@ -105,14 +116,14 @@ $nombre= $aux['Nombre']." ".$aux['Apellido'];
   
     <div class="cond row">
       <div class="col-12 mt-3">
-        <h4>Condiciones y formas de pago</h4>
-        <p>El pago se debe realizar en un plazo de 15 dias.</p>
+        <h4>GRACIAS POR SU COMPRA</h4>
+        <p>Recuerde acercarse a retirar su pedido</p>
         <p>
-          Banco Banreserva
+          Banco Pichincha
           <br />
-          IBAN: DO XX 0075 XXXX XX XX XXXX XXXX
+          Compra digital
           <br />
-          Código SWIFT: BPDODOSXXXX
+          Código SWIFT: PICHECEQXXX
         </p>
       </div>
     </div>
