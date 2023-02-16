@@ -212,7 +212,7 @@ function AgregarContenido(CategoríaSeleccionada) {
 function myAsyncFunction(imagen) {
     const encodedImagen = encodeURIComponent(imagen);
     return new Promise((resolve, reject) => {
-        fetch("../php/ConsultaProductoSeleccionado.php?imagen=" + encodedImagen+"&test=102")
+        fetch("../php/ConsultaProductoSeleccionado.php?imagen=" + encodedImagen)
             .then(response => response.json())
             .then(data => { //archivo json       
                 resolve(data);
@@ -220,10 +220,10 @@ function myAsyncFunction(imagen) {
             .catch(error => reject(error));
     });
 }
-function myAsyncFunction2(Dedicatoria, Cantidad, Categoría, Cobertura, Codigo, Descripción, imagen, Masa, Porciones, Precio, Relleno, Sabor, Tamaño) {
-    const encodedImagen = encodeURIComponent(imagen);
+
+function myAsyncFunction2(id, cantidad) {
     return new Promise((resolve, reject) => {
-        fetch("../php/ConsultaProductoSeleccionado.php?imagen=" + encodedImagen)
+        fetch("../php/ConsultaIngresoACarrito.php?&id="+id+"&cantidad="+cantidad)
             .then(response => response.json())
             .then(data => { //archivo json       
                 resolve(data);
@@ -266,7 +266,7 @@ function mostrarBúsqueda(lupa) {
     }, 0.01);
 }
 function ProductoSeleccionado(event) {
-    console.log(event.target.nextSibling.src);
+    //console.log(event.target.nextSibling.src);
     let myData = myAsyncFunction(event.target.nextSibling.src);
     let div = document.getElementsByTagName("div");
     producto_seleccionado = true;
@@ -276,6 +276,7 @@ function ProductoSeleccionado(event) {
     img = event.target.nextSibling;
     myData.then(result => {
         console.log(result[0]);
+
         id_producto = result[0].Codigo;
         precio_producto = result[0].Precio;
         descripción_adicional = result[0].Descripción;
@@ -414,10 +415,11 @@ function enviarInfoACarrito() {
     cantidad_producto_carr = document.getElementById("cantidad").value;
     //LA INFORMACIÓN QUE TENEMOS LA ENVIAMOS AL CARRITO
     console.log("id: " + id_producto + "\n cantidad: " + cantidad_producto_carr + "\n img: " + img.src + "\n precio del producto: " + precio_producto + "\n descripción adicional: " + descripción_adicional + "\n porciones: " + porciones + "\n masa: " + masa + "\n cobertura: " + cobertura + "\n sabor: " + sabor + "\n relleno: " + relleno);
-    /*
-    INSERT INTO carrito (id_carrito, id_producto, id_usuario, Cantidad, Subtotal)
-    SELECT id_producto, id_usuario, cantidad_producto_carr
-    */
+    let myData = myAsyncFunction2(id_producto,cantidad_producto_carr);
+    myData.then(result => {
+        console.log(result[0]);
+
+    });
 }
 //AQUI EMPIEZA LA VENTANA DE INGRESO 
 function MostrarVentanaDeIngreso() {

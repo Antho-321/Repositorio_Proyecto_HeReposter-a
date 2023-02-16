@@ -1,6 +1,7 @@
 <?php
 
-$imagen = $_GET['imagen'];
+$id = $_GET['id'];
+$cantidad = $_GET['cantidad'];
 
 
 
@@ -20,13 +21,8 @@ $imagen = $_GET['imagen'];
     if (!$conn) {
       die("Conexión fallida: " . mysqli_connect_error());
   }
+  $sql= "SELECT '".$id."','".$cantidad."'";
 
-  // Consulta a la base de datos
-  if (strpos($imagen, "http") !== false) {
-    $sql = "SELECT * FROM `producto` WHERE `Img` = '".$imagen."'";
-  }else{
-    $sql = "SELECT `Img` FROM producto";
-  }
   
   $result = mysqli_query($conn, $sql);
 
