@@ -8,17 +8,18 @@
     <link rel="stylesheet" type="text/css" href="../styles/estilo_VentanaDeIngresoAdministrador.css" id="estilo">
     <title>REPOSTERIA</title>
 </head>
+
 <body>
-    <div id="contenido_principal">       
+    <div id="contenido_principal">
         <div id="VentanaDeIngreso">
-            <div id="Ventana">
+            <form id="Ventana" action="../php/validar_administrador.php" method="POST">
                 <h2>Ingresar</h2>
-                <label for="correo">Correo electrónico:</label>
-                <input type="email" id="correo" class="entrada_texto">
+                <label for="correo">Usuario</label>
+                <input type="email" id="correo" name="user" class="entrada_texto">
                 <label for="contraseña">Contraseña:</label>
-                <input type="password" id="contraseña" class="entrada_texto">
-                <input type="button" id="ingresar" value="Ingresar">
-            </div>
+                <input type="password" id="contraseña" name="pass" class="entrada_texto">
+                <button id="ingresar">Ingresar</button>
+            </form>
         </div>
     </div>
     <footer>

@@ -126,11 +126,11 @@ function AgregarContenido(CategoríaSeleccionada) {
     //a = 15.0;
     //x = document.body.getBoundingClientRect().width;
     if (CategoríaSeleccionada == "") {
-        let myData = myAsyncFunction();
+        let myData = myAsyncFunction("");
 
         myData.then(result => {
             console.log(result);
-    
+
             let div_aux = document.createElement("div");
             for (let i = 0; i < 10; i++) {
                 let a = 15.0;
@@ -148,7 +148,7 @@ function AgregarContenido(CategoríaSeleccionada) {
             }
             seccion_productos.appendChild(div_aux);
         }
-        )
+        );
         /*
         ---------------------------------------------------------------------------------------------
             EN PRIMER LUGAR, EN PHPMYADMIN HABRÍA QUE DECLARAR LA FUNCIÓN:
@@ -195,12 +195,24 @@ function AgregarContenido(CategoríaSeleccionada) {
         }
     }
 
-    
+
 }
 
-function myAsyncFunction() {
+// function myAsyncFunction() {
+//     return new Promise((resolve, reject) => {
+//         fetch("../php/runQuery.php")
+//             .then(response => response.json())
+//             .then(data => { //archivo json       
+//                 resolve(data);
+//             })
+//             .catch(error => reject(error));
+//     });
+// }
+
+function myAsyncFunction(imagen) {
+    const encodedImagen = encodeURIComponent(imagen);
     return new Promise((resolve, reject) => {
-        fetch("../php/runQuery.php")
+        fetch("../php/ConsultaProductoSeleccionado.php?imagen=" + encodedImagen)
             .then(response => response.json())
             .then(data => { //archivo json       
                 resolve(data);
@@ -209,9 +221,9 @@ function myAsyncFunction() {
     });
 }
 
-function myAsyncFunction2() {
+function myAsyncFunction2(id, cantidad) {
     return new Promise((resolve, reject) => {
-        fetch("../php/ConsultaProductoSeleccionado.php")
+        fetch("../php/ConsultaIngresoACarrito.php?&id="+id+"&cantidad="+cantidad)
             .then(response => response.json())
             .then(data => { //archivo json       
                 resolve(data);
@@ -254,29 +266,35 @@ function mostrarBúsqueda(lupa) {
     }, 0.01);
 }
 function ProductoSeleccionado(event) {
+    //console.log(event.target.nextSibling.src);
+    let myData = myAsyncFunction(event.target.nextSibling.src);
     let div = document.getElementsByTagName("div");
     producto_seleccionado = true;
     VerificaciónCuadroDeBúsqueda();
     estilo = document.getElementById("estilo");
     estilo.href = "../styles/estilo_ProductoSeleccionado.css";
     img = event.target.nextSibling;
-    
-    //-------------LO QUE SE VA A OBTENER DE LA BASE DE DATOS A PARTIR DEL LINK DE LA IMAGEN SELECCIONADA-----------
-    id_producto = 1;
-    precio_producto = 20;
-    descripción_adicional = "Descripción adicional (en caso de existir)";
-    porciones = "10-12";
-    masa = "Bizcochuelo";
-    cobertura = "Crema";
-    sabor = "Naranja";
-    relleno = "Mermelada de mora";
-    //------------------------------------------------------------------
+    myData.then(result => {
+        console.log(result[0]);
 
-    if (div[3].id != "Salto") {
-        div[3].remove();
-    }
+        id_producto = result[0].Codigo;
+        precio_producto = result[0].Precio;
+        descripción_adicional = result[0].Descripción;
+        porciones = result[0].Porciones;
+        masa = result[0].Masa;
+        cobertura = result[0].Cobertura;
+        sabor = result[0].Sabor;
+        relleno = result[0].Relleno;
 
-    contenido_principal.innerHTML = `
+
+        
+        //------------------------------------------------------------------
+
+        if (div[3].id != "Salto") {
+            div[3].remove();
+        }
+
+        contenido_principal.innerHTML = `
             <div id="DestacadoPrincipal">
                 <img src="`+ img.src + `" alt="imagenes">
                 <p>$`+ precio_producto + `</p>
@@ -314,10 +332,15 @@ function ProductoSeleccionado(event) {
                 </div>
             </div>
             `;
-    if (descripción_adicional == "") {
-        document.getElementById("infoAdicional").remove();
+        if (descripción_adicional == "") {
+            document.getElementById("infoAdicional").remove();
+        }
+        document.getElementById("dedicatoria").addEventListener("click", colorTextoANegro);
     }
-    document.getElementById("dedicatoria").addEventListener("click", colorTextoANegro);
+    );
+
+    //-------------LO QUE SE VA A OBTENER DE LA BASE DE DATOS A PARTIR DEL LINK DE LA IMAGEN SELECCIONADA-----------
+
 }
 function funcCategoríaSeleccionada(event) {
     VerificaciónCuadroDeBúsqueda();
@@ -392,10 +415,11 @@ function enviarInfoACarrito() {
     cantidad_producto_carr = document.getElementById("cantidad").value;
     //LA INFORMACIÓN QUE TENEMOS LA ENVIAMOS AL CARRITO
     console.log("id: " + id_producto + "\n cantidad: " + cantidad_producto_carr + "\n img: " + img.src + "\n precio del producto: " + precio_producto + "\n descripción adicional: " + descripción_adicional + "\n porciones: " + porciones + "\n masa: " + masa + "\n cobertura: " + cobertura + "\n sabor: " + sabor + "\n relleno: " + relleno);
-    /*
-    INSERT INTO carrito (id_carrito, id_producto, id_usuario, Cantidad, Subtotal)
-    SELECT id_producto, id_usuario, cantidad_producto_carr
-    */
+    let myData = myAsyncFunction2(id_producto,cantidad_producto_carr);
+    myData.then(result => {
+        console.log(result[0]);
+
+    });
 }
 //AQUI EMPIEZA LA VENTANA DE INGRESO 
 function MostrarVentanaDeIngreso() {
