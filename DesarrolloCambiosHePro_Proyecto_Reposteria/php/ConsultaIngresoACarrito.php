@@ -31,5 +31,4 @@ $conexion->OperSql("INSERT INTO `canasta_item`( `Id_canasta`, `Codigo`, `Cantida
 }
 //se cierra la conexión
 $conexion->closeConnection();
-
 ?>
