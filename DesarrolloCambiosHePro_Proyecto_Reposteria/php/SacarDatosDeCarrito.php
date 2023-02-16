@@ -1,6 +1,5 @@
 <?php
 
-
 session_start();
 $id_usuario= $_SESSION['id'];
   // Conexión a la base de datos
@@ -14,7 +13,7 @@ $id_usuario= $_SESSION['id'];
       die("Conexión fallida: " . mysqli_connect_error());
   }
 
-  $sql= "SELECT p.*, Cantidad_Cliente FROM canasta_item ci LEFT JOIN canasta c ON c.Id_canasta = ci.Id_Canasta LEFT JOIN producto p ON ci.Codigo = p.Codigo WHERE c.Id_Usuario = '".$id_usuario."'";
+  $sql= "SELECT p.*, Cantidad_Cliente, Id_Canasta_item FROM canasta_item ci LEFT JOIN canasta c ON c.Id_canasta = ci.Id_Canasta LEFT JOIN producto p ON ci.Codigo = p.Codigo WHERE c.Id_Usuario = '".$id_usuario."'";
 //$sql="SELECT '".$id_usuario."'";
   
   $result = mysqli_query($conn, $sql);

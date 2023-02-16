@@ -554,17 +554,19 @@ function AgregarContenidoCarrito() {
         console.log(result);
         for(let i=0;i<result.length;i++){
             primera_fila.insertAdjacentHTML("afterend",`
-        <div class="fila">
+        <form class="fila" action="">
                         <div class="col">
                             <img src="`+result[i].Img+`" alt="Producto">
                         </div>            
-                            <p class="col">`+result[i].Masa+`</p>
-                            <p class="col">`+result[i].Sabor+`</p>
-                            <p class="col">`+result[i].Relleno+`</p>
-                            <p class="col">`+result[i].Cobertura+`</p>
-                            <p class="col">$`+result[i].Precio+`</p>
-                            <p class="col">`+result[i].Cantidad_Cliente+`</p>
-                    </div>
+                            <p class="col" name="masa">`+result[i].Masa+`</p>
+                            <p class="col" name="sabor">`+result[i].Sabor+`</p>
+                            <p class="col" name="relleno">`+result[i].Relleno+`</p>
+                            <p class="col" name="cobertura">`+result[i].Cobertura+`</p>
+                            <p class="col" name="precio">$`+result[i].Precio+`</p>
+                            <p class="col" name="cantidad">`+result[i].Cantidad_Cliente+`</p>
+                            <input type="hidden" name="id_canasta_item" value="`+result[i].Id_Canasta_item+`">
+                            <input class="col" type="submit" value="Eliminar producto" id="btn_eliminar">
+                    </form>
         `);
         }
 
