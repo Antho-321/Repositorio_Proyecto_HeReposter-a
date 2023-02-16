@@ -1,10 +1,27 @@
 <?php
+
+//////////////////////////////////////////////////////77RECIBIR LINK DE JAVASCRIPT////////////////////////////////////////////////////////////////////
+
+// Recibimos los datos enviados desde JavaScript
+$datos = json_decode(file_get_contents('php://input'), true);
+
+
+
+// Hacemos algo con los datos recibidos
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Establecer la conexión a la base de datos
 $enlace="";
 $host = "localhost";
 $user = "root";
 $pass = "root";
 $dbname = "db_pankey";
+
+
+
 
 $conexion = mysqli_connect($host, $user, $pass, $dbname);
 
@@ -14,10 +31,10 @@ if (!$conexion) {
 }
 
 // Definir el ID de la fila a eliminar
-$id = 1;
+src = $datos;
 
 // Preparar la sentencia SQL
-$sql = "DELETE FROM producto WHERE id = $id";
+$sql = "DELETE FROM producto WHERE Img = $datos";
 
 // Ejecutar la sentencia SQL
 if (mysqli_query($conexion, $sql)) {

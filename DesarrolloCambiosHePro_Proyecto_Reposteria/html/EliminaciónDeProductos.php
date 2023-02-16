@@ -11,5 +11,7 @@
     <h1>Eliminación de productos</h1>
     <section id="seccion_productos"></section>
     <script src="../script/script_EliminaciónDeProductos.js"></script>
+  
 </body>
 </html>
+
