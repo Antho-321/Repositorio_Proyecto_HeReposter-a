@@ -114,11 +114,9 @@ function myAsyncFunction() {
 }
 function ProductoSeleccionado(event) {
     let div = document.getElementsByTagName("div");
-    producto_seleccionado = true;
     estilo = document.getElementById("estilo");
-    estilo.href = "../styles/estilo_ProductoSeleccionado.css";
+    estilo.href = "../styles/estilo_IngresoDeProductos.css";
     img = event.target.nextSibling;
-    
     //-------------LO QUE SE VA A OBTENER DE LA BASE DE DATOS A PARTIR DEL LINK DE LA IMAGEN SELECCIONADA-----------
     id_producto = 1;
     precio_producto = 20;
@@ -134,48 +132,72 @@ function ProductoSeleccionado(event) {
         div[3].remove();
     }
 
-    contenido_principal.innerHTML = `
-            <div id="DestacadoPrincipal">
-                <img src="`+ img.src + `" alt="imagenes">
-                <p>$`+ precio_producto + `</p>
-                <div id="seccion_cantidad">
-                    <label for="cantidad">Cantidad:&nbsp;&nbsp;&nbsp;</label>
-                    <input type="button" id="disminuir_cantidad" value="-" onclick="disminuirCantidadProducto()">
-                    <input type="number" id="cantidad" name="cantidad" value="1" readonly>
-                    <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadProducto()">
+    document.getElementsByTagName("body")[0].innerHTML = `
+    <h1 align="center">Ingreso de productos</h1>
+    <form id="form" method='POST' enctype="multipart/form-data" action="../php/php_IngresoDeProductos.php">
+        <section id="seccion_principal">
+            <div id="seccion__Izq">
+                <div>
+                    <div class="fila">
+                        <label class="col" for="lista_categoría">Categoría:</label>
+                        <select name="lista_categoría" id="lista_categoría" class="col">
+                            <option value="Bodas">Bodas</option>
+                            <option value="Bautizos">Bautizos</option>
+                            <option value="XV_años">XV años</option>
+                            <option value="Cumpleaños">Cumpleaños</option>
+                            <option value="Baby_Shower">Baby Shower</option>
+                            <option value="San_Valentin">San Valentin</option>
+                            <option value="Vísperas_de_Santos">Vísperas de Santos</option>
+                            <option value="Navidad">Navidad</option>
+                        </select>
+                    </div>
+
+                    <div class="fila">
+                        <label class="col" for="ingresoArchivo">Imagen:</label>
+                        <input class="col" type="file" id="file-input" name="archivo">
+                        <label class="col" for="ingreso_enlace">o</label>
+                        <input class="col" type="url" value="Ingresar enlace" id="ingreso_enlace" onchange="enlaceIngresado()">
+                    </div>
+
                 </div>
-                <input type="button" value="Añadir al carrito" onclick="enviarInfoACarrito()">
-            </div>
-            <div id="infoDetallada">
-                <p id="infoAdicional">`+ descripción_adicional + `</p>
                 <div class="tabla_info">
                     <div class="fila">
-                        <p class="col">Dedicatoria para el pedido:</p>
-                        <input class="col" type="text" value="Feliz Cumpleaños..." id="dedicatoria">
-                    </div>
-                    <div class="fila">
-                        <p class="col">Porciones:</p>
-                        <p class="col">`+ porciones + `</p>
-                    </div>
-                    <div class="fila">
-                        <p class="col">Masa:</p>
-                        <p class="col">`+ masa + `</p>
-                        <p class="col">Cobertura:</p>
-                        <p class="col">`+ cobertura + `</p>
-                    </div>
-                    <div class="fila">
-                        <p class="col">Sabor:</p>
-                        <p class="col">`+ sabor + `</p>
-                        <p class="col">Relleno:</p>
-                        <p class="col">`+ relleno + `</p>
-                    </div>
+                        <p class="col">Forma:</p>
+                        <div class="col">
+                            <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" name="forma">
+                            <label for="red">Redonda</label>
+                        </div>
+                        <div class="col">
+                            <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" name="forma">
+                            <label for="cuad">Cuadrada</label>
+                        </div>
+                        <div class="col">
+                            <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" name="forma">
+                            <label for="rec">Rectangular</label>
+                        </div>
+                        <div class="col">
+                            <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" name="forma">
+                            <label for="per">Personalizada</label>
+                        </div>
+                    </div>                   
                 </div>
+                
             </div>
+            <div id="seccion__Der">
+                <h2>Previsualización de producto:</h2>
+                <img alt="Imagen de pastel" id="image-preview" src=`+img.src+`>
+            </div>
+        </section>
+        <input type="hidden" name='formulario'>
+        <div id="seccion_btn">
+            <input type="submit" value="Añadir producto">
+        </div>
+    </form>
+
             `;
     if (descripción_adicional == "") {
         document.getElementById("infoAdicional").remove();
     }
-    document.getElementById("dedicatoria").addEventListener("click", colorTextoANegro);
 }
 function colorTextoANegro(event) {
     let entrada_texto = event.target;
