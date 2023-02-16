@@ -161,11 +161,12 @@ if (isset($_SESSION['id'])) {
 
                 </div>
             </div>
+            <div id="botones_carrito">
             <input id="fin_pedido" type="button" value="Finalizar pedido" onclick="añadirBtnPago()">
-
-            <p>Nota: Pronto incorporaremos la entrega a
-                domicio. Los pedidos que realices puedes
-                retirarlos de nuestro local desde las 24h
+            
+            <p>Nota: Pronto incorporaremos la entrega a 
+                domicio. Los pedidos que realices puedes 
+                retirarlos de nuestro local desde las 24h 
                 transcurridas.<br>
                 Dirección: Av. Atahualpa y Tobías Mena, a
                 unos pasos del coliseo de la Bola Amarilla
