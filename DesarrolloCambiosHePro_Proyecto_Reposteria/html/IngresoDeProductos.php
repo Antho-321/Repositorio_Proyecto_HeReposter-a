@@ -10,6 +10,19 @@
 </head>
 
 <body>
+<header>
+
+<!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
+
+<img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
+
+<!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
+
+<h1>Actualización de información</h1>
+<h4>ADMINISTRACIÓN</h4>
+
+</header>
+
     <h1 align="center">Ingreso de productos</h1>
     <form id="form" method='POST' enctype="multipart/form-data" action="../php/php_IngresoDeProductos.php">
         <section id="seccion_principal">

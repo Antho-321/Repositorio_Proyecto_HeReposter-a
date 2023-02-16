@@ -1,34 +1,43 @@
 <?php
 session_start();
+//inserta en base de datos
 include("../php/Conexion.php");
 $conexion = new Conexion;
-$cedula= $_SESSION['cedula'];
-$id_usuario= $_SESSION['id'];
-$aux= $conexion->OperSql("SELECT `Nombre`, `Apellido` FROM `cliente` WHERE `Cedula` = '$cedula';");
-$aux= $aux->fetch_array();
-$nombre= $aux['Nombre']." ".$aux['Apellido'];
+$id = $_SESSION['id'];
+$cedula = $_SESSION['cedula'];
+$id_usuario = $_SESSION['id'];
+$aux = $conexion->OperSql("SELECT `Nombre`, `Apellido` FROM `cliente` WHERE `Cedula` = '$cedula';");
+$aux = $aux->fetch_array();
+$nombre = $aux['Nombre'] . " " . $aux['Apellido'];
 //Obtiene el id de su canasta
-$aux=$conexion->OperSql("SELECT `Id_Canasta` FROM `canasta` WHERE `Id_Usuario` = '$id_usuario';");
-$aux= $aux->fetch_array();
-$id_canasta= $aux['Id_Canasta'];
+$aux = $conexion->OperSql("SELECT `Id_Canasta` FROM `canasta` WHERE `Id_Usuario` = '$id_usuario';");
+$aux = $aux->fetch_array();
+$id_canasta = $aux['Id_Canasta'];
 //Obtiene el correo
-$aux= $conexion->OperSql("SELECT `Email` FROM `usuario` WHERE `Cedula`= '$cedula';");
-$aux= $aux->fetch_array();
-$correo= $aux['Email'];
+$aux = $conexion->OperSql("SELECT `Email` FROM `usuario` WHERE `Cedula`= '$cedula';");
+$aux = $aux->fetch_array();
+$correo = $aux['Email'];
 //Obtiene la dirección
-$aux= $conexion->OperSql("SELECT `Direccion` FROM `cliente` WHERE `Cedula`= '$cedula';");
-$aux= $aux->fetch_array();
+$aux = $conexion->OperSql("SELECT `Direccion` FROM `cliente` WHERE `Cedula`= '$cedula';");
+$aux = $aux->fetch_array();
 $direccion = $aux['Direccion'];
 //Parte en la que va a obtener los dados 
-$aux= $conexion->OperSql("SELECT  `Codigo`, `Cantidad_Cliente`, `Subtotal` FROM `canasta_item` WHERE `Id_canasta` = '$id_canasta';");
-$arreglo= $aux->fetch_all(PDO::FETCH_ASSOC);// arreglo de los datos a poner en la factura
+$aux = $conexion->OperSql("SELECT  `Codigo`, `Cantidad_Cliente`, `Subtotal` FROM `canasta_item` WHERE `Id_canasta` = '$id_canasta';");
+$arreglo = $aux->fetch_all(PDO::FETCH_ASSOC); // arreglo de los datos a poner en la factura
 //Consulta de ayuda para el foreach
 
 
+//obtener id_canasta
+// $aux = $conexion->OperSql("SELECT `Id_Canasta` FROM `canasta` WHERE  `Id_Usuario` = '$id'");
+// $aux = $aux->fetch_array();
+// $canasta = $aux['Id_Canasta'];
+// $fecha= date("Y-m-d");
+// $conexion->OperSql("INSERT INTO `factura`(`Id_Canasta`, `Nfactura`, `Fcompra`, `Subtotal(noIVA)`, `Total_pago`) VALUES ('$canasta','133','$fecha','[value-5]','[value-6]')");
+//////////////////////
 
 
 //defino variables
-$total =0;
+$total = 0;
 
 
 ?>
@@ -68,15 +77,15 @@ $total =0;
             <div class="col-3">
                 <h5>Facturar a</h5>
                 <p>
-                    <?php echo $nombre?><br>
-                    <?php echo $cedula?>
+                    <?php echo $nombre ?><br>
+                    <?php echo $cedula ?>
                 </p>
             </div>
             <div class="col-3">
                 <h5>Enviar a</h5>
                 <p>
                     <?php echo $direccion ?> <br>
-                    <?php echo $correo?>
+                    <?php echo $correo ?>
                 </p>
             </div>
             <div class="col-3">
@@ -102,24 +111,24 @@ $total =0;
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($arreglo as $row){   ?>
+                    <?php foreach ($arreglo as $row) {   ?>
 
-                    <tr>
-                        <td><?php echo $row[1]; ?></td>
-                        <td><?php echo $row[0]; ?></td>
-                        <td><?php echo $row[2]." $"; ?></td>
-                        <td><?php echo $row[1]*$row[2]." $"; ?></td>
-                     
-                    </tr>
-                    <?php $total+=  $row[1]*$row[2]; ?>
-                    <?php }?>
+                        <tr>
+                            <td><?php echo $row[1]; ?></td>
+                            <td><?php echo $row[0]; ?></td>
+                            <td><?php echo $row[2] . " $"; ?></td>
+                            <td><?php echo $row[1] * $row[2] . " $"; ?></td>
+
+                        </tr>
+                        <?php $total +=  $row[1] * $row[2]; ?>
+                    <?php } ?>
                 </tbody>
                 <tfoot>
                     <tr>
                         <th></th>
                         <th></th>
                         <th>Total Factura</th>
-                        <th><?php echo $total." $"; ?></th>
+                        <th><?php echo $total . " $"; ?></th>
                     </tr>
                 </tfoot>
             </table>
