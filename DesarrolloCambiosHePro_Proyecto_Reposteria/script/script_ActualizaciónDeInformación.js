@@ -1,11 +1,11 @@
 let tamaño1, tamaño2, tamaño3, tamaño4, tamaño5;
 let div_fila = document.createElement("div");
 let div_col = document.createElement("div");
-
+let ingreso_enlace;
 let h1 = document.getElementsByTagName("h1")[0];
 let verificacion_enlace = document.getElementById("verificacion_enlace");
-let imgNoValida = document.getElementById("imgNoValida");
-let btnEnviar = document.getElementById("enviarFormulario");
+let imgNoValida;
+let btnEnviar;
 let txtO = document.querySelector("label[for='ingreso_enlace']");
 window.onload = AgregarContenido("");
 div_fila.className = "fila";
@@ -178,58 +178,11 @@ function colorTextoANegro(event) {
 }
 function opcionesPastel(event) {
     let tabla = document.querySelector(".tabla_info");
-    let ingreso_enlace = document.getElementById("ingreso_enlace");
-    const fileInput = document.getElementById('file-input');
-const imagePreview = document.getElementById('image-preview');
-console.log(ingreso_enlace);
-
-fileInput.addEventListener('change', () => {
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      imagePreview.src = reader.result;
-    };
-    txtO.remove();
-    ingreso_enlace.remove();
-    verificacion_enlace.value = "no";
-  });
-  
-  div_fila.className = "fila";
+    
+    
 
   
-  ingreso_enlace.addEventListener('input', () => {
-    if (ingreso_enlace.value != "") {
-      if (!esUrlValida(ingreso_enlace.value)) {
-        console.log('Link no válido');
-        imgNoValida.style.visibility = "visible";
-        btnEnviar.disabled = true;
-      } else {
-        esImagen(ingreso_enlace.value).then((result) => {
-          if (result) {
-            console.log('Se ha ingresado una imagen');
-            console.log("ENLACE VALIDO");
-            txtO.remove();
-            fileInput.remove();
-            imagePreview.src = ingreso_enlace.value;
-            verificacion_enlace.value = "si";
-            imgNoValida.style.visibility = "hidden";
-            btnEnviar.disabled = false;
-          } else {
-            console.log('Link no válido');
-            imgNoValida.style.visibility = "visible";
-            btnEnviar.disabled = true;
-          }
-        });
-      }
   
-    } else {
-      imgNoValida.style.visibility = "hidden";
-      btnEnviar.disabled = false;
-    }
-  
-  
-  });
   if (event.target.id == "rec") {
     tamaño1 = "Mediana (35-40 personas)";
     tamaño2 = "Extra grande (100 personas)";
@@ -378,7 +331,6 @@ fileInput.addEventListener('change', () => {
   }
 }
 function ProductoSeleccionado(event) {
-    
 document.documentElement.innerHTML=`
 <!DOCTYPE html>
 <html lang="en">
@@ -453,7 +405,7 @@ document.documentElement.innerHTML=`
         </section>
         <input type="hidden" name='formulario'>
         <div id="seccion_btn">
-            <input type="submit" value="Añadir producto" id="enviarFormulario">
+            <input type="submit" value="Guardar cambios" id="enviarFormulario">
         </div>
     </form>
     <script src="../script/script_ActualizaciónDeInformación.js"></script>
@@ -461,6 +413,61 @@ document.documentElement.innerHTML=`
 
 </html>
 `;
+verificacion_enlace = document.getElementById("verificacion_enlace");
+const fileInput = document.getElementById('file-input');
+const imagePreview = document.getElementById('image-preview');
+console.log(ingreso_enlace);
+
+fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      imagePreview.src = reader.result;
+    };
+    txtO.remove();
+    ingreso_enlace.remove();
+    verificacion_enlace.value = "no";
+  });
+  
+  div_fila.className = "fila";
+txtO = document.querySelector("label[for='ingreso_enlace']");
+btnEnviar = document.getElementById("enviarFormulario");
+imgNoValida = document.getElementById("imgNoValida");
+ingreso_enlace = document.getElementById("ingreso_enlace");
+ingreso_enlace.addEventListener('input', () => {
+  if (ingreso_enlace.value != "") {
+    if (!esUrlValida(ingreso_enlace.value)) {
+      console.log('Link no válido');
+      imgNoValida.style.visibility = "visible";
+      btnEnviar.disabled = true;
+    } else {
+      esImagen(ingreso_enlace.value).then((result) => {
+        if (result) {
+          console.log('Se ha ingresado una imagen');
+          console.log("ENLACE VALIDO");
+          txtO.remove();
+          fileInput.remove();
+          imagePreview.src = ingreso_enlace.value;
+          verificacion_enlace.value = "si";
+          imgNoValida.style.visibility = "hidden";
+          btnEnviar.disabled = false;
+        } else {
+          console.log('Link no válido');
+          imgNoValida.style.visibility = "visible";
+          btnEnviar.disabled = true;
+        }
+      });
+    }
+
+  } else {
+    imgNoValida.style.visibility = "hidden";
+    btnEnviar.disabled = false;
+  }
+
+
+});
+
 }
 function esImagen(url) {
     return new Promise((resolve, reject) => {
