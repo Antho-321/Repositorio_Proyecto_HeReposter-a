@@ -56,7 +56,9 @@ if (isset($_SESSION['id'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/estilo_CarritoDeCompras.css" id="estilo">
-    <script src="https://www.paypal.com/sdk/js?client-id=Ae1w7jU4kbRrRCFluXHkxbnTITPA_JXsU-0aSuXq0oSiqkA-IKkxyIeexgvkG5QFbQTa9EhbbJaECvUP&currency=USD"></script>
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=Ae1w7jU4kbRrRCFluXHkxbnTITPA_JXsU-0aSuXq0oSiqkA-IKkxyIeexgvkG5QFbQTa9EhbbJaECvUP&currency=USD">
+    </script>
     <title>REPOSTERIA</title>
 </head>
 
@@ -98,13 +100,15 @@ if (isset($_SESSION['id'])) {
             <!-- //////////////////////////////////////////ICONOS/////////////////////////////////////////////// -->
 
             <nav class="iconos">
-                <li><a href="../html/CarritoDeCompras.php"><img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo"></a></li>
-                <li onclick="mostrarBúsqueda(this)"><a><img src="../iconos/busqueda.png" type="button" value="Catalogo"></a></li>
+                <li><a href="../html/CarritoDeCompras.php"><img src="../iconos/carro-de-la-carretilla.png" type="button"
+                            value="Catalogo"></a></li>
+                <li onclick="mostrarBúsqueda(this)"><a><img src="../iconos/busqueda.png" type="button"
+                            value="Catalogo"></a></li>
                 <li id="seccion_busqueda"><a><input type="search" id="búsqueda"></a></li>
                 <?php if (!isset($id)) { ?>
-                    <li><a id="Ingreso" onclick="MostrarVentanaDeIngreso()">Ingresar</li>
+                <li><a id="Ingreso" onclick="MostrarVentanaDeIngreso()">Ingresar</li>
                 <?php } else { ?>
-                    <button onclick="Logout()" id="Salida"><a>Salir</button>
+                <button onclick="Logout()" id="Salida"><a>Salir</button>
                 <?php } ?>
                 <label for="check" class="esconder_menu">
                     &#215
@@ -162,11 +166,14 @@ if (isset($_SESSION['id'])) {
                 </div>
             </div>
             <div id="botones_carrito">
-            <input id="fin_pedido" type="button" value="Finalizar pedido" onclick="añadirBtnPago()">
-            
-            <p>Nota: Pronto incorporaremos la entrega a 
-                domicio. Los pedidos que realices puedes 
-                retirarlos de nuestro local desde las 24h 
+                <input id="fin_pedido" type="button" value="Finalizar pedido" onclick="añadirBtnPago()">
+                <input id="gen_factura" type="button" value="Generar factura" onclick="location.href='../php/crea_factura.php';">
+
+            </div>
+
+            <p>Nota: Pronto incorporaremos la entrega a
+                domicio. Los pedidos que realices puedes
+                retirarlos de nuestro local desde las 24h
                 transcurridas.<br>
                 Dirección: Av. Atahualpa y Tobías Mena, a
                 unos pasos del coliseo de la Bola Amarilla

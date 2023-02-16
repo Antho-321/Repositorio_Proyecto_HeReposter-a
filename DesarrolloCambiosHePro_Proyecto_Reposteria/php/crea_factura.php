@@ -23,6 +23,17 @@ $direccion = $aux['Direccion'];
 //Parte en la que va a obtener los dados 
 $aux= $conexion->OperSql("SELECT  `Codigo`, `Cantidad_Cliente`, `Subtotal` FROM `canasta_item` WHERE `Id_canasta` = '$id_canasta';");
 $arreglo= $aux->fetch_all();// arreglo de los datos a poner en la factura
+//Consulta de ayuda para el foreach
+
+
+
+
+//defino variables
+$codigo =$arreglo[0];
+$cantidad_cliente =$arreglo[1];
+$subtotal =$arreglo[2];
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en" >
@@ -90,18 +101,14 @@ $arreglo= $aux->fetch_all();// arreglo de los datos a poner en la factura
           </tr>
         </thead>
         <tbody>
+        <?php foreach ($arreglo as $row){ ?>
           <tr>
             <td>1</td>
             <td>Clases de Cha-Cha-Cha</td>
             <td>3,000.00</td>
             <td>3,000.00</td>
           </tr>
-          <tr>
-            <td>3</td>
-            <td>Clases de Salsa</td>
-            <td>4,000.00</td>
-            <td>12,000.00</td>
-          </tr>
+          <?php }?>
         </tbody>
         <tfoot>
           <tr>
