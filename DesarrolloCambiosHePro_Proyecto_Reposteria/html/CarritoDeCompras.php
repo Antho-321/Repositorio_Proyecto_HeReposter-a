@@ -1,54 +1,56 @@
 <?php
 //Inicia la sesión y checa si hay un id, lo que indica que ya esta logueado alguien
 session_start();
+$Subtotal = 0;
+$Iva = 0;
+$Total = 0;
 if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
-}else if(isset($_SESSION['contraseña'])){
+    include("../php/Conexion.php");
+    $conexion = new Conexion;
+    $aux = $conexion->OperSql("SELECT `Id_Canasta` FROM `canasta` WHERE  `Id_Usuario` = '$id'");
+    $aux = $aux->fetch_array();
+    $aux = $aux['Id_Canasta'];
+    // Configuración de la conexión a la base de datos
+    $enlace = "";
+    $host = "localhost";
+    $user = "root";
+    $pass = "root";
+    $dbname = "db_pankey";
+
+    // Crear una nueva conexión PDO
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+
+    // Preparar la consulta SQL
+    $sql = "SELECT Subtotal FROM canasta_item WHERE Id_canasta = $aux";
+
+    // Ejecutar la consulta y obtener los resultados
+    $stmt = $pdo->query($sql);
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Defino variables
+    $Subtotal = 0;
+    $Iva = 0;
+    $Total = 0;
+
+
+    // Iterar a través de los resultados y mostrar la columna "Sutotal"
+    foreach ($results as $row) {
+
+        $Subtotal += $row['Subtotal'];
+    }
+    $Iva = ($Subtotal * 12) / 100;
+    $Total = $Subtotal + $Iva;
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+} else if (isset($_SESSION['contraseña'])) {
     header("Location: ../php/Logout.php");
 }
 ?>
 
-<?php
-/////////////////////////////////////////////////////////////////////////7CALCULAR SUBTOTALE IVA//////////////////////////////////////////////////////////////////////////////////////////////
-
-// Configuración de la conexión a la base de datos
-$enlace="";
-$host = "localhost";
-$user = "root";
-$pass = "root";
-$dbname = "db_pankey";
-
-// Crear una nueva conexión PDO
-$pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
-
-// Preparar la consulta SQL
-$sql = "SELECT Subtotal FROM canasta_item";
-
-// Ejecutar la consulta y obtener los resultados
-$stmt = $pdo->query($sql);
-$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// Defino variables
-$Subtotal=0;
-$Iva=0;
-$Total=0;
-
-
-// Iterar a través de los resultados y mostrar la columna "Sutotal"
-foreach ($results as $row) {
-
-    $Subtotal+= $row['Subtotal'];
-
-}
-$Iva=($Subtotal*12)/100;
-$Total=$Subtotal+$Iva;
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,6 +59,7 @@ $Total=$Subtotal+$Iva;
     <script src="https://www.paypal.com/sdk/js?client-id=Ae1w7jU4kbRrRCFluXHkxbnTITPA_JXsU-0aSuXq0oSiqkA-IKkxyIeexgvkG5QFbQTa9EhbbJaECvUP&currency=USD"></script>
     <title>REPOSTERIA</title>
 </head>
+
 <body>
 
     <!-- //////////////////////////////////////////////////////////////////////////ENCABEZADO////////////////////////////////////////////////////////////////////////////////////////////// -->
@@ -68,7 +71,7 @@ $Total=$Subtotal+$Iva;
         <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
 
         <!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
-        
+
         <input type="checkbox" id="check">
         <label for="check" class="mostrar_menu">
             &#8801
@@ -101,7 +104,7 @@ $Total=$Subtotal+$Iva;
                 <?php if (!isset($id)) { ?>
                     <li><a id="Ingreso" onclick="MostrarVentanaDeIngreso()">Ingresar</li>
                 <?php } else { ?>
-                    <button onclick="Logout()" id="Salida" ><a>Salir</button>
+                    <button onclick="Logout()" id="Salida"><a>Salir</button>
                 <?php } ?>
                 <label for="check" class="esconder_menu">
                     &#215
@@ -126,7 +129,7 @@ $Total=$Subtotal+$Iva;
                     <p class="col">Precio unitario</p>
                     <p class="col">Cantidad</p>
                 </div>
-                
+
             </div>
         </section>
         <section id="Info_adicional">
@@ -134,39 +137,39 @@ $Total=$Subtotal+$Iva;
             <div class="tabla_info">
                 <div class="fila">
                     <p class="col">Subtotal:</p>
-                    <p class="col"><?= $Subtotal?> $</p>
+                    <p class="col"><?= $Subtotal ?> $</p>
                 </div>
                 <div class="fila">
                     <p class="col">IVA 12%:</p>
-                    <p class="col"><?= $Iva?> $</p>
+                    <p class="col"><?= $Iva ?> $</p>
                 </div>
                 <div class="fila">
                     <p class="col">Total:</p>
-                    <p class="col"><?= $Total?> $</p>
+                    <p class="col"><?= $Total ?> $</p>
                 </div>
                 <div class="fila">
                     <label class="col" for="fecha_entrega">Fecha de entrega:</label>
                     <div id="entrada_fecha">
                         <input class="col" type="date" id="fecha_entrega" name="fecha_entrega">
-                    </div>               
+                    </div>
                 </div>
                 <div class="fila">
                     <label class="col" for="time">Hora:</label>
                     <div id="entrada_tiempo">
-                        <input class="col" type="time">  
-                    </div>  
-                             
+                        <input class="col" type="time">
+                    </div>
+
                 </div>
             </div>
             <input id="fin_pedido" type="button" value="Finalizar pedido" onclick="añadirBtnPago()">
-            
-            <p>Nota: Pronto incorporaremos la entrega a 
-                domicio. Los pedidos que realices puedes 
-                retirarlos de nuestro local desde las 24h 
+
+            <p>Nota: Pronto incorporaremos la entrega a
+                domicio. Los pedidos que realices puedes
+                retirarlos de nuestro local desde las 24h
                 transcurridas.<br>
-                Dirección: Av. Atahualpa y Tobías Mena, a 
+                Dirección: Av. Atahualpa y Tobías Mena, a
                 unos pasos del coliseo de la Bola Amarilla
-                </p>
+            </p>
         </section>
     </div>
     <footer>
@@ -177,4 +180,5 @@ $Total=$Subtotal+$Iva;
     <script src="../script/script_querys.js"></script>
     <script src="../script/script_InteracciónPrincipal.js"></script>
 </body>
+
 </html>
