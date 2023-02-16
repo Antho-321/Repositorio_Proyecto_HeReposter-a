@@ -3,17 +3,9 @@
 $id = $_GET['id'];
 $cantidad = $_GET['cantidad'];
 
-
-
-
-
   // Conexión a la base de datos
   $conn = mysqli_connect('localhost', 'root', 'root', 'db_pankey');
 
-// Recibir la variable "num" desde la petición fetch
-
-
-  //print($num);
 
   // Verificar conexión
 
