@@ -231,16 +231,6 @@ let myData = myAsyncFunction(CategoríaSeleccionada);
 
 }
 
-// function myAsyncFunction() {
-//     return new Promise((resolve, reject) => {
-//         fetch("../php/runQuery.php")
-//             .then(response => response.json())
-//             .then(data => { //archivo json       
-//                 resolve(data);
-//             })
-//             .catch(error => reject(error));
-//     });
-// }
 
 function myAsyncFunction(imagen) {
     const encodedImagen = encodeURIComponent(imagen);
@@ -265,9 +255,9 @@ function myAsyncFunction2(id, cantidad) {
     });
 }
 
-function myAsyncFunction3() {
+function myAsyncFunction3(id_usuario) {
     return new Promise((resolve, reject) => {
-        fetch("../php/SacarDatosDeCarrito.php")
+        fetch("../php/SacarDatosDeCarrito.php?id_usuario="+id_usuario)
             .then(response => response.json())
             .then(data => { //archivo json       
                 resolve(data);
@@ -559,22 +549,27 @@ function CerrarVentana() {
 }
 function AgregarContenidoCarrito() {
     let primera_fila=document.getElementById("primera_fila");
+    let myData = myAsyncFunction3();
+    myData.then(result => {
+        console.log(result);
+        for(let i=0;i<result.length;i++){
+            primera_fila.insertAdjacentHTML("afterend",`
+        <div class="fila">
+                        <div class="col">
+                            <img src="`+result[i].Img+`" alt="Producto">
+                        </div>            
+                            <p class="col">`+result[i].Masa+`</p>
+                            <p class="col">`+result[i].Sabor+`</p>
+                            <p class="col">`+result[i].Relleno+`</p>
+                            <p class="col">`+result[i].Cobertura+`</p>
+                            <p class="col">$`+result[i].Precio+`</p>
+                            <p class="col">`+result[i].Cantidad_Cliente+`</p>
+                    </div>
+        `);
+        }
 
-    for(let i=0;i<5;i++){
-        primera_fila.insertAdjacentHTML("afterend",`
-    <div class="fila">
-                    <div class="col">
-                        <img src="../iconos/imagenes.png" alt="Producto">
-                    </div>            
-                        <p class="col">X</p>
-                        <p class="col">X</p>
-                        <p class="col">X</p>
-                        <p class="col">X</p>
-                        <p class="col">$X</p>
-                        <p class="col">X</p>
-                </div>
-    `);
-    }
+    });
+    
     
 
 }
