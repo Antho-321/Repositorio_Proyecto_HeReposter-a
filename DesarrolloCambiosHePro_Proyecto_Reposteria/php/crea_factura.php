@@ -5,6 +5,10 @@ include("../php/Conexion.php");
 $conexion = new Conexion;
 $cedula= $_SESSION['cedula'];
 $id_usuario= $_SESSION['id'];
+$aux= $conexion->OperSql("SELECT `Nombre`, `Apellido` FROM `cliente` WHERE `Cedula` = '$cedula';");
+$aux= $aux->fetch_array();
+$nombre= $aux['Nombre']." ".$aux['Apellido'];
+
 //Parte en la que va a obtener los dados 
 
 ?>
@@ -40,7 +44,8 @@ $id_usuario= $_SESSION['id'];
       <div class="col-3">
         <h5>Facturar a</h5>
         <p>
-          Arian Manuel Garcia Reynoso
+          <?php echo $nombre?><br>
+          <?php echo $cedula?>
         </p>
       </div>
       <div class="col-3">

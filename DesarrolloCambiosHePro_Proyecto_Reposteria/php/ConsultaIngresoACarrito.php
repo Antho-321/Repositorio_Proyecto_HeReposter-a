@@ -1,38 +1,35 @@
 <?php
-
+session_start();
+include("../php/Conexion.php");
+$conexion= new Conexion;
+//id del producto
 $id = $_GET['id'];
+//cantidad del cliente
 $cantidad = $_GET['cantidad'];
+//id del usuario
+$usuario = $_SESSION['id'];
+//////////////////////////
+$aux= $conexion->OperSql("SELECT `Id_Canasta` FROM `canasta` WHERE `Id_Usuario`='$usuario';");
+$aux= $aux->fetch_array();
+//id de la canasta
+$id_canasta= $aux['Id_Canasta'];
+///////////////////////////
+$aux= $conexion->OperSql("SELECT `Precio` FROM `producto` WHERE `Codigo`= '$id';");
+$aux= $aux->fetch_array();
+//precio producto
+$precio= $aux['Precio'];
+//Insertar en el carrito
+//Comprueba si el producto ya está añadido, si lo está, entonces solo aumenta la cantidad
+$aux= $conexion->OperSql("SELECT `Codigo` FROM `canasta_item` WHERE `Codigo`='$id';");
+$aux= $aux->fetch_array();
+if(isset($aux)){
+//Actualiza
+$conexion->OperSql("UPDATE `canasta_item` SET `Subtotal`=`Subtotal`+'$cantidad'*'$precio', `Cantidad_Cliente`=`Cantidad_Cliente`+'$cantidad' WHERE `Codigo`='$id';");
+}else{
+//Inserta
+$conexion->OperSql("INSERT INTO `canasta_item`( `Id_canasta`, `Codigo`, `Cantidad_Cliente`, `Subtotal`) VALUES ('$id_canasta','$id','$cantidad','$precio'*'$cantidad');");
+}
+//se cierra la conexión
+$conexion->closeConnection();
 
-  // Conexión a la base de datos
-  $conn = mysqli_connect('localhost', 'root', 'root', 'db_pankey');
-
-
-  // Verificar conexión
-
-  
-    if (!$conn) {
-      die("Conexión fallida: " . mysqli_connect_error());
-  }
-
-  $sql= "SELECT '".$id."','".$cantidad."'";
-
-  
-  $result = mysqli_query($conn, $sql);
-
-  // Verificar consulta
-  if (!$result) {
-      die("Consulta fallida: " . mysqli_error($conn));
-  }
- // Convertir resultados en formato JSON
- $jsonData = array();
- while ($row = mysqli_fetch_assoc($result)) {
-   $jsonData[] = $row;
- }
-
- // Enviar respuesta en formato JSON
- header('Content-Type: application/json');
- echo json_encode($jsonData);
-  
-  // Cerrar conexión
-  mysqli_close($conn);
-  ?>
+?>
