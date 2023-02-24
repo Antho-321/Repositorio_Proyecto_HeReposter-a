@@ -1,24 +1,52 @@
+
+* {
+    transition: 0.4s;
+}
 body {
     margin: 0px;
     width: 100vw;
     overflow-x: hidden;
 }
 #Cabecera{
+    position: fixed;
+    background: white;
+}
+#Contenido_Cabecera{
     display: flex;
-    padding: 0px 30px;
-    justify-content: space-between;
     align-items: center;
+    width: 100vw;
+}
+#Contenido{
+    padding-top: 133px;
 }
 #LogoPankey{
-    height: 100px;
-    width: 100px;
-    padding: 10px;
+    min-width: 70px;
+    min-height: 80px;
+    max-width: 90px;
+    max-height: 90px;
+    padding: 2vh 6vw;
+}
+#check {
+    display: none;
+}
+.mostrar_menu,
+.esconder_menu {
+    font-size: 30px;
+    cursor: pointer;
+    display: none;
+    transform: 0.4s;
+    padding: 0px 30px
+}
+#botones_iconos{
+    display: flex;
+    width: 80vw;
 }
 #seccion_botones{
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 60vw;
 }
-
 #Catalogo{
     display: flex;
     flex-direction: column;
@@ -35,37 +63,42 @@ body {
     visibility: hidden;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    
+    align-items: center; 
     position: absolute;
-    
     background-color: rgb(108, 179, 102);
     z-index: 10;
 }
 input:hover, a:hover {
     cursor: pointer;
-    color: #7c7c7c41;
+    color: #7c7c7c41 !important;
 }
 #seccion_iconos{
     display: flex;
     align-items: center;
+    width: 20vw;
 }
-input, a{
-    width: 120px;
-    font: normal normal normal 1.6vw/1.4em Century Gothic;
-    font-size: 16px;
+#Catalogo>input,#seccion_botones a{ 
+    font: normal normal normal 16px/1.4em Century Gothic;
     background-color: transparent;    
     padding: 12px 0px;
-    border: 1px solid transparent;
+    border: 0.5vw solid transparent;
     border-radius: 3px;
     color: rgb(31, 31, 31);
     margin: 0px 4vw;
-    text-align: center;
+    text-align: center;  
 }
 input{
-    font: normal normal normal 1.6vw/1.4em Century Gothic;
-    font-size: 16px;
-    background-color: transparent;  
+    font: normal normal normal 16px/1.4em Century Gothic;
+    background-color: transparent;
+    padding: 12px 4vw;
+    border: 0.5vw solid transparent;
+    border-radius: 3px;
+    color: rgb(31, 31, 31);
+    text-align: center; 
+    word-break: break-all;
+}
+input + div > div{
+    color: blue;
 }
 a{
     text-decoration: none;
@@ -75,18 +108,16 @@ a{
     width: auto;
     margin: 0px;
 }
-#seccion_iconos>img, #seccion_iconos>a>img{
+#seccion_iconos img{   
     width: 50px;
     height: 50px;
     padding: 12px;
     cursor: pointer;
 }
-#seccion_iconos>a{
-    all: initial;
+#seccion_iconos input{   
+    padding: 12px;
+    cursor: pointer;
 }
-
-
-
  #Salto {
      background-color: black;
      width: 100%;
@@ -94,6 +125,7 @@ a{
      justify-content: center;
      color: aliceblue;
      text-align: center;
+     /*position: fixed;*/
  }
  h1{
     margin: 0px;
@@ -115,10 +147,6 @@ a{
 #imgUsuario{
     width: 20vw;
     height: 20vw;
-}
-img{
-    width: 100%;
-    height: 100%;
 }
 #seccionDer{
     width: 75vw;
@@ -224,43 +252,96 @@ footer {
     width: auto;
     position: relative;
 }
+@media screen and (max-width: 1196px) {
+    #seccion_botones{
+        width: auto;
+    }
+}
 @media screen and (max-width: 968px) {
     #seccion_botones>li{     
         margin: 0px;
         width: auto;     
      }
-}
-@media screen and (max-width: 693px) {
-    #seccion_botones{     
-        width: auto;     
+     #catalogo>input,#seccion_botones a{  
+        margin: 0px 3vw;
      }
 }
-@media screen and (max-width: 600px) {
-     #Cabecera{
-        display: block;
-     }
-     #Logo {
-        width: 100%;
+@media screen and (max-width: 968px) {
+    #seccion_iconos img {
+        padding: 1vw;
+    }
+}
+@media screen and (max-width: 882px) {
+    #catalogo>input, #seccion_botones a {
+        margin: 0px 2vw;
+    }
+}
+@media screen and (max-width: 829px) {
+    #LogoPankey {
+        padding: 2vh 3vw;
+    }
+}
+@media screen and (max-width: 759px) {
+    #LogoPankey {
+        max-width: 60px;
+        max-height: 60px;
+        padding: 2vh 1.5vw;
+    }
+}
+@media screen and (max-width: 702px) {
+    #Contenido_Cabecera{
+        height: 100px;
+    }
+    .Menu_Catalogo{
+        position: initial;
+    }
+    .mostrar_menu{
+        position: absolute;
+        right: 5%;
+    }
+    #LogoPankey {
+        position: absolute;
+        z-index: -1;
+        width: 70px;
         height: 80px;
-     }
-     
-     #seccion_iconos>li>img{
-        width: 5vw;
-        height: 5vw;
+    }
+    .mostrar_menu,
+    .esconder_menu {
+        display: block;
+        transition: 0.8s;
+    }
+    .esconder_menu{
+        margin-bottom: 24%;
+    }
+    #botones_iconos{
+        position: fixed;
+        top: 0px;
+        right: -110%;
+        transition: 0.8s;
+        width: 100vw;
+        justify-content: space-between;
+        background: white;
+        height: 100vh;
+    }
+    #seccion_botones{
+        justify-content: initial;
+    }
+    #seccion_botones>*{
+        height: 50px;
+        padding: 1vw !important;
+        margin: 0px !important;
+        border: 0px !important;
+        display: flex;
+        align-items: center;
+    }
+    #check:checked+ label + #botones_iconos {
+        right: 0%;
+        transition: 0.8s;
+    }
+    #seccion_botones{
+        flex-direction: column;
     }
     #seccion_iconos{
-        height: 50px;
-     }
-
-}
-
-@media screen and (max-width: 400px) {
-    input{
-        font-size: 3.5vw;
+        flex-direction: column;
     }
-    .Carrito, .Busqueda, .Ingresar{
-        padding-right: 0.9vw;   
-        padding-left: 0.9vw;  
-     }
-     
 }

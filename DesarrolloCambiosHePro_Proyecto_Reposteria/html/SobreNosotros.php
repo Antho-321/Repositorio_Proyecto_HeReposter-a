@@ -73,11 +73,7 @@ if (isset($_SESSION['id'])) {
         </div>
         <div id="texto">
             <h1>Nuestra historia</h1>
-            <p>La pastelería "Pankey" fue fundada hace más de 30 años por los hermanos Genny y Carlos. Su padre era un panadero que repartía pan en la pequeña ciudad de Azaya y les inculcó desde jóvenes la pasión por la panadería y la pastelería. Genny y Carlos crecieron trabajando en el negocio familiar, aprendiendo las técnicas de su padre y perfeccionando sus habilidades.
-
-Cuando Genny y Carlos decidieron separarse y seguir caminos distintos, la pastelería pasó a ser propiedad de Genny. Fue en ese momento cuando Genny conoció a Luis en un curso de levapan, y los dos se hicieron amigos rápidamente debido a su amor por la panadería. Luis estaba buscando un horno para su propia panadería, y cuando Carlos decidió vender su horno, Luis se lo compró y comenzó a trabajar en la pastelería junto a Genny.
-
-Luego de algunos años de trabajar juntos y consolidar la pastelería, Genny y Luis se casaron y decidieron llevar la pastelería de vuelta a Azaya. Con el tiempo, se dieron cuenta de que la pastelería necesitaba expandirse y abrieron una sucursal cerca del terreno que había heredado Genny. La sucursal no solo les permitió llegar a más clientes, sino que también les permitió crear nuevos productos que se ajustaran a las necesidades y gustos de la comunidad.</p>
+            <p>La pastelería "Pankey" fue fundada hace más de 30 años por los hermanos Genny y Carlos, quienes aprendieron las técnicas de su padre en la panadería. Genny se quedó con la pastelería cuando los hermanos decidieron separarse, y conoció a Luis en un curso de levapan. Luis compró el horno de Carlos y comenzó a trabajar en la pastelería con Genny. Luego de algunos años, se casaron y llevaron la pastelería de vuelta a Azaya. Para expandirse y llegar a más clientes, abrieron una sucursal cerca del terreno que había heredado Genny, lo que les permitió crear nuevos productos ajustados a las necesidades y gustos de la comunidad.</p>
         </div>
     </div> 
 <footer>

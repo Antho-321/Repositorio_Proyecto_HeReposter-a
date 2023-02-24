@@ -144,8 +144,6 @@ function AgregarContenido(CategoríaSeleccionada) {
                 let imagen = document.createElement("img");
                 let h3 = document.createElement("h3");
                 imagen.src = result[i].Img;
-                imagen.style.paddingRight = a + "px";
-                imagen.style.paddingTop = (a / 2) + "px";
                 h3.innerHTML = "Mostrar más información";
                 div.appendChild(h3);
                 h3.addEventListener("click", ProductoSeleccionado);
