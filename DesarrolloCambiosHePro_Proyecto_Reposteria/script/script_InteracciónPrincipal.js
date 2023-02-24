@@ -242,14 +242,19 @@ function myAsyncFunction(imagen) {
     });
 }
 
+// function myAsyncFunction2(id, cantidad) {
+//     return new Promise((resolve, reject) => {
+//         fetch("../php/ConsultaIngresoACarrito.php?&id="+id+"&cantidad="+cantidad)
+//             .then(response => response.json())
+//             .then(data => { //archivo json       
+//                 resolve(data);
+//             })
+//             .catch(error => reject(error));
+//     });
+// }
 function myAsyncFunction2(id, cantidad) {
     return new Promise((resolve, reject) => {
-        fetch("../php/ConsultaIngresoACarrito.php?&id="+id+"&cantidad="+cantidad)
-            .then(response => response.json())
-            .then(data => { //archivo json       
-                resolve(data);
-            })
-            .catch(error => reject(error));
+        fetch("../php/ConsultaIngresoACarrito.php?&id="+id+"&cantidad="+cantidad);
     });
 }
 
@@ -449,10 +454,11 @@ function enviarInfoACarrito() {
     console.log("id: " + id_producto + "\n cantidad: " + cantidad_producto_carr + "\n img: " + img.src + "\n precio del producto: " + precio_producto + "\n descripción adicional: " + descripción_adicional + "\n porciones: " + porciones + "\n masa: " + masa + "\n cobertura: " + cobertura + "\n sabor: " + sabor + "\n relleno: " + relleno);
     let myData = myAsyncFunction2(id_producto,cantidad_producto_carr);
     myData.then(result => {
-        console.log(result[0]);
+        //console.log(result[0]);
 
     });
 }
+
 //AQUI EMPIEZA LA VENTANA DE INGRESO 
 function MostrarVentanaDeIngreso() {
     if (event.target.id != "RegresarAIngreso") {
