@@ -249,13 +249,12 @@ h3:hover {
 }
 h3:hover+img {
     cursor: pointer;
-    opacity: 0.5;
+    opacity: 0.3;
 }
 /*///////////////////////////////////////////////////FOOTER////////////////////////////////////////////////*/
 footer {
     width: 100%;
     padding: 50px 0px 0px 0px;
-    background-color: rgb(249, 245, 239);
     text-align: center;
 }
 #Derechos {
@@ -288,7 +287,7 @@ footer {
     .mostrar_menu,
     .esconder_menu {
         display: block;
-        /*transition: 0.8s;*/
+        transition: 0.8s;
     }
     .mostrar_menu {
         padding: 0px 30vw;
@@ -303,7 +302,7 @@ footer {
         text-align: center;
         padding: 100px 0px;
         z-index: 4;
-        /*transition: 0.8s;*/
+        transition: 0.8s;
     }
     .menu_horizontal,
     .iconos {

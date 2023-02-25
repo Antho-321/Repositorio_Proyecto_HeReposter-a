@@ -12,7 +12,6 @@ let divVentana = document.createElement("div");
 let salto = document.getElementById("Salto");
 let ubicación_página=window.location.href;
 divVentana.id = "VentanaForm";
-document.querySelector("body>a").removeAttribute("onclick");
 estilo_Ingreso_Registro.innerHTML = `
 body {
     opacity: 0.77 !important;
@@ -101,7 +100,8 @@ if (ubicación_página.substring(ubicación_página.lastIndexOf("/"))=="/Carrito
 if (contenido_categorías != null) {
     let tamaño = contenido_categorías.children.length;
     for (let i = 0; i < tamaño; i++) {
-        contenido_categorías.children[i].firstChild.addEventListener("click", funcCategoríaSeleccionada);
+        contenido_categorías.children[i].addEventListener("click", funcCategoríaSeleccionada);
+        //console.log(contenido_categorías.children[i]);
     }
 }
 function AgregarContenido(CategoríaSeleccionada) {
@@ -208,17 +208,21 @@ function aumentarCantidadProducto() {
     cantidadInput.value = parseInt(cantidadInput.value) + 1;
 }
 function mostrarBúsqueda(lupa) {
+    document.getElementById("check2").checked=true;
     console.log(lupa.nextElementSibling);
     let width = 0;
-    cuadro_búsqueda.type = "search";
-    cuadro_búsqueda.style.width = "0px";
     const intervalId = setInterval(function () {
         if (width == 0) {
-            lupa.nextElementSibling.style.display = "initial";
+            cuadro_búsqueda.style.width = "0px";
+            cuadro_búsqueda.style.borderColor="black";
+            lupa.nextElementSibling.style.position = "initial";
+            lupa.nextElementSibling.style.zIndex="0";
+            //document.getElementById("seccion_iconos").style.width="25vw";
+            //document.getElementById("Contenido_Cabecera").style.justifyContent="initial";
         }
         width += 1;
         cuadro_búsqueda.style.width = width + "px";
-        if (width >= 120) {
+        if (width >= 110) {
             clearInterval(intervalId);
         }
     }, 0.01);

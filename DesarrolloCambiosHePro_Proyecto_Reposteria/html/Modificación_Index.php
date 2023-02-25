@@ -1,14 +1,29 @@
+<?php
+//Inicia la sesión y checa si hay un id, lo que indica que ya esta logueado alguien
+session_start();
+if (isset($_SESSION['id'])) {
+    $id = $_SESSION['id'];
+}else if(isset($_SESSION['contraseña'])){
+    echo '<script>
+    window.alert("LOGOUUUUUUUT"); 
+    </script>';
+    header("Location: ../php/Logout.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../styles/estilo_DetallesDeLaCuenta.css" id="estilo">
+    <link rel="stylesheet" type="text/css" href="../styles/estilo_Modificación_Index.css" id="estilo">
     <title>REPOSTERIA</title>
 </head>
+
 <body>
     <header id="Cabecera">
+        <input type="checkbox" id="check2">
         <div id="Contenido_Cabecera">
             <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
             <input type="checkbox" id="check">
@@ -39,8 +54,16 @@
                     <a href="../html/CarritoDeCompras.php">
                         <img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo">
                     </a>
-                    <img src="../iconos/lupa1.png" type="button" value="Catalogo">
-                    <input type="button" value="Ingresar">
+                    <img onclick="mostrarBúsqueda(this)" src="../iconos/lupa1.png" type="button" value="Catalogo">
+                    <div id="seccion_busqueda">
+                        <input type="search" id="búsqueda">
+                    </div>
+                    <?php if (!isset($id)) { ?>
+                    <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
+                <?php } else { ?>
+                    <button onclick="Logout()" id="Salida" ><a>Salir</button>
+                    <?php } ?>
+                    
                 </section>
                 <label for="check" class="esconder_menu">
                     &#215
@@ -51,49 +74,23 @@
         </div>
     </header>
     <div id="Contenido">
-        <h1 align="center">Detalles de la cuenta</h1>
         <div id="contenido_principal">
-            <section id="seccionIzq">
-                <div id="imgUsuario">
-                    <img src="../iconos/usuario.png" type="button" value="Catalogo">
-                </div>
-            </section>
-            <section id="seccionDer">
-                <div class="tabla_info">
-                    <div class="fila">
-                        <p class="col">Nombre:</p>
-                        <p class="col">Apellido:</p>
-                    </div>
-                    <div class="fila">
-                        <div class="col">
-                            <input class="col" type="text" id="mini">
-                        </div>
-                        <div class="col">
-                            <input class="col" type="text" id="pequeña">
-                        </div>
-                    </div>
-                    <div class="fila">
-                        <p class="col">Dirección de correo electrónico:</p>
-                    </div>
-                    <div class="fila">
-                        <div class="col">
-                            <input class="col" type="text" id="mini">
-                        </div>
-                    </div>
-                </div>               
-                <div id="cambio_contraseña">
-                    <h3>Cambio de contraseña</h3>
-                    <label for="contr_actual">Contraseña actual:</label>
-                    <input type="text" id="contr_actual">
-                    <label for="contr_nueva">Nueva contraseña:</label>
-                    <input type="text" id="contr_nueva">
-                    <label for="rep_contr_nueva">Confirmar nueva contraseña:</label>
-                    <input type="text" id="rep_contr_nueva">
-                </div>
-            </section>
-        </div>
-        <div id="btn_guardar">
-        <input type="submit" value="Guardar cambios">
+            <!-- //////////////////////////////////////////PRODUCTOS DESATACADOS/////////////////////////////////////////////// -->
+            <div id="DestacadoPrincipal">
+                <ul>
+                    <li><img src="../imagenes/Slider1.jpg" alt=""></li>
+                    <li><img src="../imagenes/Slider2.jpg" alt=""></li>
+                    <li><img src="../imagenes/Slider3.jpg" alt=""></li>
+                    <li><img src="../imagenes/Slider4.jpg" alt=""></li>
+                </ul>
+            </div>
+            <h1>PRODUCTOS DESTACADOS</h1>
+            <section id="seccion_productos"></section>
+            <script src="../script/script_querys.js"></script>
+            
+        <script src="../script/script_Modificación_InteracciónPrincipal.js"></script>
+        
+        </div>  
     </div>
     <footer>
         <div id="Derechos">
@@ -102,4 +99,5 @@
     </footer>
     </div>
 </body>
+
 </html>

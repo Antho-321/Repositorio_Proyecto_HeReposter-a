@@ -42,7 +42,7 @@ if (isset($_SESSION['id'])) {
                         <li><a href="#">Cumpleaños</a></li>
                         <li><a href="#">Baby Shower</a></li>
                         <li><a href="#">San Valentin</a></li>
-                        <li><a href="#">Visperas de Santos </a></li>
+                        <li><a href="#">Halloween </a></li>
                         <li><a href="#">Navidad</a></li>
                     </ul>
                 </li>
@@ -78,7 +78,6 @@ if (isset($_SESSION['id'])) {
         </div>
         <h1>PRODUCTOS DESTACADOS</h1>
         <section id="seccion_productos"></section>
-        <input type="hidden" value="no" id="producto_seleccionado" name="prod_sel">
         <script src="../script/script_querys.js"></script>
         <script src="../script/script_InteracciónPrincipal.js"></script>
     </div>
