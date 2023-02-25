@@ -238,6 +238,7 @@ h1{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    padding-bottom: 2.5%;
 }
 #seccion_productos>div>div>img{
     width: 100%;

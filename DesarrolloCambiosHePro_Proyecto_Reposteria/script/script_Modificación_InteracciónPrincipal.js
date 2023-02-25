@@ -13,32 +13,23 @@ let salto = document.getElementById("Salto");
 let ubicación_página=window.location.href;
 divVentana.id = "VentanaForm";
 estilo_Ingreso_Registro.innerHTML = `
-body {
-    opacity: 0.77 !important;
+  #Contenido_Cabecera, #Contenido, footer{
+    opacity: 0.5;
   }
-  header *{
-    opacity: 0.77 !important;
+  #Salto{
+    background: #0000007a;
   }
 #VentanaForm{
-    opacity: 1 !important;
-    width: 100%;
-    
+    width: 98.3vw;
     display: flex;
     justify-content: center;
-
-    position: absolute;
-    
-    z-index: 5;
 }
 #VentanaForm *{
-    opacity: 1 !important;
-    z-index: 5;
     color: black;
 }
 #Ventana{
-    opacity: 1 !important;
     background-color: aliceblue !important;  
-    width: 50vw;
+    width: 550px;
     height: 75vh;
     display: flex;
     flex-direction: column;
@@ -48,7 +39,6 @@ body {
     border-radius: 7%;
 }
 #Ventana>*{
-    opacity: 1 !important;
     background-color: transparent !important; 
 }
 label{
@@ -76,7 +66,6 @@ label{
     text-decoration: underline;
 }
 .entrada_texto{
-
     width: 20vw !important;
     cursor: auto !important;
 }
@@ -389,8 +378,6 @@ function MostrarVentanaDeIngreso() {
             </div>
     `;
     salto.appendChild(divVentana);
-
-
 }
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
 function MostrarVentanaDeRegistro() {
@@ -403,18 +390,6 @@ function MostrarVentanaDeRegistro() {
     <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
     <form action="../FINAL_TEST/enviar_correo.php" method="POST" class="Formulario_Registro" id="Ventana">
         <h2>Registrarse</h2>
-        <div class="campos_adicionales">
-            <label for="cedula">Cédula:</label>
-            <input type="text" id="cedula" name="Cedula">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="Nombre">
-        </div>
-        <div class="campos_adicionales">
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="Apellido">
-            <label for="dirección">Dirección:</label>
-            <input type="text" id="dirección" name="Direccion">
-        </div>
         <label for="correo">Correo electrónico:</label>
         <input type="email" id="correo" name="Correo" class="entrada_texto">
         <label for="contraseña">Contraseña:</label>
@@ -426,7 +401,6 @@ function MostrarVentanaDeRegistro() {
         <button id="registro">Registrarse</button>
             <label for="RegresarAIngreso">¿Ya tienes una cuenta?</label>
             <input type="button" value="Ingresar" id="RegresarAIngreso" onclick="MostrarVentanaDeIngreso()">
-       
         <script src="../script/script_Registro.js"></script>
     </form>
 </div>

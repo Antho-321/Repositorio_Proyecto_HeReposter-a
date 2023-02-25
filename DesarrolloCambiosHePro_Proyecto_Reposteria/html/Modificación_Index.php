@@ -35,7 +35,7 @@ if (isset($_SESSION['id'])) {
                     <a href="Index.php">Inicio</a>
                     <a href="SobreNosotros.php">Sobre Nosotros</a>
                     <div id="Catalogo">
-                        <input class="Btn_Catalogo" type="button" value="&nbsp;&nbsp;&nbsp;Catalogo&nbsp;&nbsp;&nbsp;">
+                        <input class="Btn_Catalogo" type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;Catalogo&nbsp;&nbsp;&nbsp;">
                         <div>
                             <div class="Menu_Catalogo">
                                 <input type="button" value="Bodas">
