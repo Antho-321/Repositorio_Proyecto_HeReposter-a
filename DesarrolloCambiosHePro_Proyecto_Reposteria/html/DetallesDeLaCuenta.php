@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="fila">
-                        <p class="col">Dirección de correo electrónico:</p>
+                        <p class="col">Correo electrónico:</p>
                     </div>
                     <div class="fila">
                         <div class="col">

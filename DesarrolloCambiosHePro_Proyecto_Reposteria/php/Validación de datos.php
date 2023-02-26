@@ -2,10 +2,10 @@
 include("../php/Conexion.php");
 $conexion= new Conexion;
 session_start();
-$cedula = $_SESSION['cedula'];
-$nombre = $_SESSION['nombre'];
-$apellido = $_SESSION['apellido'];
-$direccion = $_SESSION['direccion'];
+//$cedula = $_SESSION['cedula'];
+//$nombre = $_SESSION['nombre'];
+//$apellido = $_SESSION['apellido'];
+//$direccion = $_SESSION['direccion'];
 $correo = $_SESSION['correo'];
 $contraseña = $_SESSION['contraseña'];
 //Variable de comparación
@@ -13,15 +13,28 @@ $random = $_SESSION['random'];
 $comparacion = $_POST['comparacion'];
 //Comparación
 if($random == $comparacion){
-    $conexion->OperSql("INSERT INTO `cliente`(`Cedula`, `Nombre`, `Apellido`, `Direccion`) VALUES ('$cedula','$nombre','$apellido','$direccion')");
-    $conexion->OperSql("INSERT INTO `usuario`(`Cedula`, `Email`, `Password`) VALUES ('$cedula','$correo','$contraseña')");
-    $id_usuario = $conexion->OperSql("SELECT `Id_Usuario` FROM `Usuario` WHERE `Cedula`='$cedula';");
-    $id_user = $id_usuario->fetch_array();
-    $idd= $id_user['Id_Usuario'];
-    $conexion->OperSql("INSERT INTO `canasta`(`Id_Usuario`) VALUES ('$idd');");
+    $cedula = $conexion->OperSql("SELECT MAX(`Cedula`) FROM `cliente`");
+    $array_cedula=$cedula->fetch_array();
+    $nueva_cedula=$array_cedula['MAX(`Cedula`)'];
+    if ($cedula==NULL) {
+        $nueva_cedula = 1;    
+    }else{
+        $nueva_cedula = $nueva_cedula + 1;
+    }
+    $canasta = $conexion->OperSql("SELECT MAX(`Id_Canasta`) FROM `canasta`");
+    $array_canasta=$canasta->fetch_array();
+    $nueva_canasta=$array_canasta['MAX(`Id_Canasta`)'];
+    if ($nueva_canasta==NULL) {
+        $nueva_canasta = 1;    
+    }else{
+        $nueva_canasta = $nueva_canasta + 1;
+    }
+    $conexion->OperSql("INSERT INTO `cliente`(`Cedula`,`Nombre`, `Apellido`, `Direccion`) VALUES ('$nueva_cedula',' ',' ',' ')");
+    $conexion->OperSql("INSERT INTO `usuario`(`Id_Usuario`, `Cedula`, `Email`, `Password`) VALUES ('$nueva_cedula','$nueva_cedula','$correo','$contraseña')"); 
+    $conexion->OperSql("INSERT INTO `canasta`(`Id_Canasta`, `Id_Usuario`) VALUES ('$nueva_canasta','$nueva_cedula');");
     $conexion->closeConnection();
     echo '<script>
-    window.alert("Usuario registrado exitosamente, inicie sesión por favor"); 
+    window.alert("Usuario registrado exitosamente, inicie sesión por favor."); 
     window.location = "../html/Index.php";
     </script>';
 }else{

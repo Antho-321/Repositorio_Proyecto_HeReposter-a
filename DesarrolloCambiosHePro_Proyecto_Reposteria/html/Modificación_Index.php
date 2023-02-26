@@ -22,8 +22,8 @@ if (isset($_SESSION['id'])) {
 </head>
 
 <body>
-    <header id="Cabecera">
-        <input type="checkbox" id="check2">
+    <input type="checkbox" id="check2">
+    <header id="Cabecera">     
         <div id="Contenido_Cabecera">
             <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
             <input type="checkbox" id="check">

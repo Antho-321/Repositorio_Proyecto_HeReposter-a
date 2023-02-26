@@ -357,34 +357,104 @@ footer {
     width: auto;
     position: relative;
 }
-@media screen and (max-width: 1056px) {
-    #check2:checked + div{
+@media screen and (max-width: 1060px) {
+    #check2:checked + header > #Contenido_Cabecera {
         justify-content: initial;
     }
 }
-@media screen and (max-width: 988px) {
-    #check2:checked + div > img{
+@media screen and (max-width: 996px) {
+    #check2:checked + header > #Contenido_Cabecera > img {
         padding: 1vh 2vw;
     }
 }
-@media screen and (max-width: 932px) {
-    #check2:checked + div > img{
+@media screen and (max-width: 939px) {
+    #check2:checked + header > #Contenido_Cabecera > img {
         padding: 1vh 1vw;
     }
 }
-@media screen and (max-width: 904px) {
-    #check2:checked + div > img{
+@media screen and (max-width: 912px) {
+    #check2:checked + header > #Contenido_Cabecera > img{
         padding: 1vh 0px;
     }
 }
-@media screen and (max-width: 878px) {
+@media screen and (max-width: 887px) {  
+    /*---INICIO CHECKED---*/
+    #check2:checked + header #LogoPankey{
+        padding: 1vh 4vw !important;
+    }
+    /*---FIN CHECKED---*/
+    #check2:checked + header + #Contenido {
+        padding-top: 125px;
+    }
+    #check2:checked + header > #Contenido_Cabecera {
+        height: 100px;
+    }
+    #check2:checked + header .Menu_Catalogo{
+        position: initial;
+    }
+    #check2:checked + header .mostrar_menu{
+        position: absolute;
+        right: 5%;
+    }
+    #check2:checked + header #LogoPankey {
+        position: absolute;
+        z-index: -1;
+        width: 70px;
+        height: 80px;
+    }
+    #check2:checked + header .mostrar_menu,
+    #check2:checked + header .esconder_menu {
+        display: block;
+        transition: 0.8s;
+    }
+    #check2:checked + header .esconder_menu{
+        margin-bottom: 24%;
+    }
+    #check2:checked + header #botones_iconos{
+        position: fixed;
+        top: 0px;
+        right: -110%;
+        transition: 0.8s;
+        width: 100vw;
+        justify-content: space-between;
+        background: white;
+        height: 100vh;
+    }
+    #check2:checked + header #seccion_botones{
+        justify-content: initial;
+    }
+    #check2:checked + header #seccion_botones>*{
+        height: 50px;
+        padding: 1vw !important;
+        margin: 0px !important;
+        border: 0px !important;
+        display: flex;
+        align-items: center;
+    }
+    #check2:checked + header #check:checked+ label + #botones_iconos {
+        right: 0%;
+        transition: 0.8s;
+    }
+    #check2:checked + header #seccion_botones{
+        flex-direction: column;
+    }
+    #check2:checked + header #seccion_iconos{
+        flex-direction: column;
+    }
+}
+@media screen and (max-width: 847px) {  
+    #Contenido_Cabecera {
+        justify-content: initial;
+    }
+    #Contenido_Cabecera > img {
+        padding: 1vh 2vw;
+    }
+}
+@media screen and (max-width: 773px) { 
     #Contenido {
         padding-top: 125px;
     }
-    #check2:checked + div > img{
-        padding: 1vh 4vw !important;
-    }
-    #Contenido_Cabecera{
+    #Contenido_Cabecera {
         height: 100px;
     }
     .Menu_Catalogo{

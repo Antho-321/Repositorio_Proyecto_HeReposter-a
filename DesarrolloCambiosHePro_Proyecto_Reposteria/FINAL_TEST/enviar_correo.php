@@ -4,22 +4,21 @@ $conexion = new Conexion;
 $random = rand(10000, 100000);
 //Parte de registro
 //Todo lo que envía el post a este lugar
-$cedula = $_POST['Cedula'];
-$nombre = $_POST['Nombre'];
-$apellido = $_POST['Apellido'];
-$direccion = $_POST['Direccion'];
+
+//$cedula = $_POST['Cedula'];
+//$nombre = $_POST['Nombre'];
+//$apellido = $_POST['Apellido'];
+//$direccion = $_POST['Direccion'];
 $correo = $_POST['Correo'];
 $contraseña = $_POST['Contraseña'];
 $Rep_contraseña = $_POST['Rep_contraseña'];
 //Inicia la consulta
 $correoExiste= $conexion->OperSql("SELECT  `Email` FROM `usuario` WHERE `Email`='$correo';");
 $existe = mysqli_fetch_array($correoExiste);
-$cedulaExiste= $conexion->OperSql("SELECT  `Cedula` FROM `usuario` WHERE `Cedula`='$cedula';");
-$existe2 = mysqli_fetch_array($cedulaExiste);
 //Valida y ejecuta
-if(isset($existe)||isset($existe2)){
+if(isset($existe)){
     echo '<script>
-    window.alert("ERROR DE REGISTRO: Correo o cedula ya registrados por otro usuario"); 
+    window.alert("ERROR DE REGISTRO: Correo ya registrado por otro usuario"); 
     window.location = "../html/Index.php";
     </script>';
 }else if ($contraseña != $Rep_contraseña) {
@@ -30,13 +29,13 @@ if(isset($existe)||isset($existe2)){
 } else {
     $para = $correo;
     $asunto = "Codigo: " . $random;
-    $cuerpo = "<html>Su código por favor si</html>";
+    $cuerpo = "TEST<html>Su código por favor si</html>";
     $salida = shell_exec('node ULTIMO_TEST.js "' . $para . '" "' . $asunto . '" "' . $cuerpo . '"');
     session_start();
-    $_SESSION['cedula'] = $cedula;
-    $_SESSION['nombre'] = $nombre;
-    $_SESSION['apellido'] = $apellido;
-    $_SESSION['direccion'] = $direccion;
+    //$_SESSION['cedula'] = $cedula;
+    //$_SESSION['nombre'] = $nombre;
+    //$_SESSION['apellido'] = $apellido;
+    //$_SESSION['direccion'] = $direccion;
     $_SESSION['correo'] = $correo;
     $_SESSION['contraseña'] = $contraseña;
     $_SESSION['random'] = $random;
