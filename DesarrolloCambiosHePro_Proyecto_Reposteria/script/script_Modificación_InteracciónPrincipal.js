@@ -8,10 +8,28 @@ let contenido_principal = document.getElementById("contenido_principal");
 let seccion_productos = document.getElementById("seccion_productos");
 let estilo = document.getElementById("estilo");
 let estilo_Ingreso_Registro = document.createElement("style");
+let estilo_aux_CategoríaSel = document.createElement("style");
+let estilo_búsqueda = document.createElement("style");
 let divVentana = document.createElement("div");
 let salto = document.getElementById("Salto");
 let ubicación_página=window.location.href;
 divVentana.id = "VentanaForm";
+estilo_búsqueda.id="estilo_búsqueda";
+estilo_búsqueda.innerHTML=`
+#búsqueda{
+    width: 0px;
+    border-color: black;
+}
+#seccion_busqueda{
+    position: initial;
+    z-index: 0;
+}
+`;
+estilo_aux_CategoríaSel.innerHTML=`
+#seccion_productos{
+    padding-bottom: calc(70px - 2.5%);
+}
+`;
 estilo_Ingreso_Registro.innerHTML = `
   #Contenido_Cabecera, #Contenido, footer{
     opacity: 0.5;
@@ -95,11 +113,6 @@ if (contenido_categorías != null) {
 }
 function AgregarContenido(CategoríaSeleccionada) {
     seccion_productos = document.getElementById("seccion_productos");
-    if (CategoríaSeleccionada == "") {
-        num_productos = 12;
-    } else {
-        num_productos = 4;
-    }
     if (CategoríaSeleccionada == "") {
         let myData = myAsyncFunction("");
 
@@ -196,18 +209,17 @@ function aumentarCantidadProducto() {
     cantidadInput = document.getElementById("cantidad");
     cantidadInput.value = parseInt(cantidadInput.value) + 1;
 }
-function mostrarBúsqueda(lupa) {
-    document.getElementById("check2").checked=true;
-    console.log(lupa.nextElementSibling);
-    let width = 0;
+function mostrarBúsqueda() {
+    let est_búsqueda=document.getElementById("estilo_búsqueda");
+    if (est_búsqueda!=null) {
+        est_búsqueda.remove();
+        cuadro_búsqueda.removeAttribute("style");
+    }else{
+        document.head.appendChild(estilo_búsqueda);
+        let width = 0;
     const intervalId = setInterval(function () {
         if (width == 0) {
             cuadro_búsqueda.style.width = "0px";
-            cuadro_búsqueda.style.borderColor="black";
-            lupa.nextElementSibling.style.position = "initial";
-            lupa.nextElementSibling.style.zIndex="0";
-            //document.getElementById("seccion_iconos").style.width="25vw";
-            //document.getElementById("Contenido_Cabecera").style.justifyContent="initial";
         }
         width += 1;
         cuadro_búsqueda.style.width = width + "px";
@@ -215,6 +227,8 @@ function mostrarBúsqueda(lupa) {
             clearInterval(intervalId);
         }
     }, 0.01);
+    }
+    
 }
 function ProductoSeleccionado(event) {
     //console.log(event.target.nextSibling.src);
@@ -222,7 +236,7 @@ function ProductoSeleccionado(event) {
     let div = document.getElementsByTagName("div");
     VerificaciónCuadroDeBúsqueda();
     estilo = document.getElementById("estilo");
-    estilo.href = "../styles/estilo_ProductoSeleccionado.css";
+    estilo.href = "../styles/estilo_Modificación_ProductoSeleccionado.css";
     img = event.target.nextSibling;
     myData.then(result => {
         console.log(result[0]);
@@ -241,7 +255,7 @@ function ProductoSeleccionado(event) {
         //------------------------------------------------------------------
 
         if (div[3].id != "Salto") {
-            div[3].remove();
+            /*div[3].remove();*/
         }
 
         contenido_principal.innerHTML = `
@@ -294,10 +308,12 @@ function ProductoSeleccionado(event) {
 }
 function funcCategoríaSeleccionada(event) {
     VerificaciónCuadroDeBúsqueda();
-    let título = event.target.innerHTML;
+    let título = event.target.value;
     let h1 = document.getElementsByTagName("h1")[0];
     let destacado_principal = document.getElementById("DestacadoPrincipal");
     seccion_productos = document.getElementById("seccion_productos");
+    console.log("LO QUE SELECCIONÉ: "+event.target.value);
+    document.head.appendChild(estilo_aux_CategoríaSel);
     if (destacado_principal != null) {
         destacado_principal.remove();
     }
@@ -305,10 +321,10 @@ function funcCategoríaSeleccionada(event) {
         document.querySelector("#seccion_productos>div").remove();
     } else {
         contenido_principal.innerHTML = `
-        <h1 align="center">Bodas</h1>
+        <h1 align="center">`+título+`</h1>
         <section id="seccion_productos"></section>
         `;
-        document.getElementById("estilo").href = "../styles/estilo_Index.css";;
+        document.getElementById("estilo").href = "../styles/estilo_Modificación_Index.css";;
     }
     if (h1 == undefined) {
         h1 = document.getElementsByTagName("h1")[0];
@@ -318,9 +334,10 @@ function funcCategoríaSeleccionada(event) {
     AgregarContenido(título);
 }
 function VerificaciónCuadroDeBúsqueda() {
-    let seccion_busqueda = document.getElementById("seccion_busqueda");
-    if (seccion_busqueda.style.display != "none") {
-        seccion_busqueda.style.display = "none";
+    let est_búsqueda=document.getElementById("estilo_búsqueda");
+    if (est_búsqueda!=null) {
+        est_búsqueda.remove();
+        cuadro_búsqueda.removeAttribute("style");
     }
 }
 function ProductosNoIngresados() {

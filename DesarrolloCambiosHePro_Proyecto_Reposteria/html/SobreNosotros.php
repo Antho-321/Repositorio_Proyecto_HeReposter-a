@@ -42,8 +42,8 @@ if (isset($_SESSION['id'])) {
                         <li><a href="#">Cumpleaños</a></li>
                         <li><a href="#">Baby Shower</a></li>
                         <li><a href="#">San Valentin</a></li>
-                        <li><a href="#">Visperas de Santos </a></li>
-                        <li><a href="#"> Navidad</a></li>
+                        <li><a href="#">Halloween </a></li>
+                        <li><a href="#">Navidad</a></li>
                     </ul>
                 </li>
             </ul>

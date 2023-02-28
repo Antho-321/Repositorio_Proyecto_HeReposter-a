@@ -305,6 +305,7 @@ function funcCategoríaSeleccionada(event) {
     let h1 = document.getElementsByTagName("h1")[0];
     let destacado_principal = document.getElementById("DestacadoPrincipal");
     seccion_productos = document.getElementById("seccion_productos");
+    console.log("LO QUE SELECCIONÉ: "+event.target);
     if (destacado_principal != null) {
         destacado_principal.remove();
     }

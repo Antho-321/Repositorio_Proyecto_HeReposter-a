@@ -2,17 +2,13 @@
     font-family:Sanseriffic;
     src: url(../font/Sanseriffic.otf);
 }
-*:not(.Menu_Catalogo, .Menu_Catalogo *) {
+*:not(.Menu_Catalogo, .Menu_Catalogo *, #contenido_principal, #contenido_principal *) {
     transition: 0.4s;
 }
 body {
     margin: 0px;
     width: 100vw;
     overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    
 }
 #Cabecera{
     position: fixed;
@@ -26,6 +22,7 @@ body {
     width: 100vw;
     justify-content: space-between;
 }
+
 #LogoPankey{
     min-width: 70px;
     min-height: 80px;
@@ -95,7 +92,7 @@ input:hover, a:hover {
     z-index: -1;
 }
 #búsqueda{
-    /*width: 110px;*/
+    width: 0px;
     height: 11px; 
     border: 2px solid black;
     border-radius: 3px;
@@ -161,180 +158,132 @@ a{
     margin: 0px;
     padding: 10px;
 }
-#contenido_principal {
+#contenido_principal{
+    position: relative;
     opacity: 1 !important;
-    height: 100%;
+    display: inline-flex;
     width: 100%;
     background-color: aliceblue;
     padding-top: 128.125px;
-    
-}
-/* SLIDER*/
-#DestacadoPrincipal {
-    background-color: rgb(249, 245, 239);
-    height: auto;
-    overflow: hidden;
-}
-#DestacadoPrincipal * {
-    height: auto;
-}
-#DestacadoPrincipal ul {
-    display: flex;
-    padding: 0;
-    width: 400%;
-    animation: slide 20s infinite alternate ease-in-out;
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
-#DestacadoPrincipal li {
-    list-style: none;
-    width: 100%;
-}  
-#DestacadoPrincipal img { 
-    width: 100%;
-    height: 100%;
-}  
-@keyframes slide {
-    0% {margin-left: 0;}
-    20% {margin-left: 0;}  
-    25% {margin-left: -100%;}
-    45% {margin-left: -100%;}  
-    50% {margin-left: -200%;}
-    70% {margin-left: -200%;}  
-    75% {margin-left: -300%;}
-    100% {margin-left: -300%;}
-}
-/* FIN DE SLIDER*/
-h1{
-    font: normal normal normal 1.6vw/1.4em Sanseriffic;
-    font-size: 24px;
-    padding-top: 70px;
-    padding-bottom: calc(70px - 2.5%);
-    text-align: center;
+    height: calc(100vh - 198.125px);/*198.125 ES LO QUE SUMA LA CABECERA CON EL FOOTER*/
+    font: normal normal normal 21px/1.4em Sanseriffic;
     letter-spacing: 1.4px;
 }
-#DestacadoPrincipal h2 {
-    text-align: center;
-    font: normal normal normal 1.8vw/1.4em Century Gothic;
-    font-size: 40px;
-    padding: 2vh 2vw;
-}
-#DestacadoPrincipal h6 {
-    font: normal normal normal 14px/1.4em avenir-lt-w01_35-light1475496, avenir-lt-w05_35-light, sans-serif;
-    text-align: center;
-    padding: 2vh 2vw;
-}
-#seccion_productos{
-    padding: 0px 15px;
-}
-#seccion_productos>div {
+
+#DestacadoPrincipal{
+    position: relative;
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-}
-#seccion_productos>div>div {
-    display: inline-block;
-    width: 295px;
-    height: 302.5px;
-    position: relative; 
-    padding: 2.5%;
-}
-#seccion_productos > *:first-child {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    padding-bottom: 2.5%;
-}
-#seccion_productos>div>div>img{
-    width: 100%;
-    height: 302.5px;
-}
-h3 {
-    font: normal normal normal 1.6vw/1.4em Sanseriffic;
-    letter-spacing: 1.4px;
-    font-size: 20px;
-    margin: 0px;
-    position: absolute;
-    width: 295px;
-    height: 302.5px;
-    display: flex;
     align-items: center;
-    justify-content: center;
-    z-index: 1;
-    opacity: 0;
 }
-h3:hover {
-    cursor: pointer;
-    opacity: 1;
+
+#DestacadoPrincipal input{
+    font: normal normal normal 21px/1.4em Sanseriffic;
+    letter-spacing: 1.4px;
 }
-h3:hover+img {
-    cursor: pointer;
-    opacity: 0.3;
-    transition: initial;
-}
-#seccionIzq{
+
+#infoDetallada{
+    position: relative;
+    width: 70vw;
     display: flex;
-    width: 25vw;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    padding-right: calc((30vw - 300px) / 2);
 }
-#imgUsuario{
-    width: 20vw;
-    height: 20vw;
+
+p{
+    padding: 16px 0px;
+    margin: 0px;
 }
-#imgUsuario>img{
-    max-width: 100%;
-    height: auto;
+
+#contenido_principal input{
+    width: auto;
 }
-#seccionDer{
-    width: 75vw;
-    padding: 25px;
+
+#DestacadoPrincipal>img {
+    height: 300px;
+    width: 300px;
+    padding-top:2vh
 }
-.tabla_info {
-    display: table;
-    width: 100%;
+
+#seccion_cantidad {
+    display: inline-flex;
+    align-items: center;
 }
-.fila {
-    display: table-row;
+
+#disminuir_cantidad,
+#aumentar_cantidad {
+    font-size: 25px;
 }
-.fila>div>img{
-    height: 100px;
-    width: 100px;
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
 }
-.col {
-    display: table-cell;
-    vertical-align: middle;
-    padding: 10px;
-    text-align: center;
+
+input[type=number] {
+    caret-color: transparent;
+    width: 30px !important;
 }
-.col>div{
-    padding-top: 20px;
+
+#seccion_cantidad>*{
+    margin: 0px;
 }
-select{
-    width: 100% !important;
-    padding: 5px 0px !important;
-    margin: 5px 0px;
+
+#seccion_cantidad>input{
+    padding: 0px;
 }
-input[type="text"], input[type="url"], #cod_postal, #tel{
-    cursor: auto;
-    padding: 5px 0px !important;
-    margin: 5px 0px;
-}
-input[type="text"], #num_tarjeta{ 
-    width: 100%; 
+
+input[value='Feliz Cumpleaños...'] {
+    color: #7c7c7c;
     cursor: auto;
     border: 1px solid !important;
     border-color: black !important;
 }
-#cambio_contraseña>input{
-    display: flex;
-    flex-direction: column;
-    width: 50%;
+
+input[value='Feliz Cumpleaños...']:hover {
+    color: #7c7c7c41;
 }
-#btn_guardar{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+#cantidad{
+    cursor: auto;
 }
-#btn_guardar>input{
-    width: auto;
+
+#cantidad:hover{
+    color: black;
+}
+
+#infoAdicional {
+    border-style: groove;
+    width: 65vw;
+}
+
+.tabla_info {
+    display: table;
+}
+
+.fila {
+    display: table-row;
+}
+
+.col {
+    display: table-cell;
+    padding: 12px;
+    text-align: center;
+}
+
+.col:nth-child(1) {
+    font-weight: bold;
+}
+
+.col:nth-child(3) {
+    font-weight: bold;
 }
 footer {
     display: flex;

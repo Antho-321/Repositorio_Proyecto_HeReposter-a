@@ -3,7 +3,7 @@
 session_start();
 if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
-}else if(isset($_SESSION['contraseña'])){
+} else if (isset($_SESSION['contraseña'])) {
     header("Location: ../php/Logout.php");
 }
 ?>
@@ -14,13 +14,13 @@ if (isset($_SESSION['id'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../styles/estilo_Modificación_Index.css" id="estilo">
+    <link rel="stylesheet" type="text/css" href="../styles/estilo_Modificación_SobreNosotros.css" id="estilo">
     <title>REPOSTERIA</title>
 </head>
 
 <body>
     <input type="checkbox" id="check2">
-    <header id="Cabecera">     
+    <header id="Cabecera">
         <div id="Contenido_Cabecera">
             <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
             <input type="checkbox" id="check">
@@ -48,19 +48,19 @@ if (isset($_SESSION['id'])) {
                     </div>
                 </section>
                 <section id="seccion_iconos">
-                    <a href="../html/CarritoDeCompras.php">
+                    <a href="../html/Modificación_CarritoDeCompras.php">
                         <img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo">
                     </a>
-                    <img onclick="mostrarBúsqueda()" src="../iconos/lupa1.png" type="button" value="Catalogo">
+                    <img onclick="mostrarBúsqueda(this)" src="../iconos/lupa1.png" type="button" value="Catalogo">
                     <div id="seccion_busqueda">
                         <input type="search" id="búsqueda">
                     </div>
                     <?php if (!isset($id)) { ?>
-                    <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
-                <?php } else { ?>
-                    <button onclick="Logout()" id="Salida" ><a>Salir</button>
+                        <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
+                    <?php } else { ?>
+                        <button onclick="Logout()" id="Salida"><a>Salir</button>
                     <?php } ?>
-                    
+
                 </section>
                 <label for="check" class="esconder_menu">
                     &#215
@@ -70,24 +70,17 @@ if (isset($_SESSION['id'])) {
         <div id="Salto">
         </div>
     </header>
-    
-        <div id="contenido_principal">
-            <!-- //////////////////////////////////////////PRODUCTOS DESATACADOS/////////////////////////////////////////////// -->
-            <div id="DestacadoPrincipal">
-                <ul>
-                    <li><img src="../imagenes/Slider1.jpg" alt=""></li>
-                    <li><img src="../imagenes/Slider2.jpg" alt=""></li>
-                    <li><img src="../imagenes/Slider3.jpg" alt=""></li>
-                    <li><img src="../imagenes/Slider4.jpg" alt=""></li>
-                </ul>
-            </div>
-            <h1>PRODUCTOS DESTACADOS</h1>
-            <section id="seccion_productos"></section>
-            <script src="../script/script_querys.js"></script>
-        <script src="../script/script_Modificación_InteracciónPrincipal.js"></script>
-        
-        </div>  
-    
+
+    <div id="contenido_principal">
+        <div id="DestacadoPrincipal">
+            <img src="https://rochinae.files.wordpress.com/2016/02/panadero.jpg?w=776" alt="imagenes">
+        </div>
+        <div id="texto">
+            <h1>Nuestra historia</h1>
+            <p>La pastelería "Pankey" fue fundada hace más de 30 años por los hermanos Genny y Carlos, quienes aprendieron las técnicas de su padre en la panadería. Genny se quedó con la pastelería cuando los hermanos decidieron separarse, y conoció a Luis en un curso de levapan. Luis compró el horno de Carlos y comenzó a trabajar en la pastelería con Genny. Luego de algunos años, se casaron y llevaron la pastelería de vuelta a Azaya. Para expandirse y llegar a más clientes, abrieron una sucursal cerca del terreno que había heredado Genny, lo que les permitió crear nuevos productos ajustados a las necesidades y gustos de la comunidad.</p>
+        </div>
+    </div>
+
     <footer>
         <div id="Derechos">
             © 2023 Web Personal. Creado por Tito Córdova, De la Cruz Brayan, Luna Anthony
@@ -95,5 +88,7 @@ if (isset($_SESSION['id'])) {
     </footer>
     </div>
 </body>
+<script src="../script/script_querys.js"></script>
+<script src="../script/script_Modificación_InteracciónPrincipal.js"></script>
 
 </html>

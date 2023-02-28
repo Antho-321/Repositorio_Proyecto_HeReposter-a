@@ -12,7 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
+    height: 100vh;
 }
 #Cabecera{
     position: fixed;
@@ -118,7 +118,7 @@ input:hover, a:hover {
     color: rgb(0, 0, 0);
     margin: 0px 4vw;
     text-align: center;
-    letter-spacing: 1.4px;
+    letter-spacing: 0.1vw;
 }
 input{
     font: normal normal normal 18px/1.4em Sanseriffic;
@@ -129,7 +129,7 @@ input{
     color: rgb(31, 31, 31);
     text-align: center; 
     word-break: break-all;
-    letter-spacing: 1.4px;
+    letter-spacing: 0.1vw;
 }
 a{
     text-decoration: none;
@@ -167,7 +167,7 @@ a{
     width: 100%;
     background-color: aliceblue;
     padding-top: 128.125px;
-    
+    display: flex;
 }
 /* SLIDER*/
 #DestacadoPrincipal {
@@ -207,11 +207,12 @@ a{
 /* FIN DE SLIDER*/
 h1{
     font: normal normal normal 1.6vw/1.4em Sanseriffic;
+    letter-spacing: 0.1vw;
     font-size: 24px;
     padding-top: 70px;
     padding-bottom: calc(70px - 2.5%);
     text-align: center;
-    letter-spacing: 1.4px;
+    letter-spacing: 0.15vw;
 }
 #DestacadoPrincipal h2 {
     text-align: center;
@@ -249,7 +250,7 @@ h1{
 }
 h3 {
     font: normal normal normal 1.6vw/1.4em Sanseriffic;
-    letter-spacing: 1.4px;
+    letter-spacing: 0.1vw;
     font-size: 20px;
     margin: 0px;
     position: absolute;
@@ -336,6 +337,42 @@ input[type="text"], #num_tarjeta{
 #btn_guardar>input{
     width: auto;
 }
+
+
+#DestacadoPrincipal {
+    display: flex;
+    width: 40vw;
+    align-items: center;
+    justify-content: center;
+}
+#DestacadoPrincipal>img {
+    height: 300px;
+    width: 300px;
+}
+
+#texto{
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    text-align: center;
+    padding-right: calc((40vw - 300px) / 2);
+}
+h1{
+    font: normal normal normal 1.6vw/1.4em Sanseriffic;
+    font-size: 4vw !important;
+    letter-spacing: 0.1vw;
+    font-size: 24px;
+    padding: 40px 0px 40px 0px;
+    text-align: center;
+    letter-spacing: 0.15vw;
+}
+p{
+   font: normal normal normal 17px/1.4em Century Gothic; 
+    margin: 0px;
+    /*padding-left: 50px;
+    padding-right: 50px;*/
+}
+
 footer {
     display: flex;
     width: 100%;
@@ -354,12 +391,6 @@ footer {
     justify-content: center;
     color: rgb(173, 173, 173);
 }
-
-#seccion_productos>div{
-    display: inline-block;
-    width: auto;
-    position: relative;
-}
 @media screen and (max-width: 1060px) {
     #check2:checked + header > #Contenido_Cabecera {
         justify-content: initial;
@@ -374,6 +405,34 @@ footer {
     #check2:checked + header > #Contenido_Cabecera > img {
         padding: 1vh 1vw;
     }
+}
+@media screen and (max-width: 915px) {
+    #contenido_principal {
+        display: flex;
+        /*flex-direction: column-reverse;*/
+        flex-direction: column;
+      }
+      h1{
+        position: absolute;
+        top: 100px;
+        /*left: calc(50% - 116.3px);*/
+
+      }
+      #Contenido{
+        height: initial;
+      }
+      #texto{
+        padding-right: 0px;
+        width: 100vw;
+        align-items: center;
+      }
+      #DestacadoPrincipal{
+        width: 100vw;
+        padding-top: 75px;
+      }
+      p{
+        padding: 35px 45px;
+      }
 }
 @media screen and (max-width: 912px) {
     #check2:checked + header > #Contenido_Cabecera > img{
@@ -451,7 +510,7 @@ footer {
         padding: 1vh 2vw;
     }
 }
-@media screen and (max-width: 773px) { 
+@media screen and (max-width: 773px) {
     #Contenido_Cabecera {
         height: 103.125px;
     }
@@ -506,5 +565,10 @@ footer {
     }
     #seccion_iconos{
         flex-direction: column;
+    }
+}
+@media screen and (max-width: 720px) { 
+    h1{
+        font-size: 30px !important;
     }
 }

@@ -4,9 +4,6 @@ session_start();
 if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
 }else if(isset($_SESSION['contraseña'])){
-    echo '<script>
-    window.alert("LOGOUUUUUUUT"); 
-    </script>';
     header("Location: ../php/Logout.php");
 }
 ?>
