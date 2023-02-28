@@ -196,6 +196,14 @@ a{
     text-align: center;
     width: 12.6vw !important;
 }
+#Info_adicional{
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: justify;
+    padding-right: 20px;
+}
 #Info_adicional>div>div>.col:nth-child(1) {
     font-weight: bold;
     width: 280px;
@@ -205,19 +213,9 @@ a{
     align-items: center;
 }
 #botones_carrito{
-    display: inline-block;
-    width: 100%;
-}
-#contenido_principal input{
-    width: 150px;
-    word-break: break-all;
-}
-#Info_adicional{
-    width: 25vw;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: justify;
+    width: 100%;
+    justify-content: center;
 }
 h1{
     font: normal normal normal 1.6vw/1.4em Sanseriffic;

@@ -157,7 +157,6 @@ if (isset($_SESSION['id'])) {
             </div>
             <div id="botones_carrito">
                 <input id="fin_pedido" type="button" value="Finalizar pedido" onclick="añadirBtnPago()">
-                <input id="gen_factura" type="button" value="Generar factura" onclick="location.href='../php/crea_factura.php';">
 
             </div>
 
@@ -176,6 +175,8 @@ if (isset($_SESSION['id'])) {
             © 2023 Web Personal. Creado por Tito Córdova, De la Cruz Brayan, Luna Anthony
         </div>
     </footer>
+    <script src="../script/script_querys.js"></script>
+    <script src="../script/script_Modificación_InteracciónPrincipal.js"></script>
 </body>
 
 </html>
