@@ -201,8 +201,9 @@ a{
 }
 
 p{
-    padding: 16px 0px;
+    padding: 5px 0px;
     margin: 0px;
+    text-align: center;
 }
 
 #contenido_principal input{
@@ -245,7 +246,17 @@ input[type=number] {
 #seccion_cantidad>input{
     padding: 0px;
 }
-
+#seccion_envio{
+    display: flex;
+}
+#seccion_envio p{
+    padding: 0px;
+    position: absolute;
+    opacity: 0;
+    transition: 0.6s;
+    color: green;
+    cursor: default;
+}
 input[value='Feliz Cumpleaños...'] {
     color: #7c7c7c;
     cursor: auto;

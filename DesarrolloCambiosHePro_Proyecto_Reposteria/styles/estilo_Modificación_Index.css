@@ -76,7 +76,7 @@ body {
     background-color: rgb(255, 255, 255);
     z-index: 1;
 }
-input:hover, a:hover {
+input:hover, a:hover, button:hover {
     cursor: pointer;
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
@@ -128,8 +128,17 @@ input{
     border-radius: 3px;
     color: rgb(31, 31, 31);
     text-align: center; 
-    word-break: break-all;
     letter-spacing: 1.4px;
+}
+button{
+    font: normal normal normal 18px/1.4em Sanseriffic;
+    background-color: transparent;
+    padding: 6px 0.5vw;
+    border: 0.5vw solid transparent;
+    border-radius: 3px;
+    color: rgb(31, 31, 31);
+    text-align: center; 
+    letter-spacing: 1.6px;
 }
 a{
     text-decoration: none;
@@ -363,27 +372,27 @@ footer {
     width: auto;
     position: relative;
 }
-@media screen and (max-width: 1060px) {
+@media screen and (max-width: 1085px) {
     #check2:checked + header > #Contenido_Cabecera {
         justify-content: initial;
     }
 }
-@media screen and (max-width: 996px) {
+@media screen and (max-width: 1028px) {
     #check2:checked + header > #Contenido_Cabecera > img {
         padding: 1vh 2vw;
     }
 }
-@media screen and (max-width: 939px) {
+@media screen and (max-width: 963px) {
     #check2:checked + header > #Contenido_Cabecera > img {
         padding: 1vh 1vw;
     }
 }
-@media screen and (max-width: 912px) {
+@media screen and (max-width: 936px) {
     #check2:checked + header > #Contenido_Cabecera > img{
         padding: 1vh 0px;
     }
 }
-@media screen and (max-width: 887px) {  
+@media screen and (max-width: 915px) {  
     #check2:checked + header #LogoPankey{
         padding: 1vh 4vw !important;
     }
@@ -454,7 +463,7 @@ footer {
         padding: 1vh 2vw;
     }
 }
-@media screen and (max-width: 773px) { 
+@media screen and (max-width: 809px) { 
     #Contenido_Cabecera {
         height: 103.125px;
     }

@@ -10,12 +10,19 @@ let estilo = document.getElementById("estilo");
 let estilo_Ingreso_Registro = document.createElement("style");
 let estilo_aux_CategoríaSel = document.createElement("style");
 let estilo_búsqueda = document.createElement("style");
+let estilo_aux_EnvíoACarrito=document.createElement("style");
 let divVentana = document.createElement("div");
 let salto = document.getElementById("Salto");
 let ubicación_página=window.location.href;
 let elemento;
 divVentana.id = "VentanaForm";
 estilo_búsqueda.id="estilo_búsqueda";
+estilo_aux_EnvíoACarrito.id="est_EnvíoACarrito";
+estilo_aux_EnvíoACarrito.innerHTML=`
+#seccion_envio p{
+    opacity: 1;
+}
+`;
 estilo_búsqueda.innerHTML=`
 #búsqueda{
     width: 0px;
@@ -42,6 +49,8 @@ estilo_Ingreso_Registro.innerHTML = `
     width: 98.3vw;
     display: flex;
     justify-content: center;
+    height: 75vh;
+    align-items: center;
 }
 #VentanaForm *{
     color: black;
@@ -56,6 +65,9 @@ estilo_Ingreso_Registro.innerHTML = `
     justify-content: space-between;
     padding: 20px;
     border-radius: 7%;
+}
+.Mensaje{
+    height: auto !important;
 }
 #Ventana>*{
     background-color: transparent !important; 
@@ -75,7 +87,7 @@ label{
     width: 100%;
     justify-content: flex-end;
 }
-#Ventana>input, #SinCuenta>input, .btnHaciaDerecha>input {
+#Ventana>input, #SinCuenta>input, .btnHaciaDerecha>input, #Ventana>button {
     border: 1px solid;
     border-color: black;   
     width: auto;
@@ -96,12 +108,21 @@ label{
 h3{
     visibility: hidden;
 }
+.Mensaje p{
+    margin: 0px;
+    padding: 20px 0px;
+}
+.Mensaje h2{
+    margin: 0px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
 `;
 if (seccion_productos != null) {
     window.onload = AgregarContenido("");
 }
-console.log("PÁGINA EN LA QUE ME ENCUENTRO:"+ubicación_página);
-console.log(ubicación_página.substring(ubicación_página.lastIndexOf("/")));
+//console.log("PÁGINA EN LA QUE ME ENCUENTRO:"+ubicación_página);
+//console.log(ubicación_página.substring(ubicación_página.lastIndexOf("/")));
 if (ubicación_página.substring(ubicación_página.lastIndexOf("/"))=="/CarritoDeCompras.php") {
     window.onload = AgregarContenidoCarrito();
 }
@@ -118,7 +139,7 @@ function AgregarContenido(CategoríaSeleccionada) {
         let myData = myAsyncFunction("");
 
         myData.then(result => {
-            console.log(result);
+            //console.log(result);
 
             let div_aux = document.createElement("div");
             for (let i = 0; i < result.length; i++) {
@@ -144,7 +165,7 @@ CategoríaSeleccionada=CategoríaSeleccionada.substring(1);
 }
 let myData = myAsyncFunction(CategoríaSeleccionada);
         myData.then(result => {
-            console.log(result);
+            //console.log(result);
             let div_aux = document.createElement("div");
             for (let i = 0; i < result.length; i++) {
                 let a = 15.0;
@@ -179,10 +200,11 @@ function myAsyncFunction(imagen) {
 function myAsyncFunction2(id, cantidad) {
     return new Promise((resolve, reject) => {
         fetch("../php/ConsultaIngresoACarrito.php?&id="+id+"&cantidad="+cantidad)
-        .then(data => { //archivo json       
-            resolve(data);
-        })
-        .catch(error => reject(error));
+            .then(response => response.json())
+            .then(data => { //archivo json       
+                resolve(data);
+            })
+            .catch(error => reject(error));
     });
 }
 
@@ -214,10 +236,14 @@ function aumentarCantidadProducto() {
 }
 function mostrarBúsqueda() {
     let est_búsqueda=document.getElementById("estilo_búsqueda");
+    let check=document.getElementById("check2");
+
     if (est_búsqueda!=null) {
+        check.checked=false;
         est_búsqueda.remove();
-        cuadro_búsqueda.removeAttribute("style");
+        cuadro_búsqueda.removeAttribute("style");      
     }else{
+        check.checked=true;
         document.head.appendChild(estilo_búsqueda);
         let width = 0;
     const intervalId = setInterval(function () {
@@ -242,7 +268,7 @@ function ProductoSeleccionado(event) {
     estilo.href = "../styles/estilo_Modificación_ProductoSeleccionado.css";
     img = event.target.nextSibling;
     myData.then(result => {
-        console.log(result[0]);
+        //console.log(result[0]);
 
         id_producto = result[0].Codigo;
         precio_producto = result[0].Precio;
@@ -271,7 +297,12 @@ function ProductoSeleccionado(event) {
                     <input type="number" id="cantidad" name="cantidad" value="1" readonly>
                     <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadProducto()">
                 </div>
+                <div id="seccion_envio">
                 <input type="button" value="Añadir al carrito" onclick="enviarInfoACarrito()">
+                <div>
+                    <p>Producto/s ingresado/s</p>
+                </div>
+            </div>
             </div>
             <div id="infoDetallada">
                 <p id="infoAdicional">`+ descripción_adicional + `</p>
@@ -312,7 +343,7 @@ function funcCategoríaSeleccionada(event) {
     let h1 = document.getElementsByTagName("h1")[0];
     let destacado_principal = document.getElementById("DestacadoPrincipal");
     seccion_productos = document.getElementById("seccion_productos");
-    console.log("LO QUE SELECCIONÉ: "+event.target.value);
+    //console.log("LO QUE SELECCIONÉ: "+event.target.value);
     document.head.appendChild(estilo_aux_CategoríaSel);
     if (destacado_principal != null) {
         destacado_principal.remove();
@@ -362,8 +393,16 @@ function enviarInfoACarrito() {
     //console.log("id: " + id_producto + "\n cantidad: " + cantidad_producto_carr + "\n img: " + img.src + "\n precio del producto: " + precio_producto + "\n descripción adicional: " + descripción_adicional + "\n porciones: " + porciones + "\n masa: " + masa + "\n cobertura: " + cobertura + "\n sabor: " + sabor + "\n relleno: " + relleno);
     let myData = myAsyncFunction2(id_producto,cantidad_producto_carr);
     myData.then(result => {
-        console.log("Resultado: "+result[0]);
-        //alert("teetetetst");
+        console.log(result.usuario);
+        if (result.usuario=="noIngresado") {
+            console.log("TESTTTTTT");
+            MostrarMensajeCarrito();
+        }else{
+            document.head.appendChild(estilo_aux_EnvíoACarrito);
+            setTimeout(function() {
+                document.getElementById("est_EnvíoACarrito").remove();
+              }, 2500);
+        }
     });
 }
 
@@ -440,6 +479,20 @@ function MostrarVentanaRecuperación_Correo() {
     `;
     salto.appendChild(divVentana);
 }
+function MostrarMensajeCarrito() {
+    document.head.appendChild(estilo_Ingreso_Registro);
+    salto.innerHTML = "";
+    divVentana.innerHTML = `
+    <form class="Mensaje" id="Ventana">
+                <div class="btnHaciaDerecha">
+                    <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
+                </div>  
+                    <h2>Estimado usuario</h2>
+                    <p>Antes de ingresar productos al carrito debe iniciar sesión</p>
+            </form>
+    `;
+    salto.appendChild(divVentana);
+}
 function CerrarVentana() {
     let estilo_aux=document.getElementsByTagName("style")[1];
     salto.innerHTML = "";
@@ -453,8 +506,8 @@ function AgregarContenidoCarrito() {
     let primera_fila=document.getElementById("primera_fila");
     let myData = myAsyncFunction3();
     myData.then(result => {
-        console.log(result);
-        console.log("longitud: "+result.length);
+        //console.log(result);
+        //console.log("longitud: "+result.length);
         if (result.length==0) {
             ProductosNoIngresados();
         }

@@ -29,8 +29,8 @@ if (isset($_SESSION['id'])) {
             </label>
             <div id="botones_iconos">
                 <section id="seccion_botones">
-                    <a href="Modificación_Index.php">Inicio</a>
-                    <a href="Modificación_SobreNosotros.php">Sobre Nosotros</a>
+                    <a href="Index.php">Inicio</a>
+                    <a href="SobreNosotros.php">Sobre Nosotros</a>
                     <div id="Catalogo">
                         <input class="Btn_Catalogo" type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;Catalogo&nbsp;&nbsp;&nbsp;">
                         <div>
@@ -81,7 +81,12 @@ if (isset($_SESSION['id'])) {
                 <input type="number" id="cantidad" name="cantidad" value="1" readonly="">
                 <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadProducto()">
             </div>
-            <input type="button" value="Añadir al carrito" onclick="enviarInfoACarrito()">
+            <div id="seccion_envio">
+                <input type="button" value="Añadir al carrito" onclick="enviarInfoACarrito()">
+                <div>
+                    <p>Producto ingresado</p>
+                </div>
+            </div>
         </div>
         <div id="infoDetallada">
 

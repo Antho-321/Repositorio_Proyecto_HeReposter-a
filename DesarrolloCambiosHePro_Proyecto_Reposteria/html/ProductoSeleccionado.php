@@ -66,6 +66,7 @@
                     <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadProducto()">
                 </div>
                 <input type="button" value="Añadir al carrito" onclick="enviarInfoACarrito()">
+                
             </div>
             <div id="infoDetallada">
 
