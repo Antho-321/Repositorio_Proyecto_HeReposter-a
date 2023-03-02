@@ -73,7 +73,7 @@ body {
     background-color: rgb(255, 255, 255);
     z-index: 1;
 }
-input:hover, a:hover {
+input:hover:not(#dedicatoria), a:hover {
     cursor: pointer;
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
@@ -154,13 +154,19 @@ a{
      color: aliceblue;
      text-align: center;
  }
+ body>a:hover{
+    all: initial;
+    color: black !important;
+ }
+ label{
+    cursor: auto;
+ }
  h1{
     margin: 0px;
     padding: 10px;
 }
 #contenido_principal{
     position: relative;
-    opacity: 1 !important;
     display: inline-flex;
     width: 100%;
     background-color: aliceblue;
@@ -284,6 +290,10 @@ input[value='Feliz Cumpleaños...']:hover {
 
 .col:nth-child(3) {
     font-weight: bold;
+}
+#dedicatoria{
+    border: 1px solid black;
+    cursor: auto;
 }
 footer {
     display: flex;

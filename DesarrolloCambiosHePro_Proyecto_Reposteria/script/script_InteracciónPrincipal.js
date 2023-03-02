@@ -8,38 +8,47 @@ let contenido_principal = document.getElementById("contenido_principal");
 let seccion_productos = document.getElementById("seccion_productos");
 let estilo = document.getElementById("estilo");
 let estilo_Ingreso_Registro = document.createElement("style");
+let estilo_aux_CategoríaSel = document.createElement("style");
+let estilo_búsqueda = document.createElement("style");
 let divVentana = document.createElement("div");
 let salto = document.getElementById("Salto");
 let ubicación_página=window.location.href;
+let elemento;
 divVentana.id = "VentanaForm";
-document.querySelector("body>a").removeAttribute("onclick");
+estilo_búsqueda.id="estilo_búsqueda";
+estilo_búsqueda.innerHTML=`
+#búsqueda{
+    width: 0px;
+    border-color: black;
+}
+#seccion_busqueda{
+    position: initial;
+    z-index: 0;
+}
+`;
+estilo_aux_CategoríaSel.innerHTML=`
+#seccion_productos{
+    padding-bottom: calc(70px - 2.5%);
+}
+`;
 estilo_Ingreso_Registro.innerHTML = `
-body {
-    opacity: 0.77 !important;
+  #Contenido_Cabecera, #contenido_principal, footer{
+    opacity: 0.5;
   }
-  header *{
-    opacity: 0.77 !important;
+  #Salto{
+    background: #0000007a;
   }
 #VentanaForm{
-    opacity: 1 !important;
-    width: 100%;
-    
+    width: 98.3vw;
     display: flex;
     justify-content: center;
-
-    position: absolute;
-    
-    z-index: 5;
 }
 #VentanaForm *{
-    opacity: 1 !important;
-    z-index: 5;
     color: black;
 }
 #Ventana{
-    opacity: 1 !important;
     background-color: aliceblue !important;  
-    width: 50vw;
+    width: 550px;
     height: 75vh;
     display: flex;
     flex-direction: column;
@@ -49,7 +58,6 @@ body {
     border-radius: 7%;
 }
 #Ventana>*{
-    opacity: 1 !important;
     background-color: transparent !important; 
 }
 label{
@@ -77,7 +85,6 @@ label{
     text-decoration: underline;
 }
 .entrada_texto{
-
     width: 20vw !important;
     cursor: auto !important;
 }
@@ -101,16 +108,12 @@ if (ubicación_página.substring(ubicación_página.lastIndexOf("/"))=="/Carrito
 if (contenido_categorías != null) {
     let tamaño = contenido_categorías.children.length;
     for (let i = 0; i < tamaño; i++) {
-        contenido_categorías.children[i].firstChild.addEventListener("click", funcCategoríaSeleccionada);
+        contenido_categorías.children[i].addEventListener("click", funcCategoríaSeleccionada);
+        //console.log(contenido_categorías.children[i]);
     }
 }
 function AgregarContenido(CategoríaSeleccionada) {
     seccion_productos = document.getElementById("seccion_productos");
-    if (CategoríaSeleccionada == "") {
-        num_productos = 12;
-    } else {
-        num_productos = 4;
-    }
     if (CategoríaSeleccionada == "") {
         let myData = myAsyncFunction("");
 
@@ -175,7 +178,11 @@ function myAsyncFunction(imagen) {
 }
 function myAsyncFunction2(id, cantidad) {
     return new Promise((resolve, reject) => {
-        fetch("../php/ConsultaIngresoACarrito.php?&id="+id+"&cantidad="+cantidad);
+        fetch("../php/ConsultaIngresoACarrito.php?&id="+id+"&cantidad="+cantidad)
+        .then(data => { //archivo json       
+            resolve(data);
+        })
+        .catch(error => reject(error));
     });
 }
 
@@ -193,9 +200,7 @@ function myAsyncFunction3(id_usuario) {
 function colorTextoANegro(event) {
     let entrada_texto = event.target;
     entrada_texto.style.color = "black";
-    if (entrada_texto.value == "Feliz Cumpleaños...") {
-        entrada_texto.value = "";
-    }
+    entrada_texto.placeholder="";
 }
 function disminuirCantidadProducto() {
     cantidadInput = document.getElementById("cantidad");
@@ -207,21 +212,26 @@ function aumentarCantidadProducto() {
     cantidadInput = document.getElementById("cantidad");
     cantidadInput.value = parseInt(cantidadInput.value) + 1;
 }
-function mostrarBúsqueda(lupa) {
-    console.log(lupa.nextElementSibling);
-    let width = 0;
-    cuadro_búsqueda.type = "search";
-    cuadro_búsqueda.style.width = "0px";
+function mostrarBúsqueda() {
+    let est_búsqueda=document.getElementById("estilo_búsqueda");
+    if (est_búsqueda!=null) {
+        est_búsqueda.remove();
+        cuadro_búsqueda.removeAttribute("style");
+    }else{
+        document.head.appendChild(estilo_búsqueda);
+        let width = 0;
     const intervalId = setInterval(function () {
         if (width == 0) {
-            lupa.nextElementSibling.style.display = "initial";
+            cuadro_búsqueda.style.width = "0px";
         }
         width += 1;
         cuadro_búsqueda.style.width = width + "px";
-        if (width >= 120) {
+        if (width >= 110) {
             clearInterval(intervalId);
         }
     }, 0.01);
+    }
+    
 }
 function ProductoSeleccionado(event) {
     //console.log(event.target.nextSibling.src);
@@ -229,7 +239,7 @@ function ProductoSeleccionado(event) {
     let div = document.getElementsByTagName("div");
     VerificaciónCuadroDeBúsqueda();
     estilo = document.getElementById("estilo");
-    estilo.href = "../styles/estilo_ProductoSeleccionado.css";
+    estilo.href = "../styles/estilo_Modificación_ProductoSeleccionado.css";
     img = event.target.nextSibling;
     myData.then(result => {
         console.log(result[0]);
@@ -248,7 +258,7 @@ function ProductoSeleccionado(event) {
         //------------------------------------------------------------------
 
         if (div[3].id != "Salto") {
-            div[3].remove();
+            /*div[3].remove();*/
         }
 
         contenido_principal.innerHTML = `
@@ -268,7 +278,7 @@ function ProductoSeleccionado(event) {
                 <div class="tabla_info">
                     <div class="fila">
                         <p class="col">Dedicatoria para el pedido:</p>
-                        <input class="col" type="text" value="Feliz Cumpleaños..." id="dedicatoria">
+                        <input class="col" type="text" placeholder="Feliz Cumpleaños..." id="dedicatoria">
                     </div>
                     <div class="fila">
                         <p class="col">Porciones:</p>
@@ -295,17 +305,15 @@ function ProductoSeleccionado(event) {
         document.getElementById("dedicatoria").addEventListener("click", colorTextoANegro);
     }
     );
-
-    //-------------LO QUE SE VA A OBTENER DE LA BASE DE DATOS A PARTIR DEL LINK DE LA IMAGEN SELECCIONADA-----------
-
 }
 function funcCategoríaSeleccionada(event) {
     VerificaciónCuadroDeBúsqueda();
-    let título = event.target.innerHTML;
+    let título = event.target.value;
     let h1 = document.getElementsByTagName("h1")[0];
     let destacado_principal = document.getElementById("DestacadoPrincipal");
     seccion_productos = document.getElementById("seccion_productos");
-    console.log("LO QUE SELECCIONÉ: "+event.target);
+    console.log("LO QUE SELECCIONÉ: "+event.target.value);
+    document.head.appendChild(estilo_aux_CategoríaSel);
     if (destacado_principal != null) {
         destacado_principal.remove();
     }
@@ -313,10 +321,10 @@ function funcCategoríaSeleccionada(event) {
         document.querySelector("#seccion_productos>div").remove();
     } else {
         contenido_principal.innerHTML = `
-        <h1 align="center">Bodas</h1>
+        <h1 align="center">`+título+`</h1>
         <section id="seccion_productos"></section>
         `;
-        document.getElementById("estilo").href = "../styles/estilo_Index.css";;
+        document.getElementById("estilo").href = "../styles/estilo_Modificación_Index.css";;
     }
     if (h1 == undefined) {
         h1 = document.getElementsByTagName("h1")[0];
@@ -326,9 +334,10 @@ function funcCategoríaSeleccionada(event) {
     AgregarContenido(título);
 }
 function VerificaciónCuadroDeBúsqueda() {
-    let seccion_busqueda = document.getElementById("seccion_busqueda");
-    if (seccion_busqueda.style.display != "none") {
-        seccion_busqueda.style.display = "none";
+    let est_búsqueda=document.getElementById("estilo_búsqueda");
+    if (est_búsqueda!=null) {
+        est_búsqueda.remove();
+        cuadro_búsqueda.removeAttribute("style");
     }
 }
 function ProductosNoIngresados() {
@@ -350,11 +359,11 @@ function añadirBtnPago() {
 function enviarInfoACarrito() {
     cantidad_producto_carr = document.getElementById("cantidad").value;
     //LA INFORMACIÓN QUE TENEMOS LA ENVIAMOS AL CARRITO
-    console.log("id: " + id_producto + "\n cantidad: " + cantidad_producto_carr + "\n img: " + img.src + "\n precio del producto: " + precio_producto + "\n descripción adicional: " + descripción_adicional + "\n porciones: " + porciones + "\n masa: " + masa + "\n cobertura: " + cobertura + "\n sabor: " + sabor + "\n relleno: " + relleno);
+    //console.log("id: " + id_producto + "\n cantidad: " + cantidad_producto_carr + "\n img: " + img.src + "\n precio del producto: " + precio_producto + "\n descripción adicional: " + descripción_adicional + "\n porciones: " + porciones + "\n masa: " + masa + "\n cobertura: " + cobertura + "\n sabor: " + sabor + "\n relleno: " + relleno);
     let myData = myAsyncFunction2(id_producto,cantidad_producto_carr);
     myData.then(result => {
-        //console.log(result[0]);
-
+        console.log("Resultado: "+result[0]);
+        //alert("teetetetst");
     });
 }
 
@@ -386,8 +395,6 @@ function MostrarVentanaDeIngreso() {
             </div>
     `;
     salto.appendChild(divVentana);
-
-
 }
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
 function MostrarVentanaDeRegistro() {
@@ -400,18 +407,6 @@ function MostrarVentanaDeRegistro() {
     <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
     <form action="../FINAL_TEST/enviar_correo.php" method="POST" class="Formulario_Registro" id="Ventana">
         <h2>Registrarse</h2>
-        <div class="campos_adicionales">
-            <label for="cedula">Cédula:</label>
-            <input type="text" id="cedula" name="Cedula">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="Nombre">
-        </div>
-        <div class="campos_adicionales">
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="Apellido">
-            <label for="dirección">Dirección:</label>
-            <input type="text" id="dirección" name="Direccion">
-        </div>
         <label for="correo">Correo electrónico:</label>
         <input type="email" id="correo" name="Correo" class="entrada_texto">
         <label for="contraseña">Contraseña:</label>
@@ -423,7 +418,6 @@ function MostrarVentanaDeRegistro() {
         <button id="registro">Registrarse</button>
             <label for="RegresarAIngreso">¿Ya tienes una cuenta?</label>
             <input type="button" value="Ingresar" id="RegresarAIngreso" onclick="MostrarVentanaDeIngreso()">
-       
         <script src="../script/script_Registro.js"></script>
     </form>
 </div>
@@ -447,8 +441,13 @@ function MostrarVentanaRecuperación_Correo() {
     salto.appendChild(divVentana);
 }
 function CerrarVentana() {
+    let estilo_aux=document.getElementsByTagName("style")[1];
     salto.innerHTML = "";
-    document.getElementsByTagName("style")[0].remove();
+    if (estilo_aux!=null || estilo_aux!=undefined) {
+        estilo_aux.remove();
+    }else{
+        document.getElementsByTagName("style")[0].remove();
+    }   
 }
 function AgregarContenidoCarrito() {
     let primera_fila=document.getElementById("primera_fila");
@@ -462,7 +461,7 @@ function AgregarContenidoCarrito() {
         for(let i=0;i<result.length;i++){
             primera_fila.insertAdjacentHTML("afterend",`
         <form class="fila" action="../php/EliminarItemCarrito.php" method= "POST">
-                        <div class="col">
+                        <div class="col" id="seccion_imagen">
                             <img src="`+result[i].Img+`" alt="Producto">
                         </div>            
                             <p class="col" name="masa">`+result[i].Masa+`</p>
@@ -470,10 +469,11 @@ function AgregarContenidoCarrito() {
                             <p class="col" name="relleno">`+result[i].Relleno+`</p>
                             <p class="col" name="cobertura">`+result[i].Cobertura+`</p>
                             <p class="col" name="precio">$`+result[i].Precio+`</p>
-                            <p class="col" name="cantidad">`+result[i].Cantidad_Cliente+`</p>
-                            <input type="hidden" name="id_canasta_item" value="`+result[i].Id_Canasta_item+`">
-                            <button id="btn_eliminar" >◄</button>
-                            
+                            <p class="col" name="cantidad">`+result[i].Cantidad_Cliente+`</p>                   
+                            <div class="col" id="seccion_eliminar">
+                                <input type="hidden" name="id_canasta_item" value="`+result[i].Id_Canasta_item+`">
+                                <button id="btn_eliminar" >◄</button>
+                            </div>      
                     </form>
         `);
         }
