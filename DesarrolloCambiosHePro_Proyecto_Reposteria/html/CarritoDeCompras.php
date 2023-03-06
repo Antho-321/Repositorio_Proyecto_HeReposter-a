@@ -74,7 +74,7 @@ if (isset($_SESSION['id'])) {
                     <div id="Catalogo">
                         <input class="Btn_Catalogo" type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;Catalogo&nbsp;&nbsp;&nbsp;">
                         <div>
-                            <div class="Menu_Catalogo">
+                            <div id="Menu_Catalogo">
                                 <input type="button" value="Bodas">
                                 <input type="button" value="Bautizos">
                                 <input type="button" value="XV años">

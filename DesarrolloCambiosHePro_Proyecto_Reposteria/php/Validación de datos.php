@@ -29,7 +29,7 @@ if($random == $comparacion){
     }else{
         $nueva_canasta = $nueva_canasta + 1;
     }
-    $conexion->OperSql("INSERT INTO `cliente`(`Cedula`,`Nombre`, `Apellido`, `Direccion`) VALUES ('$nueva_cedula',' ',' ',' ')");
+    $conexion->OperSql("INSERT INTO `cliente`(`Cedula`,`Nombre`, `Apellido`) VALUES ('$nueva_cedula',' ',' ')");
     $conexion->OperSql("INSERT INTO `usuario`(`Id_Usuario`, `Cedula`, `Email`, `Password`) VALUES ('$nueva_cedula','$nueva_cedula','$correo','$contraseña')"); 
     $conexion->OperSql("INSERT INTO `canasta`(`Id_Canasta`, `Id_Usuario`) VALUES ('$nueva_canasta','$nueva_cedula');");
     $conexion->closeConnection();

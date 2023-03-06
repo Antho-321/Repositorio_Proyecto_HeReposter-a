@@ -28,9 +28,12 @@ if(isset($existe)){
     </script>';
 } else {
     $para = $correo;
-    $asunto = "Codigo: " . $random;
-    $cuerpo = "TEST<html>Su código por favor si</html>";
-    $salida = shell_exec('node ULTIMO_TEST.js "' . $para . '" "' . $asunto . '" "' . $cuerpo . '"');
+    $asunto = "Código de verificación";
+    $cuerpo = "Verificación de dispositivo";
+    $texto1="Código de verificación de registro en Pankey";
+    $texto2="Hemos recibido una solicitud de registro en nuestro sitio web de pastelería utilizando tu dirección de correo electrónico. Tu código de verificación de registro es:";
+    $texto3="Si no has solicitado este código, puede que alguien esté intentando registrarse en nuestro sitio web utilizando tu dirección de correo electrónico. No compartas este correo electrónico ni des el código a nadie. Has recibido este mensaje porque esta dirección de correo electrónico figura como dirección de contacto en la solicitud de registro en nuestro sitio web. Si crees que esto es un error, por favor ignora este mensaje o ponte en contacto con nosotros para solucionarlo. Gracias por elegir nuestro sitio web de pastelería.";
+    $salida = shell_exec('node ULTIMO_TEST.js "' . $para . '" "' . $asunto . '" "' . $cuerpo . '" "' . $texto1 . '" "' . $texto2 . '" "' . $texto3 . '" "' . $random . '"');
     session_start();
     //$_SESSION['cedula'] = $cedula;
     //$_SESSION['nombre'] = $nombre;

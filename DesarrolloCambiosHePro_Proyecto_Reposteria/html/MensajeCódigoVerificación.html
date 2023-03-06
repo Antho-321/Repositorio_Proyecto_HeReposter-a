@@ -1,61 +1,4 @@
-const nodemailer = require("nodemailer");
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
-const accountTransport = require("./account_transport.json");
-
-const mail_rover = async (callback) => {
-    const oauth2Client = new OAuth2(
-        accountTransport.auth.clientId,
-        accountTransport.auth.clientSecret,
-        "https://developers.google.com/oauthplayground"
-    );
-    oauth2Client.setCredentials({
-        refresh_token: accountTransport.auth.refreshToken,
-        tls: {
-            rejectUnauthorized: false
-        }
-    });
-    try {
-        const { token } = await oauth2Client.getAccessToken();
-        const accessToken = token;
-        accountTransport.auth.accessToken = accessToken;
-        callback(nodemailer.createTransport(accountTransport));
-    } catch (err) {
-        console.error(err);
-    }
-};
-
-async function sendEmail() {
-    const para = process.argv[2];
-    const asunto = process.argv[3];
-    const cuerpo = process.argv[4];
-    const texto1 = process.argv[5];
-    const texto2 = process.argv[6];
-    const texto3 = process.argv[7];
-    const random = process.argv[8];
-    const accessToken = accountTransport.auth.accessToken;
-    let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true, // use SSL
-        auth: {
-            type: "OAuth2",
-            user: "pankey.ibarra@gmail.com",
-            clientId: "192282288096-u9r7es2bg7js56q1k3c8i7tncvi0mnq8.apps.googleusercontent.com",
-            clientSecret: "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",
-            accessToken: accessToken,
-            refreshToken: "1//04jDVszc1v9zwCgYIARAAGAQSNwF-L9IrX56qpnS7uekgrvu8GuJeN7DzFtcD1D85tx8Bu5Y1KpTefIJI33JnzT8qsVLSltKn38Q",
-        },
-    });
-
-    try {
-        let info = await transporter.sendMail({
-            from: "pankey.ibarra@gmail.com",
-            to: para,
-            subject: asunto,
-            text: cuerpo,
-            html: `
-            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
 <head>
@@ -108,7 +51,7 @@ async function sendEmail() {
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td align="left" class="esd-block-text">
-                                                                                        <h1 style="font-family: Garamond, serif; text-align: center; color: black;"><b>`+texto1+`</b></h1>
+                                                                                        <h1 style="font-family: Garamond, serif; text-align: center;"><b>Código de verificación de registro en Pankey</b></h1>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -141,7 +84,7 @@ async function sendEmail() {
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td align="left" class="esd-block-text">
-                                                                                        <p style="font-family: Garamond, serif; font-size: 20px; color: black; text-align: justify;">Estimado usuario:<br><br>`+texto2+`</p>
+                                                                                        <p style="font-family: Garamond, serif; font-size: 20px;">Estimado usuario:<br><br>Hemos recibido una solicitud de registro en nuestro sitio web de pastelería utilizando tu dirección de correo electrónico. Tu código de verificación de registro es:</p>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -174,7 +117,7 @@ async function sendEmail() {
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td align="center" class="esd-block-text">
-                                                                                        <p style="font-family: Garamond, serif; font-size: 20px;"><b>`+random+`</b></p>
+                                                                                        <p style="font-family: Garamond, serif; font-size: 20px;"><b>56158</b></p>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -195,7 +138,7 @@ async function sendEmail() {
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td align="left" class="esd-block-text">
-                                                                                        <p style="font-family: Garamond, serif; font-size: 20px; text-align: justify;">`+texto3+`<br><br>Atentamente,</p>
+                                                                                        <p style="font-family: Garamond, serif; font-size: 20px;">Si no has solicitado este código, puede que alguien esté intentando registrarse en nuestro sitio web utilizando tu dirección de correo electrónico. No compartas este correo electrónico ni des el código a nadie. Has recibido este mensaje porque esta dirección de correo electrónico figura como dirección de contacto en la solicitud de registro en nuestro sitio web. Si crees que esto es un error, por favor ignora este mensaje o ponte en contacto con nosotros para solucionarlo. Gracias por elegir nuestro sitio web de pastelería.<br><br>Atentamente,</p>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -239,12 +182,3 @@ async function sendEmail() {
 </body>
 
 </html>
-            `
-        });
-        console.log("Message sent: %s", info.messageId);
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-mail_rover(sendEmail);

@@ -3,7 +3,7 @@ let left = 0;
 let productos = [];
 let lupa = document.getElementById("lupa");
 let cuadro_búsqueda = document.getElementById("búsqueda");
-let contenido_categorías = document.querySelector(".Menu_Catalogo");
+let contenido_categorías = document.getElementById("Menu_Catalogo");
 let contenido_principal = document.getElementById("contenido_principal");
 let seccion_productos = document.getElementById("seccion_productos");
 let estilo = document.getElementById("estilo");
@@ -44,6 +44,9 @@ estilo_Ingreso_Registro.innerHTML = `
   }
   #Salto{
     background: #0000007a;
+    font-family:Sanseriffic;
+    letter-spacing: 1.4px;
+    transition: initial;
   }
 #VentanaForm{
     width: 98.3vw;
@@ -65,9 +68,13 @@ estilo_Ingreso_Registro.innerHTML = `
     justify-content: space-between;
     padding: 20px;
     border-radius: 7%;
+    z-index: 1;
 }
 .Mensaje{
     height: auto !important;
+}
+.Recuperación{
+    height: 58vh !important;
 }
 #Ventana>*{
     background-color: transparent !important; 
@@ -110,12 +117,14 @@ h3{
 }
 .Mensaje p{
     margin: 0px;
-    padding: 20px 0px;
+    padding: 22px 0px;
 }
 .Mensaje h2{
     margin: 0px;
-    padding-top: 20px;
-    padding-bottom: 10px;
+    padding: 10px 0px;
+}
+.Recuperación h2{
+    margin: 0px;
 }
 `;
 if (seccion_productos != null) {
@@ -236,13 +245,17 @@ function aumentarCantidadProducto() {
 }
 function mostrarBúsqueda() {
     let est_búsqueda=document.getElementById("estilo_búsqueda");
+    let check1=document.getElementById("check");
     let check=document.getElementById("check2");
 
     if (est_búsqueda!=null) {
         check.checked=false;
         est_búsqueda.remove();
-        cuadro_búsqueda.removeAttribute("style");      
+        cuadro_búsqueda.removeAttribute("style");   
     }else{
+        if (window.innerWidth<=915) {
+            check1.checked=true;
+        }
         check.checked=true;
         document.head.appendChild(estilo_búsqueda);
         let width = 0;
@@ -292,7 +305,7 @@ function ProductoSeleccionado(event) {
                 <img src="`+ img.src + `" alt="imagenes">
                 <p>$`+ precio_producto + `</p>
                 <div id="seccion_cantidad">
-                    <label for="cantidad">Cantidad:&nbsp;&nbsp;&nbsp;</label>
+                    <label for="cantidad" id="label_cantidad">Cantidad:&nbsp;&nbsp;&nbsp;</label>
                     <input type="button" id="disminuir_cantidad" value="-" onclick="disminuirCantidadProducto()">
                     <input type="number" id="cantidad" name="cantidad" value="1" readonly>
                     <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadProducto()">
@@ -467,7 +480,7 @@ function MostrarVentanaDeRegistro() {
 function MostrarVentanaRecuperación_Correo() {
     salto.innerHTML = "";
     divVentana.innerHTML = `
-    <form id="Ventana" action="../FINAL_TEST/confirmacion.php" method="POST" >
+    <form id="Ventana" action="../FINAL_TEST/confirmacion.php" method="POST" class="Recuperación">
     <div class="btnHaciaDerecha">
         <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
     </div>
@@ -475,6 +488,7 @@ function MostrarVentanaRecuperación_Correo() {
     <label for="correo">Correo electrónico:</label>
     <input type="email" id="correo" name="Correo" class="entrada_texto">
     <button id="finalización_registro">Enviar contraseña al correo</button>
+    <div></div>
 </form>
     `;
     salto.appendChild(divVentana);

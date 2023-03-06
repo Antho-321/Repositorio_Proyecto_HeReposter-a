@@ -3,7 +3,7 @@
 session_start();
 if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
-}else if(isset($_SESSION['contraseña'])){
+} else if (isset($_SESSION['contraseña'])) {
     header("Location: ../php/Logout.php");
 }
 ?>
@@ -20,7 +20,7 @@ if (isset($_SESSION['id'])) {
 
 <body>
     <input type="checkbox" id="check2">
-    <header id="Cabecera">     
+    <header id="Cabecera">
         <div id="Contenido_Cabecera">
             <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
             <input type="checkbox" id="check">
@@ -34,7 +34,7 @@ if (isset($_SESSION['id'])) {
                     <div id="Catalogo">
                         <input class="Btn_Catalogo" type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;Catalogo&nbsp;&nbsp;&nbsp;">
                         <div>
-                            <div class="Menu_Catalogo">
+                            <div id="Menu_Catalogo">
                                 <input type="button" value="Bodas">
                                 <input type="button" value="Bautizos">
                                 <input type="button" value="XV años">
@@ -56,11 +56,11 @@ if (isset($_SESSION['id'])) {
                         <input type="search" id="búsqueda">
                     </div>
                     <?php if (!isset($id)) { ?>
-                    <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
-                <?php } else { ?>
-                    <button onclick="Logout()" id="Salida" ><a>Salir</button>
+                        <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
+                    <?php } else { ?>
+                        <button onclick="Logout()" id="Salida"><a>Salir</button>
                     <?php } ?>
-                    
+
                 </section>
                 <label for="check" class="esconder_menu">
                     &#215
@@ -70,24 +70,24 @@ if (isset($_SESSION['id'])) {
         <div id="Salto">
         </div>
     </header>
-    
-        <div id="contenido_principal">
-            <!-- //////////////////////////////////////////PRODUCTOS DESATACADOS/////////////////////////////////////////////// -->
-            <div id="DestacadoPrincipal">
-                <ul>
-                    <li><img src="../imagenes/Slider1.jpg" alt=""></li>
-                    <li><img src="../imagenes/Slider2.jpg" alt=""></li>
-                    <li><img src="../imagenes/Slider3.jpg" alt=""></li>
-                    <li><img src="../imagenes/Slider4.jpg" alt=""></li>
-                </ul>
-            </div>
-            <h1>PRODUCTOS DESTACADOS</h1>
-            <section id="seccion_productos"></section>
-            <script src="../script/script_querys.js"></script>
+
+    <div id="contenido_principal">
+        <!-- //////////////////////////////////////////PRODUCTOS DESATACADOS/////////////////////////////////////////////// -->
+        <div id="DestacadoPrincipal">
+            <ul>
+                <li><img src="../imagenes/Slider1.jpg" alt=""></li>
+                <li><img src="../imagenes/Slider2.jpg" alt=""></li>
+                <li><img src="../imagenes/Slider3.jpg" alt=""></li>
+                <li><img src="../imagenes/Slider4.jpg" alt=""></li>
+            </ul>
+        </div>
+        <h1>PRODUCTOS DESTACADOS</h1>
+        <section id="seccion_productos"></section>
+        <script src="../script/script_querys.js"></script>
         <script src="../script/script_InteracciónPrincipal.js"></script>
-        
-        </div>  
-    
+
+    </div>
+
     <footer>
         <div id="Derechos">
             © 2023 Web Personal. Creado por Tito Córdova, De la Cruz Brayan, Luna Anthony

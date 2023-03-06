@@ -2,7 +2,7 @@
     font-family:Sanseriffic;
     src: url(../font/Sanseriffic.otf);
 }
-*:not(.Menu_Catalogo, .Menu_Catalogo *, #contenido_principal, #contenido_principal *) {
+*:not(#Menu_Catalogo, #Menu_Catalogo *, #contenido_principal, #contenido_principal *) {
     transition: 0.4s;
 }
 body {
@@ -61,10 +61,10 @@ body {
     
     cursor: default !important;
 }
-#Catalogo:hover .Menu_Catalogo{
+#Catalogo:hover #Menu_Catalogo{
     visibility: visible;
 }
-.Menu_Catalogo{
+#Menu_Catalogo{
     visibility: hidden;
     display: flex;
     flex-direction: column;
@@ -73,7 +73,7 @@ body {
     background-color: rgb(255, 255, 255);
     z-index: 1;
 }
-input:hover:not(#dedicatoria), a:hover {
+input:hover:not(#dedicatoria, #cantidad), a:hover {
     cursor: pointer;
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
@@ -264,9 +264,6 @@ input[value='Feliz Cumpleaños...'] {
     border-color: black !important;
 }
 
-input[value='Feliz Cumpleaños...']:hover {
-    color: #7c7c7c41;
-}
 
 #cantidad{
     cursor: auto;
@@ -360,7 +357,7 @@ footer {
     #check2:checked + header > #Contenido_Cabecera {
         height: 103.125px;
     }
-    #check2:checked + header .Menu_Catalogo{
+    #check2:checked + header #Menu_Catalogo{
         position: initial;
     }
     #check2:checked + header .mostrar_menu{
@@ -413,7 +410,7 @@ footer {
         flex-direction: column;
     }
 }
-@media screen and (max-width: 847px) {  
+@media screen and (max-width: 883px) {  
     #Contenido_Cabecera {
         justify-content: initial;
     }
@@ -425,7 +422,7 @@ footer {
     #Contenido_Cabecera {
         height: 103.125px;
     }
-    .Menu_Catalogo{
+    #Menu_Catalogo{
         position: initial;
     }
     .mostrar_menu{

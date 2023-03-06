@@ -14,9 +14,11 @@ if(!isset($existe)){
     </script>';
 }else{
     $pass= $existe['Password'];
-    $asunto = "Contraseña: " . $pass;
-    $cuerpo = "<html>Su código por favor si</html>";
-    $salida = shell_exec('node ULTIMO_TEST.js "' . $para . '" "' . $asunto . '" "' . $cuerpo . '"');
+    $asunto = "Recuperación de cuenta";
+    $cuerpo = "Contraseña";
+    $texto2="Hemos recibido una solicitud de recuperación de contraseña para tu cuenta en nuestro sitio web de pastelería utilizando tu dirección de correo electrónico. Tu contraseña es la siguiente:";
+    $texto3="Si no has solicitado la recuperación de contraseña, por favor ignora este mensaje o ponte en contacto con nosotros para solucionarlo. Gracias por elegir Pankey para disfrutar de nuestras deliciosas opciones de pastelería.";
+    $salida = shell_exec('node ULTIMO_TEST.js "' . $para . '" "' . $asunto . '" "' . $cuerpo . '" "' . $asunto . '" "' . $texto2 . '" "' . $texto3 . '" "' . $pass . '"');
     echo '<script>
     window.alert("LA CONTRASEÑA SE HA ENVIADO A SU CORREO"); 
     window.location = "../html/Index.php";
