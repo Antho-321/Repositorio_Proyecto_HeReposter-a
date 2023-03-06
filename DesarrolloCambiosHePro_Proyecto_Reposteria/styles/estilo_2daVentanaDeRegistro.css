@@ -430,3 +430,7 @@ label{
     padding: 10px;
     background-color: aliceblue;
 }
+#texto_info{
+    text-align: center;
+    width: 30vw;
+}

@@ -8,7 +8,10 @@
     <title>Eliminación de productos</title>
 </head>
 <body>
-    <h1>Eliminación de productos</h1>
+    <div>
+        <h1>Eliminación de productos</h1>
+        <div id="Salto"></div>
+    </div>
     <section id="seccion_productos"></section>
     <script src="../script/script_EliminaciónDeProductos.js"></script>
   

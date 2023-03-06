@@ -1,76 +1,100 @@
+let producto;
+let estilo_Ingreso_Registro = document.createElement("style");
+let div_aux2=document.querySelector("body>div>div");
+estilo_Ingreso_Registro.innerHTML = `
+  body>div>h1, #seccion_productos {
+    opacity: 0.5;
+  }
+  #Salto{
+    background: #0000007a;
+    font-family:Sanseriffic;
+    letter-spacing: 1.4px;
+    transition: initial;
+  }
+#VentanaForm{
+    width: 98.3vw;
+    display: flex;
+    justify-content: center;
+    height: 75vh;
+    align-items: center;
+}
+#VentanaForm *{
+    color: black;
+}
+#Ventana{
+    background-color: aliceblue !important;  
+    width: 550px;
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 7%;
+    z-index: 1;
+}
+.Mensaje{
+    height: auto !important;
+}
+.Recuperación{
+    height: 58vh !important;
+}
+#Ventana>*{
+    background-color: transparent !important; 
+}
+label{
+    padding: 0px 10px;
+}
+#SinCuenta{
+    display: flex;
+    align-items: center;
+}
+#ingresar, #sin_cuenta{
+    padding: 10px;
+}
+.btnHaciaDerecha{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+#Ventana>input, #SinCuenta>input, .btnHaciaDerecha>input, #Ventana>button {
+    border: 1px solid;
+    border-color: black;   
+    width: auto;
+}
+#contraseña_olvidada{
+    border-color: transparent;
+    text-decoration: underline;
+}
+.entrada_texto{
+    width: 20vw !important;
+    cursor: auto !important;
+}
+#btn_salir{
+    border-color: transparent;
+    font-size: 30px;
+    padding: 0px;
+}
+h3{
+    visibility: hidden;
+}
+.Mensaje p{
+    margin: 0px;
+    padding: 22px 0px;
+}
+.Mensaje h2{
+    margin: 0px;
+    padding: 10px 0px;
+}
+.Recuperación h2{
+    margin: 0px;
+}
+`;
 window.onload = AgregarContenido("");
 function AgregarContenido(CategoríaSeleccionada) {
     seccion_productos = document.getElementById("seccion_productos");
     //let div, imagen, h3, a;
     //let div_aux = document.createElement("div");
-    if (CategoríaSeleccionada == "") {
-        num_productos = 12;
-    } else {
-        /* 
-        ---------------------------------------------------------------------------------------------
-            num_productos sería el resultado de la consulta:
-        ---------------------------------------------------------------------------------------------
-            SELECT COUNT(*) FROM producto WHERE Categoría=CategoríaSeleccionada;
-        ---------------------------------------------------------------------------------------------
-            EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:        
-        */
-        num_productos = 4;
-    }
-
-    //for (let i = 1; i <= num_productos; i++) {
-
-    //div = document.createElement("div");
-    //imagen = document.createElement("img");
-    //h3 = document.createElement("h3");
-    //a = 15.0;
-    //x = document.body.getBoundingClientRect().width;
-    if (CategoríaSeleccionada == "") {
-
-        /*
-        ---------------------------------------------------------------------------------------------
-            EN PRIMER LUGAR, EN PHPMYADMIN HABRÍA QUE DECLARAR LA FUNCIÓN:
-        ---------------------------------------------------------------------------------------------
-            DELIMITER $$
-            CREATE FUNCTION enésimo_producto_más_repetido(N INT)
-            RETURNS INT
-            BEGIN
-                DECLARE result INT;
-                SET N = N - 1;
-                SELECT Codigo INTO result
-                FROM venta
-                ORDER BY Cantidad DESC
-                LIMIT N, 1;
-                RETURN result;
-            END$$
-            DELIMITER ;
-        ---------------------------------------------------------------------------------------------
-            EL valor de la variable direccion_producto sería el resultado de la consulta:
-        ---------------------------------------------------------------------------------------------
-            SELECT `Img` FROM producto WHERE `Codigo`=enésimo_producto_más_repetido(i);
-        ---------------------------------------------------------------------------------------------
-            EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:    
-        */
-
-        //LA CONSULTA SE ENCUENTRA EN EL ARCHIVO runQuery.php
-        //PARA ENVIAR UNA VARIABLE SOLO AGREGAMOS A "../php/runQuery.php LA LÍNEA: ?variable="+variable
-
-        //direccion_producto = "../imagenes/21.png";
-    } else {
-        /* 
-        ---------------------------------------------------------------------------------------------
-            EL valor de la variable direccion_producto sería el resultado de la consulta:
-        ---------------------------------------------------------------------------------------------
-            direccion_producto=SELECT Ruta_Imagen FROM producto WHERE Categoría=CategoríaSeleccionada LIMIT i-1, 1;
-            NOTA: PARA LA CONSULTA, ALADO DE LIMIT DEBE ESTAR UN NÚMERO ESPECÍFICO, ES DECIR, EL RESULTADO DE i-1
-        ---------------------------------------------------------------------------------------------
-            EL SIGUIENTE CÓDIGO ES SOLO DE PRUEBA:     
-        */
-        if (CategoríaSeleccionada == "Cumpleaños") {
-            direccion_producto = "https://d320djwtwnl5uo.cloudfront.net/recetas/share/share_fsr8al91ct_confeti.jpg";
-        } else {
-            direccion_producto = "https://cdn0.bodas.com.mx/article-real-wedding/799/3_2/1280/jpg/1466243.webp";
-        }
-    }
 
     let myData = myAsyncFunction("");
 
@@ -87,7 +111,7 @@ function AgregarContenido(CategoríaSeleccionada) {
             imagen.src = result[i].Img;
             imagen.style.paddingRight = a + "px";
             imagen.style.paddingTop = (a / 2) + "px";
-            h3.innerHTML = "Mostrar más información";
+            h3.innerHTML = "Seleccionar producto";
             div.appendChild(h3);
             h3.addEventListener("click", ProductoSeleccionado);
             div.appendChild(imagen);
@@ -117,9 +141,33 @@ function myAsyncFunction2(imagen) {
     });
 }
 function ProductoSeleccionado(event) {
-    let myData = myAsyncFunction2(event.target.nextSibling.src);
+    document.head.appendChild(estilo_Ingreso_Registro);
+    producto=event.target.nextSibling.src;
+    div_aux2.innerHTML=`
+    <div class="Mensaje" id="Ventana">
+                <div class="btnHaciaDerecha">
+                    <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
+                </div>  
+                    <h2>¿Eliminar producto?</h2>
+                    <div id="botones">
+                    <button id="finalización_registro" onclick="eliminarProducto()">Aceptar</button>
+                    <button id="finalización_registro" onclick="CerrarVentana()">Cancelar</button>
+                    <div>
+                    
+            </div>
+    `;  
+}
+function eliminarProducto(){
+    let myData = myAsyncFunction2(producto);
     let div = document.getElementsByTagName("div");
-    producto_seleccionado = true;
-    img = event.target.nextSibling;
     location.reload();
+}
+function CerrarVentana() {
+    let estilo_aux = document.getElementsByTagName("style")[1];
+    div_aux2.innerHTML = "";
+    if (estilo_aux != null || estilo_aux != undefined) {
+        estilo_aux.remove();
+    } else {
+        document.getElementsByTagName("style")[0].remove();
+    }
 }

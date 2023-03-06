@@ -529,7 +529,7 @@ footer {
     }
 
     label {
-        display: block;
+        display: block !important;
 
     }
 

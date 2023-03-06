@@ -48,7 +48,7 @@ if (isset($_SESSION['id'])) {
                     </div>
                 </section>
                 <section id="seccion_iconos">
-                    <a href="../html/CarritoDeCompras.php">
+                    <a href="CarritoDeCompras.php">
                         <img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo">
                     </a>
                     <img onclick="mostrarBúsqueda()" src="../iconos/lupa1.png" type="button" value="Catalogo">

@@ -78,6 +78,7 @@ input:hover:not(#dedicatoria, #cantidad), a:hover {
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
 }
+
 #seccion_iconos{
     display: flex;
     align-items: center;
@@ -225,7 +226,10 @@ p{
 #aumentar_cantidad {
     font-size: 25px;
 }
-
+button {
+    padding: 6px 0.5vw;
+    letter-spacing: 1.6px;
+}
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -326,6 +330,26 @@ footer {
     display: inline-block;
     width: auto;
     position: relative;
+}
+input, #seccion_botones a, button {
+    font: normal normal normal 18px/1.4em Sanseriffic;
+}
+#búsqueda, input, #seccion_botones a, button {
+    border-radius: 3px;
+}
+input:hover,
+a:hover,
+button:hover {
+    color: #7c7c7c41 !important;
+    transition: 0.4s !important;
+}
+label,
+input:hover,
+a:hover,
+button:hover,
+#seccion_iconos img,
+h3:hover {
+    cursor: pointer;
 }
 @media screen and (max-width: 1060px) {
     #check2:checked + header > #Contenido_Cabecera {

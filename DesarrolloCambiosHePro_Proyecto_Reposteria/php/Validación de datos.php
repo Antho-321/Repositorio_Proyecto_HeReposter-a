@@ -13,9 +13,9 @@ $random = $_SESSION['random'];
 $comparacion = $_POST['comparacion'];
 //Comparación
 if($random == $comparacion){
-    $cedula = $conexion->OperSql("SELECT MAX(`Cedula`) FROM `cliente`");
+    $cedula = $conexion->OperSql("SELECT MAX(`Id_Usuario`) FROM `usuario`");
     $array_cedula=$cedula->fetch_array();
-    $nueva_cedula=$array_cedula['MAX(`Cedula`)'];
+    $nueva_cedula=$array_cedula['MAX(`Id_Usuario`)'];
     if ($cedula==NULL) {
         $nueva_cedula = 1;    
     }else{
@@ -29,8 +29,7 @@ if($random == $comparacion){
     }else{
         $nueva_canasta = $nueva_canasta + 1;
     }
-    $conexion->OperSql("INSERT INTO `cliente`(`Cedula`,`Nombre`, `Apellido`) VALUES ('$nueva_cedula',' ',' ')");
-    $conexion->OperSql("INSERT INTO `usuario`(`Id_Usuario`, `Cedula`, `Email`, `Password`) VALUES ('$nueva_cedula','$nueva_cedula','$correo','$contraseña')"); 
+    $conexion->OperSql("INSERT INTO `usuario`(`Id_Usuario`, `Email`, `Password`) VALUES ('$nueva_cedula','$correo','$contraseña')"); 
     $conexion->OperSql("INSERT INTO `canasta`(`Id_Canasta`, `Id_Usuario`) VALUES ('$nueva_canasta','$nueva_cedula');");
     $conexion->closeConnection();
     echo '<script>

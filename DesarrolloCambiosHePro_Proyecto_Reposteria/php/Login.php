@@ -13,15 +13,12 @@ $email = mysqli_fetch_array($consultemail);
 $pass = mysqli_fetch_array($consultpass);
 //Parte necesaria para las credenciales
 $consultId = $connection->OperSql("SELECT `Id_Usuario` FROM `usuario` WHERE `Email`= '$correo'");
-$consultCi = $connection->OperSql("SELECT `Cedula` FROM `usuario` WHERE `Email`= '$correo'");
 $Id = mysqli_fetch_array($consultId);
-$Ci = mysqli_fetch_array($consultCi);
 $connection->closeConnection();
 if ($email != null) {
     if ($email['Email'] == $correo && $pass['Password'] == $contraseña) {
         //Login correcto
         $_SESSION['id'] = $Id['Id_Usuario'];
-        $_SESSION['cedula'] = $Ci['Cedula'];
         echo '<script>window.location = "../html/Index.php";</script>';
     } else {
         echo '<script>

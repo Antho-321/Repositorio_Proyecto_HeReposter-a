@@ -10,20 +10,21 @@ let estilo = document.getElementById("estilo");
 let estilo_Ingreso_Registro = document.createElement("style");
 let estilo_aux_CategoríaSel = document.createElement("style");
 let estilo_búsqueda = document.createElement("style");
-let estilo_aux_EnvíoACarrito=document.createElement("style");
+let estilo_aux_EnvíoACarrito = document.createElement("style");
+let estilo_carritoSinProductos = document.createElement("style");
 let divVentana = document.createElement("div");
 let salto = document.getElementById("Salto");
-let ubicación_página=window.location.href;
+let ubicación_página = window.location.href;
 let elemento;
 divVentana.id = "VentanaForm";
-estilo_búsqueda.id="estilo_búsqueda";
-estilo_aux_EnvíoACarrito.id="est_EnvíoACarrito";
-estilo_aux_EnvíoACarrito.innerHTML=`
+estilo_búsqueda.id = "estilo_búsqueda";
+estilo_aux_EnvíoACarrito.id = "est_EnvíoACarrito";
+estilo_aux_EnvíoACarrito.innerHTML = `
 #seccion_envio p{
     opacity: 1;
 }
 `;
-estilo_búsqueda.innerHTML=`
+estilo_búsqueda.innerHTML = `
 #búsqueda{
     width: 0px;
     border-color: black;
@@ -33,7 +34,7 @@ estilo_búsqueda.innerHTML=`
     z-index: 0;
 }
 `;
-estilo_aux_CategoríaSel.innerHTML=`
+estilo_aux_CategoríaSel.innerHTML = `
 #seccion_productos{
     padding-bottom: calc(70px - 2.5%);
 }
@@ -127,12 +128,20 @@ h3{
     margin: 0px;
 }
 `;
+estilo_carritoSinProductos.innerHTML=`
+#contenido_principal {
+    height: 69.9%;
+    padding-bottom: 0px;
+    align-items: center;
+    justify-content: center;
+}
+`;
 if (seccion_productos != null) {
     window.onload = AgregarContenido("");
 }
 //console.log("PÁGINA EN LA QUE ME ENCUENTRO:"+ubicación_página);
 //console.log(ubicación_página.substring(ubicación_página.lastIndexOf("/")));
-if (ubicación_página.substring(ubicación_página.lastIndexOf("/"))=="/CarritoDeCompras.php") {
+if (ubicación_página.substring(ubicación_página.lastIndexOf("/")) == "/CarritoDeCompras.php") {
     window.onload = AgregarContenidoCarrito();
 }
 if (contenido_categorías != null) {
@@ -167,12 +176,12 @@ function AgregarContenido(CategoríaSeleccionada) {
         }
         );
     } else {
-        
 
-if(CategoríaSeleccionada==" Navidad"){
-CategoríaSeleccionada=CategoríaSeleccionada.substring(1);
-}
-let myData = myAsyncFunction(CategoríaSeleccionada);
+
+        if (CategoríaSeleccionada == " Navidad") {
+            CategoríaSeleccionada = CategoríaSeleccionada.substring(1);
+        }
+        let myData = myAsyncFunction(CategoríaSeleccionada);
         myData.then(result => {
             //console.log(result);
             let div_aux = document.createElement("div");
@@ -208,7 +217,7 @@ function myAsyncFunction(imagen) {
 }
 function myAsyncFunction2(id, cantidad) {
     return new Promise((resolve, reject) => {
-        fetch("../php/ConsultaIngresoACarrito.php?&id="+id+"&cantidad="+cantidad)
+        fetch("../php/ConsultaIngresoACarrito.php?&id=" + id + "&cantidad=" + cantidad)
             .then(response => response.json())
             .then(data => { //archivo json       
                 resolve(data);
@@ -219,7 +228,7 @@ function myAsyncFunction2(id, cantidad) {
 
 function myAsyncFunction3(id_usuario) {
     return new Promise((resolve, reject) => {
-        fetch("../php/SacarDatosDeCarrito.php?id_usuario="+id_usuario)
+        fetch("../php/SacarDatosDeCarrito.php?id_usuario=" + id_usuario)
             .then(response => response.json())
             .then(data => { //archivo json       
                 resolve(data);
@@ -231,7 +240,7 @@ function myAsyncFunction3(id_usuario) {
 function colorTextoANegro(event) {
     let entrada_texto = event.target;
     entrada_texto.style.color = "black";
-    entrada_texto.placeholder="";
+    entrada_texto.placeholder = "";
 }
 function disminuirCantidadProducto() {
     cantidadInput = document.getElementById("cantidad");
@@ -244,33 +253,33 @@ function aumentarCantidadProducto() {
     cantidadInput.value = parseInt(cantidadInput.value) + 1;
 }
 function mostrarBúsqueda() {
-    let est_búsqueda=document.getElementById("estilo_búsqueda");
-    let check1=document.getElementById("check");
-    let check=document.getElementById("check2");
+    let est_búsqueda = document.getElementById("estilo_búsqueda");
+    let check1 = document.getElementById("check");
+    let check = document.getElementById("check2");
 
-    if (est_búsqueda!=null) {
-        check.checked=false;
+    if (est_búsqueda != null) {
+        check.checked = false;
         est_búsqueda.remove();
-        cuadro_búsqueda.removeAttribute("style");   
-    }else{
-        if (window.innerWidth<=915) {
-            check1.checked=true;
+        cuadro_búsqueda.removeAttribute("style");
+    } else {
+        if (window.innerWidth <= 915) {
+            check1.checked = true;
         }
-        check.checked=true;
+        check.checked = true;
         document.head.appendChild(estilo_búsqueda);
         let width = 0;
-    const intervalId = setInterval(function () {
-        if (width == 0) {
-            cuadro_búsqueda.style.width = "0px";
-        }
-        width += 1;
-        cuadro_búsqueda.style.width = width + "px";
-        if (width >= 110) {
-            clearInterval(intervalId);
-        }
-    }, 0.01);
+        const intervalId = setInterval(function () {
+            if (width == 0) {
+                cuadro_búsqueda.style.width = "0px";
+            }
+            width += 1;
+            cuadro_búsqueda.style.width = width + "px";
+            if (width >= 110) {
+                clearInterval(intervalId);
+            }
+        }, 0.01);
     }
-    
+
 }
 function ProductoSeleccionado(event) {
     //console.log(event.target.nextSibling.src);
@@ -293,7 +302,7 @@ function ProductoSeleccionado(event) {
         relleno = result[0].Relleno;
 
 
-        
+
         //------------------------------------------------------------------
 
         if (div[3].id != "Salto") {
@@ -365,7 +374,7 @@ function funcCategoríaSeleccionada(event) {
         document.querySelector("#seccion_productos>div").remove();
     } else {
         contenido_principal.innerHTML = `
-        <h1 align="center">`+título+`</h1>
+        <h1 align="center">`+ título + `</h1>
         <section id="seccion_productos"></section>
         `;
         document.getElementById("estilo").href = "../styles/estilo_Modificación_Index.css";;
@@ -378,14 +387,17 @@ function funcCategoríaSeleccionada(event) {
     AgregarContenido(título);
 }
 function VerificaciónCuadroDeBúsqueda() {
-    let est_búsqueda=document.getElementById("estilo_búsqueda");
-    if (est_búsqueda!=null) {
+    let est_búsqueda = document.getElementById("estilo_búsqueda");
+    if (est_búsqueda != null) {
         est_búsqueda.remove();
         cuadro_búsqueda.removeAttribute("style");
     }
 }
 function ProductosNoIngresados() {
-    alert("NO SE HA INGRESADO PRODUCTOS");
+    document.head.appendChild(estilo_carritoSinProductos);
+    contenido_principal.innerHTML=`
+    <h1>No se ha ingresado productos</h1>
+    `;
 }
 function añadirBtnPago() {
     let scripts = document.getElementsByTagName("script");
@@ -404,17 +416,17 @@ function enviarInfoACarrito() {
     cantidad_producto_carr = document.getElementById("cantidad").value;
     //LA INFORMACIÓN QUE TENEMOS LA ENVIAMOS AL CARRITO
     //console.log("id: " + id_producto + "\n cantidad: " + cantidad_producto_carr + "\n img: " + img.src + "\n precio del producto: " + precio_producto + "\n descripción adicional: " + descripción_adicional + "\n porciones: " + porciones + "\n masa: " + masa + "\n cobertura: " + cobertura + "\n sabor: " + sabor + "\n relleno: " + relleno);
-    let myData = myAsyncFunction2(id_producto,cantidad_producto_carr);
+    let myData = myAsyncFunction2(id_producto, cantidad_producto_carr);
     myData.then(result => {
         console.log(result.usuario);
-        if (result.usuario=="noIngresado") {
+        if (result.usuario == "noIngresado") {
             console.log("TESTTTTTT");
             MostrarMensajeCarrito();
-        }else{
+        } else {
             document.head.appendChild(estilo_aux_EnvíoACarrito);
-            setTimeout(function() {
+            setTimeout(function () {
                 document.getElementById("est_EnvíoACarrito").remove();
-              }, 2500);
+            }, 2500);
         }
     });
 }
@@ -508,45 +520,44 @@ function MostrarMensajeCarrito() {
     salto.appendChild(divVentana);
 }
 function CerrarVentana() {
-    let estilo_aux=document.getElementsByTagName("style")[1];
+    let estilo_aux = document.getElementsByTagName("style")[1];
     salto.innerHTML = "";
-    if (estilo_aux!=null || estilo_aux!=undefined) {
+    if (estilo_aux != null || estilo_aux != undefined) {
         estilo_aux.remove();
-    }else{
+    } else {
         document.getElementsByTagName("style")[0].remove();
-    }   
+    }
 }
 function AgregarContenidoCarrito() {
-    let primera_fila=document.getElementById("primera_fila");
+    let primera_fila = document.getElementById("primera_fila");
     let myData = myAsyncFunction3();
     myData.then(result => {
         //console.log(result);
         //console.log("longitud: "+result.length);
-        if (result.length==0) {
+        if (result.length == 0) {
             ProductosNoIngresados();
         }
-        for(let i=0;i<result.length;i++){
-            primera_fila.insertAdjacentHTML("afterend",`
+        for (let i = 0; i < result.length; i++) {
+            primera_fila.insertAdjacentHTML("afterend", `
         <form class="fila" action="../php/EliminarItemCarrito.php" method= "POST">
                         <div class="col" id="seccion_imagen">
-                            <img src="`+result[i].Img+`" alt="Producto">
+                            <img src="`+ result[i].Img + `" alt="Producto">
                         </div>            
-                            <p class="col" name="masa">`+result[i].Masa+`</p>
-                            <p class="col" name="sabor">`+result[i].Sabor+`</p>
-                            <p class="col" name="relleno">`+result[i].Relleno+`</p>
-                            <p class="col" name="cobertura">`+result[i].Cobertura+`</p>
-                            <p class="col" name="precio">$`+result[i].Precio+`</p>
-                            <p class="col" name="cantidad">`+result[i].Cantidad_Cliente+`</p>                   
+                            <p class="col" name="masa">`+ result[i].Masa + `</p>
+                            <p class="col" name="sabor">`+ result[i].Sabor + `</p>
+                            <p class="col" name="relleno">`+ result[i].Relleno + `</p>
+                            <p class="col" name="cobertura">`+ result[i].Cobertura + `</p>
+                            <p class="col" name="precio">$`+ result[i].Precio + `</p>
+                            <p class="col" name="cantidad">`+ result[i].Cantidad_Cliente + `</p>                   
                             <div class="col" id="seccion_eliminar">
-                                <input type="hidden" name="id_canasta_item" value="`+result[i].Id_Canasta_item+`">
+                                <input type="hidden" name="id_canasta_item" value="`+ result[i].Id_Canasta_item + `">
                                 <button id="btn_eliminar" >◄</button>
                             </div>      
                     </form>
         `);
         }
-
     });
-    
-    
-
+}
+function irAIndex() {
+    window.location.href = "../html/Index.php";
 }
