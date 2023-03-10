@@ -129,19 +129,8 @@ if (isset($_SESSION['id'])) {
         </section>
         <section id="Info_adicional">
             <h2>Total</h2>
+            <p class="col"><?= $Subtotal ?> $</p>
             <div class="tabla_info">
-                <div class="fila">
-                    <p class="col">Subtotal:</p>
-                    <p class="col"><?= $Subtotal ?> $</p>
-                </div>
-                <div class="fila">
-                    <p class="col">IVA 12%:</p>
-                    <p class="col"><?= $Iva ?> $</p>
-                </div>
-                <div class="fila">
-                    <p class="col">Total:</p>
-                    <p class="col"><?= $Total ?> $</p>
-                </div>
                 <div class="fila">
                     <label class="col" for="fecha_entrega">Fecha de entrega:</label>
                     <div id="entrada_fecha" class="col">

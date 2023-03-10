@@ -157,8 +157,8 @@ a{
     margin: 0px;
 }
 #seccion_iconos img{   
-    width: 40px;
-    height: 40px;
+    width: 33px;
+    height: 33px;
     padding: 12px;
     cursor: pointer;
 }
@@ -184,11 +184,13 @@ a{
     display: flex;
  }
  body>a{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     height: 100vh;
  }
  body>a:hover{
-    all: initial;
-    height: 100vh;
+    cursor: auto;
     color: black !important;
  }
  label{
@@ -234,6 +236,9 @@ a{
     flex-direction: column;
     text-align: justify;
     padding-right: 30px;
+}
+#Info_adicional>p{
+    text-align: center;
 }
 h2{
     text-align: center;
