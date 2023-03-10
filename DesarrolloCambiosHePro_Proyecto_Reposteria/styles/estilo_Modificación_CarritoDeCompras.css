@@ -81,6 +81,9 @@ input:hover, a:hover, button:hover {
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
 }
+#Catalogo:hover .Btn_Catalogo {
+    color: #7c7c7c41 !important;
+}
 #seccion_iconos{
     display: flex;
     align-items: center;

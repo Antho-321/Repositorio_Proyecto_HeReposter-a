@@ -136,7 +136,8 @@ h3 {
 
 input:hover,
 a:hover,
-button:hover {
+button:hover,
+#Catalogo:hover .Btn_Catalogo {
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
 }
