@@ -12,5 +12,4 @@ if($pass== "admin" && $usuario=="admin@admin"){
     window.location = "../html/admin.php";
     </script>';
 }
-
 ?>

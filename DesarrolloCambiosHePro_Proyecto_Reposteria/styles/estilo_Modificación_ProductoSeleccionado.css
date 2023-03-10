@@ -8,7 +8,11 @@
 body {
     margin: 0px;
     width: 100vw;
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 #Cabecera{
     position: fixed;
@@ -73,7 +77,7 @@ body {
     background-color: rgb(255, 255, 255);
     z-index: 1;
 }
-input:hover:not(#dedicatoria, #cantidad), a:hover {
+input:hover:not(input[name='dedicatoria'], #cantidad), a:hover {
     cursor: pointer;
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
@@ -129,6 +133,19 @@ input{
     word-break: break-all;
     letter-spacing: 1.4px;
 }
+select{
+    background-color: transparent;
+    border: 0.2vw solid black;
+    border-radius: 3px;
+    font: normal normal normal 18px/1.4em Sanseriffic;
+    width: 100px;
+    text-indent: 16px;
+    text-align: center;
+    letter-spacing: 1.4px;
+}
+option{
+    position: absolute;
+}
 a{
     text-decoration: none;
 }
@@ -155,8 +172,14 @@ a{
      color: aliceblue;
      text-align: center;
  }
+ body>a{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+ }
  body>a:hover{
-    all: initial;
+    cursor: auto;
     color: black !important;
  }
  label{
@@ -172,7 +195,6 @@ a{
     width: 100%;
     background-color: aliceblue;
     padding-top: 128.125px;
-    height: calc(100vh - 198.125px);/*198.125 ES LO QUE SUMA LA CABECERA CON EL FOOTER*/
     font: normal normal normal 21px/1.4em Sanseriffic;
     letter-spacing: 1.4px;
 }
@@ -198,6 +220,7 @@ a{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 20px 0px;
     padding-right: calc((30vw - 300px) / 2);
 }
 
@@ -292,20 +315,22 @@ input[value='Feliz Cumpleaños...'] {
 
 .col {
     display: table-cell;
-    padding: 12px;
     text-align: center;
+    vertical-align: middle;
+    padding: 15px;
 }
 
 .col:nth-child(1) {
     font-weight: bold;
 }
 
-.col:nth-child(3) {
+.col:nth-child(3):not(input[name='dedicatoria']) {
     font-weight: bold;
 }
-#dedicatoria{
+input[name='dedicatoria']{
     border: 1px solid black;
-    cursor: auto;
+    cursor: text !important;
+    margin: 9px;
 }
 footer {
     display: flex;
@@ -337,7 +362,7 @@ input, #seccion_botones a, button {
 #búsqueda, input, #seccion_botones a, button {
     border-radius: 3px;
 }
-input:hover,
+input:hover:not(input[name='dedicatoria']),
 a:hover,
 button:hover {
     color: #7c7c7c41 !important;

@@ -116,6 +116,7 @@ if (isset($_SESSION['id'])) {
             <div class="tabla_info">
                 <div class="fila" id="primera_fila">
                     <br class="col">
+                    <p class="col">Dedicatoria/s</p>
                     <p class="col">Masa</p>
                     <p class="col">Sabor</p>
                     <p class="col">Relleno</p>
@@ -143,14 +144,14 @@ if (isset($_SESSION['id'])) {
                 </div>
                 <div class="fila">
                     <label class="col" for="fecha_entrega">Fecha de entrega:</label>
-                    <div id="entrada_fecha">
-                        <input class="col" type="date" id="fecha_entrega" name="fecha_entrega">
+                    <div id="entrada_fecha" class="col">
+                        <input type="date" id="fecha_entrega" name="fecha_entrega">
                     </div>
                 </div>
                 <div class="fila">
                     <label class="col" for="time">Hora:</label>
-                    <div id="entrada_tiempo">
-                        <input class="col" type="time">
+                    <div id="entrada_tiempo" class="col">
+                        <input type="time">
                     </div>
 
                 </div>
