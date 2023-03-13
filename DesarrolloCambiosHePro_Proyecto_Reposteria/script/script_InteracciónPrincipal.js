@@ -6,6 +6,7 @@ let productos = [];
 let lupa = document.getElementById("lupa");
 let cuadro_búsqueda = document.getElementById("búsqueda");
 let contenido_categorías = document.getElementById("Menu_Catalogo");
+let catalogo=document.getElementById("Catalogo");
 let contenido_principal = document.getElementById("contenido_principal");
 let seccion_productos = document.getElementById("seccion_productos");
 let estilo = document.getElementById("estilo");
@@ -14,6 +15,7 @@ let estilo_aux_CategoríaSel = document.createElement("style");
 let estilo_búsqueda = document.createElement("style");
 let estilo_aux_EnvíoACarrito = document.createElement("style");
 let estilo_carritoSinProductos = document.createElement("style");
+let estilo_ver_categorías=document.createElement("style");
 let divVentana = document.createElement("div");
 let salto = document.getElementById("Salto");
 let ubicación_página = window.location.href;
@@ -21,6 +23,9 @@ let elemento;
 divVentana.id = "VentanaForm";
 estilo_búsqueda.id = "estilo_búsqueda";
 estilo_aux_EnvíoACarrito.id = "est_EnvíoACarrito";
+estilo_ver_categorías.id="est_ver_categorías";
+estilo_aux_CategoríaSel.id="est_CategoríaSel";
+estilo_ver_categorías.innerHTML="#Catalogo:hover #Menu_Catalogo {visibility: visible;}";
 estilo_aux_EnvíoACarrito.innerHTML = `
 #seccion_envio p{
     opacity: 1;
@@ -138,6 +143,12 @@ estilo_carritoSinProductos.innerHTML=`
     justify-content: center;
 }
 `;
+catalogo.addEventListener("mouseover", function() {
+    //console.log(document.getElementById("est_ver_categorías"));
+    if (document.getElementById("est_ver_categorías")==null) {
+        document.head.appendChild(estilo_ver_categorías);
+    }    
+});
 if (seccion_productos != null) {
     window.onload = AgregarContenido("");
 }
@@ -330,7 +341,7 @@ function mostrarBúsqueda() {
         est_búsqueda.remove();
         cuadro_búsqueda.removeAttribute("style");
     } else {
-        if (window.innerWidth <= 915) {
+        if (window.innerWidth <= 956) {
             check1.checked = true;
         }
         check.checked = true;
@@ -458,13 +469,16 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
     });
 }
 function funcCategoríaSeleccionada(event) {
+    document.getElementById("est_ver_categorías").remove();
     VerificaciónCuadroDeBúsqueda();
     let título = event.target.value;
     let h1 = document.getElementsByTagName("h1")[0];
     let destacado_principal = document.getElementById("DestacadoPrincipal");
     seccion_productos = document.getElementById("seccion_productos");
     //console.log("LO QUE SELECCIONÉ: "+event.target.value);
-    document.head.appendChild(estilo_aux_CategoríaSel);
+    if (document.getElementById("est_CategoríaSel")==null) {
+        document.head.appendChild(estilo_aux_CategoríaSel);
+    }
     if (destacado_principal != null) {
         destacado_principal.remove();
     }
@@ -633,7 +647,7 @@ function MostrarMensajeCarrito() {
                     <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
                 </div>  
                     <h2>Estimado usuario</h2>
-                    <p>Para poder ingresar productos al carrito debe iniciar sesión</p>
+                    <p>Por favor inicia sesión para poder ingresar productos al carrito</p>
             </form>
     `;
     salto.appendChild(divVentana);

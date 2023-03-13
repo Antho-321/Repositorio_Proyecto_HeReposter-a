@@ -56,8 +56,12 @@ body {
     width: 60vw;
 }
 #Catalogo{
+    width: 170px;
     display: flex;
     flex-direction: column;
+}
+#Catalogo *{
+    width: 170px;
 }
 
 .Btn_Catalogo{
@@ -112,21 +116,19 @@ input:hover, a:hover, button:hover {
 #Ingreso{
     border: 0px;
 }
-#Catalogo>input,#seccion_botones a{ 
+#Catalogo>input,#seccion_botones>a{ 
     font: normal normal normal 18px/1.4em Sanseriffic;
     background-color: transparent;    
     padding: 12px 0px;
     border: 0.5vw solid transparent;
     border-radius: 3px;
     color: rgb(0, 0, 0);
-    margin: 0px 4vw;
     text-align: center;
     letter-spacing: 0.1vw;
 }
 input{
     font: normal normal normal 18px/1.4em Sanseriffic;
     background-color: transparent;
-    padding: 6px 4vw;
     border: 0.5vw solid transparent;
     border-radius: 3px;
     color: rgb(31, 31, 31);
@@ -439,27 +441,272 @@ footer {
     justify-content: center;
     color: rgb(173, 173, 173);
 }
-@media screen and (max-width: 1085px) {
-    #check2:checked + header > #Contenido_Cabecera {
-        justify-content: initial;
-    }
+
+/*----------------LO QUE SE AGREGA----------------*/
+@font-face {
+    font-family: Sanseriffic;
+    src: url(../font/Sanseriffic.otf);
 }
-@media screen and (max-width: 1028px) {
-    #check2:checked + header > #Contenido_Cabecera > img {
-        padding: 1vh 2vw;
-    }
+
+*:not(#Menu_Catalogo, #Menu_Catalogo *) {
+    transition: 0.4s;
 }
-@media screen and (max-width: 963px) {
-    #check2:checked + header > #Contenido_Cabecera > img {
-        padding: 1vh 1vw;
-    }
+
+body,
+#Contenido_Cabecera,
+#Contenido_Cabecera div,
+#Contenido_Cabecera section,
+#DestacadoPrincipal ul,
+#seccion_productos>*:first-child,
+h3,
+footer,
+#Derechos {
+    display: flex;
 }
-@media screen and (max-width: 936px) {
-    #check2:checked + header > #Contenido_Cabecera > img{
-        padding: 1vh 0px;
-    }
+
+body,
+#Contenido_Cabecera,
+#botones_iconos,
+#seccion_botones {
+    justify-content: space-between;
 }
-@media screen and (max-width: 915px) {  
+
+body,
+#Contenido_Cabecera {
+    width: 100vw;
+}
+
+body,
+#Catalogo,
+#Menu_Catalogo {
+    flex-direction: column;
+}
+
+body,
+h1,
+h3 {
+    margin: 0px;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+#Cabecera,
+#botones_iconos {
+    background: white;
+}
+
+#Cabecera {
+    height: 128.125px;
+    position: fixed;
+    z-index: 2;
+}
+
+#Contenido_Cabecera,
+#Contenido_Cabecera section,
+#Menu_Catalogo,
+#seccion_busqueda,
+h3,
+footer,
+#Derechos {
+    align-items: center;
+}
+
+#LogoPankey {
+    min-width: 70px;
+    max-width: 90px;
+    min-height: 80px;
+    max-height: 90px;
+    padding: 1vh 4vw;
+}
+
+#check,
+.mostrar_menu,
+.esconder_menu {
+    display: none;
+}
+
+label,
+input:hover,
+a:hover,
+button:hover,
+#seccion_iconos img,
+h3:hover {
+    cursor: pointer;
+}
+
+.mostrar_menu,
+.esconder_menu {
+    font-size: 30px;
+    padding: 0px 30px
+}
+
+#botones_iconos {
+    width: 80vw;
+}
+
+#seccion_botones {
+    width: 60vw;
+}
+
+.Btn_Catalogo {
+    cursor: default !important;
+}
+
+#Catalogo:hover #Menu_Catalogo {
+    visibility: visible;
+}
+
+#Menu_Catalogo,
+#check2 {
+    visibility: hidden;
+}
+
+#Menu_Catalogo,
+#seccion_busqueda,
+#check2,
+h3 {
+    position: absolute;
+}
+
+#Menu_Catalogo,
+h3 {
+    z-index: 1;
+}
+
+#Menu_Catalogo {
+    background-color: rgb(255, 255, 255);
+}
+
+input:hover,
+a:hover,
+button:hover,
+#Catalogo:hover .Btn_Catalogo {
+    color: #7c7c7c41 !important;
+    transition: 0.4s !important;
+}
+
+#seccion_iconos,
+h1 {
+    padding: 10px;
+}
+
+#seccion_busqueda,
+#Salto,
+#seccion_productos>div,
+h3,
+footer,
+#Derechos {
+    justify-content: center;
+}
+
+#seccion_busqueda,
+#LogoPankey {
+    z-index: -1;
+}
+
+#seccion_busqueda {
+    width: 110px;
+}
+
+#búsqueda,
+input,
+#seccion_botones a,
+button {
+    border-radius: 3px;
+}
+
+#búsqueda {
+    height: 11px;
+    border: 2px solid black;
+    cursor: auto !important;
+    border-color: transparent;
+}
+
+#Ingreso {
+    border: 0px;
+}
+
+input,
+#seccion_botones a,
+button,
+#Salto,
+h1,
+footer {
+    text-align: center;
+}
+
+input,
+#seccion_botones a,
+button {
+    font: normal normal normal 18px/1.4em Sanseriffic;
+    background-color: transparent;
+    border: 0.5vw solid transparent;
+    color: rgb(31, 31, 31);
+}
+
+input,
+#seccion_botones a,
+h1,
+h3 {
+    letter-spacing: 1.4px;
+}
+
+#Catalogo>input,
+#seccion_botones>a {
+    padding: 12px 0px;
+    min-width: 100px;
+}
+
+#Catalogo{
+    width: 160px;
+    
+}
+#Catalogo *{
+    width: 160px;
+}
+#Menu_Catalogo input {
+    padding-bottom: 5px;
+}
+
+button {
+    padding: 6px 0.5vw;
+    letter-spacing: 1.6px;
+}
+
+a {
+    text-decoration: none;
+}
+
+#seccion_iconos img,
+#seccion_iconos input {
+    padding: 12px;
+}
+
+#seccion_iconos img {
+    width: 33px;
+    height: 33px;
+}
+
+#Salto,
+#contenido_principal,
+#DestacadoPrincipal li,
+#DestacadoPrincipal img,
+#seccion_productos>*:first-child,
+#seccion_productos>div>div>img,
+footer {
+    width: 100%;
+}
+
+#Salto {
+    height: 25px;
+    background-color: black;
+    color: aliceblue;
+}
+/*------------------------------------------------*/
+
+@media screen and (max-width: 956px) {  
     #check2:checked + header #LogoPankey{
         padding: 1vh 4vw !important;
     }
@@ -522,15 +769,7 @@ footer {
         flex-direction: column;
     }
 }
-@media screen and (max-width: 883px) {  
-    #Contenido_Cabecera {
-        justify-content: initial;
-    }
-    #Contenido_Cabecera > img {
-        padding: 1vh 2vw;
-    }
-}
-@media screen and (max-width: 809px) { 
+@media screen and (max-width: 930px) { 
     #Contenido_Cabecera {
         height: 103.125px;
     }

@@ -1,178 +1,269 @@
 @font-face {
-    font-family:Sanseriffic;
+    font-family: Sanseriffic;
     src: url(../font/Sanseriffic.otf);
 }
+
 *:not(#Menu_Catalogo, #Menu_Catalogo *) {
     transition: 0.4s;
 }
-body {
-    margin: 0px;
+
+body,
+#Contenido_Cabecera,
+#Contenido_Cabecera div,
+#Contenido_Cabecera section,
+#DestacadoPrincipal ul,
+#seccion_productos>*:first-child,
+h3,
+footer,
+#Derechos {
+    display: flex;
+}
+
+body,
+#Contenido_Cabecera,
+#botones_iconos,
+#seccion_botones {
+    justify-content: space-between;
+}
+
+body,
+#Contenido_Cabecera {
     width: 100vw;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
 }
-#Cabecera{
-    position: fixed;
-    background: white;
-    z-index: 2;
-    height: 128.125px;
-}
-#Contenido_Cabecera{
-    display: flex;
-    align-items: center;
-    width: 100vw;
-    justify-content: space-between;
-}
-#LogoPankey{
-    min-width: 70px;
-    min-height: 80px;
-    max-width: 90px;
-    max-height: 90px;
-    padding: 1vh 4vw;
-}
-#check {
-    display: none;
-}
-.mostrar_menu,
-.esconder_menu {
-    font-size: 30px;
-    cursor: pointer;
-    display: none;
-    transform: 0.4s;
-    padding: 0px 30px
-}
-#botones_iconos{
-    display: flex;
-    width: 80vw;
-    justify-content: space-between;
-}
-#seccion_botones{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 60vw;
-}
-#Catalogo{
-    display: flex;
+
+body,
+#Catalogo,
+#Menu_Catalogo {
     flex-direction: column;
 }
 
-.Btn_Catalogo{
-    
+body,
+h1,
+h3 {
+    margin: 0px;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+#Cabecera,
+#botones_iconos {
+    background: white;
+}
+
+#Cabecera {
+    height: 128.125px;
+    position: fixed;
+    z-index: 2;
+}
+
+#Contenido_Cabecera,
+#Contenido_Cabecera section,
+#Menu_Catalogo,
+#seccion_busqueda,
+h3,
+footer,
+#Derechos {
+    align-items: center;
+}
+
+#LogoPankey {
+    min-width: 70px;
+    max-width: 90px;
+    min-height: 80px;
+    max-height: 90px;
+    padding: 1vh 4vw;
+}
+
+#check,
+.mostrar_menu,
+.esconder_menu {
+    display: none;
+}
+
+label,
+input:hover,
+a:hover,
+button:hover,
+#seccion_iconos img,
+h3:hover {
+    cursor: pointer;
+}
+
+.mostrar_menu,
+.esconder_menu {
+    font-size: 30px;
+    padding: 0px 30px
+}
+
+#botones_iconos {
+    width: 80vw;
+}
+
+#seccion_botones {
+    width: 60vw;
+}
+
+.Btn_Catalogo {
     cursor: default !important;
 }
-#Catalogo:hover #Menu_Catalogo{
+
+#Catalogo:hover #Menu_Catalogo {
     visibility: visible;
 }
-#Menu_Catalogo{
+
+#Menu_Catalogo,
+#check2 {
     visibility: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
+}
+
+#Menu_Catalogo,
+#seccion_busqueda,
+#check2,
+h3 {
     position: absolute;
-    background-color: rgb(255, 255, 255);
+}
+
+#Menu_Catalogo,
+h3 {
     z-index: 1;
 }
-input:hover, a:hover, button:hover {
-    cursor: pointer;
+
+#Menu_Catalogo {
+    background-color: rgb(255, 255, 255);
+}
+
+input:hover,
+a:hover,
+button:hover,
+#Catalogo:hover .Btn_Catalogo {
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
 }
-#Catalogo:hover .Btn_Catalogo {
-    color: #7c7c7c41 !important;
-}
-#seccion_iconos{
-    display: flex;
-    align-items: center;
+
+#seccion_iconos,
+h1 {
     padding: 10px;
 }
-#seccion_busqueda{
-    position: absolute;
-    display: flex;
-    width: 110px;
+
+#seccion_busqueda,
+#Salto,
+#seccion_productos>div,
+h3,
+footer,
+#Derechos {
     justify-content: center;
-    align-items: center;
+}
+
+#seccion_busqueda,
+#LogoPankey {
     z-index: -1;
 }
-#búsqueda{
-    /*width: 110px;*/
-    height: 11px; 
-    border: 2px solid black;
+
+#seccion_busqueda {
+    width: 110px;
+}
+
+#búsqueda,
+input,
+#seccion_botones a,
+button {
     border-radius: 3px;
+}
+
+#búsqueda {
+    height: 11px;
+    border: 2px solid black;
     cursor: auto !important;
     border-color: transparent;
 }
-#check2{
-    position: absolute;
-    visibility: hidden;
-}
-#Ingreso{
+
+#Ingreso {
     border: 0px;
 }
-#Catalogo>input,#seccion_botones a{ 
-    font: normal normal normal 18px/1.4em Sanseriffic;
-    background-color: transparent;    
-    padding: 12px 0px;
-    border: 0.5vw solid transparent;
-    border-radius: 3px;
-    color: rgb(0, 0, 0);
-    margin: 0px 4vw;
+
+input,
+#seccion_botones a,
+button,
+#Salto,
+h1,
+footer {
     text-align: center;
-    letter-spacing: 0.1vw;
 }
-input{
+
+input,
+#seccion_botones a,
+button {
     font: normal normal normal 18px/1.4em Sanseriffic;
     background-color: transparent;
-    padding: 6px 4vw;
     border: 0.5vw solid transparent;
-    border-radius: 3px;
     color: rgb(31, 31, 31);
-    text-align: center; 
-    letter-spacing: 0.1vw;
 }
-button{
-    font: normal normal normal 18px/1.4em Sanseriffic;
-    background-color: transparent;
+
+input,
+#seccion_botones a,
+h1,
+h3 {
+    letter-spacing: 1.4px;
+}
+
+#Catalogo>input,
+#seccion_botones>a {
+    padding: 12px 0px;
+    min-width: 100px;
+}
+
+#Catalogo{
+    width: 160px;
+    
+}
+#Catalogo *{
+    width: 160px;
+}
+#Menu_Catalogo input {
+    padding-bottom: 5px;
+}
+
+button {
     padding: 6px 0.5vw;
-    border: 0.5vw solid transparent;
-    border-radius: 3px;
-    color: rgb(31, 31, 31);
-    text-align: center; 
     letter-spacing: 1.6px;
 }
-a{
+
+a {
     text-decoration: none;
 }
-#btn_ingresar{
-    cursor: pointer;
-    width: auto;
-    margin: 0px;
+
+#seccion_iconos img,
+#seccion_iconos input {
+    padding: 12px;
 }
-#seccion_iconos img{   
+
+#seccion_iconos img {
     width: 33px;
     height: 33px;
-    padding: 12px;
-    cursor: pointer;
 }
-#seccion_iconos input{   
-    padding: 12px;
-    cursor: pointer;
+
+#Salto,
+#contenido_principal,
+#DestacadoPrincipal li,
+#DestacadoPrincipal img,
+#seccion_productos>*:first-child,
+#seccion_productos>div>div>img,
+footer {
+    width: 100%;
 }
- #Salto {
-     background-color: black;
-     width: 100%;
-     height: 25px;
-     justify-content: center;
-     color: aliceblue;
-     text-align: center;
- }
- body>a:hover{
+
+#Salto {
+    height: 25px;
+    background-color: black;
+    color: aliceblue;
+}
+
+body>a:hover {
     all: initial;
     color: black !important;
- }
+}
  body>a{
     height: 100vh;
  }
@@ -409,27 +500,7 @@ footer {
     justify-content: center;
     color: rgb(173, 173, 173);
 }
-@media screen and (max-width: 1085px) {
-    #check2:checked + header > #Contenido_Cabecera {
-        justify-content: initial;
-    }
-}
-@media screen and (max-width: 1028px) {
-    #check2:checked + header > #Contenido_Cabecera > img {
-        padding: 1vh 2vw;
-    }
-}
-@media screen and (max-width: 963px) {
-    #check2:checked + header > #Contenido_Cabecera > img {
-        padding: 1vh 1vw;
-    }
-}
-@media screen and (max-width: 936px) {
-    #check2:checked + header > #Contenido_Cabecera > img{
-        padding: 1vh 0px;
-    }
-}
-@media screen and (max-width: 915px) {  
+@media screen and (max-width: 956px) {  
     #contenido_principal {
         display: flex;
         /*flex-direction: column-reverse;*/
@@ -520,15 +591,7 @@ footer {
     }
 }
 
-@media screen and (max-width: 883px) {  
-    #Contenido_Cabecera {
-        justify-content: initial;
-    }
-    #Contenido_Cabecera > img {
-        padding: 1vh 2vw;
-    }
-}
-@media screen and (max-width: 809px) { 
+@media screen and (max-width: 930px) { 
     #Contenido_Cabecera {
         height: 103.125px;
     }

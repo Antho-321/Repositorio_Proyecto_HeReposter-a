@@ -3,7 +3,7 @@
     src: url(../font/Sanseriffic.otf);
 }
 
-*:not(#Menu_Catalogo, #Menu_Catalogo *) {
+*:not(#Catalogo, #Catalogo *) {
     transition: 0.4s;
 }
 
@@ -109,9 +109,7 @@ h3:hover {
     cursor: default !important;
 }
 
-#Catalogo:hover #Menu_Catalogo {
-    visibility: visible;
-}
+
 
 #Menu_Catalogo,
 #check2 {
@@ -209,13 +207,20 @@ h3 {
 }
 
 #Catalogo>input,
-#seccion_botones a {
+#seccion_botones>a {
     padding: 12px 0px;
-    margin: 0px 4vw;
+    min-width: 100px;
 }
 
-input {
-    padding: 6px 4vw;
+#Catalogo{
+    width: 160px;
+    
+}
+#Catalogo *{
+    width: 160px;
+}
+#Menu_Catalogo input {
+    padding-bottom: 5px;
 }
 
 button {
@@ -391,31 +396,8 @@ footer {
     width: auto;
 }
 
-@media screen and (max-width: 1085px) {
-    #check2:checked+header>#Contenido_Cabecera {
-        justify-content: initial;
-    }
-}
 
-@media screen and (max-width: 1028px) {
-    #check2:checked+header>#Contenido_Cabecera>img {
-        padding: 1vh 2vw;
-    }
-}
-
-@media screen and (max-width: 963px) {
-    #check2:checked+header>#Contenido_Cabecera>img {
-        padding: 1vh 1vw;
-    }
-}
-
-@media screen and (max-width: 936px) {
-    #check2:checked+header>#Contenido_Cabecera>img {
-        padding: 1vh 0px;
-    }
-}
-
-@media screen and (max-width: 915px) {
+@media screen and (max-width: 956px) {
     #check2:checked+header>#Contenido_Cabecera {
         height: 103.125px;
     }
@@ -491,17 +473,9 @@ footer {
     }
 }
 
-@media screen and (max-width: 883px) {
-    #Contenido_Cabecera {
-        justify-content: initial;
-    }
 
-    #Contenido_Cabecera>img {
-        padding: 1vh 2vw;
-    }
-}
 
-@media screen and (max-width: 809px) {
+@media screen and (max-width: 930px) {
     #Contenido_Cabecera {
         height: 103.125px;
     }

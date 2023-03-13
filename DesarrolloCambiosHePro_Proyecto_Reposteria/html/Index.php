@@ -30,9 +30,9 @@ if (isset($_SESSION['id'])) {
             <div id="botones_iconos">
                 <section id="seccion_botones">
                     <a href="Index.php">Inicio</a>
-                    <a href="SobreNosotros.php">Sobre Nosotros</a>
+                    <a href="SobreNosotros.php">Sobre nosotros</a>
                     <div id="Catalogo">
-                        <input class="Btn_Catalogo" type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;Catalogo&nbsp;&nbsp;&nbsp;">
+                        <input class="Btn_Catalogo" type="button" value="Catalogo">
                         <div>
                             <div id="Menu_Catalogo">
                                 <input type="button" value="Bodas">
@@ -46,6 +46,7 @@ if (isset($_SESSION['id'])) {
                             </div>
                         </div>
                     </div>
+                    <a href="PastelesPersonalizados.php">Pasteles personalizados</a>
                 </section>
                 <section id="seccion_iconos">
                     <a href="CarritoDeCompras.php">

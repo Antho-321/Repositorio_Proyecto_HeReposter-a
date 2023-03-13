@@ -2,17 +2,17 @@
     font-family:Sanseriffic;
     src: url(../font/Sanseriffic.otf);
 }
-*:not(#Menu_Catalogo, #Menu_Catalogo *, #contenido_principal, #contenido_principal *) {
+*:not(#Menu_Catalogo, #Menu_Catalogo *) {
     transition: 0.4s;
 }
 body {
     margin: 0px;
     width: 100vw;
-    /*overflow-x: hidden;*/
-    height: 100vh;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100vh;
 }
 #Cabecera{
     position: fixed;
@@ -26,7 +26,6 @@ body {
     width: 100vw;
     justify-content: space-between;
 }
-
 #LogoPankey{
     min-width: 70px;
     min-height: 80px;
@@ -57,13 +56,20 @@ body {
     width: 60vw;
 }
 #Catalogo{
+    width: 170px;
     display: flex;
     flex-direction: column;
+}
+#Catalogo *{
+    width: 170px;
 }
 
 .Btn_Catalogo{
     
     cursor: default !important;
+}
+#Catalogo:hover #Menu_Catalogo{
+    visibility: visible;
 }
 #Menu_Catalogo{
     visibility: hidden;
@@ -74,12 +80,14 @@ body {
     background-color: rgb(255, 255, 255);
     z-index: 1;
 }
-input:hover:not(input[name='dedicatoria'], #cantidad), a:hover {
+input:hover, a:hover, button:hover {
     cursor: pointer;
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
 }
-
+#Catalogo:hover .Btn_Catalogo {
+    color: #7c7c7c41 !important;
+}
 #seccion_iconos{
     display: flex;
     align-items: center;
@@ -94,7 +102,7 @@ input:hover:not(input[name='dedicatoria'], #cantidad), a:hover {
     z-index: -1;
 }
 #búsqueda{
-    width: 0px;
+    /*width: 110px;*/
     height: 11px; 
     border: 2px solid black;
     border-radius: 3px;
@@ -108,7 +116,7 @@ input:hover:not(input[name='dedicatoria'], #cantidad), a:hover {
 #Ingreso{
     border: 0px;
 }
-#Catalogo>input,#seccion_botones a{ 
+#Catalogo>input,#seccion_botones>a{ 
     font: normal normal normal 18px/1.4em Sanseriffic;
     background-color: transparent;    
     padding: 12px 0px;
@@ -116,7 +124,7 @@ input:hover:not(input[name='dedicatoria'], #cantidad), a:hover {
     border-radius: 3px;
     color: rgb(0, 0, 0);
     text-align: center;
-    letter-spacing: 1.4px;
+    letter-spacing: 0.1vw;
 }
 input{
     font: normal normal normal 18px/1.4em Sanseriffic;
@@ -125,21 +133,22 @@ input{
     border-radius: 3px;
     color: rgb(31, 31, 31);
     text-align: center; 
-    word-break: break-all;
-    letter-spacing: 1.4px;
+    letter-spacing: 0.1vw;
 }
-select{
-    background-color: transparent;
-    border: 0.2vw solid black;
-    border-radius: 3px;
+button, .btn_eliminar{
     font: normal normal normal 18px/1.4em Sanseriffic;
-    width: 100px;
-    text-indent: 16px;
-    text-align: center;
-    letter-spacing: 1.4px;
+    background-color: transparent;
+    padding: 6px 0.5vw;
+    border: 0.5vw solid transparent;
+    border-radius: 3px;
+    color: rgb(31, 31, 31);
+    text-align: center; 
+    letter-spacing: 1.6px;
 }
-option{
-    position: absolute;
+.btn_eliminar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 a{
     text-decoration: none;
@@ -167,6 +176,15 @@ a{
      color: aliceblue;
      text-align: center;
  }
+ #borrador{
+    width: 38px;
+ }
+ #borrador:hover{
+    opacity: 0.4;
+ }
+ #seccion_eliminar>div{
+    display: flex;
+ }
  body>a{
     display: flex;
     flex-direction: column;
@@ -184,149 +202,230 @@ a{
     margin: 0px;
     padding: 10px;
 }
-#contenido_principal{
-    position: relative;
-    display: inline-flex;
+#contenido_principal {
     width: 100%;
     background-color: aliceblue;
     padding-top: 128.125px;
-    font: normal normal normal 21px/1.4em Sanseriffic;
-    letter-spacing: 1.4px;
-}
-
-#DestacadoPrincipal{
-    position: relative;
-    width: 30vw;
+    padding-bottom: 15px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
-
-#DestacadoPrincipal input{
-    font: normal normal normal 21px/1.4em Sanseriffic;
-    letter-spacing: 1.4px;
+#Productos{
+    width: 100vw;
 }
-
-#infoDetallada{
-    position: relative;
-    width: 70vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0px;
-    padding-right: calc((30vw - 300px) / 2);
-}
-
-p{
-    padding: 5px 0px;
-    margin: 0px;
+table{
+    width: 100%;
     text-align: center;
 }
-
-#contenido_principal input{
-    width: auto;
-}
-
-#DestacadoPrincipal>img {
-    height: 300px;
-    width: 300px;
-    padding-top:2vh
-}
-
-#seccion_cantidad {
-    display: inline-flex;
-    align-items: center;
-}
-
-#disminuir_cantidad,
-#aumentar_cantidad {
-    font-size: 25px;
-}
-button {
-    padding: 6px 0.5vw;
-    letter-spacing: 1.6px;
-}
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin: 0;
-}
-
-input[type=number] {
-    caret-color: transparent;
-    width: 30px !important;
-}
-
-#seccion_cantidad>*{
-    margin: 0px;
-}
-
-#seccion_cantidad>input{
-    padding: 0px;
-}
-#seccion_envio{
-    display: flex;
-}
-#seccion_envio p{
-    padding: 0px;
-    position: absolute;
-    opacity: 0;
-    transition: 0.6s;
-    color: green;
-    cursor: default;
-}
-input[value='Feliz Cumpleaños...'] {
-    color: #7c7c7c;
-    cursor: auto;
-    border: 1px solid !important;
-    border-color: black !important;
-}
-
-
-#cantidad{
-    cursor: auto;
-}
-
-#cantidad:hover{
-    color: black;
-}
-
-#infoAdicional {
-    border-style: groove;
-    width: 65vw;
-}
-
 .tabla_info {
     display: table;
+    width: 100%;
 }
 
 .fila {
     display: table-row;
 }
 
+#seccion_imagen>img{
+    height: 120px;
+    width: 120px;
+}
 .col {
     display: table-cell;
-    text-align: center;
     vertical-align: middle;
-    padding: 15px;
+    padding: 12px;
+    text-align: center;
+    
+}
+#Info_adicional{
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    text-align: justify;
+    padding-right: 30px;
+}
+#Info_adicional>p{
+    text-align: center;
+}
+h2{
+    text-align: center;
+}
+#Info_adicional>div>div>.col:nth-child(1) {
+    font-weight: bold;
+    /*width: 280px;*/
+}
+#Info_adicional>div>div>.col:nth-child(2) {
+    width: 50px;
 }
 
-.col:nth-child(1) {
-    font-weight: bold;
+#botones_carrito{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+h1{
+    font: normal normal normal 24px/1.4em Sanseriffic;
+    letter-spacing: 0.1vw;
+    font-size: 32px !important;
+    padding-top: 70px;
+    padding-bottom: calc(70px - 2.5%);
+    text-align: center;
+    letter-spacing: 0.15vw;
+}
+#DestacadoPrincipal h2 {
+    text-align: center;
+    font: normal normal normal 1.8vw/1.4em Century Gothic;
+    font-size: 40px;
+    padding: 2vh 2vw;
+}
+#DestacadoPrincipal h6 {
+    font: normal normal normal 14px/1.4em avenir-lt-w01_35-light1475496, avenir-lt-w05_35-light, sans-serif;
+    text-align: center;
+    padding: 2vh 2vw;
+}
+#seccion_productos{
+    padding: 0px 15px;
+}
+#seccion_productos>div {
+    justify-content: center;
+}
+#seccion_productos>div>div {
+    display: inline-block;
+    width: 295px;
+    height: 302.5px;
+    position: relative; 
+    padding: 2.5%;
+}
+#seccion_productos > *:first-child {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 2.5%;
+}
+#seccion_productos>div>div>img{
+    width: 100%;
+    height: 302.5px;
+}
+h3 {
+    font: normal normal normal 1.6vw/1.4em Sanseriffic;
+    letter-spacing: 0.1vw;
+    font-size: 20px;
+    margin: 0px;
+    position: absolute;
+    width: 295px;
+    height: 302.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    opacity: 0;
+}
+h3:hover {
+    cursor: pointer;
+    opacity: 1;
+}
+h3:hover+img {
+    cursor: pointer;
+    opacity: 0.3;
+    transition: initial;
+}
+#seccionIzq{
+    display: flex;
+    width: 25vw;
+    justify-content: center;
+}
+#imgUsuario{
+    width: 20vw;
+    height: 20vw;
+}
+#imgUsuario>img{
+    max-width: 100%;
+    height: auto;
+}
+#seccionDer{
+    width: 75vw;
+    padding: 25px;
+}
+.tabla_info {
+    display: table;
+    width: 100%;
+}
+.fila {
+    display: table-row;
+}
+#seccion_imagen>img{
+    height: 100px;
+    width: 100px;
+}
+.col {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 10px;
+    text-align: center;
+}
+select{
+    width: 100% !important;
+    padding: 5px 0px !important;
+    margin: 5px 0px;
+}
+input[type="text"], input[type="url"], #cod_postal, #tel{
+    cursor: auto;
+    padding: 5px 0px !important;
+    margin: 5px 0px;
+}
+input[type="text"], #num_tarjeta{ 
+    width: 100%; 
+    cursor: auto;
+    border: 1px solid !important;
+    border-color: black !important;
+}
+#cambio_contraseña>input{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+#btn_guardar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#btn_guardar>input{
+    width: auto;
 }
 
-.col:nth-child(3):not(input[name='dedicatoria']) {
-    font-weight: bold;
+
+#DestacadoPrincipal {
+    display: flex;
+    width: 40vw;
+    align-items: center;
+    justify-content: center;
 }
-input[name='dedicatoria']{
-    border: 1px solid black;
-    cursor: text !important;
-    margin: 9px;
+#DestacadoPrincipal>img {
+    height: 300px;
+    width: 300px;
 }
+
+#texto{
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    text-align: center;
+    padding-right: calc((40vw - 300px) / 2);
+}
+h1{
+    font: normal normal normal 1.6vw/1.4em Sanseriffic;
+    letter-spacing: 0.1vw;
+    font-size: 24px;
+    padding: 40px 0px 40px 0px;
+    text-align: center;
+    letter-spacing: 0.15vw;
+}
+p{
+   font: normal normal normal 15px/1.4em Century Gothic; 
+    margin: 0px;
+    /*padding-left: 50px;
+    padding-right: 50px;*/
+}
+
 footer {
     display: flex;
     width: 100%;
@@ -346,39 +445,15 @@ footer {
     color: rgb(173, 173, 173);
 }
 
-#seccion_productos>div{
-    display: inline-block;
-    width: auto;
-    position: relative;
-}
-input, #seccion_botones a, button {
-    font: normal normal normal 18px/1.4em Sanseriffic;
-}
-#búsqueda, input, #seccion_botones a, button {
-    border-radius: 3px;
-}
-input:hover:not(input[name='dedicatoria']),
-a:hover,
-button:hover,
-#Catalogo:hover .Btn_Catalogo {
-    color: #7c7c7c41 !important;
-    transition: 0.4s !important;
-}
-label,
-input:hover,
-a:hover,
-button:hover,
-#seccion_iconos img,
-h3:hover {
-    cursor: pointer;
-}
-/*--------------------AGREGO---------------------*/
+/*----------------LO QUE SE AGREGA----------------*/
 @font-face {
     font-family: Sanseriffic;
     src: url(../font/Sanseriffic.otf);
 }
 
-
+*:not(#Menu_Catalogo, #Menu_Catalogo *) {
+    transition: 0.4s;
+}
 
 body,
 #Contenido_Cabecera,
@@ -482,7 +557,9 @@ h3:hover {
     cursor: default !important;
 }
 
-
+#Catalogo:hover #Menu_Catalogo {
+    visibility: visible;
+}
 
 #Menu_Catalogo,
 #check2 {
@@ -630,65 +707,53 @@ footer {
     background-color: black;
     color: aliceblue;
 }
-/*-----------------------------------------------*/
-@media screen and (max-width: 956px) {
-    #check2:checked+header>#Contenido_Cabecera {
-        height: 103.125px;
-    }
+/*------------------------------------------------*/
 
-    #check2:checked+header #LogoPankey {
+@media screen and (max-width: 956px) {  
+    #check2:checked + header #LogoPankey{
         padding: 1vh 4vw !important;
     }
-
-    #check2:checked+header+#Contenido {
+    #check2:checked + header + #Contenido {
         padding-top: 125px;
     }
-
-    #check2:checked+header #Menu_Catalogo {
+    #check2:checked + header > #Contenido_Cabecera {
+        height: 103.125px;
+    }
+    #check2:checked + header #Menu_Catalogo{
         position: initial;
     }
-
-    #check2:checked+header .mostrar_menu,
-    #check2:checked+header #LogoPankey {
+    #check2:checked + header .mostrar_menu{
         position: absolute;
-    }
-
-    #check2:checked+header .mostrar_menu {
         right: 5%;
     }
-
-    #check2:checked+header #LogoPankey {
+    #check2:checked + header #LogoPankey {
+        position: absolute;
+        z-index: -1;
         width: 70px;
         height: 80px;
     }
-
-    #check2:checked+header label,
-    #check2:checked+header #botones_iconos {
+    #check2:checked + header .mostrar_menu,
+    #check2:checked + header .esconder_menu {
+        display: block;
         transition: 0.8s;
     }
-
-    #check2:checked+header label {
-        display: block;
-    }
-
-    #check2:checked+header .esconder_menu {
+    #check2:checked + header .esconder_menu{
         margin-bottom: 24%;
     }
-
-    #check2:checked+header #botones_iconos {
-        width: 100vw;
-        height: 100vh;
+    #check2:checked + header #botones_iconos{
         position: fixed;
         top: 0px;
         right: -110%;
+        transition: 0.8s;
+        width: 100vw;
         justify-content: space-between;
+        background: white;
+        height: 100vh;
     }
-
-    #check2:checked+header #seccion_botones {
+    #check2:checked + header #seccion_botones{
         justify-content: initial;
     }
-
-    #check2:checked+header #seccion_botones>* {
+    #check2:checked + header #seccion_botones>*{
         height: 50px;
         padding: 1vw !important;
         margin: 0px !important;
@@ -696,70 +761,56 @@ footer {
         display: flex;
         align-items: center;
     }
-
-    #check2:checked+header #check:checked+label+#botones_iconos {
+    #check2:checked + header #check:checked+ label + #botones_iconos {
         right: 0%;
+        transition: 0.8s;
     }
-
-    #check2:checked+header #seccion_botones,
-    #check2:checked+header #seccion_iconos {
+    #check2:checked + header #seccion_botones{
+        flex-direction: column;
+    }
+    #check2:checked + header #seccion_iconos{
         flex-direction: column;
     }
 }
-
-
-
-@media screen and (max-width: 930px) {
+@media screen and (max-width: 930px) { 
     #Contenido_Cabecera {
         height: 103.125px;
     }
-
-    #Menu_Catalogo {
+    #Menu_Catalogo{
         position: initial;
     }
-
-    .mostrar_menu,
-    #LogoPankey {
+    .mostrar_menu{
         position: absolute;
-    }
-
-    .mostrar_menu {
         right: 5%;
     }
-
     #LogoPankey {
+        position: absolute;
+        z-index: -1;
         width: 70px;
         height: 80px;
     }
-
-    label {
+    .mostrar_menu,
+    .esconder_menu {
+        display: block;
         transition: 0.8s;
     }
-
-    label {
-        display: block !important;
-
-    }
-
-    .esconder_menu {
+    .esconder_menu{
         margin-bottom: 24%;
     }
-
-    #botones_iconos {
-        width: 100vw;
-        height: 100vh;
+    #botones_iconos{
         position: fixed;
         top: 0px;
         right: -110%;
         transition: 0.8s;
+        width: 100vw;
         justify-content: space-between;
+        background: white;
+        height: 100vh;
     }
-
-    #seccion_botones {
+    #seccion_botones{
         justify-content: initial;
     }
-
-    #seccion_botones>* {
+    #seccion_botones>*{
         height: 50px;
         padding: 1vw !important;
         margin: 0px !important;
@@ -767,13 +818,19 @@ footer {
         display: flex;
         align-items: center;
     }
-
-    #check:checked+label+#botones_iconos {
+    #check:checked+ label + #botones_iconos {
         right: 0%;
+        transition: 0.8s;
     }
-
-    #seccion_botones,
-    #seccion_iconos {
+    #seccion_botones{
         flex-direction: column;
+    }
+    #seccion_iconos{
+        flex-direction: column;
+    }
+}
+@media screen and (max-width: 720px) { 
+    h1{
+        font-size: 30px !important;
     }
 }
