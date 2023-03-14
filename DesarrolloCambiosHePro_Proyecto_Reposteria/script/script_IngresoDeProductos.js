@@ -12,15 +12,8 @@ const fileInput = document.getElementById('file-input');
 const imagePreview = document.getElementById('image-preview');
 const searchString = window.location.search;
 const searchParams = new URLSearchParams(searchString);
-const param1Value = searchParams.get("param1");
-
-if (param1Value != null) {
-  imagePreview.src = param1Value;
-  h1.innerHTML = "Actualización de productos";
-  document.getElementsByTagName("form")[0].action = "../php/php_ActualizaciónDeProductos.php";
-  document.getElementById("img_cambio").value=param1Value;
-}
-
+div_fila.className = "fila";
+ingreso_enlace.addEventListener("click", vaciarPlaceHolder);
 fileInput.addEventListener('change', () => {
   const file = fileInput.files[0];
   const reader = new FileReader();
@@ -33,8 +26,6 @@ fileInput.addEventListener('change', () => {
   verificacion_enlace.value = "no";
 });
 
-div_fila.className = "fila";
-ingreso_enlace.addEventListener("click", colorTextoANegro);
 
 ingreso_enlace.addEventListener('input', () => {
   if (ingreso_enlace.value != "") {
@@ -52,17 +43,16 @@ ingreso_enlace.addEventListener('input', () => {
           esImagen2(ingreso_enlace.value).then((result) => {
             if (result) {
               enlaceImgVálido();
-            }else{
+            } else {
               console.log('Link no válido');
-          imgNoValida.style.visibility = "visible";
-          btnEnviar.disabled = true;
+              imgNoValida.style.visibility = "visible";
+              btnEnviar.disabled = true;
             }
           });
-          
+
         }
       });
     }
-
   } else {
     imgNoValida.style.visibility = "hidden";
     btnEnviar.disabled = false;
@@ -89,7 +79,7 @@ function esImagen2(url) {
       const splitUrl = url.split('&');
       const imgParam = splitUrl.find(param => param.startsWith('url='));
       const imgUrl = decodeURIComponent(imgParam.replace('url=', ''));
-      console.log("imgUrl: "+imgUrl);
+      console.log("imgUrl: " + imgUrl);
       const img = new Image();
       img.addEventListener('load', () => resolve(true));
       img.addEventListener('error', (error) => {
@@ -106,22 +96,16 @@ function esUrlValida(url) {
   const expresionRegular = /^(https?|http):\/\/[^\s/$.?#].[^\s]*$/i;
   return expresionRegular.test(url);
 }
-function enlaceImgVálido(){
+function enlaceImgVálido() {
   txtO.remove();
-          fileInput.remove();
-          imagePreview.src = ingreso_enlace.value;
-          verificacion_enlace.value = "si";
-          imgNoValida.style.visibility = "hidden";
-          btnEnviar.disabled = false;
+  fileInput.remove();
+  imagePreview.src = ingreso_enlace.value;
+  verificacion_enlace.value = "si";
+  imgNoValida.style.visibility = "hidden";
+  btnEnviar.disabled = false;
 }
-
-function colorTextoANegro(event) {
-  let entrada_texto = event.target;
-  entrada_texto.style.color = "black";
-  console.log(entrada_texto.value);
-  if (entrada_texto.value == "Ingresar enlace" || entrada_texto.value == "(Opcional)") {
-    entrada_texto.value = "";
-  }
+function vaciarPlaceHolder(event) {
+  event.target.placeholder = "";
 }
 function opcionesPastel(event) {
   if (event.target.id == "rec") {
@@ -151,18 +135,18 @@ function opcionesPastel(event) {
   div_fila.innerHTML = `
     <p class="col">Tamaño:</p>
     <div class="col">
-      <input class="col" type="radio" id="tamaño1" name="tamaño" value="`+tamaño1+`">
+      <input class="col" type="radio" id="tamaño1" name="tamaño" value="`+ tamaño1 + `">
       <label for="tamaño1">`+ tamaño1 + `</label>
     </div>
     <div class="col">
-      <input class="col" type="radio" id="tamaño2" name="tamaño" value="`+tamaño2+`">
+      <input class="col" type="radio" id="tamaño2" name="tamaño" value="`+ tamaño2 + `">
       <label for="tamaño2">`+ tamaño2 + `</label>
     </div>
   `;
   if (event.target.id == "cuad") {
     div_fila.insertAdjacentHTML("beforeend", `
     <div class="col">
-    <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+tamaño3+`">
+    <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+ tamaño3 + `">
     <label for="tamaño3">`+ tamaño3 + `</label>
   </div>
     `);
@@ -170,26 +154,25 @@ function opcionesPastel(event) {
     if (event.target.id == "per" || event.target.id == "red") {
       div_fila.insertAdjacentHTML("beforeend", `
       <div class="col">
-      <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+tamaño3+`">
+      <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+ tamaño3 + `">
       <label for="tamaño3">`+ tamaño3 + `</label>
     </div>
       <div class="col">
-    <input class="col" type="radio" id="tamaño4" name="tamaño" value="`+tamaño4+`">
+    <input class="col" type="radio" id="tamaño4" name="tamaño" value="`+ tamaño4 + `">
     <label for="tamaño4">`+ tamaño4 + `</label>
   </div>
   <div class="col">
-    <input class="col" type="radio" id="tamaño5" name="tamaño" value="`+tamaño5+`">
+    <input class="col" type="radio" id="tamaño5" name="tamaño" value="`+ tamaño5 + `">
     <label for="tamaño5">`+ tamaño5 + `</label>
   </div>
     `);
     }
   }
 
-
   if (document.getElementById("normal") == null) {
     tabla.appendChild(div_fila);
     div_fila.insertAdjacentHTML("afterend", `
-  <div class="fila">
+                    <div class="fila">
                         <p class="col">Masa:</p>
                         <div class="col">
                             <input class="col" type="radio" id="normal" name="masa" value="Normal (Con receta propia)">
@@ -254,20 +237,19 @@ function opcionesPastel(event) {
   if (document.getElementById("precio_descripcion") == null) {
     tabla.insertAdjacentHTML("afterend", `
     <div id="precio_descripcion">
-                      <div class="fila">
-                          <label class="col">Precio:</label>
-                          <div class="col">
-                              <label for="precio">$</label>
-                              <input id="precio" type="number" step="0.1" name="precio">
-                          </div>
-                      </div>
-                      <div class="fila">
-                          <p class="col">Descripción adicional:</p>
-                          <textarea class="col" name="descAdicional" id="descAdicional">(Opcional)</textarea>
-                      </div>
-  
-                  </div>
+      <div class="fila">
+        <label class="col">Precio:</label>
+        <div class="col">
+          <label for="precio">$</label>
+          <input id="precio" type="number" step="0.1" name="precio">
+        </div>
+      </div>
+          <div class="fila">
+            <p class="col">Descripción adicional:</p>
+            <textarea class="col" name="descAdicional" id="descAdicional" placeholder="(Opcional)"></textarea>
+          </div>  
+    </div>
     `);
-    document.getElementById("descAdicional").addEventListener("click", colorTextoANegro);
+    document.getElementById("descAdicional").addEventListener("click", vaciarPlaceHolder);
   }
 }

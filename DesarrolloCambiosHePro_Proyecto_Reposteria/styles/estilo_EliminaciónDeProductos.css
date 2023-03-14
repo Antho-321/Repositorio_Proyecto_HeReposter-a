@@ -170,12 +170,6 @@ footer,
     width: 110px;
 }
 
-#búsqueda,
-input,
-#seccion_botones a,
-button {
-    border-radius: 3px;
-}
 
 #búsqueda {
     height: 11px;

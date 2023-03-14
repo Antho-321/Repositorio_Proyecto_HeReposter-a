@@ -30,7 +30,7 @@ estilo_Ingreso_Registro.innerHTML = `
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    border-radius: 7%;
+    border-radius: 30px;
     z-index: 1;
 }
 .Mensaje{
@@ -99,16 +99,16 @@ function AgregarContenido(CategoríaSeleccionada) {
     let myData = myAsyncFunction("");
 
     myData.then(result => {
-        console.log(result);
+        console.log(result[0]);
         
         let div_aux = document.createElement("div");
         //console.log(Object.keys(result).length);
-        for (let i = 0; i < Object.keys(result).length; i++) {
+        for (let i = 0; i < Object.keys(result[0]).length; i++) {
             let a = 15.0;
             let div = document.createElement("div");
             let imagen = document.createElement("img");
             let h3 = document.createElement("h3");
-            imagen.src = result[i].Img;
+            imagen.src = result[0][i].Img;
             imagen.style.paddingRight = a + "px";
             imagen.style.paddingTop = (a / 2) + "px";
             h3.innerHTML = "Seleccionar producto";
@@ -124,7 +124,12 @@ function AgregarContenido(CategoríaSeleccionada) {
     )
 }
 function myAsyncFunction(imagen) {
-    const encodedImagen = encodeURIComponent(imagen);
+    let encodedImagen;
+    if (imagen.includes("http")){
+        encodedImagen = encodeURIComponent(imagen);
+    }else{
+        encodedImagen=imagen;
+    }
     return new Promise((resolve, reject) => {
         fetch("../php/php_EliminacionDeproducto.php?imagen=" + encodedImagen)
             .then(response => response.json())
@@ -132,12 +137,6 @@ function myAsyncFunction(imagen) {
                 resolve(data);
             })
             .catch(error => reject(error));
-    });
-}
-function myAsyncFunction2(imagen) {
-    const encodedImagen = encodeURIComponent(imagen);
-    return new Promise((resolve, reject) => {
-        fetch("../php/php_EliminacionDeproducto.php?imagen=" + encodedImagen);
     });
 }
 function ProductoSeleccionado(event) {
@@ -158,8 +157,17 @@ function ProductoSeleccionado(event) {
     `;  
 }
 function eliminarProducto(){
-    let myData = myAsyncFunction2(producto);
-    let div = document.getElementsByTagName("div");
+    const srcString = producto;
+        if (srcString.includes("localhost")) {
+            let test=srcString.replace("http://localhost/MisSitios/Repositorio_Proyecto_HeReposter-a/DesarrolloCambiosHePro_Proyecto_Reposteria", "..");
+            console.log("test: "+test);
+            myData=myAsyncFunction(srcString.replace("http://localhost/MisSitios/Repositorio_Proyecto_HeReposter-a/DesarrolloCambiosHePro_Proyecto_Reposteria", ".."));
+        }else{
+            myData = myAsyncFunction(producto);
+        }
+    myData.then(result => {
+        console.log(result);
+    });
     location.reload();
 }
 function CerrarVentana() {

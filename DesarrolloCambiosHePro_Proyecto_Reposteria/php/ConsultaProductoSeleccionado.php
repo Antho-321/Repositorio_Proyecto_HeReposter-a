@@ -18,7 +18,7 @@ $imagen = $_GET['imagen'];
   }
 
   // Consulta a la base de datos
-  if (strpos($imagen, "http") !== false) {
+  if (strpos($imagen, "http") !== false||strpos($imagen, "../") !== false) {
     $sql = "SELECT * FROM `producto` WHERE `Img` = '".$imagen."'";
   }else{
     if($imagen==""){

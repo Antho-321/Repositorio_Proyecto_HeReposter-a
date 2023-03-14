@@ -218,7 +218,13 @@ function AgregarContenido(CategoríaSeleccionada) {
     }
 }
 function myAsyncFunction(imagen) {
-    const encodedImagen = encodeURIComponent(imagen);
+    let encodedImagen;
+    if (imagen.includes("http")){
+        encodedImagen = encodeURIComponent(imagen);
+    }else{
+        encodedImagen=imagen;
+    }
+    console.log("tesstttttt: "+encodedImagen);
     return new Promise((resolve, reject) => {
         fetch("../php/ConsultaProductoSeleccionado.php?imagen=" + encodedImagen)
             .then(response => response.json())
@@ -381,7 +387,15 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
         console.log(imagen);
     }else{
         carritoInfo="Añadir al carrito";
-        myData = myAsyncFunction(event.target.nextSibling.src);
+        const srcString = event.target.nextSibling.src;
+        if (srcString.includes("localhost")) {
+            let test=srcString.replace("http://localhost/MisSitios/Repositorio_Proyecto_HeReposter-a/DesarrolloCambiosHePro_Proyecto_Reposteria", "..");
+            console.log("test: "+test);
+            myData=myAsyncFunction(srcString.replace("http://localhost/MisSitios/Repositorio_Proyecto_HeReposter-a/DesarrolloCambiosHePro_Proyecto_Reposteria", ".."));
+        }else{
+            myData = myAsyncFunction(event.target.nextSibling.src);
+        }
+        console.log("IMAGEN: "+event.target.nextSibling.src);  
         img = event.target.nextSibling.src;
     }
     VerificaciónCuadroDeBúsqueda();
@@ -389,7 +403,7 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
     estilo.href = "../styles/estilo_Modificación_ProductoSeleccionado.css";
     
     myData.then(result => {
-        
+        console.log(result);
         id_producto = result[0].Codigo;
         precio_producto = result[0].Precio;
         descripción_adicional = result[0].Descripción;

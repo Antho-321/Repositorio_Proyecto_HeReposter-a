@@ -3,42 +3,58 @@
 $imagen = $_GET['imagen'];
 
 // Conexión a la base de datos
-$conn = mysqli_connect('localhost', 'root', 'root', 'db_pankey');
-
-// Verificar conexión
-if (!$conn) {
-    die("Conexión fallida: " . mysqli_connect_error());
-}
-
+include("../php/Conexion.php");
+$conexion= new Conexion;
 // Consulta a la base de datos
-if (strpos($imagen, "http") !== false) {
-    $sql = "DELETE FROM producto WHERE `Img`='".$imagen."'";
+if (strpos($imagen, "http") !== false||strpos($imagen, "../") !== false) {
+    //$sql = "DELETE FROM producto WHERE `Img`='$imagen'";
+    
+    $consulta= $conexion->OperSql("DELETE FROM `producto` WHERE `Img`='$imagen'");
+    //$consulta= $conexion->OperSql("SELECT '$imagen'");
 } else {
-    $sql = "SELECT `Img` FROM producto";
+    //$sql = "SELECT `Img` FROM producto";
+    $consulta= $conexion->OperSql("SELECT `Img` FROM producto");
+
+
+//id de la canasta
+
 }
 
-$result = mysqli_query($conn, $sql);
 
-// Verificar consulta
-if (!$result) {
-    die("Consulta fallida: " . mysqli_error($conn));
-}
 
 // Si se utilizó una consulta DELETE, enviar respuesta vacía
-if (strpos($imagen, "http") !== false) {
-    echo "";
-} else {
-    // Convertir resultados en formato JSON
-    $jsonData = array();
-    while ($row = mysqli_fetch_assoc($result)) {
-        $jsonData[] = $row;
+
+if (strpos($imagen, "http") !== false||strpos($imagen, "../") !== false) {
+    if(strpos($imagen, "../") !== false){
+        if (file_exists($imagen)) { // Verifica si el archivo existe
+            if (unlink($imagen)) { // Elimina el archivo utilizando unlink()
+              $resultado= "Archivo eliminado con éxito";
+            } else {
+                $resultado= "No se pudo eliminar el archivo";
+            }
+          } else {
+            $resultado= "El archivo no existe";
+          }
+    }else{
+        $resultado="eliminado";
     }
-
-    // Enviar respuesta en formato JSON
-    header('Content-Type: application/json');
-    echo json_encode($jsonData);
+    $data = array(
+        'producto' => $resultado
+    ); 
+    
+ } else {
+    while ($id_array= $consulta->fetch_assoc())
+    $userinfo[] = $id_array;
+    // Convertir resultados en formato JSON
+    $data = array(
+        $userinfo
+    ); 
 }
+$json_data = json_encode($data);
 
+// Imprimir resultado en formato JSON
+//echo $json_data;
+echo $json_data;
 // Cerrar conexión
-mysqli_close($conn);
+
 ?>

@@ -2,10 +2,6 @@
 include("../php/Conexion.php");
 $conexion= new Conexion;
 session_start();
-//$cedula = $_SESSION['cedula'];
-//$nombre = $_SESSION['nombre'];
-//$apellido = $_SESSION['apellido'];
-//$direccion = $_SESSION['direccion'];
 $correo = $_SESSION['correo'];
 $contraseña = $_SESSION['contraseña'];
 //Variable de comparación

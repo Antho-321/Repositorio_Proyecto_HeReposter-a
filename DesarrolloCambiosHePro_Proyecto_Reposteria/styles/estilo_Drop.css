@@ -1,0 +1,21 @@
+body{
+    margin: 0px;
+}
+#formDrop{
+    display: flex;
+    justify-content: center;
+    width: 300px;
+}
+#ingreso_enlace{
+    position: absolute;
+    height: 22px;
+    cursor: text !important;
+    margin-top: 100px;
+}
+#input2{
+    position: relative;
+    z-index: -1;
+}
+#txtDrop{
+    position: relative;
+}

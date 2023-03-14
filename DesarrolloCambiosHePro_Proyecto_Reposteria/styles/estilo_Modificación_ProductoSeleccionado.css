@@ -231,7 +231,7 @@ p{
 
 #DestacadoPrincipal>img {
     height: 300px;
-    width: 300px;
+    width: 300px !important;
     padding-top:2vh
 }
 

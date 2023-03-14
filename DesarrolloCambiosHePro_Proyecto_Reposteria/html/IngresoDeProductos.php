@@ -27,7 +27,7 @@
     <form id="form" method='POST' enctype="multipart/form-data" action="../php/php_IngresoDeProductos.php">
         <section id="seccion_principal">
             <div id="seccion__Izq">
-                <div>
+                <div class="tabla_info">
                     <div class="fila">
                         <label class="col" for="lista_categoría">Categoría:</label>
                         <select name="lista_categoría" id="lista_categoría" class="col">
@@ -44,9 +44,17 @@
 
                     <div class="fila">
                         <label class="col" for="ingresoArchivo">Imagen:</label>
-                        <input class="col" type="file" id="file-input" name="archivo">
-                        <label class="col" for="ingreso_enlace">o</label>
-                        <input class="col" type="url" value="Ingresar enlace" name="enlace" id="ingreso_enlace">
+                        <div class="col" id="seccion_archivo">
+                            <input type="file" id="file-input" name="archivo">
+                        </div>  
+                        <label class="col" for="myDropzone">/</label>  
+                        <div class="col">
+                            <form action="/target" class="dropzone" id="formDrop" style="width: 300px; height: 300px; border: 2px dashed gray;"></form>
+                        </div>     
+                        <label class="col" for="ingreso_enlace">/</label>
+                        <div class="col" id="seccion_enlace">
+                            <input type="url" placeholder="Ingresar enlace" name="enlace" id="ingreso_enlace">
+                        </div>            
                         <input type="hidden" name="img_de_cambio" id="img_cambio">
                         <p class="col" id="imgNoValida">Enlace de imagen no válido</p>
                         <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
