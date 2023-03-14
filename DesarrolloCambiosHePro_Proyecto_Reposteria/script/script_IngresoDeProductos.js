@@ -43,20 +43,22 @@ ingreso_enlace.addEventListener('input', () => {
       imgNoValida.style.visibility = "visible";
       btnEnviar.disabled = true;
     } else {
-      esImagen(ingreso_enlace.value).then((result) => {
+      esImagen1(ingreso_enlace.value).then((result) => {
         if (result) {
           console.log('Se ha ingresado una imagen');
           console.log("ENLACE VALIDO");
-          txtO.remove();
-          fileInput.remove();
-          imagePreview.src = ingreso_enlace.value;
-          verificacion_enlace.value = "si";
-          imgNoValida.style.visibility = "hidden";
-          btnEnviar.disabled = false;
+          enlaceImgVálido();
         } else {
-          console.log('Link no válido');
+          esImagen2(ingreso_enlace.value).then((result) => {
+            if (result) {
+              enlaceImgVálido();
+            }else{
+              console.log('Link no válido');
           imgNoValida.style.visibility = "visible";
           btnEnviar.disabled = true;
+            }
+          });
+          
         }
       });
     }
@@ -65,10 +67,8 @@ ingreso_enlace.addEventListener('input', () => {
     imgNoValida.style.visibility = "hidden";
     btnEnviar.disabled = false;
   }
-
-
 });
-function esImagen(url) {
+function esImagen1(url) {
   return new Promise((resolve, reject) => {
     try {
       const img = new Image();
@@ -83,11 +83,37 @@ function esImagen(url) {
     }
   });
 }
+function esImagen2(url) {
+  return new Promise((resolve, reject) => {
+    try {
+      const splitUrl = url.split('&');
+      const imgParam = splitUrl.find(param => param.startsWith('url='));
+      const imgUrl = decodeURIComponent(imgParam.replace('url=', ''));
+      console.log("imgUrl: "+imgUrl);
+      const img = new Image();
+      img.addEventListener('load', () => resolve(true));
+      img.addEventListener('error', (error) => {
+        //console.error(error); // mostrar el error en la consola
+        resolve(false);
+      });
+      img.src = imgUrl;
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
 function esUrlValida(url) {
   const expresionRegular = /^(https?|http):\/\/[^\s/$.?#].[^\s]*$/i;
   return expresionRegular.test(url);
 }
-
+function enlaceImgVálido(){
+  txtO.remove();
+          fileInput.remove();
+          imagePreview.src = ingreso_enlace.value;
+          verificacion_enlace.value = "si";
+          imgNoValida.style.visibility = "hidden";
+          btnEnviar.disabled = false;
+}
 
 function colorTextoANegro(event) {
   let entrada_texto = event.target;

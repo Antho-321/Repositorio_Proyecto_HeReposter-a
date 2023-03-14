@@ -113,35 +113,71 @@ if (isset($_SESSION['id'])) {
     </header>
 
     <div id="contenido_principal">
+        <h1>Información sobre porciones</h1>
         <section id="Productos">
-            <h1>Información sobre porciones</h1>
             <table>
                 <tr>
-                    <th>Person 1</th>
-                    <th>Person 2</th>
-                    <th>Person 3</th>
+                    <th rowspan="2">Tamaño</th>
+                    <th colspan="4" id="txtFormaPastel">Forma de pastel</th>
                 </tr>
                 <tr>
-                    <td>Emil</td>
-                    <td>Tobias</td>
-                    <td>Linus</td>
+                    <th>Redonda</th>
+                    <th>Personalizada</th>
+                    <th>Cuadrada</th>
+                    <th>Rectangular</th>
                 </tr>
                 <tr>
-                    <td>16</td>
-                    <td>14</td>
-                    <td>10</td>
+                    <th>Mini</th>
+                    <td><img src="https://drive.google.com/uc?export=view&id=1Kz_FLJSnz-YXQRa7F8Yq9GDffe_aGnv9" width="100px"><br>5-6 personas</td>
+                    <td><img src="https://drive.google.com/uc?export=view&id=1otArBv28NIHck0Q_9Uj_MuCjILeQy3QV" width="60px"><br>2-4 personas</td>
+                    <td>No disponible</td>
+                    <td>No disponible</td>
+                </tr>
+                <tr>
+                    <th>Pequeña</th>
+                    <td><img src="https://drive.google.com/uc?export=view&id=1CMJekAArMW-KUMEZUCtmMBC5RtQwv4ww" width="100px"><br>10-12 personas</td>
+                    <td><img src="https://drive.google.com/uc?export=view&id=1m_q6-AHp_dQ4ni1zzqVmZ96drsmuIfqq" width="80px"><br>8-10 personas</td>
+                    <td><img src="https://drive.google.com/uc?export=view&id=1cp80PO64Eo6e4JH8TqAks3ggjOlptt7G" width="100px"><br>20-25 personas</td>
+                    <td>No disponible</td>
+                </tr>
+                <tr>
+                    <th>Mediana</th>
+                    <td><img src="https://drive.google.com/uc?export=view&id=1fxpF2TTBze1G67ImMGV5KDkaFKQD__oQ" width="100px"><br>16 personas</td>
+                    <td><img src="https://drive.google.com/uc?export=view&id=1tLP0H_dZvZaODibrLCu-ewSfkn2Ig2cg" width="100px"><br>12-14 personas</td>
+                    <td><img src="https://drive.google.com/uc?export=view&id=1RhLuxg2QH4qOgK1OUgZi6FLORAHc3iRq" width="100px"><br>35-40 personas</td>
+                    <td><img src="https://drive.google.com/uc?export=view&id=15MRNFtPPqRQWwlwxWzq5aHQuejXlWAFp" width="100px"><br>35-40 personas</td>
+                </tr>
+                <tr>
+                    <th>Grande</th>
+                    <td><img src="https://drive.google.com/uc?export=view&id=1JQnaNGfyiaH85EzH2XJgjIP65F-HXMXm" width="100px"><br>30 personas</td>
+                    <td><img src="https://drive.google.com/uc?export=view&id=14gvYT9Ct7emiISBEp1MtNS2dW_4NgKzi" width="90px"><br>26-28 personas</td>
+                    <td><img src="https://drive.google.com/uc?export=view&id=10GrJ1Yt5jZYcuxLRZhW0qOgkqAc5zmhF" width="100px"><br>50 personas</td>
+                    <td>No disponible</td>
+                </tr>
+                <tr>
+                    <th>Extra grande</th>
+                    <td><img src="https://drive.google.com/uc?export=view&id=1fuTECRfG33_BVBJKqgwnrUQI1-hWIXne" width="100px"><br>70 personas</td>
+                    <td><img src="https://drive.google.com/uc?export=view&id=1Ow13hXcPoH5DZADJFQKQdBZ1M0ey3Lze" width="100px"><br>66-68 personas</td>
+                    <td>No disponible</td>
+                    <td><img src="https://drive.google.com/uc?export=view&id=15BC5ZT-j2YR90WTql_sEj1vfIBijwPog" width="120px"><br>100 personas</td>
                 </tr>
             </table>
         </section>
+        <table>
+            <tr>
+                <th>Cantidad de pasteles</th>
+                <td>No disponible</td>
+                <td id="Previsualización">No disponible</td>
+            </tr>
+        </table>
     </div>
-
     <footer>
         <div id="Derechos">
             © 2023 Web Personal. Creado por Tito Córdova, De la Cruz Brayan, Luna Anthony
         </div>
     </footer>
     <script src="../script/script_querys.js"></script>
-    <script src="../script/script_InteracciónPrincipal.js"></script>
+    <script src="../script/script_PastelesPersonalizados.js"></script>
 </body>
 
 </html>

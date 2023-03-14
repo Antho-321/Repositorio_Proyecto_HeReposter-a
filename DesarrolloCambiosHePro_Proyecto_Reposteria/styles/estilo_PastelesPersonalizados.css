@@ -5,6 +5,10 @@
 *:not(#Menu_Catalogo, #Menu_Catalogo *) {
     transition: 0.4s;
 }
+*{
+    font-family:Sanseriffic;
+    letter-spacing: 0.1vw;
+}
 body {
     margin: 0px;
     width: 100vw;
@@ -208,13 +212,40 @@ a{
     padding-top: 128.125px;
     padding-bottom: 15px;
     display: flex;
+    flex-direction: column;
 }
 #Productos{
     width: 100vw;
+    overflow: scroll;  
+}
+::-webkit-scrollbar {
+    width: 10px;
+    height: 12px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+#txtFormaPastel{
+    font-size: 20px;
+    padding-bottom: 11px;
 }
 table{
     width: 100%;
     text-align: center;
+}
+#Previsualización{
+    text-align: right;
+    padding: 0px 12px;
 }
 .tabla_info {
     display: table;
@@ -263,9 +294,8 @@ h2{
     justify-content: center;
 }
 h1{
-    font: normal normal normal 24px/1.4em Sanseriffic;
-    letter-spacing: 0.1vw;
-    font-size: 32px !important;
+    font: normal normal normal 32px/1.4em Sanseriffic;
+    
     padding-top: 70px;
     padding-bottom: calc(70px - 2.5%);
     text-align: center;
@@ -412,9 +442,7 @@ input[type="text"], #num_tarjeta{
     padding-right: calc((40vw - 300px) / 2);
 }
 h1{
-    font: normal normal normal 1.6vw/1.4em Sanseriffic;
     letter-spacing: 0.1vw;
-    font-size: 24px;
     padding: 40px 0px 40px 0px;
     text-align: center;
     letter-spacing: 0.15vw;
@@ -443,6 +471,7 @@ footer {
     align-items: center;
     justify-content: center;
     color: rgb(173, 173, 173);
+    letter-spacing: initial;
 }
 
 /*----------------LO QUE SE AGREGA----------------*/
@@ -489,10 +518,6 @@ body,
 h1,
 h3 {
     margin: 0px;
-}
-
-body {
-    overflow-x: hidden;
 }
 
 #Cabecera,
