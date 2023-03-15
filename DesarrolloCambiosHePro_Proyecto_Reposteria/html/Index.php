@@ -9,15 +9,14 @@ if (isset($_SESSION['id'])) {
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/estilo_Modificación_Index.css" id="estilo">
+    <link rel="shortcut icon" href="../imagenes/favicon.ico">
     <title>REPOSTERIA</title>
 </head>
-
 <body>
     <input type="checkbox" id="check2">
     <header id="Cabecera">
@@ -61,7 +60,6 @@ if (isset($_SESSION['id'])) {
                     <?php } else { ?>
                         <button onclick="Logout()" id="Salida"><a>Salir</button>
                     <?php } ?>
-
                 </section>
                 <label for="check" class="esconder_menu">
                     &#215
@@ -71,9 +69,7 @@ if (isset($_SESSION['id'])) {
         <div id="Salto">
         </div>
     </header>
-
     <div id="contenido_principal">
-        <!-- //////////////////////////////////////////PRODUCTOS DESATACADOS/////////////////////////////////////////////// -->
         <div id="DestacadoPrincipal">
             <ul>
                 <li><img src="../imagenes/Slider1.jpg" alt=""></li>

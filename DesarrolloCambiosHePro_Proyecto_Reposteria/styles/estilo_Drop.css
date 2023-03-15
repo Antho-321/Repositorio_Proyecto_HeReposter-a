@@ -19,3 +19,11 @@ body{
 #txtDrop{
     position: relative;
 }
+#txtImgNoValida{
+    visibility: hidden;
+    color: red;
+}
+#contenedorTxt{
+    height: 0px;
+}
+

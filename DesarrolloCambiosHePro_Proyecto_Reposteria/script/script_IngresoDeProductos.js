@@ -76,17 +76,18 @@ function esImagen1(url) {
 function esImagen2(url) {
   return new Promise((resolve, reject) => {
     try {
-      const splitUrl = url.split('&');
+      if(url.includes("url=")){
+        const splitUrl = url.split('&');
       const imgParam = splitUrl.find(param => param.startsWith('url='));
       const imgUrl = decodeURIComponent(imgParam.replace('url=', ''));
       console.log("imgUrl: " + imgUrl);
       const img = new Image();
       img.addEventListener('load', () => resolve(true));
       img.addEventListener('error', (error) => {
-        //console.error(error); // mostrar el error en la consola
         resolve(false);
       });
       img.src = imgUrl;
+      }  
     } catch (error) {
       reject(error);
     }

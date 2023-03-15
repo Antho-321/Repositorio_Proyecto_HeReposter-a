@@ -30,7 +30,6 @@ if (isset($_POST['formulario'])) {
   $descAdicional=$_POST['descAdicional'];
   if (strpos($categoría, '_') !== false) {
     $categoría=str_replace("_", " ", $categoría);
-    //echo 'El string contiene el caracter "_".';
 } 
   if ($ingreso_enlace=="si") {
     $enlace=$_POST['enlace'];

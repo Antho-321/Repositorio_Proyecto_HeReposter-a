@@ -224,7 +224,6 @@ function myAsyncFunction(imagen) {
     }else{
         encodedImagen=imagen;
     }
-    console.log("tesstttttt: "+encodedImagen);
     return new Promise((resolve, reject) => {
         fetch("../php/ConsultaProductoSeleccionado.php?imagen=" + encodedImagen)
             .then(response => response.json())
@@ -347,7 +346,7 @@ function mostrarBúsqueda() {
         est_búsqueda.remove();
         cuadro_búsqueda.removeAttribute("style");
     } else {
-        if (window.innerWidth <= 956) {
+        if (window.innerWidth <= 1013) {
             check1.checked = true;
         }
         check.checked = true;

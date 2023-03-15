@@ -53,7 +53,7 @@
                         </div>     
                         <label class="col" for="ingreso_enlace">/</label>
                         <div class="col" id="seccion_enlace">
-                            <input type="url" placeholder="Ingresar enlace" name="enlace" id="ingreso_enlace">
+                            <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace">
                         </div>            
                         <input type="hidden" name="img_de_cambio" id="img_cambio">
                         <p class="col" id="imgNoValida">Enlace de imagen no válido</p>

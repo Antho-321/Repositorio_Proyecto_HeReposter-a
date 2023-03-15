@@ -648,7 +648,17 @@ footer {
   ::-webkit-scrollbar-thumb:hover {
     background: #555; 
   }
-@media screen and (max-width: 956px) {
+  @media screen and (max-width: 1054px) {
+    #check2:checked+header #Contenido_Cabecera,
+    #check2:checked+header #botones_iconos,
+    #check2:checked+header #seccion_botones {
+    justify-content: initial;
+}
+}
+@media screen and (max-width: 1013px) {
+    #check2:checked+header #Catalogo>input, #check2:checked+header #seccion_botones>a {
+        min-width: initial;
+    }
     #check2:checked+header>#Contenido_Cabecera {
         height: 103.125px;
     }
@@ -724,9 +734,18 @@ footer {
     }
 }
 
-
-
 @media screen and (max-width: 930px) {
+    #Contenido_Cabecera,
+#botones_iconos,
+#seccion_botones {
+    justify-content: initial;
+}
+}
+
+@media screen and (max-width: 892px) {
+    #Catalogo>input, #seccion_botones>a {
+        min-width: initial;
+    }
     #Contenido_Cabecera {
         height: 103.125px;
     }
