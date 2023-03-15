@@ -54,6 +54,8 @@ if (isset($_SESSION['id'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../styles/estilo_PastelesPersonalizados.css" id="estilo">
     <title>REPOSTERIA</title>
 </head>
@@ -163,11 +165,16 @@ if (isset($_SESSION['id'])) {
                 </tr>
             </table>
         </section>
+        <h3>Previsualización de modelo</h3>
+        <div class="dropzone" id="formDrop">
+    <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace" onclick="ingresarEnlace()">
+    <input type="hidden" name="enlace" id="aux_IngresarEnlace">
+  </div>
         <table>
             <tr>
-                <th>Cantidad de pasteles</th>
-                <td>No disponible</td>
-                <td id="Previsualización">No disponible</td>
+                <th>¿Qué desea realizar?</th>
+                <td>Consulta de precio</td>
+                <td>Pedido</td>
             </tr>
         </table>
     </div>
