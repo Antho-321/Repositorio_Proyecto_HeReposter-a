@@ -35,8 +35,7 @@ if (isset($_POST['formulario'])) {
     $enlace=$_POST['enlace'];
     
   }else{
-    $name = $_FILES['archivo']['name'];
-    $tmp_name = $_FILES['archivo']['tmp_name'];
+    $tmp_name = $_FILES['file']['tmp_name'];
     $ruta = '../imagenes/' . $id . ".png";
     move_uploaded_file($tmp_name, $ruta);
     $enlace=$ruta;

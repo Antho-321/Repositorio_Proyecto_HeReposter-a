@@ -5,9 +5,12 @@
 *:not(#Menu_Catalogo, #Menu_Catalogo *) {
     transition: 0.4s;
 }
-*{
+*, #texto_dedicatoria{
     font-family:Sanseriffic;
     letter-spacing: 0.1vw;
+}
+#texto_dedicatoria{
+    font-size: 18px;
 }
 body {
     margin: 0px;
@@ -250,10 +253,10 @@ table{
     text-align: center;
     table-layout: fixed;
 }
-#Previsualización{
-    text-align: right;
-    padding: 0px 12px;
+#personalizacion{
+    width: auto;
 }
+
 .tabla_info {
     display: table;
     width: 100%;
@@ -342,11 +345,6 @@ h1{
     width: 100%;
     height: 302.5px;
 }
-#seccionIzq{
-    display: flex;
-    width: 25vw;
-    justify-content: center;
-}
 #imgUsuario{
     width: 20vw;
     height: 20vw;
@@ -354,10 +352,6 @@ h1{
 #imgUsuario>img{
     max-width: 100%;
     height: auto;
-}
-#seccionDer{
-    width: 75vw;
-    padding: 25px;
 }
 .tabla_info {
     display: table;
@@ -397,8 +391,15 @@ input[type="text"], #num_tarjeta{
     flex-direction: column;
     width: 50%;
 }
-#btn_guardar{
+form{
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#contenido_previsualizacion{
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -736,6 +737,9 @@ footer {
 #contenedorTxt{
     height: 0px;
 }
+input[name='dedicatoria']{
+    cursor: text;
+}
 @media screen and (max-width: 1054px) {
     #check2:checked+header #Contenido_Cabecera,
     #check2:checked+header #botones_iconos,
@@ -880,5 +884,10 @@ footer {
 @media screen and (max-width: 720px) { 
     h1{
         font-size: 30px !important;
+    }
+}
+@media screen and (max-width: 516px) { 
+    #tabla1{
+        table-layout: initial;
     }
 }

@@ -1,13 +1,30 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+$host = "localhost";
+$user = "root";
+$pass = "root";
+$dbname = "db_pankey";
+$conn = mysqli_connect($host, $user, $pass, $dbname);
 $target_path = "C:/Users/Administrador/Desktop/";
+
+if (!$conn) {
+  die("No se pudo conectar a la base de datos: " . mysqli_connect_error());
+}
+
 if (!empty($_FILES)) {
+  $query = "SELECT MAX(Codigo) FROM producto";
+  $result = mysqli_query($conn, $query);
+  $row=mysqli_fetch_array($result);
+  $ultimo_id_ingresado = $row[0];
+  $id = $ultimo_id_ingresado + 1;
   $temp_file = $_FILES['file']['tmp_name'];
   $target_file = $target_path . $_FILES['file']['name'];
   if (file_exists($target_path)) {
     if (esArchivoImagen($target_file)) {
-      move_uploaded_file($temp_file, $target_file);
+      $tmp_name = $_FILES['file']['tmp_name'];
+    $ruta = '../imagenes/' . $id . ".png";
+    move_uploaded_file($tmp_name, $ruta);
     }
   } else {
     header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
@@ -40,4 +57,5 @@ function esArchivoImagen($archivo) {
     return false;
   }
 }
+$conn->close();
 ?>

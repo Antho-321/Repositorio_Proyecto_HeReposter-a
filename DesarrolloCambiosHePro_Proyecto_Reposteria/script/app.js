@@ -24,7 +24,7 @@ estilo_noMasImg.innerHTML = `
 `;
 Dropzone.autoDiscover = false;
 const dropzone = new Dropzone("div#formDrop", {
-  url: "../php/TEST.php",
+  url: "../php/IngresoImagenProducto.php",
   dictDefaultMessage: `<p id="txtDrop">Arrastra tu imagen, presiona aquí para subirla o ingresa su enlace:</p>
     <input type="url" placeholder="Ingresar enlace" id="input2">
     <div id="contenedorTxt">

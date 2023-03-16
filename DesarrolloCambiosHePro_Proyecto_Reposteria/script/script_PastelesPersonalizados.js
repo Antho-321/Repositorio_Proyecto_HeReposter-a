@@ -1,5 +1,6 @@
 let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg;
 let ingreso_enlace = document.getElementById("ingreso_enlace");
+let contenido_previsualizacion = document.getElementById("contenido_previsualizacion");
 estilo_txtImgNoValida = document.createElement("style");
 estilo_noMasImg = document.createElement("style");
 estilo_contenedorPreImg=document.createElement("style");
@@ -24,7 +25,7 @@ estilo_noMasImg.innerHTML = `
 `;
 Dropzone.autoDiscover = false;
 const dropzone = new Dropzone("div#formDrop", {
-  url: "../php/TEST.php",
+  url: "../php/IngresoImagenProducto.php",
   dictDefaultMessage: `<p id="txtDrop">Arrastra tu imagen, presiona aquí para subirla o ingresa su enlace:</p>
     <input type="url" placeholder="Ingresar enlace" id="input2">
     <div id="contenedorTxt">
@@ -80,6 +81,7 @@ dropzone.on("addedfile", file => {
   let contenedor_preImg = document.querySelector(".dz-image");
   contenedor_preImg.style="width: 200px; height: 200px;";
   contenedor_preImg.parentNode.style="width: 200px; height: 200px; margin: 0px !important;";
+  contenedor_preImg.children[0].style="width: 200px; height: 200px";
   document.head.appendChild(estilo_contenedorPreImg);
 });
 function ingresarEnlace() {
@@ -175,3 +177,27 @@ function imgNoValida() {
   document.head.appendChild(estilo_txtImgNoValida);
 }
 
+function opciones(event){
+  switch(event.target.id) {
+    case "consulta":
+      contenido_previsualizacion.style="display: none;";
+      break;
+    case "pedido":
+      contenido_previsualizacion.removeAttribute("style");
+      contenido_previsualizacion.insertAdjacentHTML("beforeend",`
+      <div class="tabla_info">
+                    <div class="fila">
+                        <p class="col" id="texto_dedicatoria">Dedicatoria para el pedido:</p>
+                            <div class="col">
+                            </div>
+                            <div class="col" id="cuadros_dedicatoria">
+                                <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria">
+                            </div>              
+                    </div>
+                </div>
+      `);
+      break;
+    default:
+      // code block
+  }
+}

@@ -55,7 +55,7 @@ if (isset($_SESSION['id'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../styles/estilo_PastelesPersonalizados.css" id="estilo">
     <title>REPOSTERIA</title>
 </head>
@@ -117,7 +117,7 @@ if (isset($_SESSION['id'])) {
     <div id="contenido_principal">
         <h1>Información sobre porciones</h1>
         <section id="Productos">
-            <table>
+            <table id="tabla1">
                 <tr>
                     <th rowspan="2">Tamaño</th>
                     <th colspan="4" id="txtFormaPastel">Forma de pastel</th>
@@ -130,53 +130,63 @@ if (isset($_SESSION['id'])) {
                 </tr>
                 <tr>
                     <th>Mini</th>
-                    <td><img src="https://drive.google.com/uc?export=view&id=1Kz_FLJSnz-YXQRa7F8Yq9GDffe_aGnv9" width="100px"><br>5-6 personas</td>
-                    <td><img src="https://drive.google.com/uc?export=view&id=1otArBv28NIHck0Q_9Uj_MuCjILeQy3QV" width="60px"><br>2-4 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/fc/55/51/fc55511232857377fc9e2b43ff65ef6e.png" width="100px"><br>5-6 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/60/2c/73/602c7324f738c3fc2d6328b6b5efa1b3.png" width="60px"><br>2-4 personas</td>
                     <td>No disponible</td>
                     <td>No disponible</td>
                 </tr>
                 <tr>
                     <th>Pequeña</th>
-                    <td><img src="https://drive.google.com/uc?export=view&id=1CMJekAArMW-KUMEZUCtmMBC5RtQwv4ww" width="100px"><br>10-12 personas</td>
-                    <td><img src="https://drive.google.com/uc?export=view&id=1m_q6-AHp_dQ4ni1zzqVmZ96drsmuIfqq" width="80px"><br>8-10 personas</td>
-                    <td><img src="https://drive.google.com/uc?export=view&id=1cp80PO64Eo6e4JH8TqAks3ggjOlptt7G" width="100px"><br>20-25 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/ea/1c/c9/ea1cc91b67515479d498b2474a4688b4.png" width="100px"><br>10-12 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/84/92/df/8492dfbede442ee7a8d0aca14bc0a7a2.png" width="80px"><br>8-10 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/e7/2b/e3/e72be31913b9ed2c9c7aa8a21dba81f4.png" width="100px"><br>20-25 personas</td>
                     <td>No disponible</td>
                 </tr>
                 <tr>
                     <th>Mediana</th>
-                    <td><img src="https://drive.google.com/uc?export=view&id=1fxpF2TTBze1G67ImMGV5KDkaFKQD__oQ" width="100px"><br>16 personas</td>
-                    <td><img src="https://drive.google.com/uc?export=view&id=1tLP0H_dZvZaODibrLCu-ewSfkn2Ig2cg" width="100px"><br>12-14 personas</td>
-                    <td><img src="https://drive.google.com/uc?export=view&id=1RhLuxg2QH4qOgK1OUgZi6FLORAHc3iRq" width="100px"><br>35-40 personas</td>
-                    <td><img src="https://drive.google.com/uc?export=view&id=15MRNFtPPqRQWwlwxWzq5aHQuejXlWAFp" width="100px"><br>35-40 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/73/af/e3/73afe30c69377ac41d39b1993c2c84d4.png" width="100px"><br>16 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/5e/b0/e8/5eb0e8ca1fe278d9febec381995d7341.png" width="100px"><br>12-14 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/b8/6f/67/b86f672dc299900a66126a795030eeb5.png" width="100px"><br>35-40 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/1a/6c/7e/1a6c7e8648f44f2c5c13d3e1e353683b.png" width="100px"><br>35-40 personas</td>
                 </tr>
                 <tr>
                     <th>Grande</th>
-                    <td><img src="https://drive.google.com/uc?export=view&id=1JQnaNGfyiaH85EzH2XJgjIP65F-HXMXm" width="100px"><br>30 personas</td>
-                    <td><img src="https://drive.google.com/uc?export=view&id=14gvYT9Ct7emiISBEp1MtNS2dW_4NgKzi" width="90px"><br>26-28 personas</td>
-                    <td><img src="https://drive.google.com/uc?export=view&id=10GrJ1Yt5jZYcuxLRZhW0qOgkqAc5zmhF" width="100px"><br>50 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/79/a6/de/79a6dedb2654bb2b29d7b208bfdba3f2.png" width="100px"><br>30 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/b8/06/64/b80664f68242a066c81772711769f24c.png" width="90px"><br>26-28 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/f2/95/00/f29500572611ba6d34555f86900324c6.png" width="100px"><br>50 personas</td>
                     <td>No disponible</td>
                 </tr>
                 <tr>
                     <th>Extra grande</th>
-                    <td><img src="https://drive.google.com/uc?export=view&id=1fuTECRfG33_BVBJKqgwnrUQI1-hWIXne" width="100px"><br>70 personas</td>
-                    <td><img src="https://drive.google.com/uc?export=view&id=1Ow13hXcPoH5DZADJFQKQdBZ1M0ey3Lze" width="100px"><br>66-68 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/4f/b0/02/4fb002c596e470f6078f48799cd19d86.png" width="100px"><br>70 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/14/14/df/1414df92e327462c56cb2791801c30a5.png" width="100px"><br>66-68 personas</td>
                     <td>No disponible</td>
-                    <td><img src="https://drive.google.com/uc?export=view&id=15BC5ZT-j2YR90WTql_sEj1vfIBijwPog" width="120px"><br>100 personas</td>
+                    <td><img src="https://i.pinimg.com/originals/51/92/7f/51927fa47127bb921f22df50d180e1e9.png" width="120px"><br>100 personas</td>
                 </tr>
             </table>
         </section>
-        <h3>Previsualización de modelo</h3>
-        <div class="dropzone" id="formDrop">
-    <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace" onclick="ingresarEnlace()">
-    <input type="hidden" name="enlace" id="aux_IngresarEnlace">
-  </div>
-        <table>
-            <tr>
-                <th>¿Qué desea realizar?</th>
-                <td>Consulta de precio</td>
-                <td>Pedido</td>
-            </tr>
-        </table>
+        <form action="">
+            <table id="personalizacion">
+                <tr>
+                    <th>¿Qué desea realizar?</th>
+                    <td>
+                        <input type="radio" id="consulta" name="realizar" value="Consulta" onchange="opciones(event)">
+                        <label for="consulta">Consulta de precio</label>
+                    </td>
+                    <td>
+                        <input type="radio" id="pedido" name="realizar" value="Pedido" onchange="opciones(event)">
+                        <label for="pedido">Pedido</label>
+                    </td>
+                </tr>
+            </table>
+            <div id="contenido_previsualizacion" style="display: none;">
+                <h3>Previsualización de modelo</h3>
+                <div class="dropzone" id="formDrop">
+                    <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace" onclick="ingresarEnlace()">
+                    <input type="hidden" name="enlace" id="aux_IngresarEnlace">
+                </div>
+            </div>
+        </form>
     </div>
     <footer>
         <div id="Derechos">
