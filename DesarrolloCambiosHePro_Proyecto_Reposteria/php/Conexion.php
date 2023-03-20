@@ -1,6 +1,6 @@
 <?php
 class Conexion {
-    private $host = "localhost:3306";
+    private $host = "localhost";
     private $user = "root";
     private $password = "root";
     private $name_db ="db_pankey";
