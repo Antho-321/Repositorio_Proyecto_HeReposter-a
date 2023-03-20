@@ -289,10 +289,21 @@ input[value='Feliz Cumpleaños...'] {
 
 #cantidad{
     cursor: auto;
+    width: 37px;
+    color: black;
+    text-align: center;
+    position: relative;
+}
+input[type='number']::-webkit-inner-spin-button {
+    position: absolute;
+    width: 12.5%;
+    height: 100%;
+    top: 0;
+    right: 0;
 }
 
 #cantidad:hover{
-    color: black;
+    color: black !important;
 }
 
 #infoAdicional {

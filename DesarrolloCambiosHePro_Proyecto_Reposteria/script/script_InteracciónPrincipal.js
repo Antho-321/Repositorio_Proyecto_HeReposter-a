@@ -435,11 +435,11 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
                 <div class="tabla_info">
                     <div class="fila">
                         <p class="col" id="texto_dedicatoria">Dedicatoria para el pedido:</p>
-                            <div class="col">
-                            </div>
-                            <div class="col" id="cuadros_dedicatoria">
-                                <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" value="`+primer_dedicatoria+`">
-                            </div>              
+                        <div class="col">
+                        </div>
+                        <div class="col" id="cuadros_dedicatoria">
+                            <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" value="`+primer_dedicatoria+`">
+                        </div>              
                     </div>
                 </div>
                 <div class="tabla_info">

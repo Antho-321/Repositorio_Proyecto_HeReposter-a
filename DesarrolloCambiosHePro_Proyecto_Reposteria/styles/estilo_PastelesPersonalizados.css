@@ -9,8 +9,8 @@
     font-family:Sanseriffic;
     letter-spacing: 0.1vw;
 }
-#texto_dedicatoria{
-    font-size: 18px;
+th, #texto_dedicatoria{
+    font-size: 17px;
 }
 body {
     margin: 0px;
@@ -51,6 +51,10 @@ body {
     transform: 0.4s;
     padding: 0px 30px
 }
+#disminuir_cantidad,
+#aumentar_cantidad {
+    font-size: 25px;
+}
 #botones_iconos{
     display: flex;
     width: 80vw;
@@ -87,10 +91,27 @@ body {
     background-color: rgb(255, 255, 255);
     z-index: 1;
 }
-input:hover, a:hover, button:hover {
+input:hover:not(input[name='dedicatoria'], #cantidad), a:hover, button:hover {
     cursor: pointer;
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
+}
+#cantidad{
+    cursor: auto;
+    width: 37px;
+    color: black;
+    text-align: center;
+    position: relative;
+}
+input[type='number']::-webkit-inner-spin-button {
+    position: absolute;
+    width: 12.5%;
+    height: 100%;
+    top: 0;
+    right: 0;
+}
+#cantidad:hover{
+    color: black !important;
 }
 #Catalogo:hover .Btn_Catalogo {
     color: #7c7c7c41 !important;
@@ -227,6 +248,9 @@ h3{
     width: 100vw;
     overflow: scroll;  
 }
+#form_proPersonalizado{
+    padding: 0px 15px;
+}
 ::-webkit-scrollbar {
     width: 10px;
     height: 12px;
@@ -270,13 +294,6 @@ table{
     height: 120px;
     width: 120px;
 }
-.col {
-    display: table-cell;
-    vertical-align: middle;
-    padding: 12px;
-    text-align: center;
-    
-}
 #Info_adicional{
     width: 25vw;
     display: flex;
@@ -289,13 +306,6 @@ table{
 }
 h2{
     text-align: center;
-}
-#Info_adicional>div>div>.col:nth-child(1) {
-    font-weight: bold;
-    /*width: 280px;*/
-}
-#Info_adicional>div>div>.col:nth-child(2) {
-    width: 50px;
 }
 
 #botones_carrito{
@@ -364,16 +374,15 @@ h1{
     height: 100px;
     width: 100px;
 }
-.col {
-    display: table-cell;
-    vertical-align: middle;
-    padding: 10px;
-    text-align: center;
-}
 select{
-    width: 100% !important;
-    padding: 5px 0px !important;
-    margin: 5px 0px;
+    background-color: transparent;
+    border: 0.2vw solid black;
+    border-radius: 3px;
+    font: normal normal normal 18px/1.4em Sanseriffic;
+    width: 100px;
+    text-indent: 16px;
+    text-align: center;
+    letter-spacing: 1.4px;
 }
 input[type="text"], input[type="url"], #cod_postal, #tel{
     cursor: auto;
@@ -381,10 +390,14 @@ input[type="text"], input[type="url"], #cod_postal, #tel{
     margin: 5px 0px;
 }
 input[type="text"], #num_tarjeta{ 
-    width: 100%; 
     cursor: auto;
     border: 1px solid !important;
     border-color: black !important;
+}
+input[name='dedicatoria'] {
+    border: 1px solid black;
+    cursor: text !important;
+    margin: 9px;
 }
 #cambio_contraseña>input{
     display: flex;
@@ -586,7 +599,7 @@ button:hover,
     background-color: rgb(255, 255, 255);
 }
 
-input:hover,
+input:hover:not(input[name='dedicatoria'], #cantidad),
 a:hover,
 button:hover,
 #Catalogo:hover .Btn_Catalogo {

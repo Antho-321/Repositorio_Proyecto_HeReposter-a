@@ -1,4 +1,4 @@
-let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg;
+let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg, cantidadInput, texto_dedicatoria;
 let ingreso_enlace = document.getElementById("ingreso_enlace");
 let contenido_previsualizacion = document.getElementById("contenido_previsualizacion");
 estilo_txtImgNoValida = document.createElement("style");
@@ -84,8 +84,9 @@ dropzone.on("addedfile", file => {
   contenedor_preImg.children[0].style="width: 200px; height: 200px";
   document.head.appendChild(estilo_contenedorPreImg);
 });
-function ingresarEnlace() {
-  ingreso_enlace.placeholder = "";
+function quitarPlaceHolder(event) {
+  let entrada_texto = event.target;
+  entrada_texto.placeholder = "";
 }
 ingreso_enlace.addEventListener('input', () => {
   if (ingreso_enlace.value != "") {
@@ -176,28 +177,83 @@ function esImagen2(url) {
 function imgNoValida() {
   document.head.appendChild(estilo_txtImgNoValida);
 }
-
-function opciones(event){
-  switch(event.target.id) {
-    case "consulta":
-      contenido_previsualizacion.style="display: none;";
-      break;
-    case "pedido":
-      contenido_previsualizacion.removeAttribute("style");
-      contenido_previsualizacion.insertAdjacentHTML("beforeend",`
-      <div class="tabla_info">
-                    <div class="fila">
-                        <p class="col" id="texto_dedicatoria">Dedicatoria para el pedido:</p>
-                            <div class="col">
-                            </div>
-                            <div class="col" id="cuadros_dedicatoria">
-                                <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria">
-                            </div>              
-                    </div>
-                </div>
-      `);
-      break;
-    default:
-      // code block
+function disminuirCantidadProducto() {
+  cantidadInput = document.getElementById("cantidad");
+  if (cantidadInput.value >= 2) {
+      cantidadInput.value = parseInt(cantidadInput.value) - 1;
   }
+  if (cantidadInput.value==1) {
+      texto_dedicatoria=document.getElementById("texto_dedicatoria");
+      texto_dedicatoria.innerHTML="Dedicatoria para el pedido:";
+  }
+  Dedicatorias(cantidadInput);
+  document.getElementById("cuadros_dedicatoria").innerHTML=`
+  <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria">
+  `;
+}
+function aumentarCantidadProducto() {
+  cantidadInput = document.getElementById("cantidad");
+  cantidadInput.value = parseInt(cantidadInput.value) + 1;
+  Dedicatorias(cantidadInput);
+  document.getElementById("cuadros_dedicatoria").innerHTML=`
+  <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria">
+  `;
+}
+function Dedicatorias(cantidadInput){
+  opciones=document.getElementById("num_dedicatorias");
+  html_aux1="";
+  if (opciones!=null&&opciones!=undefined){
+      opciones.remove();
+  }
+  texto_dedicatoria=document.getElementById("texto_dedicatoria");
+  texto_dedicatoria.innerHTML="<b>Cantidad de dedicatorias:</b>";
+  for(let i=0;i<cantidadInput.value;i++){
+      html_aux1+='<option value="'+(i+1)+'">'+(i+1)+'</option>';
+  }
+  document.getElementById("contenedor_select").innerHTML=`
+  <select id="num_dedicatorias" onchange="AgregarHermanosSelect()">
+`+html_aux1+`
+</select>`;
+
+}
+function AgregarHermanosSelect(arreglo_dedicatorias){
+  console.log("ARREGLO DEDICATORIAS");
+  console.log(arreglo_dedicatorias);
+  let límite;
+  let dedicatoria="";
+  html_aux2="";
+  dedicatorias=document.getElementsByName("dedicatoria");
+  let select_dedicatorias=document.getElementById("num_dedicatorias");
+  console.log("cantidad para agregar o quitar: "+(select_dedicatorias.value-dedicatorias.length));
+  límite=select_dedicatorias.value-dedicatorias.length;
+  if (select_dedicatorias.value-dedicatorias.length>=1) {     
+      for(let i=1;i<=límite;i++){
+          if (arreglo_dedicatorias==undefined) {
+              html_aux2+='<input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria">';
+          }else{
+              console.log("i: "+i);
+              if (arreglo_dedicatorias[i]!="Sin dedicatoria") {
+                  dedicatoria=arreglo_dedicatorias[i];
+              }else{
+                  dedicatoria="";
+              }
+              html_aux2+='<input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" value="'+dedicatoria+'">';
+          }
+      }
+      dedicatorias[dedicatorias.length-1].insertAdjacentHTML("afterend",html_aux2);
+  }else{
+      límite=límite*(-1);
+      cuadros_dedicatoria=document.getElementById("cuadros_dedicatoria");
+      console.log("límite: "+límite);
+      for (let i=1;i<=límite;i++) {
+          cuadros_dedicatoria.children[cuadros_dedicatoria.children.length-1].remove();
+      }
+      //cuadros_dedicatoria.children[cuadros_dedicatoria.children.length-1].remove();
+  }
+      for (let i=0;i<dedicatorias.length;i++) {
+          dedicatorias[i].addEventListener("click", quitarPlaceHolder);
+      }
+}
+function opciones(event){
+
 }
