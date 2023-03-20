@@ -144,7 +144,6 @@ estilo_carritoSinProductos.innerHTML=`
 }
 `;
 catalogo.addEventListener("mouseover", function() {
-    //console.log(document.getElementById("est_ver_categorías"));
     if (document.getElementById("est_ver_categorías")==null) {
         document.head.appendChild(estilo_ver_categorías);
     }    
@@ -152,8 +151,6 @@ catalogo.addEventListener("mouseover", function() {
 if (seccion_productos != null) {
     window.onload = AgregarContenido("");
 }
-//console.log("PÁGINA EN LA QUE ME ENCUENTRO:"+ubicación_página);
-//console.log(ubicación_página.substring(ubicación_página.lastIndexOf("/")));
 if (ubicación_página.substring(ubicación_página.lastIndexOf("/")) == "/CarritoDeCompras.php") {
     window.onload = AgregarContenidoCarrito();
 }
@@ -161,17 +158,13 @@ if (contenido_categorías != null) {
     let tamaño = contenido_categorías.children.length;
     for (let i = 0; i < tamaño; i++) {
         contenido_categorías.children[i].addEventListener("click", funcCategoríaSeleccionada);
-        //console.log(contenido_categorías.children[i]);
     }
 }
 function AgregarContenido(CategoríaSeleccionada) {
     seccion_productos = document.getElementById("seccion_productos");
     if (CategoríaSeleccionada == "") {
         let myData = myAsyncFunction("");
-
         myData.then(result => {
-            //console.log(result);
-
             let div_aux = document.createElement("div");
             for (let i = 0; i < result.length; i++) {
                 let a = 15.0;
@@ -196,7 +189,6 @@ function AgregarContenido(CategoríaSeleccionada) {
         }
         let myData = myAsyncFunction(CategoríaSeleccionada);
         myData.then(result => {
-            //console.log(result);
             let div_aux = document.createElement("div");
             for (let i = 0; i < result.length; i++) {
                 let a = 15.0;
@@ -227,7 +219,7 @@ function myAsyncFunction(imagen) {
     return new Promise((resolve, reject) => {
         fetch("../php/ConsultaProductoSeleccionado.php?imagen=" + encodedImagen)
             .then(response => response.json())
-            .then(data => { //archivo json       
+            .then(data => {     
                 resolve(data);
             })
             .catch(error => reject(error));
@@ -237,7 +229,7 @@ function myAsyncFunction2(id, cantidad, dedicatoria, carritoInfo) {
     return new Promise((resolve, reject) => {
         fetch("../php/ConsultaIngresoACarrito.php?&id=" + id + "&cantidad=" + cantidad+ "&dedicatoria=" + dedicatoria+ "&carritoInfo=" + carritoInfo)
             .then(response => response.json())
-            .then(data => { //archivo json       
+            .then(data => {      
                 resolve(data);
             })
             .catch(error => reject(error));
@@ -248,7 +240,7 @@ function myAsyncFunction3(id_usuario) {
     return new Promise((resolve, reject) => {
         fetch("../php/SacarDatosDeCarrito.php?id_usuario=" + id_usuario)
             .then(response => response.json())
-            .then(data => { //archivo json       
+            .then(data => {      
                 resolve(data);
             })
             .catch(error => reject(error));
@@ -296,24 +288,19 @@ function Dedicatorias(cantidadInput){
     <select id="num_dedicatorias" onchange="AgregarHermanosSelect()">
   `+html_aux1+`
 </select>`;
-
 }
 function AgregarHermanosSelect(arreglo_dedicatorias){
-    console.log("ARREGLO DEDICATORIAS");
-    console.log(arreglo_dedicatorias);
     let límite;
     let dedicatoria="";
     html_aux2="";
     dedicatorias=document.getElementsByName("dedicatoria");
     let select_dedicatorias=document.getElementById("num_dedicatorias");
-    console.log("cantidad para agregar o quitar: "+(select_dedicatorias.value-dedicatorias.length));
     límite=select_dedicatorias.value-dedicatorias.length;
     if (select_dedicatorias.value-dedicatorias.length>=1) {     
         for(let i=1;i<=límite;i++){
             if (arreglo_dedicatorias==undefined) {
                 html_aux2+='<input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria">';
             }else{
-                console.log("i: "+i);
                 if (arreglo_dedicatorias[i]!="Sin dedicatoria") {
                     dedicatoria=arreglo_dedicatorias[i];
                 }else{
@@ -326,11 +313,9 @@ function AgregarHermanosSelect(arreglo_dedicatorias){
     }else{
         límite=límite*(-1);
         cuadros_dedicatoria=document.getElementById("cuadros_dedicatoria");
-        console.log("límite: "+límite);
         for (let i=1;i<=límite;i++) {
             cuadros_dedicatoria.children[cuadros_dedicatoria.children.length-1].remove();
         }
-        //cuadros_dedicatoria.children[cuadros_dedicatoria.children.length-1].remove();
     }
         for (let i=0;i<dedicatorias.length;i++) {
             dedicatorias[i].addEventListener("click", quitarPlaceHolder);
@@ -340,7 +325,6 @@ function mostrarBúsqueda() {
     let est_búsqueda = document.getElementById("estilo_búsqueda");
     let check1 = document.getElementById("check");
     let check = document.getElementById("check2");
-
     if (est_búsqueda != null) {
         check.checked = false;
         est_búsqueda.remove();
@@ -366,10 +350,8 @@ function mostrarBúsqueda() {
 
 }
 function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arreglo_dedicatorias) {
-    console.log("CANTIDAD PRODUCTOS: "+cantidad_productos);
     let primer_dedicatoria="";
     let myData;
-    let div = document.getElementsByTagName("div");
     if (cantidad_productos==undefined) {
         cantidad_productos="1";
     }
@@ -383,26 +365,21 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
         carritoInfo="Actualizar información";
         myData = myAsyncFunction(imagen);
         img=imagen;
-        console.log(imagen);
     }else{
         carritoInfo="Añadir al carrito";
         const srcString = event.target.nextSibling.src;
         if (srcString.includes("localhost")) {
             let test=srcString.replace("http://localhost/MisSitios/Repositorio_Proyecto_HeReposter-a/DesarrolloCambiosHePro_Proyecto_Reposteria", "..");
-            console.log("test: "+test);
             myData=myAsyncFunction(srcString.replace("http://localhost/MisSitios/Repositorio_Proyecto_HeReposter-a/DesarrolloCambiosHePro_Proyecto_Reposteria", ".."));
         }else{
             myData = myAsyncFunction(event.target.nextSibling.src);
-        }
-        console.log("IMAGEN: "+event.target.nextSibling.src);  
+        }  
         img = event.target.nextSibling.src;
     }
     VerificaciónCuadroDeBúsqueda();
     estilo = document.getElementById("estilo");
     estilo.href = "../styles/estilo_Modificación_ProductoSeleccionado.css";
-    
     myData.then(result => {
-        console.log(result);
         id_producto = result[0].Codigo;
         precio_producto = result[0].Precio;
         descripción_adicional = result[0].Descripción;
@@ -411,7 +388,6 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
         cobertura = result[0].Cobertura;
         sabor = result[0].Sabor;
         relleno = result[0].Relleno;
-
         contenido_principal.innerHTML = `
             <div id="DestacadoPrincipal">
                 <img src="`+ img + `" alt="imagenes">
@@ -460,6 +436,13 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
                         <p class="col">Relleno:</p>
                         <p class="col">`+ relleno + `</p>
                     </div>
+                    <div class="fila">
+                        <p class="col">Especificación adicional:</p>
+                        <div class="col">
+                            <textarea name="espAdicional" id="espAdicional" placeholder="(Opcional)"></textarea>
+                        </div>
+                        
+                    </div>
                 </div>
                 </div>
             </div>
@@ -468,7 +451,6 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
             document.getElementById("infoAdicional").remove();
         }
         let dedicatorias=document.getElementsByName("dedicatoria");
-        console.log("LONGITUD: "+dedicatorias.length);
         for (let i=0;i<dedicatorias.length;i++) {
             dedicatorias[i].addEventListener("click", quitarPlaceHolder);
         }
@@ -488,7 +470,6 @@ function funcCategoríaSeleccionada(event) {
     let h1 = document.getElementsByTagName("h1")[0];
     let destacado_principal = document.getElementById("DestacadoPrincipal");
     seccion_productos = document.getElementById("seccion_productos");
-    //console.log("LO QUE SELECCIONÉ: "+event.target.value);
     if (document.getElementById("est_CategoríaSel")==null) {
         document.head.appendChild(estilo_aux_CategoríaSel);
     }
@@ -553,15 +534,9 @@ function enviarInfoACarrito(carritoInfo) {
     }else{
         dedicatoria+='('+dedicatorias[i].value+')';
     }
-    console.log("LONGITUD DEDICATORIA: "+dedicatorias.length);
-    console.log("DEDICATORIA: "+dedicatoria);
-    
     cantidad_producto_carr = document.getElementById("cantidad").value;
-    //LA INFORMACIÓN QUE TENEMOS LA ENVIAMOS AL CARRITO
-    //console.log("id: " + id_producto + "\n cantidad: " + cantidad_producto_carr + "\n img: " + img.src + "\n precio del producto: " + precio_producto + "\n descripción adicional: " + descripción_adicional + "\n porciones: " + porciones + "\n masa: " + masa + "\n cobertura: " + cobertura + "\n sabor: " + sabor + "\n relleno: " + relleno);
     let myData = myAsyncFunction2(id_producto, cantidad_producto_carr, dedicatoria, carritoInfo);
     myData.then(result => {
-        console.log(result.usuario);
         if (result.usuario == "noIngresado") {
             MostrarMensajeCarrito();
         } else {        
@@ -678,9 +653,7 @@ function AgregarContenidoCarrito() {
     let primera_fila = document.getElementById("primera_fila");
     let myData = myAsyncFunction3();
     myData.then(result => {
-        console.log(result);
-        //console.log("longitud: "+result.length);
-        if (result.length == 0) {
+        if (result.usuario == "noIngresado"||result.length==0) {
             ProductosNoIngresados();
         }
         for (let i = 0; i < result.length; i++) {
@@ -719,6 +692,5 @@ function editarInfoProductoCarrito(event){
     const sin_parentesis_extremos = string_dedicatorias.replace(/^\(|\)$/g, "");
     const arreglo_dedicatorias = sin_parentesis_extremos.split("),(");
     cantidadInput=document.querySelector("p[name='cantidad']").innerHTML;
-    //console.log(arrayOfStrings);
     ProductoSeleccionado(event,event.target.nextSibling.nextSibling.value,"si", cantidadInput, arreglo_dedicatorias);
 }

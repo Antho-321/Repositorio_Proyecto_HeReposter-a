@@ -516,7 +516,7 @@ h3 {
     background-color: rgb(255, 255, 255);
 }
 
-input:hover,
+input:hover:not(input[name='dedicatoria'], #cantidad),
 a:hover,
 button:hover,
 #Catalogo:hover .Btn_Catalogo {

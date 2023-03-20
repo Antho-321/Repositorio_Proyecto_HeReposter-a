@@ -177,7 +177,8 @@ a{
      text-align: center;
  }
  #borrador{
-    width: 38px;
+    width: 35.97px;
+    height: 38px;
  }
  #borrador:hover{
     opacity: 0.4;
@@ -705,6 +706,9 @@ footer {
     color: aliceblue;
 }
 /*------------------------------------------------*/
+#editarCarrito{
+    font-size: 25px;
+}
 ::-webkit-scrollbar {
     width: 10px;
     height: 12px;

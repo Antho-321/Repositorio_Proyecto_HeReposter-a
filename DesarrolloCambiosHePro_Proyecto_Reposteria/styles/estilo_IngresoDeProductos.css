@@ -1,8 +1,9 @@
 body {
     margin: 0px;
-    width: 100vw;
+    width: 96%;
     height: 100vh;
     overflow-x: hidden;
+    padding: 0px 2%;
 }
 h1{
     margin: 0px;

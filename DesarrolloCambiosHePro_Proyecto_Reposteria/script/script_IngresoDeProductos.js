@@ -1,7 +1,7 @@
 let tamaño1, tamaño2, tamaño3, tamaño4, tamaño5, precio;
 let div_fila = document.createElement("div");
 let div_col = document.createElement("div");
-let tabla = document.querySelector(".tabla_info");
+let tabla = document.querySelectorAll(".tabla_info")[1];
 let h1 = document.getElementsByTagName("h1")[0];
 let ingreso_enlace = document.getElementById("ingreso_enlace");
 let verificacion_enlace = document.getElementById("verificacion_enlace");
@@ -20,7 +20,6 @@ function esImagen1(url) {
       const img = new Image();
       img.addEventListener('load', () => resolve(true));
       img.addEventListener('error', (error) => {
-        //console.error(error); // mostrar el error en la consola
         resolve(false);
       });
       img.src = url;
