@@ -1,4 +1,4 @@
-let cantidadInput, num_productos, img, cantidad_producto_carr, id_imagen, direccion_producto, dedicatoria, texto_dedicatoria, cuadros_dedicatoria, opciones, id_producto, precio_producto, descripción_adicional, porciones, masa, cobertura, sabor, relleno;
+let cantidadInput, num_productos, img, cantidad_producto_carr, id_imagen, direccion_producto, dedicatoria, texto_dedicatoria, cuadros_dedicatoria, opciones, id_producto, precio_producto, descripción_adicional, porciones, masa, cobertura, sabor, relleno, reqAdicional, colSelect;
 let left = 0;
 let html_aux1="";
 let html_aux2="";
@@ -75,7 +75,7 @@ estilo_Ingreso_Registro.innerHTML = `
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    border-radius: 7%;
+    border-radius: 40px;
     z-index: 1;
 }
 .Mensaje{
@@ -225,9 +225,9 @@ function myAsyncFunction(imagen) {
             .catch(error => reject(error));
     });
 }
-function myAsyncFunction2(id, cantidad, dedicatoria, carritoInfo) {
+function myAsyncFunction2(id, cantidad, dedicatoria, carritoInfo, reqAdicional) {
     return new Promise((resolve, reject) => {
-        fetch("../php/ConsultaIngresoACarrito.php?&id=" + id + "&cantidad=" + cantidad+ "&dedicatoria=" + dedicatoria+ "&carritoInfo=" + carritoInfo)
+        fetch("../php/ConsultaIngresoACarrito.php?&id=" + id + "&cantidad=" + cantidad+ "&dedicatoria=" + dedicatoria+ "&carritoInfo=" + carritoInfo+"&espAdicional="+reqAdicional)
             .then(response => response.json())
             .then(data => {      
                 resolve(data);
@@ -252,35 +252,46 @@ function quitarPlaceHolder(event) {
     entrada_texto.placeholder = "";
 }
 function disminuirCantidadProducto() {
+    colSelect=document.getElementById("num_dedicatorias").parentElement;
     cantidadInput = document.getElementById("cantidad");
     if (cantidadInput.value >= 2) {
-        cantidadInput.value = parseInt(cantidadInput.value) - 1;
+      cantidadInput.value = parseInt(cantidadInput.value) - 1;
     }
-    if (cantidadInput.value==1) {
-        texto_dedicatoria=document.getElementById("texto_dedicatoria");
-        texto_dedicatoria.innerHTML="Dedicatoria para el pedido";
+    if (cantidadInput.value == 1) {
+      texto_dedicatoria = document.getElementById("texto_dedicatoria");
+      texto_dedicatoria.innerHTML = "Dedicatoria para el pedido:";
     }
     Dedicatorias(cantidadInput);
-    document.getElementById("cuadros_dedicatoria").innerHTML=`
-    <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria">
+    document.getElementById("cuadros_dedicatoria").innerHTML = `
+    <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" onclick="quitarPlaceHolder(event)">
     `;
-}
-function aumentarCantidadProducto() {
+    if (cantidadInput.value == 1) {
+        texto_dedicatoria = document.getElementById("texto_dedicatoria");
+        texto_dedicatoria.innerHTML = "<b>Dedicatoria para el pedido:</b>";
+        colSelect.style="display:none";
+      }
+  }
+  function aumentarCantidadProducto() {
+    
     cantidadInput = document.getElementById("cantidad");
     cantidadInput.value = parseInt(cantidadInput.value) + 1;
+    
     Dedicatorias(cantidadInput);
-    document.getElementById("cuadros_dedicatoria").innerHTML=`
-    <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria">
+    document.getElementById("cuadros_dedicatoria").innerHTML = `
+    <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" onclick="quitarPlaceHolder(event)">
     `;
-}
+    texto_dedicatoria=document.getElementById("texto_dedicatoria");
+    texto_dedicatoria.innerHTML="Cantidad de dedicatorias";
+    colSelect=document.getElementById("num_dedicatorias").parentElement;
+    colSelect.removeAttribute("style");
+  }
 function Dedicatorias(cantidadInput){
+    texto_dedicatoria=document.getElementById("texto_dedicatoria");
     opciones=document.getElementById("num_dedicatorias");
     html_aux1="";
     if (opciones!=null&&opciones!=undefined){
         opciones.remove();
     }
-    texto_dedicatoria=document.getElementById("texto_dedicatoria");
-    texto_dedicatoria.innerHTML="Cantidad de dedicatorias";
     for(let i=0;i<cantidadInput.value;i++){
         html_aux1+='<option value="'+(i+1)+'">'+(i+1)+'</option>';
     }
@@ -349,7 +360,7 @@ function mostrarBúsqueda() {
     }
 
 }
-function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arreglo_dedicatorias) {
+function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arreglo_dedicatorias, req_Adicional) {
     let primer_dedicatoria="";
     let myData;
     if (cantidad_productos==undefined) {
@@ -366,11 +377,15 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
         myData = myAsyncFunction(imagen);
         img=imagen;
     }else{
-        carritoInfo="Añadir al carrito";
         const srcString = event.target.nextSibling.src;
-        if (srcString.includes("localhost")) {
-            let test=srcString.replace("http://localhost/MisSitios/Repositorio_Proyecto_HeReposter-a/DesarrolloCambiosHePro_Proyecto_Reposteria", "..");
-            myData=myAsyncFunction(srcString.replace("http://localhost/MisSitios/Repositorio_Proyecto_HeReposter-a/DesarrolloCambiosHePro_Proyecto_Reposteria", ".."));
+        carritoInfo="Añadir al carrito";
+        req_Adicional="";
+        console.log(srcString);
+        if (srcString.includes("imagenes")) {
+            let dirImg;
+            let num=srcString.indexOf("/imagenes");
+            dirImg=".."+srcString.substring(num);
+            myData=myAsyncFunction(dirImg);
         }else{
             myData = myAsyncFunction(event.target.nextSibling.src);
         }  
@@ -380,6 +395,7 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
     estilo = document.getElementById("estilo");
     estilo.href = "../styles/estilo_Modificación_ProductoSeleccionado.css";
     myData.then(result => {
+        console.log(result);
         id_producto = result[0].Codigo;
         precio_producto = result[0].Precio;
         descripción_adicional = result[0].Descripción;
@@ -437,9 +453,9 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
                         <p class="col">`+ relleno + `</p>
                     </div>
                     <div class="fila">
-                        <p class="col">Especificación adicional:</p>
-                        <div class="col">
-                            <textarea name="espAdicional" id="espAdicional" placeholder="(Opcional)"></textarea>
+                        <p class="col" id="txtadicional">Especificación adicional:</p>
+                        <div class="col" id="adicional">
+                            <textarea name="espAdicional" id="espAdicional" placeholder="(Opcional)">`+req_Adicional+`</textarea>
                         </div>
                         
                     </div>
@@ -454,6 +470,7 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
         for (let i=0;i<dedicatorias.length;i++) {
             dedicatorias[i].addEventListener("click", quitarPlaceHolder);
         }
+        document.getElementById("espAdicional").addEventListener("click", quitarPlaceHolder);
         if (carritoInfo=="Actualizar información") {
             cantidadInput = document.getElementById("cantidad");
             Dedicatorias(cantidadInput);
@@ -520,6 +537,7 @@ function añadirBtnPago() {
 }
 function enviarInfoACarrito(carritoInfo) {
     dedicatoria="";
+    reqAdicional=document.getElementById("espAdicional").value;
     dedicatorias=document.getElementsByName("dedicatoria");
     let i=0
     for (;i<dedicatorias.length-1;i++) {     
@@ -535,7 +553,7 @@ function enviarInfoACarrito(carritoInfo) {
         dedicatoria+='('+dedicatorias[i].value+')';
     }
     cantidad_producto_carr = document.getElementById("cantidad").value;
-    let myData = myAsyncFunction2(id_producto, cantidad_producto_carr, dedicatoria, carritoInfo);
+    let myData = myAsyncFunction2(id_producto, cantidad_producto_carr, dedicatoria, carritoInfo, reqAdicional);
     myData.then(result => {
         if (result.usuario == "noIngresado") {
             MostrarMensajeCarrito();
@@ -653,6 +671,7 @@ function AgregarContenidoCarrito() {
     let primera_fila = document.getElementById("primera_fila");
     let myData = myAsyncFunction3();
     myData.then(result => {
+        console.log(result);
         if (result.usuario == "noIngresado"||result.length==0) {
             ProductosNoIngresados();
         }
@@ -674,6 +693,7 @@ function AgregarContenidoCarrito() {
                                     <input type="hidden" name="id_canasta_item" value="`+ result[i].Id_Canasta_item + `">
                                     
                                     <input type="button" id="editarCarrito" class="btn_eliminar" value="✏️">
+                                    <input type="hidden" value="`+result[i].Img+`" id="test">
                                     <input type="hidden" name="adicional" id="req_Adicional" value="`+result[i].Especificacion_adicional+`">
                                     <button class="btn_eliminar"><img src="../imagenes/Borrador.png" id="borrador"></button>
                                 </div>
@@ -688,9 +708,13 @@ function irAIndex() {
     window.location.href = "../html/Index.php";
 }
 function editarInfoProductoCarrito(event){
+    
+    let enlaceImg=event.target.nextSibling.nextSibling.value;
     let string_dedicatorias=document.querySelector("p[name='dedicatoria']").innerHTML;
     const sin_parentesis_extremos = string_dedicatorias.replace(/^\(|\)$/g, "");
     const arreglo_dedicatorias = sin_parentesis_extremos.split("),(");
+    reqAdicional=event.target.nextSibling.nextSibling.nextSibling.nextSibling.value;
     cantidadInput=document.querySelector("p[name='cantidad']").innerHTML;
-    ProductoSeleccionado(event,event.target.nextSibling.nextSibling.value,"si", cantidadInput, arreglo_dedicatorias);
+    //console.log(event.target.nextSibling.nextSibling.nextSibling.nextSibling.value);
+    ProductoSeleccionado(event,enlaceImg,"si", cantidadInput, arreglo_dedicatorias, reqAdicional);
 }

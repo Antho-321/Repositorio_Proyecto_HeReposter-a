@@ -291,10 +291,8 @@ const dropzone = new Dropzone("div#formDrop", {
 dropzone.on("complete", function (file) {
   var ext = /(.jpg|.jpeg|.png|.gif)$/i;
   if (!ext.exec(file.name)) {
-
     console.log("El archivo no es una imagen válida"); // rechazar el archivo
     dropzone.removeFile(file);
-
   }
 });
 dropzone.on("addedfile", file => {
@@ -327,7 +325,6 @@ ingreso_enlace.addEventListener('input', () => {
               enlaceImgVálido();
             } else {
               imgNoValida();
-
             }
           });
 
@@ -373,9 +370,7 @@ function esImagen1(url) {
 function esImagen2(url) {
   return new Promise((resolve, reject) => {
     try {
-
       if (url.includes("url=")) {
-
         const splitUrl = url.split('&');
         const imgParam = splitUrl.find(param => param.startsWith('url='));
         const imgUrl = decodeURIComponent(imgParam.replace('url=', ''));

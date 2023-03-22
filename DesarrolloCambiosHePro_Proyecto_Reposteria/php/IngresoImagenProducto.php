@@ -6,8 +6,7 @@ $user = "root";
 $pass = "root";
 $dbname = "db_pankey";
 $conn = mysqli_connect($host, $user, $pass, $dbname);
-$target_path = "C:/Users/Administrador/Desktop/";
-
+$target_path = "../imagenes/Productos/";
 if (!$conn) {
   die("No se pudo conectar a la base de datos: " . mysqli_connect_error());
 }
@@ -18,12 +17,11 @@ if (!empty($_FILES)) {
   $row=mysqli_fetch_array($result);
   $ultimo_id_ingresado = $row[0];
   $id = $ultimo_id_ingresado + 1;
-  $temp_file = $_FILES['file']['tmp_name'];
+  $tmp_name = $_FILES['file']['tmp_name'];
   $target_file = $target_path . $_FILES['file']['name'];
   if (file_exists($target_path)) {
     if (esArchivoImagen($target_file)) {
-      $tmp_name = $_FILES['file']['tmp_name'];
-    $ruta = '../imagenes/' . $id . ".png";
+    $ruta = $target_path . $id . ".png";
     move_uploaded_file($tmp_name, $ruta);
     }
   } else {

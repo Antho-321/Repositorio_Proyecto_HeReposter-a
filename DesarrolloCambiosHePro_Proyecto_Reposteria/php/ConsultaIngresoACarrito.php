@@ -9,6 +9,7 @@ $cantidad = $_GET['cantidad'];
 //dedicatoria para el pastel
 $dedicatoria = $_GET['dedicatoria'];
 $carritoInfo = $_GET['carritoInfo'];
+$reqAdicional=$_GET['espAdicional'];
 if (isset($_GET['id']) && isset($_GET['cantidad']) && isset($_SESSION['id'])) {
     $usuario = $_SESSION['id'];
     $data = array(
@@ -30,13 +31,13 @@ if (isset($_GET['id']) && isset($_GET['cantidad']) && isset($_SESSION['id'])) {
     if (isset($producto)) {
         //Actualiza
         if ($carritoInfo == "Actualizar información") {
-            $conexion->OperSql("UPDATE `canasta_item` SET `Subtotal`='$cantidad'*'$precio', `Cantidad_Cliente`='$cantidad', `Dedicatoria`='$dedicatoria' WHERE `Codigo`='$id';");
+            $conexion->OperSql("UPDATE `canasta_item` SET `Subtotal`='$cantidad'*'$precio', `Cantidad_Cliente`='$cantidad', `Dedicatoria`='$dedicatoria', `Especificacion_adicional`='$reqAdicional' WHERE `Codigo`='$id';");
         } else {
-            $conexion->OperSql("UPDATE `canasta_item` SET `Subtotal`=`Subtotal`+'$cantidad'*'$precio', `Cantidad_Cliente`=`Cantidad_Cliente`+'$cantidad', `Dedicatoria`='$dedicatoria' WHERE `Codigo`='$id';");
+            $conexion->OperSql("UPDATE `canasta_item` SET `Subtotal`=`Subtotal`+'$cantidad'*'$precio', `Cantidad_Cliente`=`Cantidad_Cliente`+'$cantidad', `Dedicatoria`='$dedicatoria', `Especificacion_adicional`='$reqAdicional' WHERE `Codigo`='$id';");
         }
     } else {
         //Inserta
-        $conexion->OperSql("INSERT INTO `canasta_item`( `Id_canasta`, `Codigo`, `Cantidad_Cliente`, `Subtotal`, `Dedicatoria`) VALUES ('$id_canasta','$id','$cantidad','$precio'*'$cantidad','$dedicatoria');");
+        $conexion->OperSql("INSERT INTO `canasta_item`( `Id_canasta`, `Codigo`, `Cantidad_Cliente`, `Subtotal`, `Dedicatoria`, `Especificacion_adicional`) VALUES ('$id_canasta','$id','$cantidad','$precio'*'$cantidad','$dedicatoria','$reqAdicional');");
     }
 } else {
     $data = array(

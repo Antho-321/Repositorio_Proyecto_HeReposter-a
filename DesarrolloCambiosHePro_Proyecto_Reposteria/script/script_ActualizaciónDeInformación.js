@@ -1,4 +1,4 @@
-let tamaño1, tamaño2, tamaño3, tamaño4, tamaño5;
+let tamaño1, tamaño2, tamaño3, tamaño4, tamaño5, dirImg;;
 let div_fila = document.createElement("div");
 let div_col = document.createElement("div");
 let ingreso_enlace;
@@ -163,7 +163,7 @@ function opcionesPastel(event) {
   if (document.getElementById("normal") == null) {
     tabla.appendChild(div_fila);
     div_fila.insertAdjacentHTML("afterend", `
-  <div class="fila">
+                    <div class="fila">
                         <p class="col">Masa:</p>
                         <div class="col">
                             <input class="col" type="radio" id="normal" name="masa" value="Normal (Con receta propia)">
@@ -246,6 +246,14 @@ function opcionesPastel(event) {
   }
 }
 function ProductoSeleccionado(event) {
+  const srcString = event.target.nextSibling.src;
+  if (srcString.includes("imagenes")) {
+    let num=srcString.indexOf("/imagenes");
+    dirImg=".."+srcString.substring(num);
+}else{
+    dirImg=srcString;
+}  
+console.log("dirImg: "+dirImg);
 document.documentElement.innerHTML=`
 <!DOCTYPE html>
 <html lang="en">
@@ -260,7 +268,7 @@ document.documentElement.innerHTML=`
 
 <body>
     <h1 align="center">Actualización de información</h1>
-    <form id="form" method='POST' enctype="multipart/form-data" action="../php/php_ActualizaciónDeProductos.php">
+    <form id="form" method='POST' enctype="multipart/form-data" action="../php/php_ActualizaciónDeProductos.php" novalidate>
         <section id="seccion_principal">
             <div id="seccion__Izq">
                 <div>
@@ -282,11 +290,11 @@ document.documentElement.innerHTML=`
                         <label class="col" for="ingresoArchivo">Imagen:</label>
                         <input class="col" type="file" id="file-input" name="archivo">
                         <label class="col" for="ingreso_enlace">o</label>
-                        <input class="col" type="url" value="Ingresar enlace" name="enlace" id="ingreso_enlace" onclick="colorTextoANegro(event)">
+                        <input class="col" type="url" placeholder="Ingresar enlace" value="" name="enlace" id="ingreso_enlace" onclick="colorTextoANegro(event)">
                         <input type="hidden" name="img_de_cambio" id="img_cambio">
                         <p class="col" id="imgNoValida">Enlace de imagen no válido</p>
                         <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
-                        <input type="hidden" name='ant_enlace' id="anterior_enlace" value="`+event.target.nextSibling.src+`">
+                        <input type="hidden" name='ant_enlace' id="anterior_enlace" value="`+dirImg+`">
                     </div>
 
                 </div>
@@ -315,7 +323,7 @@ document.documentElement.innerHTML=`
             </div>
             <div id="seccion__Der">
                 <h2>Previsualización de producto:</h2>
-                <img alt="Imagen de pastel" id="image-preview">
+                <img alt="Imagen de pastel" id="image-preview" src="`+dirImg+`" width="200px">
             </div>
         </section>
         <input type="hidden" name='formulario'>
@@ -331,17 +339,25 @@ document.documentElement.innerHTML=`
 verificacion_enlace = document.getElementById("verificacion_enlace");
 const fileInput = document.getElementById('file-input');
 const imagePreview = document.getElementById('image-preview');
-console.log(ingreso_enlace);
+
 
 fileInput.addEventListener('change', () => {
     const file = fileInput.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
+      ingreso_enlace=document.getElementById("ingreso_enlace");
       imagePreview.src = reader.result;
+      ingreso_enlace.value=document.getElementById("anterior_enlace").value;
+      // ingreso_enlace.style=`
+      // position: absolute;
+      // color: white;
+      // border-color: transparent;
+      // z-index: -1;
+      // `;
     };
     txtO.remove();
-    ingreso_enlace.remove();
+    
     verificacion_enlace.value = "no";
   });
   

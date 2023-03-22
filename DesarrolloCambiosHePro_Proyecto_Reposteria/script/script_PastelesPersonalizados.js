@@ -1,12 +1,13 @@
-let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg, cantidadInput, texto_dedicatoria;
+let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg, cantidadInput, texto_dedicatoria, colSelect, cantidad_pasteles, seccion_forma, pregunta_misma_forma, diferente_forma, seleccionables;
 let ingreso_enlace = document.getElementById("ingreso_enlace");
 let contenido_previsualizacion = document.getElementById("contenido_previsualizacion");
+let ext = /(.jpg|.jpeg|.png|.gif)$/i;
 estilo_txtImgNoValida = document.createElement("style");
 estilo_noMasImg = document.createElement("style");
-estilo_contenedorPreImg=document.createElement("style");
+estilo_contenedorPreImg = document.createElement("style");
 estilo_txtImgNoValida.id = "est_txtImgNoValida";
-estilo_contenedorPreImg.id="est_contPreImg";
-estilo_contenedorPreImg.innerHTML=`
+estilo_contenedorPreImg.id = "est_contPreImg";
+estilo_contenedorPreImg.innerHTML = `
 #formDrop{
   border: 0px;
 }
@@ -40,80 +41,111 @@ const dropzone = new Dropzone("div#formDrop", {
       document.head.appendChild(estilo_noMasImg);
     });
     this.on("sending", function (file, xhr, data) {
-
-      ingreso_enlace = document.getElementById("ingreso_enlace");
-      if (ingreso_enlace != undefined) {
-        ingreso_enlace.remove();
+      if (ext.exec(file.name)) {
+        ingreso_enlace = document.getElementById("ingreso_enlace");
+        if (ingreso_enlace != undefined) {
+          ingreso_enlace.remove();
+        }
+        data.append("type_chooser", "1");
       }
-      data.append("type_chooser", "1");
+
     });
     this.on("addedfile", function (file) {
-      if (file.name.includes("http")||file.name.includes("data:image")) {
-        dzSize = file.previewElement.querySelector(".dz-size");
-        dzProgress = file.previewElement.querySelector(".dz-progress");
-        previsualizacion = file.previewElement.querySelector("img");
+      let contenedor_preImg = document.querySelector(".dz-image");
+      contenedor_preImg.style = "width: 200px; height: 200px;";
+      contenedor_preImg.parentNode.style = "width: 200px; height: 200px; margin: 0px !important;";
+      contenedor_preImg.children[0].style = "width: 200px; height: 200px";
+      document.head.appendChild(estilo_contenedorPreImg);
+      dzSize = file.previewElement.querySelector(".dz-size");
+      dzProgress = file.previewElement.querySelector(".dz-progress");
+      previsualizacion = file.previewElement.querySelector("img");
+      previsualizacion.style = "width: 100%; height: 100%;";
+      dzProgress.style = "display: none;";
+      dzSize.style = "display: none;";
+
+      if (file.name.includes("http") || file.name.includes("data:image")) {
         previsualizacion.src = file.name;
-        previsualizacion.style = "width: 100%; height: 100%;";
-        dzProgress.style = "display: none;";
-        dzSize.style = "display: none;";
-        ingreso_enlace.style = "z-index: -1;";
         this.options.maxFiles = 0;
         document.getElementById("aux_IngresarEnlace").value = file.name;
+      }
+      AgregarMásContenido();
+      if (!ext.exec(file.name)) {
+        dropzone.removeFile(file);
+        imgNoValida("archivo");
+      } else {
+        ingreso_enlace.style = "z-index: -1;";
       }
     });
   },
   renameFile: function (file) {
     let str1 = file.name;
     let str2 = str1.substring(str1.lastIndexOf("."));
-    return "HOLA" + "_" + str2;
+    return "_" + str2;
   }
 });
 dropzone.on("complete", function (file) {
-  var ext = /(.jpg|.jpeg|.png|.gif)$/i;
-  if (!ext.exec(file.name)) {
-
-    console.log("El archivo no es una imagen válida"); // rechazar el archivo
-    dropzone.removeFile(file);
-
-  }
+  let myData = myAsyncFunction();
+  myData.then(result => {
+    previsualizacion = file.previewElement.querySelector("img");
+    var nombres = Object.keys(result.name);
+    previsualizacion.src = "../imagenes/Productos/" + nombres[1];
+  });
 });
-dropzone.on("addedfile", file => {
-  let contenedor_preImg = document.querySelector(".dz-image");
-  contenedor_preImg.style="width: 200px; height: 200px;";
-  contenedor_preImg.parentNode.style="width: 200px; height: 200px; margin: 0px !important;";
-  contenedor_preImg.children[0].style="width: 200px; height: 200px";
-  document.head.appendChild(estilo_contenedorPreImg);
-});
+function myAsyncFunction() {
+  return new Promise((resolve, reject) => {
+    fetch("../php/UltimaImgIngresada.php")
+      .then(response => response.json())
+      .then(data => {
+        resolve(data);
+      })
+      .catch(error => reject(error));
+  });
+}
+function myAsyncFunction2(enlace) {
+  let encodedImagen = encodeURIComponent(enlace);
+  return new Promise((resolve, reject) => {
+    fetch("../php/accederAEnlace.php?enlace=" + encodedImagen)
+      .then(response => response.json())
+      .then(data => {
+        resolve(data);
+      })
+      .catch(error => reject(error));
+  });
+}
 function quitarPlaceHolder(event) {
   let entrada_texto = event.target;
   entrada_texto.placeholder = "";
 }
 ingreso_enlace.addEventListener('input', () => {
   if (ingreso_enlace.value != "") {
-
     if (!esUrlValida(ingreso_enlace.value)) {
       imgNoValida();
-
     } else {
+      if (ingreso_enlace.value.includes("images.app.goo.gl")) {
+        let myData2 = myAsyncFunction2(ingreso_enlace.value);
+        myData2.then(result => {
+          let enlace1 = result.enlace;
+          let pos1 = enlace1.indexOf("=");
+          let pos2 = enlace1.indexOf("&tbnid");
+          let enlace_fin = enlace1.substring(pos1 + 1, pos2);
+          enlaceImgVálido(enlace_fin);
+        });
+      } else {
+        esImagen1(ingreso_enlace.value).then((result) => {
+          if (result) {
+            enlaceImgVálido(ingreso_enlace.value);
+          } else {
+            esImagen2(ingreso_enlace.value).then((result) => {
+              if (result) {
+                enlaceImgVálido(ingreso_enlace.value);
+              } else {
+                imgNoValida();
+              }
+            });
 
-      esImagen1(ingreso_enlace.value).then((result) => {
-        if (result) {
-          enlaceImgVálido();
-        } else {
-
-          esImagen2(ingreso_enlace.value).then((result) => {
-
-            if (result) {
-
-              enlaceImgVálido();
-            } else {
-              imgNoValida();
-
-            }
-          });
-
-        }
-      });
+          }
+        });
+      }
     }
   } else {
     elem_estImgNoValido = document.getElementById("est_txtImgNoValida");
@@ -122,8 +154,8 @@ ingreso_enlace.addEventListener('input', () => {
     }
   }
 });
-function enlaceImgVálido() {
-  var file = { name: ingreso_enlace.value };
+function enlaceImgVálido(enlace) {
+  var file = { name: enlace };
   dropzone.emit("addedfile", file);
   elem_estImgNoValido = document.getElementById("est_txtImgNoValida");
   if (elem_estImgNoValido != undefined) {
@@ -146,6 +178,7 @@ function esImagen1(url) {
         resolve(false);
       });
       img.src = url;
+
     } catch (error) {
       reject(error);
     }
@@ -154,9 +187,7 @@ function esImagen1(url) {
 function esImagen2(url) {
   return new Promise((resolve, reject) => {
     try {
-
       if (url.includes("url=")) {
-
         const splitUrl = url.split('&');
         const imgParam = splitUrl.find(param => param.startsWith('url='));
         const imgUrl = decodeURIComponent(imgParam.replace('url=', ''));
@@ -174,86 +205,259 @@ function esImagen2(url) {
     }
   });
 }
-function imgNoValida() {
+function imgNoValida(archivo) {
+  if (archivo == "archivo") {
+    document.getElementById("txtImgNoValida").innerHTML = "Archivo de imagen no válido";
+  }
   document.head.appendChild(estilo_txtImgNoValida);
 }
 function disminuirCantidadProducto() {
+  let str = "";
+  diferente_forma = document.getElementById("diferente_forma");
+  seleccionables = document.getElementsByName("forma_pasteles");
+  colSelect = document.getElementById("colSelect");
   cantidadInput = document.getElementById("cantidad");
   if (cantidadInput.value >= 2) {
-      cantidadInput.value = parseInt(cantidadInput.value) - 1;
-  }
-  if (cantidadInput.value==1) {
-      texto_dedicatoria=document.getElementById("texto_dedicatoria");
-      texto_dedicatoria.innerHTML="Dedicatoria para el pedido:";
+    cantidadInput.value = parseInt(cantidadInput.value) - 1;
   }
   Dedicatorias(cantidadInput);
-  document.getElementById("cuadros_dedicatoria").innerHTML=`
-  <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria">
+  document.getElementById("cuadros_dedicatoria").innerHTML = `
+  <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" onclick="quitarPlaceHolder(event)">
   `;
+  opcionSel(event);
+  if (cantidadInput.value == 1) {
+    texto_dedicatoria = document.getElementById("texto_dedicatoria");
+    texto_dedicatoria.innerHTML = "<b>Dedicatoria para el pedido:</b>";
+    colSelect.style = "display:none";
+  }
+  if (diferente_forma != null) {
+    if (diferente_forma.checked == true) {
+      console.log("INPUT VALUE: " + cantidadInput.value);
+      for (let i = 0; i <= cantidadInput.value; i++) {
+        str += '<option value="' + i + '">' + i + '</option>';
+      }
+      for (let j = 0; j < seleccionables.length; j++) {
+          seleccionables[j].innerHTML = str;
+      }
+    }
+  }
 }
 function aumentarCantidadProducto() {
+  let str = "";
+  diferente_forma = document.getElementById("diferente_forma");
+  seleccionables = document.getElementsByName("forma_pasteles");
+  colSelect = document.getElementById("colSelect");
   cantidadInput = document.getElementById("cantidad");
   cantidadInput.value = parseInt(cantidadInput.value) + 1;
+  colSelect.removeAttribute("style");
   Dedicatorias(cantidadInput);
-  document.getElementById("cuadros_dedicatoria").innerHTML=`
-  <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria">
+  document.getElementById("cuadros_dedicatoria").innerHTML = `
+  <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" onclick="quitarPlaceHolder(event)">
   `;
+  opcionSel(event);
+  texto_dedicatoria = document.getElementById("texto_dedicatoria");
+  texto_dedicatoria.innerHTML = "<b>Cantidad de dedicatorias:</b>";
+  if (diferente_forma != null) {
+    if (diferente_forma.checked == true) {
+      console.log("INPUT VALUE: " + cantidadInput.value);
+      for (let i = 0; i <= cantidadInput.value; i++) {
+        str += '<option value="' + i + '">' + i + '</option>';
+      }
+      for (let j = 0; j < seleccionables.length; j++) {
+          seleccionables[j].innerHTML = str;
+      }
+    }
+  }
 }
-function Dedicatorias(cantidadInput){
-  opciones=document.getElementById("num_dedicatorias");
-  html_aux1="";
-  if (opciones!=null&&opciones!=undefined){
-      opciones.remove();
+function Dedicatorias(cantidadInput) {
+  opciones = document.getElementById("num_dedicatorias");
+  html_aux1 = "";
+  if (opciones != null && opciones != undefined) {
+    opciones.remove();
   }
-  texto_dedicatoria=document.getElementById("texto_dedicatoria");
-  texto_dedicatoria.innerHTML="<b>Cantidad de dedicatorias:</b>";
-  for(let i=0;i<cantidadInput.value;i++){
-      html_aux1+='<option value="'+(i+1)+'">'+(i+1)+'</option>';
+  for (let i = 0; i < cantidadInput.value; i++) {
+    html_aux1 += '<option value="' + (i + 1) + '">' + (i + 1) + '</option>';
   }
-  document.getElementById("contenedor_select").innerHTML=`
+  document.getElementById("contenedor_select").innerHTML = `
   <select id="num_dedicatorias" onchange="AgregarHermanosSelect()">
-`+html_aux1+`
+`+ html_aux1 + `
 </select>`;
 
 }
-function AgregarHermanosSelect(arreglo_dedicatorias){
-  console.log("ARREGLO DEDICATORIAS");
-  console.log(arreglo_dedicatorias);
+function AgregarHermanosSelect(arreglo_dedicatorias) {
   let límite;
-  let dedicatoria="";
-  html_aux2="";
-  dedicatorias=document.getElementsByName("dedicatoria");
-  let select_dedicatorias=document.getElementById("num_dedicatorias");
-  console.log("cantidad para agregar o quitar: "+(select_dedicatorias.value-dedicatorias.length));
-  límite=select_dedicatorias.value-dedicatorias.length;
-  if (select_dedicatorias.value-dedicatorias.length>=1) {     
-      for(let i=1;i<=límite;i++){
-          if (arreglo_dedicatorias==undefined) {
-              html_aux2+='<input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria">';
-          }else{
-              console.log("i: "+i);
-              if (arreglo_dedicatorias[i]!="Sin dedicatoria") {
-                  dedicatoria=arreglo_dedicatorias[i];
-              }else{
-                  dedicatoria="";
-              }
-              html_aux2+='<input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" value="'+dedicatoria+'">';
-          }
+  let dedicatoria = "";
+  html_aux2 = "";
+  dedicatorias = document.getElementsByName("dedicatoria");
+  let select_dedicatorias = document.getElementById("num_dedicatorias");
+  límite = select_dedicatorias.value - dedicatorias.length;
+  if (select_dedicatorias.value - dedicatorias.length >= 1) {
+    for (let i = 1; i <= límite; i++) {
+      if (arreglo_dedicatorias == undefined) {
+        html_aux2 += '<input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria">';
+      } else {
+        if (arreglo_dedicatorias[i] != "Sin dedicatoria") {
+          dedicatoria = arreglo_dedicatorias[i];
+        } else {
+          dedicatoria = "";
+        }
+        html_aux2 += '<input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" value="' + dedicatoria + '">';
       }
-      dedicatorias[dedicatorias.length-1].insertAdjacentHTML("afterend",html_aux2);
-  }else{
-      límite=límite*(-1);
-      cuadros_dedicatoria=document.getElementById("cuadros_dedicatoria");
-      console.log("límite: "+límite);
-      for (let i=1;i<=límite;i++) {
-          cuadros_dedicatoria.children[cuadros_dedicatoria.children.length-1].remove();
-      }
-      //cuadros_dedicatoria.children[cuadros_dedicatoria.children.length-1].remove();
+    }
+    dedicatorias[dedicatorias.length - 1].insertAdjacentHTML("afterend", html_aux2);
+  } else {
+    límite = límite * (-1);
+    cuadros_dedicatoria = document.getElementById("cuadros_dedicatoria");
+    for (let i = 1; i <= límite; i++) {
+      cuadros_dedicatoria.children[cuadros_dedicatoria.children.length - 1].remove();
+    }
   }
-      for (let i=0;i<dedicatorias.length;i++) {
-          dedicatorias[i].addEventListener("click", quitarPlaceHolder);
-      }
+  for (let i = 0; i < dedicatorias.length; i++) {
+    dedicatorias[i].addEventListener("click", quitarPlaceHolder);
+  }
 }
-function opciones(event){
-
+function AgregarMásContenido() {
+  document.getElementById("personalizacion").insertAdjacentHTML("beforeend", `
+                <tr>
+                    <th>Ingrese el número de pasteles que se encuentra en el modelo:</th>
+                    <td colspan="4">
+                        <input type="button" id="disminuir_cantidad" value="-" onclick="disminuirCantidadProducto()">
+                        <input type="number" id="cantidad" name="cantidad" value="1" readonly>
+                        <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadProducto()">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <p id="texto_dedicatoria"><b>Dedicatoria para el pedido:</b></p>
+                    </th>
+                    <td id="colSelect" style="display: none">
+                        <div id="contenedor_select">
+                        </div>
+                    </td>
+                    <td colspan="4">
+                        <div id="cuadros_dedicatoria">
+                            <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" onclick="quitarPlaceHolder(event)">
+                        </div>
+                    </td>
+                </tr>
+                <tr id="seccion_forma">
+                  <th>
+                    <p><b>Forma:</b></p>
+                  </th>
+                  <td>
+                    <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" value="Redonda" name="forma">
+                    <label for="red">Redonda&nbsp;</label>
+                  </td>
+                  <td>
+                    <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" value="Cuadrada" name="forma">
+                    <label for="cuad">Cuadrada</label>
+                  </td>
+                  <td>
+                    <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" value="Rectangular" name="forma">
+                    <label for="rec">Rectangular</label>
+                  </td>
+                  <td>
+                    <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" value="Personalizada" name="forma">
+                    <label for="per">Personalizada</label>
+                  </td>
+                </tr>
+  `);
+}
+function opcionSel(event) {
+  //console.log(event.target.id);
+  pregunta_misma_forma = document.getElementById("pregunta_misma_forma");
+  seccion_forma = document.getElementById("seccion_forma");
+  if (pregunta_misma_forma == undefined) {
+    if (cantidadInput.value > 1) {
+      seccion_forma.style = "display:none";
+      document.getElementById("seccion_forma").insertAdjacentHTML("beforebegin", `
+                  <tr id="pregunta_misma_forma">
+                      <th>¿Todos los pasteles son de la misma forma?</th>
+                      <td>
+                        <input type="radio" id="igual_forma" onchange="opcionSel(event)" value="Sí" name="misma_forma">
+                        <label for="igual_forma">Sí</label>
+                      </td>
+                      <td>
+                        <input type="radio" id="diferente_forma" onchange="opcionSel(event)" value="No" name="misma_forma">
+                        <label for="diferente_forma">No</label>
+                      </td>
+                  </tr>
+      `);
+    }
+  } else {
+    if (cantidadInput.value == 1) {
+      pregunta_misma_forma.remove();
+      seccion_forma.removeAttribute("style");
+    }
+  }
+  switch (event.target.id) {
+    case "igual_forma":
+      seccion_forma.removeAttribute("style");
+      let dif_forma=document.getElementsByTagName("tbody");
+      if(dif_forma.length==4){
+        dif_forma[3].remove();
+      }
+      break;
+    case "diferente_forma":
+      let str = "";
+      seccion_forma.style = "display: none";
+      for (let i = 0; i <= cantidadInput.value; i++) {
+        str += '<option value="' + i + '">' + i + '</option>';
+      }
+      document.getElementById("personalizacion").insertAdjacentHTML("beforeend", `
+                  <tr>
+                      <th>Nro. de pasteles circulares</th>
+                      <td>
+                        <select id="num_circulares" onchange="diferentesFormas(event)" name="forma_pasteles">
+                        `+ str + `
+                        </select>
+                      </td>
+                  </tr>
+                  <tr>
+                      <th>Nro. de pasteles cuadrados</th>
+                      <td>
+                        <select id="num_cuadradas" onchange="diferentesFormas(event)" name="forma_pasteles">
+                        `+ str + `
+                        </select>
+                      </td>
+                  </tr>
+                  <tr>
+                      <th>Nro. de pasteles rectangulares</th>
+                      <td>
+                        <select id="num_rectangulares" onchange="diferentesFormas(event)" name="forma_pasteles">
+                        `+ str + `
+                        </select>
+                      </td>
+                  </tr>
+                  <tr>
+                      <th>Nro. de pasteles con forma personalizada</th>
+                      <td>
+                        <select id="num_personalizadas" onchange="diferentesFormas(event)" name="forma_pasteles">
+                        `+ str + `
+                        </select>
+                      </td>
+                  </tr>
+      `);
+      break;
+    default:
+    //console.log("NADA");
+  }
+}
+function diferentesFormas(event) {
+  seleccionables = document.getElementsByName("forma_pasteles");
+  let str = ' ';
+  let suma_formas = 0;
+  for (let k = 0; k < seleccionables.length; k++) {
+    suma_formas += parseInt(seleccionables[k].value);
+  }
+  console.log("SUMA: " + suma_formas);
+  console.log("cantidad value - valor escogido: " + (cantidadInput.value - suma_formas));
+  for (let i = 0; i <= cantidadInput.value - suma_formas; i++) {
+    str += '<option value="' + i + '">' + i + '</option>';
+  }
+  for (let j = 0; j < seleccionables.length; j++) {
+    if (seleccionables[j].id != event.target.id && seleccionables[j].value == 0) {
+      seleccionables[j].innerHTML = str;
+    }
+  }
 }

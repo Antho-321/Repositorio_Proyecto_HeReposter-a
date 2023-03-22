@@ -190,30 +190,7 @@ if (isset($_SESSION['id'])) {
                         <input type="hidden" name="enlace" id="aux_IngresarEnlace">
                     </div>
                 </tr>
-                <tr>
-                    <th>Ingrese el número de pasteles que se encuentra en el modelo:</th>
-                    <td colspan="2">
-                        <input type="button" id="disminuir_cantidad" value="-" onclick="disminuirCantidadProducto()">
-                        <input type="number" id="cantidad" name="cantidad" value="1" readonly>
-                        <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadProducto()">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <p id="texto_dedicatoria"><b>Dedicatoria para el pedido:</b></p>
-                    </th>
-                        <td>
-                        <div id="contenedor_select">
-                        </div>
-                        </td>
-                    <td>              
-                        
-                        <div id="cuadros_dedicatoria">
-                            <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria"
-                                onclick="quitarPlaceHolder(event)">
-                        </div>
-                    </td>
-                </tr>
+                
             </table>
         </form>
     </div>

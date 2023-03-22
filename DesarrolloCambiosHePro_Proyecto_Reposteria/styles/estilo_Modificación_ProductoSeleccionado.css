@@ -321,9 +321,23 @@ input[type='number']::-webkit-inner-spin-button {
 
 .col {
     display: table-cell;
+    padding: 15px;
+}
+.col:not(#adicional){
     text-align: center;
     vertical-align: middle;
-    padding: 15px;
+}
+#txtadicional{
+    padding: 3.5% 0px;
+}
+#espAdicional{
+    position: absolute;
+    width: 55%;
+    height: 15%;
+    font-family:Sanseriffic;
+    font-size: 19px;
+    letter-spacing: 0.1vw;
+    resize: none;
 }
 
 .col:nth-child(1) {

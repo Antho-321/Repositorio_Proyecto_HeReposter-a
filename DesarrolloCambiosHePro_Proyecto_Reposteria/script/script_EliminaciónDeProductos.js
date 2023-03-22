@@ -158,10 +158,11 @@ function ProductoSeleccionado(event) {
 }
 function eliminarProducto(){
     const srcString = producto;
-        if (srcString.includes("localhost")) {
-            let test=srcString.replace("http://localhost/MisSitios/Repositorio_Proyecto_HeReposter-a/DesarrolloCambiosHePro_Proyecto_Reposteria", "..");
-            console.log("test: "+test);
-            myData=myAsyncFunction(srcString.replace("http://localhost/MisSitios/Repositorio_Proyecto_HeReposter-a/DesarrolloCambiosHePro_Proyecto_Reposteria", ".."));
+        if (srcString.includes("imagenes")) {
+            let dirImg;
+            let num=srcString.indexOf("/imagenes");
+            dirImg=".."+srcString.substring(num);
+            myData=myAsyncFunction(dirImg);
         }else{
             myData = myAsyncFunction(producto);
         }
