@@ -1,6 +1,5 @@
-@font-face {
+* {
     font-family: Sanseriffic;
-    src: url(../font/Sanseriffic.otf);
 }
 
 *:not(#Menu_Catalogo, #Menu_Catalogo *) {

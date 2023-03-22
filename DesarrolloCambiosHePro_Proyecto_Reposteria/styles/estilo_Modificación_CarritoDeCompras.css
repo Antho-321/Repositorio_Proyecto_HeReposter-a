@@ -1,6 +1,5 @@
-@font-face {
+*{
     font-family:Sanseriffic;
-    src: url(../font/Sanseriffic.otf);
 }
 *:not(#Menu_Catalogo, #Menu_Catalogo *) {
     transition: 0.4s;
@@ -444,10 +443,6 @@ footer {
 }
 
 /*----------------LO QUE SE AGREGA----------------*/
-@font-face {
-    font-family: Sanseriffic;
-    src: url(../font/Sanseriffic.otf);
-}
 
 *:not(#Menu_Catalogo, #Menu_Catalogo *) {
     transition: 0.4s;

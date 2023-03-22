@@ -1,6 +1,5 @@
-@font-face {
+* {
     font-family:Sanseriffic;
-    src: url(../font/Sanseriffic.otf);
 }
 *:not(#Menu_Catalogo, #Menu_Catalogo *) {
     transition: 0.4s;
@@ -729,7 +728,11 @@ footer {
     width: 200px;
     height: 200px;
     padding: 0px !important;
+    z-index: 0;
 }
+table:not(#tabla1), th:not(#tabla1 th), td:not(#tabla1 td) {
+    border: 2px solid transparent;
+  }
 #ingreso_enlace{
     position: absolute;
     height: 22px;

@@ -15,7 +15,8 @@ if (isset($_SESSION['id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/estilo_Modificación_Index.css" id="estilo">
     <link rel="shortcut icon" href="../imagenes/favicon.ico">
-    <title>REPOSTERIA</title>
+    <link href="https://fonts.cdnfonts.com/css/sanseriffic" rel="stylesheet">
+    <title>Pankey</title>
 </head>
 <body>
     <input type="checkbox" id="check2">

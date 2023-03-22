@@ -1,4 +1,4 @@
-let cantidadInput, num_productos, img, cantidad_producto_carr, id_imagen, direccion_producto, dedicatoria, texto_dedicatoria, cuadros_dedicatoria, opciones, id_producto, precio_producto, descripción_adicional, porciones, masa, cobertura, sabor, relleno, reqAdicional, colSelect;
+let num_productos, img, cantidad_producto_carr, id_imagen, direccion_producto, dedicatoria, cuadros_dedicatoria, opciones, id_producto, precio_producto, descripción_adicional, porciones, masa, cobertura, sabor, relleno, reqAdicional;
 let left = 0;
 let html_aux1="";
 let html_aux2="";

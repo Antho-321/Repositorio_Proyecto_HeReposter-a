@@ -73,13 +73,13 @@ function opcionesPastel(event) {
       if (event.target.id == "per") {
         tamaño1 = "Mini (2-4 personas)";
         tamaño2 = "Pequeña (8-10 personas)";
-        tamaño3 = "Mediana: 12-14 personas";
+        tamaño3 = "Mediana (12-14 personas)";
         tamaño4 = "Grande (26-28 personas)";
         tamaño5 = "Extra grande (66-68 personas)";
       } else {
         tamaño1 = "Mini (5-6 personas)";
         tamaño2 = "Pequeña (10-12 personas)";
-        tamaño3 = "Mediana: 16 personas";
+        tamaño3 = "Mediana (16 personas)";
         tamaño4 = "Grande (30 personas)";
         tamaño5 = "Extra grande (70 personas)";
       }

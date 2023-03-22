@@ -55,7 +55,9 @@ if (isset($_SESSION['id'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/estilo_Modificación_CarritoDeCompras.css" id="estilo">
-    <title>REPOSTERIA</title>
+    <link rel="shortcut icon" href="../imagenes/favicon.ico">
+    <link href="https://fonts.cdnfonts.com/css/sanseriffic" rel="stylesheet">
+    <title>Pankey</title>
 </head>
 
 <body>

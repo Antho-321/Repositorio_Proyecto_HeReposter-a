@@ -1,7 +1,9 @@
-let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg, cantidadInput, texto_dedicatoria, colSelect, cantidad_pasteles, seccion_forma, pregunta_misma_forma, diferente_forma, seleccionables;
+let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg, cantidadInput, texto_dedicatoria, colSelect, cantidad_pasteles, seccion_forma, pregunta_misma_forma, diferente_forma, seleccionables, tamaño1, tamaño2, tamaño3, tamaño4, tamaño5;
 let ingreso_enlace = document.getElementById("ingreso_enlace");
 let contenido_previsualizacion = document.getElementById("contenido_previsualizacion");
 let ext = /(.jpg|.jpeg|.png|.gif)$/i;
+let fila = document.createElement("tr");
+let personalizacion=document.getElementById("personalizacion");
 estilo_txtImgNoValida = document.createElement("style");
 estilo_noMasImg = document.createElement("style");
 estilo_contenedorPreImg = document.createElement("style");
@@ -28,7 +30,7 @@ Dropzone.autoDiscover = false;
 const dropzone = new Dropzone("div#formDrop", {
   url: "../php/IngresoImagenProducto.php",
   dictDefaultMessage: `<p id="txtDrop">Arrastra tu imagen, presiona aquí para subirla o ingresa su enlace:</p>
-    <input type="url" placeholder="Ingresar enlace" id="input2">
+    <input type="url" placeholder="Ingresar enlace" id="input2" style="visibility: hidden">
     <div id="contenedorTxt">
       <p id="txtImgNoValida">Enlace no válido</p>
     <div>
@@ -317,7 +319,7 @@ function AgregarHermanosSelect(arreglo_dedicatorias) {
   }
 }
 function AgregarMásContenido() {
-  document.getElementById("personalizacion").insertAdjacentHTML("beforeend", `
+  personalizacion.insertAdjacentHTML("beforeend", `
                 <tr>
                     <th>Ingrese el número de pasteles que se encuentra en el modelo:</th>
                     <td colspan="4">
@@ -345,19 +347,19 @@ function AgregarMásContenido() {
                     <p><b>Forma:</b></p>
                   </th>
                   <td>
-                    <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" value="Redonda" name="forma">
+                    <input class="col" type="radio" id="red" onchange="tamañoSel(event)" value="Redonda" name="forma">
                     <label for="red">Redonda&nbsp;</label>
                   </td>
                   <td>
-                    <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" value="Cuadrada" name="forma">
+                    <input class="col" type="radio" id="cuad" onchange="tamañoSel(event)" value="Cuadrada" name="forma">
                     <label for="cuad">Cuadrada</label>
                   </td>
                   <td>
-                    <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" value="Rectangular" name="forma">
+                    <input class="col" type="radio" id="rec" onchange="tamañoSel(event)" value="Rectangular" name="forma">
                     <label for="rec">Rectangular</label>
                   </td>
                   <td>
-                    <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" value="Personalizada" name="forma">
+                    <input class="col" type="radio" id="per" onchange="tamañoSel(event)" value="Personalizada" name="forma">
                     <label for="per">Personalizada</label>
                   </td>
                 </tr>
@@ -404,7 +406,7 @@ function opcionSel(event) {
       for (let i = 0; i <= cantidadInput.value; i++) {
         str += '<option value="' + i + '">' + i + '</option>';
       }
-      document.getElementById("personalizacion").insertAdjacentHTML("beforeend", `
+      personalizacion.insertAdjacentHTML("beforeend", `
                   <tr>
                       <th>Nro. de pasteles circulares</th>
                       <td>
@@ -439,6 +441,7 @@ function opcionSel(event) {
                   </tr>
       `);
       break;
+      
     default:
     //console.log("NADA");
   }
@@ -459,5 +462,135 @@ function diferentesFormas(event) {
     if (seleccionables[j].id != event.target.id && seleccionables[j].value == 0) {
       seleccionables[j].innerHTML = str;
     }
+  }
+}
+function tamañoSel(event){
+  switch (event.target.id) {
+    case "red":
+      console.log("REDONDA");
+        tamaño1 = "Mini (5-6 personas)";
+        tamaño2 = "Pequeña (10-12 personas)";
+        tamaño3 = "Mediana (16 personas)";
+        tamaño4 = "Grande (30 personas)";
+        tamaño5 = "Extra grande (70 personas)";
+      break;
+      case "cuad":
+        tamaño1 = "Pequeña (20-25 personas)";
+        tamaño2 = "Mediana (35-40 personas)";
+        tamaño3 = "Grande (50 personas)";
+      break;
+      case "rec":
+        tamaño1 = "Mediana (35-40 personas)";
+        tamaño2 = "Extra grande (100 personas)";
+      break;
+      default:
+        tamaño1 = "Mini (2-4 personas)";
+        tamaño2 = "Pequeña (8-10 personas)";
+        tamaño3 = "Mediana (12-14 personas)";
+        tamaño4 = "Grande (26-28 personas)";
+        tamaño5 = "Extra grande (66-68 personas)";  
+  }
+  fila.innerHTML = `
+    <th><p><b>Tamaño:</b></p></th>
+    <td>
+      <input type="radio" id="tamaño1" name="tamaño" value="`+ tamaño1 + `">
+      <label for="tamaño1">`+ tamaño1 + `</label>
+    </td>
+    <td>
+      <input type="radio" id="tamaño2" name="tamaño" value="`+ tamaño2 + `">
+      <label for="tamaño2">`+ tamaño2 + `</label>
+    </td>
+  `;
+  if (event.target.id == "cuad") {
+    fila.insertAdjacentHTML("beforeend", `
+    <td>
+    <input type="radio" id="tamaño3" name="tamaño" value="`+ tamaño3 + `">
+    <label for="tamaño3">`+ tamaño3 + `</label>
+  </td>
+    `);
+  } else {
+    if (event.target.id == "per" || event.target.id == "red") {
+      fila.insertAdjacentHTML("beforeend", `
+      <td>
+      <input type="radio" id="tamaño3" name="tamaño" value="`+ tamaño3 + `">
+      <label for="tamaño3">`+ tamaño3 + `</label>
+    </td>
+      <td>
+    <input type="radio" id="tamaño4" name="tamaño" value="`+ tamaño4 + `">
+    <label for="tamaño4">`+ tamaño4 + `</label>
+  </td>
+  <td>
+    <input type="radio" id="tamaño5" name="tamaño" value="`+ tamaño5 + `">
+    <label for="tamaño5">`+ tamaño5 + `</label>
+  </td>
+    `);
+    }
+  }
+  
+  if (document.getElementById("normal") == null) {
+    //tabla.appendChild(div_fila);
+    personalizacion.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.appendChild(fila);
+    fila.insertAdjacentHTML("afterend", `
+                    <tr>
+                        <th><p><b>Masa:</b></p></th>
+                        <td>
+                            <input type="radio" id="normal" name="masa" value="Normal (Con receta propia)">
+                            <label for="normal">Normal (Con receta propia)</label>
+                        </td>
+                        <td>
+                            <input type="radio" id="biz" name="masa" value="Bizcochuelo">
+                            <label for="biz">Bizcochuelo</label>
+                        </td>
+                        <td>
+                            <input type="radio" id="milh" name="masa" value="Milhojas">
+                            <label for="milh">Milhojas</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><p><b>Sabor:</b></p></th>
+                        <td>
+                            <input class="col" type="radio" id="nar" name="sabor" value="Naranja">
+                            <label for="nar">Naranja</label>
+                        </td>
+                        <td>
+                            <input class="col" type="radio" id="choc" name="sabor" value="Chocolate">
+                            <label for="choc">Chocolate</label>
+                        </td>
+                        <td>
+                            <input class="col" type="radio" id="narychoc" name="sabor" value="Naranja y chocolate (Marmoleada)">
+                            <label for="narychoc">Naranja y chocolate (Marmoleada)</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><p><b>Cobertura:</b></p></th>
+                        <td>
+                            <input class="col" type="radio" id="crema" name="cobertura" value="Crema">
+                            <label for="crema">Crema</label>
+                        </td>
+                        <td>
+                            <input class="col" type="radio" id="fondant" name="cobertura" value="Fondant">
+                            <label for="fondant">Fondant</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><p><b>Relleno:</b></p></th>
+                        <td>
+                            <input class="col" type="radio" id="frutilla" name="relleno" value="Mermelada de frutilla">
+                            <label for="frutilla">Mermelada de frutilla</label>
+                        </td>
+                        <td>
+                            <input class="col" type="radio" id="mora" name="relleno" value="Mermelada de mora">
+                            <label for="mora">Mermelada de mora</label>
+                        </td>
+                        <td>
+                            <input class="col" type="radio" id="glass" name="relleno" value="Glass de frutilla con crema">
+                            <label for="glass">Glass de frutilla con crema</label>
+                        </td>
+                        <td>
+                            <input class="col" type="radio" id="napolitana" name="relleno" value="Crema napolitana">
+                            <label for="napolitana">Crema napolitana</label>
+                        </td>
+                    </tr>
+  `);
   }
 }
