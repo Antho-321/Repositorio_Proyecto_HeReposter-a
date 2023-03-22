@@ -674,7 +674,7 @@ function AgregarContenidoCarrito() {
                                     <input type="hidden" name="id_canasta_item" value="`+ result[i].Id_Canasta_item + `">
                                     
                                     <input type="button" id="editarCarrito" class="btn_eliminar" value="✏️">
-                                    <input type="hidden" value="`+result[i].Img+`" id="test">
+                                    <input type="hidden" name="adicional" id="req_Adicional" value="`+result[i].Especificacion_adicional+`">
                                     <button class="btn_eliminar"><img src="../imagenes/Borrador.png" id="borrador"></button>
                                 </div>
                             </div>      
