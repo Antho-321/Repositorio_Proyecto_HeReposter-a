@@ -378,10 +378,13 @@ select{
     border: 0.2vw solid black;
     border-radius: 3px;
     font: normal normal normal 18px/1.4em Sanseriffic;
-    width: 100px;
     text-indent: 16px;
+    width: 105%;
     text-align: center;
-    letter-spacing: 1.4px;
+    letter-spacing: 0.1vw; 
+}
+#num_dedicatorias{
+    min-width: 80px;
 }
 input[type="text"], input[type="url"], #cod_postal, #tel{
     cursor: auto;
@@ -472,9 +475,8 @@ footer {
 }
 
 /*----------------LO QUE SE AGREGA----------------*/
-@font-face {
+* {
     font-family: Sanseriffic;
-    src: url(../font/Sanseriffic.otf);
 }
 
 *:not(#Menu_Catalogo, #Menu_Catalogo *) {

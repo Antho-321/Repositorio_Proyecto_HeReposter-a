@@ -211,10 +211,11 @@ function AgregarContenido(CategoríaSeleccionada) {
 }
 function myAsyncFunction(imagen) {
     let encodedImagen;
-    if (imagen.includes("http")){
-        encodedImagen = encodeURIComponent(imagen);
-    }else{
-        encodedImagen=imagen;
+    encodedImagen=imagen;
+    if(imagen!=undefined){
+        if (imagen.includes("http")){
+            encodedImagen = encodeURIComponent(imagen);
+        }
     }
     return new Promise((resolve, reject) => {
         fetch("../php/ConsultaProductoSeleccionado.php?imagen=" + encodedImagen)
@@ -441,7 +442,7 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
                         <p class="col">`+ porciones + `</p>
                     </div>
                     <div class="fila">
-                        <p class="col">Masa:</p>
+                        <p class="col">Tipo de pastel:</p>
                         <p class="col">`+ masa + `</p>
                         <p class="col">Cobertura:</p>
                         <p class="col">`+ cobertura + `</p>
