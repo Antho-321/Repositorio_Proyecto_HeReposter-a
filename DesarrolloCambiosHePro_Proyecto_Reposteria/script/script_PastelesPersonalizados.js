@@ -1,12 +1,17 @@
-let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg, cantidadInput, texto_dedicatoria, colSelect, cantidad_pasteles, seccion_forma, pregunta_misma_forma, diferente_forma, seleccionables, tamaño1, tamaño2, tamaño3, tamaño4, tamaño5, inputs_forma, seccion_masa, opciones_tamaño;
-let ingreso_enlace = document.getElementById("ingreso_enlace");
+let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg, cantidadInput, texto_dedicatoria, colSelect, cantidad_pasteles, seccion_forma, pregunta_misma_forma, diferente_forma, seleccionables, tamaño1, tamaño2, tamaño3, tamaño4, tamaño5, inputs_forma, seccion_sabor, opciones_tamaño, dropzone2, contenedor_preImg, formDrop2, formDrop3, dropzone3, formDrop4, dropzone4, seccion_relleno, img_figura, img_adorno, ingreso_enlace1, ingreso_enlace2, ingreso_enlace3, ingreso_enlace4, formDrop1, dropzone1;
 let contenido_previsualizacion = document.getElementById("contenido_previsualizacion");
 let ext = /(.jpg|.jpeg|.png|.gif)$/i;
 let fila = document.createElement("tr");
 let fila2 = document.createElement("tr");
 let personalizacion = document.getElementById("personalizacion");
-let algunoCheckeado = false;
-opciones_tamaño="";
+ingreso_enlace1 = document.getElementById("enlace1");
+Dropzone.autoDiscover = false;
+formDrop1 = configurarDropZone(ingreso_enlace1, "");
+dropzone1 = new Dropzone("div#formDrop", formDrop1);
+ingreso_enlace1.addEventListener('input', () => {
+  validaciónIngresoEnlace(ingreso_enlace1, dropzone1);
+});
+opciones_tamaño = "";
 fila.id = "seccion_tamaño";
 estilo_txtImgNoValida = document.createElement("style");
 estilo_noMasImg = document.createElement("style");
@@ -15,12 +20,12 @@ estilo_txtImgNoValida.id = "est_txtImgNoValida";
 estilo_contenedorPreImg.id = "est_contPreImg";
 inputs_forma = document.getElementsByName("forma");
 estilo_contenedorPreImg.innerHTML = `
-#formDrop{
+.dropzone{
   border: 0px;
 }
 `;
 estilo_txtImgNoValida.innerHTML = `
-#txtImgNoValida{
+.txtImgNoValida{
   visibility: visible;
 }
 `;
@@ -31,74 +36,93 @@ estilo_noMasImg.innerHTML = `
   color: white;
 }
 `;
-Dropzone.autoDiscover = false;
-const dropzone = new Dropzone("div#formDrop", {
-  url: "../php/IngresoImagenProducto.php",
-  dictDefaultMessage: `<p id="txtDrop">Arrastra tu imagen, presiona aquí para subirla o ingresa su enlace:</p>
+function configurarDropZone(ingreso_enlace, imagenAdicional) {
+  let str_aux = imagenAdicional;
+  switch (imagenAdicional) {
+    case "DibujoImgEspecial":
+      imagenAdicional = "?DibujoImgEspecial=" + str_aux;
+      break;
+    case "Figura":
+      imagenAdicional = "?Figura=" + str_aux;
+      break;
+    case "Adorno":
+      imagenAdicional = "?Adorno=" + str_aux;
+      break;
+  }
+  return {
+    url: "../php/IngresoImagenProducto.php" + imagenAdicional,
+    dictDefaultMessage: `<p id="txtDrop">Arrastra tu imagen, presiona aquí para subirla o ingresa su enlace:</p>
     <input type="url" placeholder="Ingresar enlace" id="input2" style="visibility: hidden">
     <div id="contenedorTxt">
-      <p id="txtImgNoValida">Enlace no válido</p>
+      <p class="txtImgNoValida">Enlace no válido</p>
     <div>
     `,
-  maxFiles: 1,
-  init: function () {
-    this.on("maxfilesexceeded", function (file) {
-      this.removeFile(file);
-      alert("¡Solo se puede subir un archivo!");
-      document.head.appendChild(estilo_noMasImg);
-    });
-    this.on("sending", function (file, xhr, data) {
-      if (ext.exec(file.name)) {
-        ingreso_enlace = document.getElementById("ingreso_enlace");
-        if (ingreso_enlace != undefined) {
-          ingreso_enlace.remove();
+    acceptedFiles: ".jpg,.jpeg,.png,.gif",
+    maxFiles: 1,
+    init: function () {
+      this.on("maxfilesexceeded", function (file) {
+        this.removeFile(file);
+        alert("¡Solo se puede subir un archivo!");
+        if (imagenAdicional == "") {
+          document.getElementsByClassName("dz-default dz-message")[0].style = "display:none";
         }
-        data.append("type_chooser", "1");
-      }
-    });
-    this.on("addedfile", function (file) {
-      let contenedor_preImg = document.querySelector(".dz-image");
-      contenedor_preImg.style = "width: 200px; height: 200px;";
-      contenedor_preImg.parentNode.style = "width: 200px; height: 200px; margin: 0px !important;";
-      contenedor_preImg.children[0].style = "width: 200px; height: 200px";
-      document.head.appendChild(estilo_contenedorPreImg);
-      dzSize = file.previewElement.querySelector(".dz-size");
-      dzProgress = file.previewElement.querySelector(".dz-progress");
-      previsualizacion = file.previewElement.querySelector("img");
-      previsualizacion.style = "width: 100%; height: 100%;";
-      dzProgress.style = "display: none;";
-      dzSize.style = "display: none;";
-      if (file.name.includes("http") || file.name.includes("data:image")) {
-        previsualizacion.src = file.name;
-        this.options.maxFiles = 0;
-        document.getElementById("aux_IngresarEnlace").value = file.name;
-      }
-      AgregarMásContenido();
-      if (!ext.exec(file.name)) {
-        dropzone.removeFile(file);
-        imgNoValida("archivo");
-      } else {
+        document.head.appendChild(estilo_noMasImg);
+      });
+      this.on("addedfile", function (file) {
+        contenedor_preImg = file.previewElement.getElementsByClassName("dz-image")[0];
+        dzSize = file.previewElement.getElementsByClassName("dz-size")[0];
+        dzProgress = file.previewElement.getElementsByClassName("dz-progress")[0];
+        previsualizacion = file.previewElement.getElementsByTagName("img")[0];
+        contenedor_preImg.style = "width: 222px; height: 200px;";
+        contenedor_preImg.parentNode.style = "width: 222px; height: 200px; margin: 0px !important;";
+        contenedor_preImg.children[0].style = "width: 222px; height: 200px";
+        document.head.appendChild(estilo_contenedorPreImg);
+        previsualizacion.style = "width: 100%; height: 100%;";
+        dzProgress.style = "display: none;";
+        dzSize.style = "display: none;";
+        if (imagenAdicional == "") {
+          if (this.options.maxFiles == 1) {
+            AgregarMásContenido();
+          }
+        }
+        if (file.name.includes("http") || file.name.includes("data:image")) {
+          previsualizacion.src = file.name;
+          this.options.maxFiles = 0;
+          if (imagenAdicional != "") {
+            document.getElementsByClassName("aux_IngresarEnlace")[1].value = file.name;
+          } else {
+            document.getElementsByClassName("aux_IngresarEnlace")[0].value = file.name;
+          }
+        }
+      });
+      this.on("error", function (file, errorMessage) {
+        imgNoValida("archivo", file);
+        this.removeFile(file);
+      });
+      this.on("success", function (file, response) {
         ingreso_enlace.style = "z-index: -1;";
-      }
-    });
-  },
-  renameFile: function (file) {
-    let str1 = file.name;
-    let str2 = str1.substring(str1.lastIndexOf("."));
-    return "_" + str2;
-  }
-});
-dropzone.on("complete", function (file) {
-  let myData = myAsyncFunction();
-  myData.then(result => {
-    previsualizacion = file.previewElement.querySelector("img");
-    if (result.name != undefined) {
-      var nombres = Object.keys(result.name);
-      previsualizacion.src = "../imagenes/Productos/" + nombres[1];
+      });
+      this.on("complete", function (file) {
+        let myData = ultimaImgIngresada();
+        myData.then(result => {
+          previsualizacion = file.previewElement.querySelector("img");
+          if (result.name != undefined) {
+            var nombres = Object.keys(result.name);
+            previsualizacion.src = "../imagenes/Productos/" + nombres[1];
+          }
+        });
+
+      });
+    },
+    renameFile: function (file) {
+      let str1 = file.name;
+      let str2 = str1.substring(str1.lastIndexOf("."));
+      return "_" + str2;
     }
-  });
-});
-function myAsyncFunction() {
+  }
+}
+
+function ultimaImgIngresada() {
   return new Promise((resolve, reject) => {
     fetch("../php/UltimaImgIngresada.php")
       .then(response => response.json())
@@ -123,10 +147,11 @@ function quitarPlaceHolder(event) {
   let entrada_texto = event.target;
   entrada_texto.placeholder = "";
 }
-ingreso_enlace.addEventListener('input', () => {
+function validaciónIngresoEnlace(ingreso_enlace, dropzone) {
+
   if (ingreso_enlace.value != "") {
     if (!esUrlValida(ingreso_enlace.value)) {
-      imgNoValida();
+      imgNoValida("", dropzone);
     } else {
       if (ingreso_enlace.value.includes("images.app.goo.gl")) {
         let myData2 = accederAEnlace(ingreso_enlace.value);
@@ -135,18 +160,18 @@ ingreso_enlace.addEventListener('input', () => {
           let pos1 = enlace1.indexOf("=");
           let pos2 = enlace1.indexOf("&tbnid");
           let enlace_fin = enlace1.substring(pos1 + 1, pos2);
-          enlaceImgVálido(enlace_fin);
+          enlaceImgVálido(enlace_fin, dropzone);
         });
       } else {
         esImagen1(ingreso_enlace.value).then((result) => {
           if (result) {
-            enlaceImgVálido(ingreso_enlace.value);
+            enlaceImgVálido(ingreso_enlace.value, dropzone);
           } else {
-            esImagen2(ingreso_enlace.value).then((result) => {
+            esImagen2(ingreso_enlace.value, dropzone).then((result) => {
               if (result) {
-                enlaceImgVálido(ingreso_enlace.value);
+                enlaceImgVálido(ingreso_enlace.value, dropzone);
               } else {
-                imgNoValida();
+                imgNoValida("", dropzone);
               }
             });
 
@@ -160,9 +185,9 @@ ingreso_enlace.addEventListener('input', () => {
       elem_estImgNoValido.remove();
     }
   }
-});
-function enlaceImgVálido(enlace) {
-  var file = { name: enlace };
+}
+function enlaceImgVálido(enlace, dropzone) {
+  let file = { name: enlace };
   dropzone.emit("addedfile", file);
   elem_estImgNoValido = document.getElementById("est_txtImgNoValida");
   if (elem_estImgNoValido != undefined) {
@@ -185,13 +210,12 @@ function esImagen1(url) {
         resolve(false);
       });
       img.src = url;
-
     } catch (error) {
       reject(error);
     }
   });
 }
-function esImagen2(url) {
+function esImagen2(url, dropzone) {
   return new Promise((resolve, reject) => {
     try {
       if (url.includes("url=")) {
@@ -205,21 +229,23 @@ function esImagen2(url) {
         });
         img.src = imgUrl;
       } else {
-        imgNoValida();
+        imgNoValida("", dropzone);
       }
     } catch (error) {
       reject(error);
     }
   });
 }
-function imgNoValida(archivo) {
+function imgNoValida(archivo, file) {
   if (archivo == "archivo") {
-    document.getElementById("txtImgNoValida").innerHTML = "Archivo de imagen no válido";
+    let hijos = file.previewElement.parentElement.children;
+    hijos[hijos.length - 2].firstChild.lastChild.innerHTML = `<p class="txtImgNoValida">Archivo de imagen no válido</p>`;
   }
   document.head.appendChild(estilo_txtImgNoValida);
 }
 function disminuirCantidadP() {
   let str = "";
+  seccion_forma = document.getElementById("seccion_forma");
   diferente_forma = document.getElementById("diferente_forma");
   seleccionables = document.getElementsByName("forma_pasteles");
   colSelect = document.getElementById("colSelect");
@@ -231,21 +257,7 @@ function disminuirCantidadP() {
   <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" onclick="quitarPlaceHolder(event)">
   `;
   opcionSel(event);
-  if (cantidadInput.value == 1) {
-    let seccion_tamaño = document.getElementById("seccion_tamaño");
-    texto_dedicatoria = document.getElementById("texto_dedicatoria");
-    texto_dedicatoria.innerHTML = "<b>Dedicatoria para el pedido:</b>";
-    colSelect.style = "display:none";
-    if (seccion_tamaño != null) {
-      let elem = seccion_tamaño;
-      while (elem != null) {
-        if (elem instanceof HTMLElement) {
-          elem.removeAttribute("style");
-        }
-        elem = elem.nextElementSibling;
-      }
-    }
-  }
+
   if (diferente_forma != null) {
     if (diferente_forma.checked == true) {
       for (let i = 0; i <= cantidadInput.value; i++) {
@@ -259,7 +271,6 @@ function disminuirCantidadP() {
   let inputs = document.getElementsByTagName("input");
   for (let i = 0; i < inputs.length; i++) {
     if (inputs[i].value == "Sí") {
-      //inputs[i].parentElement.parentElement.style="display:none";
       let elem = inputs[i].parentElement.parentElement;
       while (elem != null) {
         if (elem instanceof HTMLElement) {
@@ -267,19 +278,22 @@ function disminuirCantidadP() {
         }
         elem = elem.nextElementSibling;
       }
-      //console.log(inputs[i].parentElement.parentElement);
       break;
     }
+  }
+  if (cantidadInput.value == 1) {
+    texto_dedicatoria = document.getElementById("texto_dedicatoria");
+    texto_dedicatoria.innerHTML = "<b>Dedicatoria para el pedido:</b>";
+    colSelect.style = "display:none";
+    personalizacion.firstElementChild.insertAdjacentHTML("beforeend", contenidoUnPastel());
+    document.getElementById("sin_imgEspecífica").checked = true;
   }
 }
 function aumentarCantidadP() {
   let str = "";
-  for (let i = 0; i < inputs_forma.length; i++) {
-    if (inputs_forma[i].checked) {
-      algunoCheckeado = true;
-      break;
-    }
-  }
+  personalizacion.firstElementChild.children[0].firstElementChild.colSpan = "3";
+  personalizacion.firstElementChild.children[1].firstElementChild.colSpan = "3";
+  seccion_forma = document.getElementById("seccion_forma");
   diferente_forma = document.getElementById("diferente_forma");
   seleccionables = document.getElementsByName("forma_pasteles");
   colSelect = document.getElementById("colSelect");
@@ -302,16 +316,17 @@ function aumentarCantidadP() {
       }
     }
   }
-  let seccion_tamaño = document.getElementById("seccion_tamaño");
-  if (seccion_tamaño != null) {
-    let elem = seccion_tamaño;
+  if (seccion_forma != null) {
+    let elem = seccion_forma.nextElementSibling;
     while (elem != null) {
-      if (elem instanceof HTMLElement) {
-        elem.style = "display: none";
+      elem.previousElementSibling.remove();
+      if (elem.nextElementSibling == null) {
+        elem.remove();
+        break;
+      } else {
+        elem = elem.nextElementSibling;
       }
-      elem = elem.nextElementSibling;
     }
-    seccion_tamaño.style = "display:none";
   }
 }
 function DedicatoriasP(cantidadInput) {
@@ -361,8 +376,8 @@ function AgregarHermanosSelect(arreglo_dedicatorias) {
   }
 }
 function AgregarMásContenido() {
-  personalizacion.insertAdjacentHTML("beforeend", `
-                <tr>
+  personalizacion.firstElementChild.insertAdjacentHTML("beforeend", `            
+  <tr>
                     <th>Ingrese el número de pasteles que se encuentra en el modelo:</th>
                     <td colspan="4">
                         <input type="button" id="disminuir_cantidad" value="-" onclick="disminuirCantidadP()">
@@ -384,10 +399,15 @@ function AgregarMásContenido() {
                         </div>
                     </td>
                 </tr>
-                <tr id="seccion_forma">
-                  <th>
-                    <p><b>Forma:</b></p>
-                  </th>
+                `+ contenidoUnPastel() + `
+  `);
+  document.getElementById("sin_imgEspecífica").checked = true;
+  cantidadInput = document.getElementById("cantidad");
+}
+function contenidoUnPastel() {
+  return `
+  <tr id="seccion_forma">
+                  <th><p><b>Forma:</b></p></th>
                   <td>
                     <select onchange="tamañoSel(event)" name="forma">
                       <option value="Redonda">Redonda</option>
@@ -400,7 +420,7 @@ function AgregarMásContenido() {
                 <tr id="seccion_tamaño">
                   <th><p><b>Tamaño:</b></p></th>
                   <td>
-                    <select onchange="opcionSel(event)" id="opciones_tamaño" name="tamaño">
+                    <select id="opciones_tamaño" name="tamaño">
                       <option value="Mini (5-6 personas)">Mini (5-6 personas)</option>
                       <option value="Pequeña (10-12 personas)">Pequeña (10-12 personas)</option>
                       <option value="Mediana (16 personas)">Mediana (16 personas)</option>
@@ -418,6 +438,7 @@ function AgregarMásContenido() {
                       <option value="Milhojas">Milhojas</option>
                       <option value="Cheesecake">Cheesecake</option>
                       <option value="Mousse">Mousse</option>
+                      <option value="Tres leches">Tres leches</option>
                     </select>
                   </td>
                 </tr>
@@ -428,54 +449,111 @@ function AgregarMásContenido() {
                       <option value="Naranja">Naranja</option>
                       <option value="Chocolate">Chocolate</option>
                       <option value="Naranja y chocolate (Marmoleada)">Naranja y chocolate (Marmoleada)</option>
+                      <option value="4" style="display:none">4</option>
+                      <option value="5" style="display:none">5</option>
+                      <option value="6" style="display:none">6</option>
                     </select>
                   </td>
                 </tr>
-  `);
-  console.log(document.getElementById("opciones_sabor").value);
-  cantidadInput = document.getElementById("cantidad");
+                <tr id="seccion_cobertura">
+                  <th><p><b>Cobertura:</b></p></th>
+                  <td>
+                    <select onchange="opcionSel(event)" id="opciones_cobertura" name="cobertura">
+                      <option value="Crema">Crema</option>
+                      <option value="Fondant">Fondant</option>
+                      <option value="Ninguna">Ninguna</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr id="seccion_relleno">
+                  <th><p><b>Relleno:</b></p></th>
+                  <td>
+                    <select onchange="opcionSel(event)" id="opciones_relleno" name="relleno">
+                      <option value="Mermelada de frutilla">Mermelada de frutilla</option>
+                      <option value="Mermelada de mora">Mermelada de mora</option>
+                      <option value="Glass de frutilla con crema">Glass de frutilla con crema</option>
+                      <option value="Crema napolitana">Crema napolitana</option>
+                      <option value="Durazno con crema">Durazno con crema</option>
+                      <option value="Ninguno">Ninguno</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr id="pregunta_imagenEspecífica">
+                  <th><p><b>¿Desea un dibujo/imagen especial en el pastel?</b></p></th>
+                  <td>
+                    <input type="radio" id="con_imgEspecífica" onchange="opcionSel(event)" value="Sí" name="imgEspecífica" class="left">
+                    <label for="con_imgEspecífica" class="right">Sí</label>
+                    <input type="radio" id="sin_imgEspecífica" onchange="opcionSel(event)" value="No" name="imgEspecífica" class="left">
+                    <label for="sin_imgEspecífica" class="right">No</label>
+                  </td>
+                </tr>
+                <tr id="pregunta_fig_adorno">
+                  <th>¿El modelo escogido tiene una figura / adorno en fondant o desea incluirla?</th>
+                  <td>
+                    <select onchange="opcionSel(event)" id="opciones_fig_adEnFondant" name="fig_adEnFondant">
+                      <option value="No">No</option>
+                      <option value="Incluir figura">Incluir figura</option>
+                      <option value="Incluir adorno">Incluir adorno</option>
+                      <option value="Incluir figura y adorno">Incluir figura y adorno</option>
+                      <option value="El modelo incluye una figura">El modelo incluye una figura</option>
+                      <option value="El modelo incluye un adorno">El modelo incluye un adorno</option>
+                      <option value="El modelo incluye ambos">El modelo incluye ambos</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr id="espAdicional">
+                  <th>Especificación adicional:</th>
+                  <td id="secdescrAdicional">
+                    <textarea name="descrAdicional" id="descrAdicional" placeholder="(Opcional)" onclick="quitarPlaceHolder(event)"></textarea>
+                  </td>
+                </tr>
+                <tr id="seccion_precio">
+                  <td colspan="2">
+                    <h2>Precio: $5</h2>
+                  </td>
+                </tr>
+                <tr id="seccion_envío">
+                  <td colspan="2">
+                    <button>Añadir al carrito</button>
+                  </td>
+                </tr>
+                <tr id="seccion_nota">
+                  <td colspan="2">
+                    <h3>Nota: Para otras especificaciones puede comunicarse al 0988363503. Tenga en cuenta que especificaciones más complejas podrían conllevar cambios en el precio.</h3>
+                  </td>
+                </tr>
+  `;
 }
 function opcionSel(event) {
-  //console.log(event.target.id);
   pregunta_misma_forma = document.getElementById("pregunta_misma_forma");
-  seccion_forma = document.getElementById("seccion_forma");
   if (cantidadInput != undefined) {
-    if (pregunta_misma_forma == undefined) {
-      if (cantidadInput.value > 1) {
-        seccion_forma.style = "display:none";
-        document.getElementById("seccion_forma").insertAdjacentHTML("beforebegin", `
-                    <tr id="pregunta_misma_forma">
-                        <th>¿Todos los pasteles son de la misma forma?</th>
-                        <td>
-                          <input type="radio" id="igual_forma" onchange="opcionSel(event)" value="Sí" name="misma_forma">
-                          <label for="igual_forma">Sí</label>
-                        </td>
-                        <td>
-                          <input type="radio" id="diferente_forma" onchange="opcionSel(event)" value="No" name="misma_forma">
-                          <label for="diferente_forma">No</label>
-                        </td>
-                    </tr>
-        `);
-      }
-    } else {
-      if (cantidadInput.value == 1) {
-        pregunta_misma_forma.remove();
-        seccion_forma.removeAttribute("style");
-      }
+    if (cantidadInput.value > 1) {
+      // console.log(event.target.parentElement.parentElement.parentElement);
+      // event.target.parentElement.parentElement.parentElement.insertAdjacentHTML("beforeend", `
+      //             <tr id="pregunta_misma_forma">
+      //                 <th>¿Todos los pasteles son de la misma forma?</th>
+      //                 <td>
+      //                   <input type="radio" id="igual_forma" onchange="opcionSel(event)" value="Sí" name="misma_forma">
+      //                   <label for="igual_forma">Sí</label>
+      //                 </td>
+      //                 <td>
+      //                   <input type="radio" id="diferente_forma" onchange="opcionSel(event)" value="No" name="misma_forma">
+      //                   <label for="diferente_forma">No</label>
+      //                 </td>
+      //             </tr>
+      // `);
     }
+
   }
   switch (event.target.id) {
     case "igual_forma":
-      seccion_forma.removeAttribute("style");
       let dif_forma = document.getElementsByTagName("tbody");
       if (dif_forma.length == 4) {
         dif_forma[3].remove();
       }
-      //console.log(event.target.parentNode.parentNode.parentNode);
-
       event.target.parentNode.parentNode.parentNode.insertAdjacentHTML("afterend", `
                       <tr>
-                          <th>¿Todos los pasteles son del mismo tamaño?:</th>
+                          <th>¿Todos los pasteles son del mismo tamaño?</th>
                         <td>
                           <input type="radio" id="mismo_tamaño" onchange="opcionSel(event)" value="Sí" name="mismo_tamaño">
                           <label for="igual_forma">Sí</label>
@@ -486,7 +564,6 @@ function opcionSel(event) {
                         </td>
                       </tr>
     `);
-
       break;
     case "diferente_forma":
       let str = "";
@@ -530,30 +607,7 @@ function opcionSel(event) {
       `);
       break;
     case "mismo_tamaño":
-      let elem;
-      //console.log(fila2);
-      if (algunoCheckeado) {
-        elem = fila2
-        if (elem.hasAttribute("style")) {
-          elem.removeAttribute("style");
-        }
-      } else {
-        elem = fila;
-      }
-      event.target.parentNode.parentNode.parentNode.appendChild(elem);
-      elem.insertAdjacentHTML("afterend", `
-          <tr>
-          <th>¿Desea que todos tengan la misma masa?:</th>
-        <td>
-          <input type="radio" id="misma_masa" onchange="opcionSel(event)" value="Sí" name="misma_masa">
-          <label for="igual_forma">Sí</label>
-        </td>
-        <td>
-          <input type="radio" id="diferente_masa" onchange="opcionSel(event)" value="No" name="misma_masa">
-          <label for="diferente_forma">No</label>
-        </td>
-      </tr>
-  `);
+      console.log(event.target.parentElement.parentElement);
       break;
     case "diferente_tamaño":
       let seccion_tamaño = document.getElementById("seccion_tamaño");
@@ -568,93 +622,184 @@ function opcionSel(event) {
         seccion_tamaño.style = "display:none";
       }
       break;
-    default:
-    //console.log("NADA");
-  }
-  switch (event.target.name) {
-    case "tamaño":
-      if (document.getElementsByName("masa").length == 0) {
-        event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
-                      <tr>
-                          <th><p><b>Tipo de pastel:</b></p></th>
-                          <td>
-                              <input type="radio" id="normal" onchange="opcionSel(event)" name="masa" value="Normal (Con receta propia)">
-                              <label for="normal">Normal (Con receta propia)</label>
-                          </td>
-                          <td>
-                              <input type="radio" id="biz" onchange="opcionSel(event)" name="masa" value="Bizcochuelo">
-                              <label for="biz">Bizcochuelo</label>
-                          </td>
-                          <td>
-                              <input type="radio" id="milh" onchange="opcionSel(event)" name="masa" value="Milhojas">
-                              <label for="milh">Milhojas</label>
-                          </td>
-                          <td>
-                              <input type="radio" id="cheese" onchange="opcionSel(event)" name="masa" value="Cheesecake">
-                              <label for="cheese">Cheesecake</label>
-                          </td>
-                          <td>
-                              <input type="radio" id="mousse" onchange="opcionSel(event)" name="masa" value="Mousse">
-                              <label for="mousse">Mousse</label>
-                          </td>
-                      </tr>
+    case "con_imgEspecífica":
+      event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
+                <tr class="seccion_imgEspecífica">
+                  <th>Textura:</th>            
+                  <td>
+                    <select onchange="opcionSel(event)" id="opciones_imgEspecífica" name="imgEspecífica">
+                      <option value="Papel comestible">Papel comestible</option>
+                      <option value="Crema">Crema</option>
+                      <option value="Fondant">Fondant</option>
+                    </select>
+                  </td>
+                </tr>          
+                <tr class="seccion_imgEspecífica">
+                  <th>Previsualización de dibujo/imagen:</th>
+                  <td class="seccion_formDrop">
+                    <div class="dropzone" id="formDrop2">
+                      <input type="url" placeholder="Ingresar enlace" name="ingreso_enlace" class="para_enlace"  id="enlace2"
+                      onclick="quitarPlaceHolder(event)">
+                      <input type="hidden" name="enlace" class="aux_IngresarEnlace">
+                    </div>
+                  </td>
+                </tr>
+                
         `);
-      }
+      ingreso_enlace2 = document.getElementById("enlace2");
+      formDrop2 = configurarDropZone(ingreso_enlace2, "DibujoImgEspecial");
+      dropzone2 = new Dropzone("div#formDrop2", formDrop2);
+      ingreso_enlace2.addEventListener('input', () => {
+        validaciónIngresoEnlace(ingreso_enlace2, dropzone2);
+      });
+      break;
+    case "sin_imgEspecífica":
+      console.log(document.getElementsByClassName("seccion_imgEspecífica"));
+      document.getElementsByClassName("seccion_imgEspecífica")[0].remove();
+      document.getElementsByClassName("seccion_imgEspecífica")[0].remove();
 
       break;
+  }
+  switch (event.target.name) {
     case "masa":
-      if (document.getElementsByName("sabor").length == 0) {
-        
-      } 
-      sabor = document.getElementsByName("sabor");
-      seccion_masa = document.getElementById("seccion_masa");
-        switch (event.target.id) {
-          case "normal":
-            sabor[0].value = "Naranja";
-            sabor[0].nextElementSibling.innerHTML = "Naranja";
-            sabor[2].parentElement.removeAttribute("style");
-            break;
-          case "biz":
-          case "cheese":
-            sabor[0].value = "Vainilla";
-            sabor[0].nextElementSibling.innerHTML = "Vainilla";
-            sabor[2].parentElement.style = "display: none";
-            break;
-          case "milh":
-            seccion_masa.style = "display:none";
-            break;
-          case "mousse":
-            sabor[0].value = "Fresa";
-            sabor[0].nextElementSibling.innerHTML = "Fresa";
-            sabor[1].value = "Naranja";
-            sabor[1].nextElementSibling.innerHTML = "Naranja";
-            sabor[2].value = "Maracuyá";
-            sabor[2].nextElementSibling.innerHTML = "Maracuyá";
-            sabor[3].value = "Limón";
-            sabor[3].nextElementSibling.innerHTML = "Limón";
-            sabor[3].parentElement.removeAttribute("style");
-            sabor[4].value = "Uva";
-            sabor[4].nextElementSibling.innerHTML = "Uva";
-            sabor[4].parentElement.removeAttribute("style");
-            sabor[5].value = "Manzana";
-            sabor[5].nextElementSibling.innerHTML = "Manzana";
-            sabor[5].parentElement.removeAttribute("style");
-            break;
+      seccion_relleno = document.getElementById("seccion_relleno");
+      sabor = document.getElementById("opciones_sabor").children;
+      seccion_sabor = document.getElementById("seccion_sabor");
+      if (event.target.value != "Milhojas") {
+        seccion_sabor.removeAttribute("style");
+        if (event.target.value != "Mousse") {
+          sabor[1].value = "Chocolate";
+          sabor[1].innerHTML = "Chocolate";
+          sabor[3].style = "display:none";
+          sabor[4].style = "display:none";
+          sabor[5].style = "display:none";
         }
-      
-      
-        if (event.target.id != "milh") {
-          seccion_masa.removeAttribute("style");
-          if(event.target.id!="mousse"){
-            sabor[1].value="Chocolate";
-            sabor[1].nextElementSibling.innerHTML="Chocolate";
-            sabor[3].parentElement.style="display:none";
-            sabor[4].parentElement.style="display:none";
-            sabor[5].parentElement.style="display:none";
-          }
-        }
+      }
+      if (event.target.value != "Normal (Con receta propia)" && event.target.value != "Bizcochuelo" && event.target.value != "Milhojas") {
+        seccion_relleno.style = "display:none";
+      } else {
+        seccion_relleno.removeAttribute("style");
+      }
+      break;
+    case "fig_adEnFondant":
+      img_figura = document.getElementById("img_figura");
+      img_adorno = document.getElementById("img_adorno");
+      if (event.target.value == "No") {
+        removerDropsAdicionales();
+      }
       break;
   }
+  switch (event.target.value) {
+    case "Normal (Con receta propia)":
+      sabor[0].value = "Naranja";
+      sabor[0].innerHTML = "Naranja";
+      sabor[2].value = "Naranja y chocolate (Marmoleada)";
+      sabor[2].innerHTML = "Naranja y chocolate (Marmoleada)";
+      sabor[2].removeAttribute("style");
+      break;
+    case "Bizcochuelo":
+    case "Cheesecake":
+      sabor[0].value = "Vainilla";
+      sabor[0].innerHTML = "Vainilla";
+      sabor[2].style = "display: none";
+      break;
+    case "Milhojas":
+      seccion_sabor.style = "display:none";
+      break;
+    case "Mousse":
+      sabor[0].value = "Fresa";
+      sabor[0].innerHTML = "Fresa";
+      sabor[1].value = "Naranja";
+      sabor[1].innerHTML = "Naranja";
+      sabor[2].value = "Maracuyá";
+      sabor[2].innerHTML = "Maracuyá";
+      sabor[3].value = "Limón";
+      sabor[3].innerHTML = "Limón";
+      sabor[3].removeAttribute("style");
+      sabor[4].value = "Uva";
+      sabor[4].innerHTML = "Uva";
+      sabor[4].parentElement.removeAttribute("style");
+      sabor[5].value = "Manzana";
+      sabor[5].innerHTML = "Manzana";
+      sabor[5].removeAttribute("style");
+      break;
+    case "Incluir figura":
+      if (img_adorno != null) {
+        img_adorno.remove();
+      }
+      if (img_figura == null) {
+        seccionFigura(event);
+      }
+      break;
+    case "Incluir adorno":
+      if (img_figura != null) {
+        img_figura.remove();
+      }
+      if (img_adorno == null) {
+        seccionAdorno(event);
+      }
+      break;
+    case "Incluir figura y adorno":
+      removerDropsAdicionales();
+      seccionFigura(event);
+      seccionAdorno(event);
+      break;
+    case "Tres leches":
+      seccion_sabor.style = "display:none";
+      break;
+  }
+  if (event.target.value.includes("modelo")) {
+    removerDropsAdicionales();
+  }
+}
+function removerDropsAdicionales() {
+  if (img_figura != null) {
+    img_figura.remove();
+  }
+  if (img_adorno != null) {
+    img_adorno.remove();
+  }
+}
+function seccionFigura(event) {
+  event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
+  <tr id="img_figura">
+    <th>Previsualización de figura:</th>
+    <td class="seccion_formDrop">
+      <div class="dropzone" id="formDrop3">
+      <input type="url" placeholder="Ingresar enlace" name="ingreso_enlace" class="para_enlace"  id="enlace3"
+      onclick="quitarPlaceHolder(event)">
+      <input type="hidden" name="enlace" class="aux_IngresarEnlace">
+      </div>
+    </td>
+  </tr>
+`);
+
+  ingreso_enlace3 = document.getElementById("enlace3");
+  formDrop3 = configurarDropZone(ingreso_enlace3, "Figura");
+  dropzone3 = new Dropzone("div#formDrop3", formDrop3);
+  ingreso_enlace3.addEventListener('input', () => {
+    validaciónIngresoEnlace(ingreso_enlace3, dropzone3);
+  });
+}
+function seccionAdorno(event) {
+  event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
+                  <tr id="img_adorno">
+                    <th>Previsualización de adorno:</th>
+                    <td class="seccion_formDrop">
+                      <div class="dropzone" id="formDrop4">
+                      <input type="url" placeholder="Ingresar enlace" name="ingreso_enlace" class="para_enlace" id="enlace4"
+                      onclick="quitarPlaceHolder(event)">
+                      <input type="hidden" name="enlace" class="aux_IngresarEnlace">
+                      </div>
+                    </td>
+                  </tr>
+            `);
+  ingreso_enlace4 = document.getElementById("enlace4");
+  formDrop4 = configurarDropZone(ingreso_enlace4, "Adorno");
+  dropzone4 = new Dropzone("div#formDrop4", formDrop4);
+  ingreso_enlace4.addEventListener('input', () => {
+    validaciónIngresoEnlace(ingreso_enlace4, dropzone4);
+  });
 }
 function diferentesFormas(event) {
   seleccionables = document.getElementsByName("forma_pasteles");
@@ -673,7 +818,6 @@ function diferentesFormas(event) {
   }
 }
 function tamañoSel(event) {
-  console.log(event.target.value);
   switch (event.target.value) {
     case "Redonda":
       tamaño1 = "Mini (5-6 personas)";
@@ -698,23 +842,22 @@ function tamañoSel(event) {
       tamaño4 = "Grande (26-28 personas)";
       tamaño5 = "Extra grande (66-68 personas)";
   }
-opciones_tamaño=`
-<option value="`+tamaño1+`">`+tamaño1+`</option>
-<option value="`+tamaño2+`">`+tamaño2+`</option>
+  opciones_tamaño = `
+<option value="`+ tamaño1 + `">` + tamaño1 + `</option>
+<option value="`+ tamaño2 + `">` + tamaño2 + `</option>
 `;
-if (event.target.value == "Cuadrada") {
-    opciones_tamaño+=`<option value="`+tamaño3+`">`+tamaño3+`</option>`;
+  if (event.target.value == "Cuadrada") {
+    opciones_tamaño += `<option value="` + tamaño3 + `">` + tamaño3 + `</option>`;
   } else {
     if (event.target.value == "Personalizada" || event.target.value == "Redonda") {
-      opciones_tamaño+=`
-      <option value="`+tamaño3+`">`+tamaño3+`</option>
-      <option value="`+tamaño4+`">`+tamaño4+`</option>
-      <option value="`+tamaño5+`">`+tamaño5+`</option>
+      opciones_tamaño += `
+      <option value="`+ tamaño3 + `">` + tamaño3 + `</option>
+      <option value="`+ tamaño4 + `">` + tamaño4 + `</option>
+      <option value="`+ tamaño5 + `">` + tamaño5 + `</option>
       `;
     }
   }
   if (cantidadInput.value == 1) {
-      document.getElementById("opciones_tamaño").innerHTML=opciones_tamaño;
+    document.getElementById("opciones_tamaño").innerHTML = opciones_tamaño;
   }
-
 }

@@ -1,48 +1,8 @@
 <?php
 //Inicia la sesión y checa si hay un id, lo que indica que ya esta logueado alguien
 session_start();
-$Subtotal = 0;
-$Iva = 0;
-$Total = 0;
 if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
-    include("../php/Conexion.php");
-    $conexion = new Conexion;
-    $aux = $conexion->OperSql("SELECT `Id_Canasta` FROM `canasta` WHERE  `Id_Usuario` = '$id'");
-    $aux = $aux->fetch_array();
-    $aux = $aux['Id_Canasta'];
-    // Configuración de la conexión a la base de datos
-    $enlace = "";
-    $host = "localhost";
-    $user = "root";
-    $pass = "root";
-    $dbname = "db_pankey";
-
-    // Crear una nueva conexión PDO
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
-
-    // Preparar la consulta SQL
-    $sql = "SELECT Subtotal FROM canasta_item WHERE Id_canasta = $aux";
-
-    // Ejecutar la consulta y obtener los resultados
-    $stmt = $pdo->query($sql);
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // Defino variables
-    $Subtotal = 0;
-    $Iva = 0;
-    $Total = 0;
-
-
-    // Iterar a través de los resultados y mostrar la columna "Sutotal"
-    foreach ($results as $row) {
-
-        $Subtotal += $row['Subtotal'];
-    }
-    $Iva = ($Subtotal * 12) / 100;
-    $Total = $Subtotal + $Iva;
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 } else if (isset($_SESSION['contraseña'])) {
     header("Location: ../php/Logout.php");
 }
@@ -55,8 +15,9 @@ if (isset($_SESSION['id'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="../styles/estilo_PastelesPersonalizados.css" id="estilo" type="text/css">
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../styles/estilo_PastelesPersonalizados.css" id="estilo">
+    
     <link rel="shortcut icon" href="../imagenes/favicon.ico">
     <link href="https://fonts.cdnfonts.com/css/sanseriffic" rel="stylesheet">
     <title>Pankey</title>
@@ -185,14 +146,20 @@ if (isset($_SESSION['id'])) {
         <form action="" id="form_proPersonalizado">
             <table id="personalizacion">
                 <tbody>
-                <tr>
-                    <h3>Previsualización de modelo</h3>
-                    <div class="dropzone" id="formDrop">
-                        <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace"
-                            onclick="quitarPlaceHolder(event)">
-                        <input type="hidden" name="enlace" id="aux_IngresarEnlace">
-                    </div>
-                </tr>
+                    <tr>
+                        <td colspan="2">
+                            <h2 id="prevModelo">Previsualización de modelo</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="seccion_formDrop" colspan="2">       
+                            <div class="dropzone" id="formDrop">
+                                <input type="url" placeholder="Ingresar enlace" name="ingreso_enlace" class="para_enlace" id="enlace1"
+                                onclick="quitarPlaceHolder(event)">
+                                <input type="hidden" name="enlace" class="aux_IngresarEnlace">
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </form>

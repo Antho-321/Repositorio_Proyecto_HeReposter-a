@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 $host = "localhost";
@@ -21,7 +22,19 @@ if (!empty($_FILES)) {
   $target_file = $target_path . $_FILES['file']['name'];
   if (file_exists($target_path)) {
     if (esArchivoImagen($target_file)) {
-    $ruta = $target_path . $id . ".png";
+      if (!empty($_GET['DibujoImgEspecial'])) {
+        $ruta = $target_path . $id . "_DibujoImgEspecial.png";
+      }else{
+        if(!empty(($_GET['Figura']))){
+          $ruta = $target_path . $id . "_Figura.png";
+        }else{
+          if(!empty(($_GET['Adorno']))){
+            $ruta = $target_path . $id . "_Adorno.png";
+          }else{
+            $ruta = $target_path . $id . ".png";
+          }
+        }
+      }
     move_uploaded_file($tmp_name, $ruta);
     }
   } else {

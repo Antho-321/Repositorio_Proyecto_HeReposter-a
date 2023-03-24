@@ -267,26 +267,30 @@ h3{
   ::-webkit-scrollbar-thumb:hover {
     background: #555; 
   }
+
+  
 #txtFormaPastel{
     font-size: 20px;
     padding-bottom: 11px;
 }
+
 table{
     width: 100%;
     text-align: center;
     table-layout: fixed;
 }
+
 #personalizacion{
     width: auto;
 }
-
-.tabla_info {
-    display: table;
-    width: 100%;
-}
-
-.fila {
-    display: table-row;
+.dropzone{
+    display: grid !important;
+    margin-left: auto;
+    margin-right: auto;
+    width: 222px;
+    height: 200px;
+    padding: 3px !important;
+    z-index: 0;
 }
 
 #seccion_imagen>img{
@@ -319,12 +323,6 @@ h1{
     padding-bottom: calc(70px - 2.5%);
     text-align: center;
     letter-spacing: 0.15vw;
-}
-#DestacadoPrincipal h2 {
-    text-align: center;
-    font: normal normal normal 1.8vw/1.4em Century Gothic;
-    font-size: 40px;
-    padding: 2vh 2vw;
 }
 #DestacadoPrincipal h6 {
     font: normal normal normal 14px/1.4em avenir-lt-w01_35-light1475496, avenir-lt-w05_35-light, sans-serif;
@@ -379,12 +377,12 @@ select{
     border-radius: 3px;
     font: normal normal normal 18px/1.4em Sanseriffic;
     text-indent: 16px;
-    width: 105%;
+    width: 100%;
     text-align: center;
     letter-spacing: 0.1vw; 
 }
 #num_dedicatorias{
-    min-width: 80px;
+    width: 80px;
 }
 input[type="text"], input[type="url"], #cod_postal, #tel{
     cursor: auto;
@@ -724,22 +722,35 @@ footer {
     color: aliceblue;
 }
 /*------------------------------------------------*/
-#formDrop{
-    display: flex;
-    justify-content: center;
-    width: 200px;
-    height: 200px;
-    padding: 0px !important;
-    z-index: 0;
-}
+
 table:not(#tabla1), th:not(#tabla1 th), td:not(#tabla1 td) {
     border: 2px solid transparent;
   }
-#ingreso_enlace{
-    position: absolute;
-    height: 22px;
+input[name='ingreso_enlace']{
     cursor: text !important;
-    margin-top: 120px;
+}
+.para_enlace{
+    position: absolute;
+    margin-top: 120px !important;
+    margin-left: 22px !important;
+}
+.left{
+    margin-left: 10%;
+}
+.right{
+    margin-right: 10%;
+}
+textarea{
+    font: normal normal normal 18px/1.4em Sanseriffic;
+    transition: initial;
+    width: 100%;
+    height: 60px;
+}
+#secdescrAdicional{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #input2{
     position: relative;
@@ -748,7 +759,10 @@ table:not(#tabla1), th:not(#tabla1 th), td:not(#tabla1 td) {
 #txtDrop{
     position: relative;
 }
-#txtImgNoValida{
+#prevModelo{
+    font-size: 20px;
+}
+.txtImgNoValida{
     visibility: hidden;
     color: red;
 }
