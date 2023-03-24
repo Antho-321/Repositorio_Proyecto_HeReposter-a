@@ -1,4 +1,4 @@
-let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg, cantidadInput, texto_dedicatoria, colSelect, cantidad_pasteles, seccion_forma, pregunta_misma_forma, diferente_forma, seleccionables, tamaño1, tamaño2, tamaño3, tamaño4, tamaño5, inputs_forma, seccion_sabor, opciones_tamaño, dropzone2, contenedor_preImg, formDrop2, formDrop3, dropzone3, formDrop4, dropzone4, seccion_relleno, img_figura, img_adorno, ingreso_enlace1, ingreso_enlace2, ingreso_enlace3, ingreso_enlace4, formDrop1, dropzone1;
+let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg, cantidadInput, texto_dedicatoria, colSelect, cantidad_pasteles, seccion_forma1, diferente_forma, seleccionables, tamaño1, tamaño2, tamaño3, tamaño4, tamaño5, inputs_forma, seccion_sabor, opciones_tamaño, dropzone2, contenedor_preImg, formDrop2, formDrop3, dropzone3, formDrop4, dropzone4, seccion_relleno, img_figura, img_adorno, ingreso_enlace1, ingreso_enlace2, ingreso_enlace3, ingreso_enlace4, formDrop1, dropzone1, seccion_forma2;
 let contenido_previsualizacion = document.getElementById("contenido_previsualizacion");
 let ext = /(.jpg|.jpeg|.png|.gif)$/i;
 let fila = document.createElement("tr");
@@ -245,7 +245,7 @@ function imgNoValida(archivo, file) {
 }
 function disminuirCantidadP() {
   let str = "";
-  seccion_forma = document.getElementById("seccion_forma");
+  seccion_forma1 = document.getElementById("seccion_forma1");
   diferente_forma = document.getElementById("diferente_forma");
   seleccionables = document.getElementsByName("forma_pasteles");
   colSelect = document.getElementById("colSelect");
@@ -271,12 +271,18 @@ function disminuirCantidadP() {
   let inputs = document.getElementsByTagName("input");
   for (let i = 0; i < inputs.length; i++) {
     if (inputs[i].value == "Sí") {
-      let elem = inputs[i].parentElement.parentElement;
-      while (elem != null) {
-        if (elem instanceof HTMLElement) {
-          elem.style = "display:none";
-        }
+      if (cantidadInput.value == 1) {
+        let elem = inputs[i].parentElement.parentElement;
         elem = elem.nextElementSibling;
+        while (elem != null) {
+          elem.previousElementSibling.remove();
+          if (elem.nextElementSibling == null) {
+            elem.remove();
+            break;
+          } else {
+            elem = elem.nextElementSibling;
+          }
+        }
       }
       break;
     }
@@ -293,7 +299,7 @@ function aumentarCantidadP() {
   let str = "";
   personalizacion.firstElementChild.children[0].firstElementChild.colSpan = "3";
   personalizacion.firstElementChild.children[1].firstElementChild.colSpan = "3";
-  seccion_forma = document.getElementById("seccion_forma");
+  seccion_forma1 = document.getElementById("seccion_forma1");
   diferente_forma = document.getElementById("diferente_forma");
   seleccionables = document.getElementsByName("forma_pasteles");
   colSelect = document.getElementById("colSelect");
@@ -316,8 +322,8 @@ function aumentarCantidadP() {
       }
     }
   }
-  if (seccion_forma != null) {
-    let elem = seccion_forma.nextElementSibling;
+  if (seccion_forma1 != null) {
+    let elem = seccion_forma1.nextElementSibling;
     while (elem != null) {
       elem.previousElementSibling.remove();
       if (elem.nextElementSibling == null) {
@@ -327,6 +333,40 @@ function aumentarCantidadP() {
         elem = elem.nextElementSibling;
       }
     }
+  }
+  if (cantidadInput.value == "2") {
+    console.log("AGREGO CONTENIDO");
+    personalizacion.firstElementChild.insertAdjacentHTML("beforeend", `
+                  <tr id="pregunta_misma_forma">
+                    <th>¿Todos los pasteles son de la misma forma?</th>
+                    <td colspan="2">
+                      <input type="radio" id="igual_forma" onchange="opcionSel(event)" value="Sí" name="misma_forma" class="left">
+                      <label for="igual_forma" class="right">Sí</label>          
+                      <input type="radio" id="diferente_forma" onchange="opcionSel(event)" value="No" name="misma_forma" class="left">
+                      <label for="diferente_forma" class="right">No</label>
+                    </td>
+                  </tr>
+                  <tr id="seccion_forma2">
+                    <th><p><b>Forma:</b></p></th>
+                    <td colspan="2">
+                      <select onchange="tamañoSel(event)" name="forma">
+                        <option value="Redonda">Redonda</option>
+                        <option value="Cuadrada">Cuadrada</option>
+                        <option value="Rectangular">Rectangular</option>
+                        <option value="Personalizada">Personalizada</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr id="pregunta_mismo_tamaño">
+                    <th>¿Todos los pasteles son del mismo tamaño?</th>
+                    <td colspan="2">
+                      <input type="radio" id="igual_tamaño" onchange="opcionSel(event)" value="Sí" name="mismo_tamaño" class="left">
+                      <label for="igual_tamaño" class="right">Sí</label>          
+                      <input type="radio" id="diferente_tamaño" onchange="opcionSel(event)" value="No" name="mismo_tamaño" class="left">
+                      <label for="diferente_tamaño" class="right">No</label>
+                    </td>
+                  </tr>
+    `);
   }
 }
 function DedicatoriasP(cantidadInput) {
@@ -379,7 +419,7 @@ function AgregarMásContenido() {
   personalizacion.firstElementChild.insertAdjacentHTML("beforeend", `            
   <tr>
                     <th>Ingrese el número de pasteles que se encuentra en el modelo:</th>
-                    <td colspan="4">
+                    <td colspan="2">
                         <input type="button" id="disminuir_cantidad" value="-" onclick="disminuirCantidadP()">
                         <input type="number" id="cantidad" name="cantidad" value="1" readonly>
                         <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadP()">
@@ -393,7 +433,7 @@ function AgregarMásContenido() {
                         <div id="contenedor_select">
                         </div>
                     </td>
-                    <td colspan="4">
+                    <td>
                         <div id="cuadros_dedicatoria">
                             <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" onclick="quitarPlaceHolder(event)">
                         </div>
@@ -406,7 +446,7 @@ function AgregarMásContenido() {
 }
 function contenidoUnPastel() {
   return `
-  <tr id="seccion_forma">
+                <tr id="seccion_forma1">
                   <th><p><b>Forma:</b></p></th>
                   <td>
                     <select onchange="tamañoSel(event)" name="forma">
@@ -417,67 +457,11 @@ function contenidoUnPastel() {
                     </select>
                   </td>
                 </tr>
-                <tr id="seccion_tamaño">
-                  <th><p><b>Tamaño:</b></p></th>
-                  <td>
-                    <select id="opciones_tamaño" name="tamaño">
-                      <option value="Mini (5-6 personas)">Mini (5-6 personas)</option>
-                      <option value="Pequeña (10-12 personas)">Pequeña (10-12 personas)</option>
-                      <option value="Mediana (16 personas)">Mediana (16 personas)</option>
-                      <option value="Grande (30 personas)">Grande (30 personas)</option>
-                      <option value="Extra grande (70 personas)">Extra grande (70 personas)</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr id="seccion_tipoPastel">
-                  <th><p><b>Tipo de pastel:</b></p></th>
-                  <td>
-                    <select onchange="opcionSel(event)" id="opciones_pastel" name="masa">
-                      <option value="Normal (Con receta propia)">Normal (Con receta propia)</option>
-                      <option value="Bizcochuelo">Bizcochuelo</option>
-                      <option value="Milhojas">Milhojas</option>
-                      <option value="Cheesecake">Cheesecake</option>
-                      <option value="Mousse">Mousse</option>
-                      <option value="Tres leches">Tres leches</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr id="seccion_sabor">
-                  <th><p><b>Sabor:</b></p></th>
-                  <td>
-                    <select onchange="opcionSel(event)" id="opciones_sabor" name="sabor">
-                      <option value="Naranja">Naranja</option>
-                      <option value="Chocolate">Chocolate</option>
-                      <option value="Naranja y chocolate (Marmoleada)">Naranja y chocolate (Marmoleada)</option>
-                      <option value="4" style="display:none">4</option>
-                      <option value="5" style="display:none">5</option>
-                      <option value="6" style="display:none">6</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr id="seccion_cobertura">
-                  <th><p><b>Cobertura:</b></p></th>
-                  <td>
-                    <select onchange="opcionSel(event)" id="opciones_cobertura" name="cobertura">
-                      <option value="Crema">Crema</option>
-                      <option value="Fondant">Fondant</option>
-                      <option value="Ninguna">Ninguna</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr id="seccion_relleno">
-                  <th><p><b>Relleno:</b></p></th>
-                  <td>
-                    <select onchange="opcionSel(event)" id="opciones_relleno" name="relleno">
-                      <option value="Mermelada de frutilla">Mermelada de frutilla</option>
-                      <option value="Mermelada de mora">Mermelada de mora</option>
-                      <option value="Glass de frutilla con crema">Glass de frutilla con crema</option>
-                      <option value="Crema napolitana">Crema napolitana</option>
-                      <option value="Durazno con crema">Durazno con crema</option>
-                      <option value="Ninguno">Ninguno</option>
-                    </select>
-                  </td>
-                </tr>
+                `+contenido_seccion_tamaño()+`
+                `+contenido_seccion_tipoPastel()+`
+                `+contenido_seccion_sabor()+`
+                `+contenido_seccion_cobertura()+`
+                `+contenido_seccion_relleno()+`
                 <tr id="pregunta_imagenEspecífica">
                   <th><p><b>¿Desea un dibujo/imagen especial en el pastel?</b></p></th>
                   <td>
@@ -524,57 +508,107 @@ function contenidoUnPastel() {
                 </tr>
   `;
 }
+function contenido_seccion_tamaño(){
+  return `
+  <tr id="seccion_tamaño">
+                  <th><p><b>Tamaño:</b></p></th>
+                  <td>
+                    <select id="opciones_tamaño" name="tamaño">
+                      <option value="Mini (5-6 personas)">Mini (5-6 personas)</option>
+                      <option value="Pequeña (10-12 personas)">Pequeña (10-12 personas)</option>
+                      <option value="Mediana (16 personas)">Mediana (16 personas)</option>
+                      <option value="Grande (30 personas)">Grande (30 personas)</option>
+                      <option value="Extra grande (70 personas)">Extra grande (70 personas)</option>
+                    </select>
+                  </td>
+                </tr>
+  `;
+}
+function contenido_seccion_tipoPastel(){
+  return `
+  <tr id="seccion_tipoPastel">
+                  <th><p><b>Tipo de pastel:</b></p></th>
+                  <td>
+                    <select onchange="opcionSel(event)" id="opciones_pastel" name="masa">
+                      <option value="Normal (Con receta propia)">Normal (Con receta propia)</option>
+                      <option value="Bizcochuelo">Bizcochuelo</option>
+                      <option value="Milhojas">Milhojas</option>
+                      <option value="Cheesecake">Cheesecake</option>
+                      <option value="Mousse">Mousse</option>
+                      <option value="Tres leches">Tres leches</option>
+                    </select>
+                  </td>
+                </tr>
+  `;
+}
+function contenido_seccion_sabor(){
+  return `
+  <tr id="seccion_sabor">
+                  <th><p><b>Sabor:</b></p></th>
+                  <td>
+                    <select onchange="opcionSel(event)" id="opciones_sabor" name="sabor">
+                      <option value="Naranja">Naranja</option>
+                      <option value="Chocolate">Chocolate</option>
+                      <option value="Naranja y chocolate (Marmoleada)">Naranja y chocolate (Marmoleada)</option>
+                      <option value="4" style="display:none">4</option>
+                      <option value="5" style="display:none">5</option>
+                      <option value="6" style="display:none">6</option>
+                    </select>
+                  </td>
+                </tr>
+  `;
+}
+function contenido_seccion_cobertura(){
+  return `
+  <tr id="seccion_cobertura">
+                  <th><p><b>Cobertura:</b></p></th>
+                  <td>
+                    <select onchange="opcionSel(event)" id="opciones_cobertura" name="cobertura">
+                      <option value="Crema">Crema</option>
+                      <option value="Fondant">Fondant</option>
+                      <option value="Ninguna">Ninguna</option>
+                    </select>
+                  </td>
+                </tr>
+  `;
+}
+function contenido_seccion_relleno(){
+  return `
+  <tr id="seccion_relleno">
+                  <th><p><b>Relleno:</b></p></th>
+                  <td>
+                    <select onchange="opcionSel(event)" id="opciones_relleno" name="relleno">
+                      <option value="Mermelada de frutilla">Mermelada de frutilla</option>
+                      <option value="Mermelada de mora">Mermelada de mora</option>
+                      <option value="Glass de frutilla con crema">Glass de frutilla con crema</option>
+                      <option value="Crema napolitana">Crema napolitana</option>
+                      <option value="Durazno con crema">Durazno con crema</option>
+                      <option value="Ninguno">Ninguno</option>
+                    </select>
+                  </td>
+                </tr>
+  `;
+}
 function opcionSel(event) {
-  pregunta_misma_forma = document.getElementById("pregunta_misma_forma");
-  if (cantidadInput != undefined) {
-    if (cantidadInput.value > 1) {
-      // console.log(event.target.parentElement.parentElement.parentElement);
-      // event.target.parentElement.parentElement.parentElement.insertAdjacentHTML("beforeend", `
-      //             <tr id="pregunta_misma_forma">
-      //                 <th>¿Todos los pasteles son de la misma forma?</th>
-      //                 <td>
-      //                   <input type="radio" id="igual_forma" onchange="opcionSel(event)" value="Sí" name="misma_forma">
-      //                   <label for="igual_forma">Sí</label>
-      //                 </td>
-      //                 <td>
-      //                   <input type="radio" id="diferente_forma" onchange="opcionSel(event)" value="No" name="misma_forma">
-      //                   <label for="diferente_forma">No</label>
-      //                 </td>
-      //             </tr>
-      // `);
-    }
-
-  }
   switch (event.target.id) {
     case "igual_forma":
       let dif_forma = document.getElementsByTagName("tbody");
       if (dif_forma.length == 4) {
         dif_forma[3].remove();
       }
-      event.target.parentNode.parentNode.parentNode.insertAdjacentHTML("afterend", `
-                      <tr>
-                          <th>¿Todos los pasteles son del mismo tamaño?</th>
-                        <td>
-                          <input type="radio" id="mismo_tamaño" onchange="opcionSel(event)" value="Sí" name="mismo_tamaño">
-                          <label for="igual_forma">Sí</label>
-                        </td>
-                        <td>
-                          <input type="radio" id="diferente_tamaño" onchange="opcionSel(event)" value="No" name="mismo_tamaño">
-                          <label for="diferente_forma">No</label>
-                        </td>
-                      </tr>
-    `);
+
       break;
     case "diferente_forma":
       let str = "";
-      seccion_forma.style = "display: none";
+      seccion_forma2=document.getElementById("seccion_forma2");
+      seccion_forma2.style = "display: none";
       for (let i = 0; i <= cantidadInput.value; i++) {
         str += '<option value="' + i + '">' + i + '</option>';
       }
-      personalizacion.insertAdjacentHTML("beforeend", `
+      event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
                   <tr>
                       <th>Nro. de pasteles circulares</th>
-                      <td>
+                      <td colspan="2">
                         <select id="num_circulares" onchange="diferentesFormas(event)" name="forma_pasteles">
                         `+ str + `
                         </select>
@@ -582,7 +616,7 @@ function opcionSel(event) {
                   </tr>
                   <tr>
                       <th>Nro. de pasteles cuadrados</th>
-                      <td>
+                      <td colspan="2">
                         <select id="num_cuadradas" onchange="diferentesFormas(event)" name="forma_pasteles">
                         `+ str + `
                         </select>
@@ -590,7 +624,7 @@ function opcionSel(event) {
                   </tr>
                   <tr>
                       <th>Nro. de pasteles rectangulares</th>
-                      <td>
+                      <td colspan="2">
                         <select id="num_rectangulares" onchange="diferentesFormas(event)" name="forma_pasteles">
                         `+ str + `
                         </select>
@@ -598,7 +632,7 @@ function opcionSel(event) {
                   </tr>
                   <tr>
                       <th>Nro. de pasteles con forma personalizada</th>
-                      <td>
+                      <td colspan="2">
                         <select id="num_personalizadas" onchange="diferentesFormas(event)" name="forma_pasteles">
                         `+ str + `
                         </select>
