@@ -1,5 +1,9 @@
-*{
-    font-family:Sanseriffic;
+@font-face {
+    font-family: "Sanseriffic";
+    src: url("../fuente/Sanseriffic.woff");
+  }
+* {
+    font-family: "Sanseriffic", Arial, sans-serif;
 }
 *:not(#Menu_Catalogo, #Menu_Catalogo *) {
     transition: 0.4s;

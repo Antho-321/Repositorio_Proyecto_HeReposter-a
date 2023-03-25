@@ -1,5 +1,9 @@
+@font-face {
+    font-family: "Sanseriffic";
+    src: url("../fuente/Sanseriffic.woff");
+  }
 * {
-    font-family: Sanseriffic;
+    font-family: "Sanseriffic", Arial, sans-serif;
 }
 
 *:not(#Catalogo, #Catalogo *) {

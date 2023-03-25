@@ -1,6 +1,5 @@
-let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg, cantidadInput, texto_dedicatoria, colSelect, cantidad_pasteles, seccion_forma1, diferente_forma, seleccionables, tamaño1, tamaño2, tamaño3, tamaño4, tamaño5, inputs_forma, seccion_sabor, opciones_tamaño, dropzone2, contenedor_preImg, formDrop2, formDrop3, dropzone3, formDrop4, dropzone4, seccion_relleno, img_figura, img_adorno, ingreso_enlace1, ingreso_enlace2, ingreso_enlace3, ingreso_enlace4, formDrop1, dropzone1, seccion_forma2;
+let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg, cantidadInput, texto_dedicatoria, cantidad_pasteles, diferente_forma, seleccionables, tamaño1, tamaño2, tamaño3, tamaño4, tamaño5, inputs_forma, seccion_sabor, opciones_tamaño, dropzone2, contenedor_preImg, formDrop2, formDrop3, dropzone3, formDrop4, dropzone4, seccion_relleno, img_figura, img_adorno, ingreso_enlace1, ingreso_enlace2, ingreso_enlace3, ingreso_enlace4, formDrop1, dropzone1, seccion_forma, inputs_radio, precio, contenedor_select, suma_formas, pregunta_mismo_tipo, pregunta_mismo_tamaño, diferente_tamaño, mensajeNumValidos;
 let contenido_previsualizacion = document.getElementById("contenido_previsualizacion");
-let ext = /(.jpg|.jpeg|.png|.gif)$/i;
 let fila = document.createElement("tr");
 let fila2 = document.createElement("tr");
 let personalizacion = document.getElementById("personalizacion");
@@ -57,7 +56,7 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
       <p class="txtImgNoValida">Enlace no válido</p>
     <div>
     `,
-    acceptedFiles: ".jpg,.jpeg,.png,.gif",
+    acceptedFiles: ".jpg,.jpeg,.png,.gif,.webp",
     maxFiles: 1,
     init: function () {
       this.on("maxfilesexceeded", function (file) {
@@ -73,13 +72,14 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
         dzSize = file.previewElement.getElementsByClassName("dz-size")[0];
         dzProgress = file.previewElement.getElementsByClassName("dz-progress")[0];
         previsualizacion = file.previewElement.getElementsByTagName("img")[0];
-        contenedor_preImg.style = "width: 222px; height: 200px;";
+        contenedor_preImg.style = "width: 222px; height: 200px; z-index: 1;";
         contenedor_preImg.parentNode.style = "width: 222px; height: 200px; margin: 0px !important;";
         contenedor_preImg.children[0].style = "width: 222px; height: 200px";
         document.head.appendChild(estilo_contenedorPreImg);
         previsualizacion.style = "width: 100%; height: 100%;";
         dzProgress.style = "display: none;";
         dzSize.style = "display: none;";
+        dzSize.parentElement.style = "z-index: 1;";
         if (imagenAdicional == "") {
           if (this.options.maxFiles == 1) {
             AgregarMásContenido();
@@ -95,11 +95,7 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
           }
         }
       });
-      this.on("error", function (file, errorMessage) {
-        imgNoValida("archivo", file);
-        this.removeFile(file);
-      });
-      this.on("success", function (file, response) {
+      this.on("success", function (_file, _response) {
         ingreso_enlace.style = "z-index: -1;";
       });
       this.on("complete", function (file) {
@@ -206,7 +202,7 @@ function esImagen1(url) {
     try {
       const img = new Image();
       img.addEventListener('load', () => resolve(true));
-      img.addEventListener('error', (error) => {
+      img.addEventListener('error', (_error) => {
         resolve(false);
       });
       img.src = url;
@@ -224,7 +220,7 @@ function esImagen2(url, dropzone) {
         const imgUrl = decodeURIComponent(imgParam.replace('url=', ''));
         const img = new Image();
         img.addEventListener('load', () => resolve(true));
-        img.addEventListener('error', (error) => {
+        img.addEventListener('error', (_error) => {
           resolve(false);
         });
         img.src = imgUrl;
@@ -245,10 +241,14 @@ function imgNoValida(archivo, file) {
 }
 function disminuirCantidadP() {
   let str = "";
-  seccion_forma1 = document.getElementById("seccion_forma1");
+  if (diferente_tamaño.checked == true) {
+    for (let i = 0; i < suma_formas; i++) {
+      pregunta_mismo_tamaño.nextElementSibling.remove();
+    }
+  }
+  seccion_forma = document.getElementById("seccion_forma");
   diferente_forma = document.getElementById("diferente_forma");
   seleccionables = document.getElementsByName("forma_pasteles");
-  colSelect = document.getElementById("colSelect");
   if (cantidadInput.value >= 2) {
     cantidadInput.value = parseInt(cantidadInput.value) - 1;
   }
@@ -290,21 +290,24 @@ function disminuirCantidadP() {
   if (cantidadInput.value == 1) {
     texto_dedicatoria = document.getElementById("texto_dedicatoria");
     texto_dedicatoria.innerHTML = "<b>Dedicatoria para el pedido:</b>";
-    colSelect.style = "display:none";
     personalizacion.firstElementChild.insertAdjacentHTML("beforeend", contenidoUnPastel());
     document.getElementById("sin_imgEspecífica").checked = true;
+    contenedor_select.style = "display:none";
+  }
+  if (diferente_tamaño.checked == true) {
+    if(mensajeNumValidos!=undefined&&mensajeNumValidos!=null){
+      for(let i=0;i<mensajeNumValidos.length;i++){
+        mensajeNumValidos[i].remove();
+      }
+    }
+    diferenteTamaño();
   }
 }
 function aumentarCantidadP() {
   let str = "";
-  personalizacion.firstElementChild.children[0].firstElementChild.colSpan = "3";
-  personalizacion.firstElementChild.children[1].firstElementChild.colSpan = "3";
-  seccion_forma1 = document.getElementById("seccion_forma1");
-  diferente_forma = document.getElementById("diferente_forma");
+  seccion_forma = document.getElementById("seccion_forma");
   seleccionables = document.getElementsByName("forma_pasteles");
-  colSelect = document.getElementById("colSelect");
   cantidadInput.value = parseInt(cantidadInput.value) + 1;
-  colSelect.removeAttribute("style");
   DedicatoriasP(cantidadInput);
   document.getElementById("cuadros_dedicatoria").innerHTML = `
   <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" onclick="quitarPlaceHolder(event)">
@@ -312,6 +315,96 @@ function aumentarCantidadP() {
   opcionSel(event);
   texto_dedicatoria = document.getElementById("texto_dedicatoria");
   texto_dedicatoria.innerHTML = "<b>Cantidad de dedicatorias:</b>";
+
+
+  if (cantidadInput.value == "2") {
+    if (seccion_forma != null) {
+      let elem = seccion_forma.nextElementSibling;
+      while (elem != null) {
+        elem.previousElementSibling.remove();
+        if (elem.nextElementSibling == null) {
+          elem.remove();
+          break;
+        } else {
+          elem = elem.nextElementSibling;
+        }
+      }
+    }
+    personalizacion.firstElementChild.insertAdjacentHTML("beforeend", `
+                  <tr id="pregunta_misma_forma">
+                    <th>¿Todos los pasteles son de la misma forma?</th>
+                    <td colspan="1">
+                      <input type="radio" id="misma_forma" onchange="opcionSel(event)" value="Sí" name="misma_forma" class="left">
+                      <label for="misma_forma" class="right">Sí</label>          
+                      <input type="radio" id="diferente_forma" onchange="opcionSel(event)" value="No" name="misma_forma" class="left">
+                      <label for="diferente_forma" class="right">No</label>
+                    </td>
+                  </tr>
+                  `+ contenido_seccion_forma(1) + `
+                  </tr>
+                  <tr id="pregunta_mismo_tamaño">
+                    <th>¿Todos los pasteles son del mismo tamaño?</th>
+                    <td colspan="1">
+                      <input type="radio" id="mismo_tamaño" onchange="opcionSel(event)" value="Sí" name="mismo_tamaño" class="left">
+                      <label for="mismo_tamaño" class="right">Sí</label>          
+                      <input type="radio" id="diferente_tamaño" onchange="opcionSel(event)" value="No" name="mismo_tamaño" class="left">
+                      <label for="diferente_tamaño" class="right">No</label>
+                    </td>
+                  </tr>`+ contenido_seccion_tamaño(1) + `
+                  <tr id="pregunta_mismo_tipo">
+                    <th>¿Desea que todos los pasteles sean del mismo tipo?</th>
+                    <td colspan="1">
+                      <input type="radio" id="mismo_tipo" onchange="opcionSel(event)" value="Sí" name="mismo_tipo" class="left">
+                      <label for="mismo_tipo" class="right">Sí</label>          
+                      <input type="radio" id="diferente_tipo" onchange="opcionSel(event)" value="No" name="mismo_tipo" class="left">
+                      <label for="diferente_tipo" class="right">No</label>
+                    </td>
+                  </tr>`+ contenido_seccion_tipoPastel(1) + `
+                  <tr id="pregunta_mismo_sabor">
+                  <th>¿Desea que todos los pasteles tengan el mismo sabor?</th>
+                    <td colspan="1">
+                      <input type="radio" id="mismo_sabor" onchange="opcionSel(event)" value="Sí" name="mismo_sabor" class="left">
+                      <label for="mismo_sabor" class="right">Sí</label>          
+                      <input type="radio" id="diferente_sabor" onchange="opcionSel(event)" value="No" name="mismo_sabor" class="left">
+                      <label for="diferente_sabor" class="right">No</label>
+                    </td>
+                  </tr>`+ contenido_seccion_sabor(1) + `
+                  <tr id="pregunta_misma_cobertura">
+                  <th>¿Desea que todos los pasteles tengan el mismo tipo de cobertura?</th>
+                    <td colspan="1">
+                      <input type="radio" id="misma_cobertura" onchange="opcionSel(event)" value="Sí" name="misma_cobertura" class="left">
+                      <label for="misma_cobertura" class="right">Sí</label>          
+                      <input type="radio" id="diferente_cobertura" onchange="opcionSel(event)" value="No" name="misma_cobertura" class="left">
+                      <label for="diferente_cobertura" class="right">No</label>
+                    </td>
+                  </tr>`+ contenido_seccion_cobertura(1) + `
+                  <tr id="pregunta_mismo_relleno">
+                  <th>¿Desea que todos los pasteles tengan el mismo relleno?</th>
+                    <td colspan="1">
+                      <input type="radio" id="mismo_relleno" onchange="opcionSel(event)" value="Sí" name="mismo_relleno" class="left">
+                      <label for="mismo_relleno" class="right">Sí</label>          
+                      <input type="radio" id="diferente_relleno" onchange="opcionSel(event)" value="No" name="mismo_relleno" class="left">
+                      <label for="diferente_relleno" class="right">No</label>
+                    </td>
+                  </tr>`+ contenido_seccion_relleno(1) + `
+                  `+ contenido_pregunta_imagenEspecífica(1) + `
+                  `+ contenido_pregunta_fig_adorno(1) + `
+                  `+ contenido_adicional(1) + `
+    `);
+    inputs_radio = document.querySelectorAll("input[type='radio']");
+    for (let i = 0; i < inputs_radio.length; i += 2) {
+      inputs_radio[i].checked = true;
+    }
+    diferente_forma = document.getElementById("diferente_forma");
+    pregunta_mismo_tamaño = document.getElementById("pregunta_mismo_tamaño");
+    diferente_tamaño = document.getElementById("diferente_tamaño");
+    pregunta_mismo_tipo = document.getElementById("pregunta_mismo_tipo");
+  }
+  if (diferente_tamaño.checked == true) {
+    for (let i = 0; i < suma_formas; i++) {
+      pregunta_mismo_tamaño.nextElementSibling.remove();
+    }
+  }
   if (diferente_forma != null) {
     if (diferente_forma.checked == true) {
       for (let i = 0; i <= cantidadInput.value; i++) {
@@ -322,51 +415,15 @@ function aumentarCantidadP() {
       }
     }
   }
-  if (seccion_forma1 != null) {
-    let elem = seccion_forma1.nextElementSibling;
-    while (elem != null) {
-      elem.previousElementSibling.remove();
-      if (elem.nextElementSibling == null) {
-        elem.remove();
-        break;
-      } else {
-        elem = elem.nextElementSibling;
+  precio = document.getElementById("precio");
+  contenedor_select.removeAttribute("style");
+  if (diferente_tamaño.checked == true) {
+    if(mensajeNumValidos!=undefined&&mensajeNumValidos!=null){
+      for(let i=0;i<mensajeNumValidos.length;i++){
+        mensajeNumValidos[i].remove();
       }
     }
-  }
-  if (cantidadInput.value == "2") {
-    console.log("AGREGO CONTENIDO");
-    personalizacion.firstElementChild.insertAdjacentHTML("beforeend", `
-                  <tr id="pregunta_misma_forma">
-                    <th>¿Todos los pasteles son de la misma forma?</th>
-                    <td colspan="2">
-                      <input type="radio" id="igual_forma" onchange="opcionSel(event)" value="Sí" name="misma_forma" class="left">
-                      <label for="igual_forma" class="right">Sí</label>          
-                      <input type="radio" id="diferente_forma" onchange="opcionSel(event)" value="No" name="misma_forma" class="left">
-                      <label for="diferente_forma" class="right">No</label>
-                    </td>
-                  </tr>
-                  <tr id="seccion_forma2">
-                    <th><p><b>Forma:</b></p></th>
-                    <td colspan="2">
-                      <select onchange="tamañoSel(event)" name="forma">
-                        <option value="Redonda">Redonda</option>
-                        <option value="Cuadrada">Cuadrada</option>
-                        <option value="Rectangular">Rectangular</option>
-                        <option value="Personalizada">Personalizada</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr id="pregunta_mismo_tamaño">
-                    <th>¿Todos los pasteles son del mismo tamaño?</th>
-                    <td colspan="2">
-                      <input type="radio" id="igual_tamaño" onchange="opcionSel(event)" value="Sí" name="mismo_tamaño" class="left">
-                      <label for="igual_tamaño" class="right">Sí</label>          
-                      <input type="radio" id="diferente_tamaño" onchange="opcionSel(event)" value="No" name="mismo_tamaño" class="left">
-                      <label for="diferente_tamaño" class="right">No</label>
-                    </td>
-                  </tr>
-    `);
+    diferenteTamaño();
   }
 }
 function DedicatoriasP(cantidadInput) {
@@ -378,7 +435,7 @@ function DedicatoriasP(cantidadInput) {
   for (let i = 0; i < cantidadInput.value; i++) {
     html_aux1 += '<option value="' + (i + 1) + '">' + (i + 1) + '</option>';
   }
-  document.getElementById("contenedor_select").innerHTML = `
+  contenedor_select.innerHTML = `
   <select id="num_dedicatorias" onchange="AgregarHermanosSelect()">
 `+ html_aux1 + `
 </select>`;
@@ -387,7 +444,7 @@ function AgregarHermanosSelect(arreglo_dedicatorias) {
   let límite;
   let dedicatoria = "";
   html_aux2 = "";
-  dedicatorias = document.getElementsByName("dedicatoria");
+  dedicatoria = document.getElementsByName("dedicatoria");
   let select_dedicatorias = document.getElementById("num_dedicatorias");
   límite = select_dedicatorias.value - dedicatorias.length;
   if (select_dedicatorias.value - dedicatorias.length >= 1) {
@@ -419,21 +476,18 @@ function AgregarMásContenido() {
   personalizacion.firstElementChild.insertAdjacentHTML("beforeend", `            
   <tr>
                     <th>Ingrese el número de pasteles que se encuentra en el modelo:</th>
-                    <td colspan="2">
+                    <td colspan="1">
                         <input type="button" id="disminuir_cantidad" value="-" onclick="disminuirCantidadP()">
                         <input type="number" id="cantidad" name="cantidad" value="1" readonly>
                         <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadP()">
                     </td>
                 </tr>
-                <tr>
+                <tr id="seccion_dedicatorias">
                     <th>
                         <p id="texto_dedicatoria"><b>Dedicatoria para el pedido:</b></p>
                     </th>
-                    <td id="colSelect" style="display: none">
-                        <div id="contenedor_select">
-                        </div>
-                    </td>
                     <td>
+                        <div id="contenedor_select" style="display:none"></div>
                         <div id="cuadros_dedicatoria">
                             <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" onclick="quitarPlaceHolder(event)">
                         </div>
@@ -443,12 +497,26 @@ function AgregarMásContenido() {
   `);
   document.getElementById("sin_imgEspecífica").checked = true;
   cantidadInput = document.getElementById("cantidad");
+  contenedor_select = document.getElementById("contenedor_select");
 }
 function contenidoUnPastel() {
   return `
-                <tr id="seccion_forma1">
+                `+ contenido_seccion_forma(1) + `
+                `+ contenido_seccion_tamaño(1) + `
+                `+ contenido_seccion_tipoPastel(1) + `
+                `+ contenido_seccion_sabor(1) + `
+                `+ contenido_seccion_cobertura(1) + `
+                `+ contenido_seccion_relleno(1) + `
+                `+ contenido_pregunta_imagenEspecífica(1) + `
+                `+ contenido_pregunta_fig_adorno(1) + `
+                `+ contenido_adicional(1) + `
+  `;
+}
+function contenido_seccion_forma(num_col) {
+  return `
+  <tr id="seccion_forma">
                   <th><p><b>Forma:</b></p></th>
-                  <td>
+                  <td colspan="`+ num_col + `">
                     <select onchange="tamañoSel(event)" name="forma">
                       <option value="Redonda">Redonda</option>
                       <option value="Cuadrada">Cuadrada</option>
@@ -457,62 +525,13 @@ function contenidoUnPastel() {
                     </select>
                   </td>
                 </tr>
-                `+contenido_seccion_tamaño()+`
-                `+contenido_seccion_tipoPastel()+`
-                `+contenido_seccion_sabor()+`
-                `+contenido_seccion_cobertura()+`
-                `+contenido_seccion_relleno()+`
-                <tr id="pregunta_imagenEspecífica">
-                  <th><p><b>¿Desea un dibujo/imagen especial en el pastel?</b></p></th>
-                  <td>
-                    <input type="radio" id="con_imgEspecífica" onchange="opcionSel(event)" value="Sí" name="imgEspecífica" class="left">
-                    <label for="con_imgEspecífica" class="right">Sí</label>
-                    <input type="radio" id="sin_imgEspecífica" onchange="opcionSel(event)" value="No" name="imgEspecífica" class="left">
-                    <label for="sin_imgEspecífica" class="right">No</label>
-                  </td>
-                </tr>
-                <tr id="pregunta_fig_adorno">
-                  <th>¿El modelo escogido tiene una figura / adorno en fondant o desea incluirla?</th>
-                  <td>
-                    <select onchange="opcionSel(event)" id="opciones_fig_adEnFondant" name="fig_adEnFondant">
-                      <option value="No">No</option>
-                      <option value="Incluir figura">Incluir figura</option>
-                      <option value="Incluir adorno">Incluir adorno</option>
-                      <option value="Incluir figura y adorno">Incluir figura y adorno</option>
-                      <option value="El modelo incluye una figura">El modelo incluye una figura</option>
-                      <option value="El modelo incluye un adorno">El modelo incluye un adorno</option>
-                      <option value="El modelo incluye ambos">El modelo incluye ambos</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr id="espAdicional">
-                  <th>Especificación adicional:</th>
-                  <td id="secdescrAdicional">
-                    <textarea name="descrAdicional" id="descrAdicional" placeholder="(Opcional)" onclick="quitarPlaceHolder(event)"></textarea>
-                  </td>
-                </tr>
-                <tr id="seccion_precio">
-                  <td colspan="2">
-                    <h2>Precio: $5</h2>
-                  </td>
-                </tr>
-                <tr id="seccion_envío">
-                  <td colspan="2">
-                    <button>Añadir al carrito</button>
-                  </td>
-                </tr>
-                <tr id="seccion_nota">
-                  <td colspan="2">
-                    <h3>Nota: Para otras especificaciones puede comunicarse al 0988363503. Tenga en cuenta que especificaciones más complejas podrían conllevar cambios en el precio.</h3>
-                  </td>
-                </tr>
   `;
 }
-function contenido_seccion_tamaño(){
+function contenido_seccion_tamaño(num_col) {
   return `
   <tr id="seccion_tamaño">
                   <th><p><b>Tamaño:</b></p></th>
-                  <td>
+                  <td colspan="`+ num_col + `">
                     <select id="opciones_tamaño" name="tamaño">
                       <option value="Mini (5-6 personas)">Mini (5-6 personas)</option>
                       <option value="Pequeña (10-12 personas)">Pequeña (10-12 personas)</option>
@@ -524,11 +543,11 @@ function contenido_seccion_tamaño(){
                 </tr>
   `;
 }
-function contenido_seccion_tipoPastel(){
+function contenido_seccion_tipoPastel(num_col) {
   return `
   <tr id="seccion_tipoPastel">
                   <th><p><b>Tipo de pastel:</b></p></th>
-                  <td>
+                  <td colspan="`+ num_col + `">
                     <select onchange="opcionSel(event)" id="opciones_pastel" name="masa">
                       <option value="Normal (Con receta propia)">Normal (Con receta propia)</option>
                       <option value="Bizcochuelo">Bizcochuelo</option>
@@ -541,11 +560,11 @@ function contenido_seccion_tipoPastel(){
                 </tr>
   `;
 }
-function contenido_seccion_sabor(){
+function contenido_seccion_sabor(num_col) {
   return `
   <tr id="seccion_sabor">
                   <th><p><b>Sabor:</b></p></th>
-                  <td>
+                  <td colspan="`+ num_col + `">
                     <select onchange="opcionSel(event)" id="opciones_sabor" name="sabor">
                       <option value="Naranja">Naranja</option>
                       <option value="Chocolate">Chocolate</option>
@@ -558,11 +577,11 @@ function contenido_seccion_sabor(){
                 </tr>
   `;
 }
-function contenido_seccion_cobertura(){
+function contenido_seccion_cobertura(num_col) {
   return `
   <tr id="seccion_cobertura">
                   <th><p><b>Cobertura:</b></p></th>
-                  <td>
+                  <td colspan="`+ num_col + `">
                     <select onchange="opcionSel(event)" id="opciones_cobertura" name="cobertura">
                       <option value="Crema">Crema</option>
                       <option value="Fondant">Fondant</option>
@@ -572,11 +591,11 @@ function contenido_seccion_cobertura(){
                 </tr>
   `;
 }
-function contenido_seccion_relleno(){
+function contenido_seccion_relleno(num_col) {
   return `
   <tr id="seccion_relleno">
                   <th><p><b>Relleno:</b></p></th>
-                  <td>
+                  <td colspan="`+ num_col + `">
                     <select onchange="opcionSel(event)" id="opciones_relleno" name="relleno">
                       <option value="Mermelada de frutilla">Mermelada de frutilla</option>
                       <option value="Mermelada de mora">Mermelada de mora</option>
@@ -589,25 +608,86 @@ function contenido_seccion_relleno(){
                 </tr>
   `;
 }
+function contenido_pregunta_imagenEspecífica(num_col) {
+  let str_aux;
+  if (num_col == 1) {
+    str_aux = "el";
+  } else {
+    str_aux = "algún";
+  }
+  return `
+<tr id="pregunta_imagenEspecífica">
+  <th><p><b>¿Desea un dibujo/imagen especial en `+ str_aux + ` pastel?</b></p></th>
+  <td colspan="`+ num_col + `">
+    <input type="radio" id="con_imgEspecífica" onchange="opcionSel(event)" value="Sí" name="imgEspecífica" class="left">
+    <label for="con_imgEspecífica" class="right">Sí</label>
+    <input type="radio" id="sin_imgEspecífica" onchange="opcionSel(event)" value="No" name="imgEspecífica" class="left">
+    <label for="sin_imgEspecífica" class="right">No</label>
+  </td>
+</tr>
+  `;
+}
+function contenido_pregunta_fig_adorno(num_col) {
+  return `
+  <tr id="pregunta_fig_adorno">
+                  <th>¿El modelo escogido tiene o desea incluir una figura / adorno en fondant?</th>
+                  <td colspan="`+ num_col + `">
+                    <select onchange="opcionSel(event)" id="opciones_fig_adEnFondant" name="fig_adEnFondant">
+                      <option value="No">No</option>
+                      <option value="Incluir figura">Incluir figura</option>
+                      <option value="Incluir adorno">Incluir adorno</option>
+                      <option value="Incluir figura y adorno">Incluir figura y adorno</option>
+                      <option value="El modelo incluye una figura">El modelo incluye una figura</option>
+                      <option value="El modelo incluye un adorno">El modelo incluye un adorno</option>
+                      <option value="El modelo incluye ambos">El modelo incluye ambos</option>
+                    </select>
+                  </td>
+                </tr>
+  `;
+}
+function contenido_adicional(num_col) {
+  return `
+  <tr id="espAdicional">
+                  <th>Especificación adicional:</th>
+                  <td colspan="`+ num_col + `">
+                    <textarea name="descrAdicional" id="descrAdicional" placeholder="(Opcional)" onclick="quitarPlaceHolder(event)"></textarea>
+                  </td>
+                </tr>
+                <tr id="seccion_precio">
+                  <td colspan="`+ (num_col + 1) + `">
+                    <h2 id="precio">Precio: $5</h2>
+                  </td>
+                </tr>
+                <tr id="seccion_envío">
+                  <td colspan="`+ (num_col + 1) + `">
+                    <button>Añadir al carrito</button>
+                  </td>
+                </tr>
+                <tr id="seccion_nota">
+                  <td colspan="`+ (num_col + 1) + `">
+                    <h3>Nota: Para otras especificaciones puede comunicarse al 0988363503. Tenga en cuenta que especificaciones más complejas podrían conllevar cambios en el precio.</h3>
+                  </td>
+                </tr>
+  `;
+}
 function opcionSel(event) {
   switch (event.target.id) {
-    case "igual_forma":
-      let dif_forma = document.getElementsByTagName("tbody");
-      if (dif_forma.length == 4) {
-        dif_forma[3].remove();
+    case "misma_forma":
+      for (let i = 0; i < 4; i++) {
+        event.target.parentElement.parentElement.nextElementSibling.remove();
       }
-
+      event.target.parentElement.parentElement.insertAdjacentHTML("afterend", contenido_seccion_forma(1));
       break;
     case "diferente_forma":
       let str = "";
-      seccion_forma2=document.getElementById("seccion_forma2");
-      seccion_forma2.style = "display: none";
+      seccion_forma = document.getElementById("seccion_forma");
+      seccion_forma.remove();
       for (let i = 0; i <= cantidadInput.value; i++) {
         str += '<option value="' + i + '">' + i + '</option>';
       }
       event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
                   <tr>
-                      <th>Nro. de pasteles circulares</th>
+                      <th>Nro. de pasteles redondos</th>
                       <td colspan="2">
                         <select id="num_circulares" onchange="diferentesFormas(event)" name="forma_pasteles">
                         `+ str + `
@@ -641,20 +721,20 @@ function opcionSel(event) {
       `);
       break;
     case "mismo_tamaño":
-      console.log(event.target.parentElement.parentElement);
+      suma_formas = sumaPastelesDiferentes();
+      for (let i = 0; i < suma_formas; i++) {
+        pregunta_mismo_tamaño.nextElementSibling.remove();
+      }
+      pregunta_mismo_tamaño.insertAdjacentHTML("afterend", contenido_seccion_tamaño(1));
+      if(mensajeNumValidos!=undefined&&mensajeNumValidos!=null){
+        for(let i=0;i<mensajeNumValidos.length;i++){
+          mensajeNumValidos[i].remove();
+        }
+      }
       break;
     case "diferente_tamaño":
-      let seccion_tamaño = document.getElementById("seccion_tamaño");
-      if (seccion_tamaño != null) {
-        let elem = seccion_tamaño;
-        while (elem != null) {
-          if (elem instanceof HTMLElement) {
-            elem.style = "display: none";
-          }
-          elem = elem.nextElementSibling;
-        }
-        seccion_tamaño.style = "display:none";
-      }
+      seccion_tamaño.remove();
+      diferenteTamaño();
       break;
     case "con_imgEspecífica":
       event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
@@ -688,10 +768,8 @@ function opcionSel(event) {
       });
       break;
     case "sin_imgEspecífica":
-      console.log(document.getElementsByClassName("seccion_imgEspecífica"));
       document.getElementsByClassName("seccion_imgEspecífica")[0].remove();
       document.getElementsByClassName("seccion_imgEspecífica")[0].remove();
-
       break;
   }
   switch (event.target.name) {
@@ -786,6 +864,33 @@ function opcionSel(event) {
     removerDropsAdicionales();
   }
 }
+function nombrePastelSegúnNro(num, nombre_específico) {
+  let str_aux;
+  switch (num) {
+    case 0:
+      str_aux = "Tamaño para pastel redondo Nro. ";
+      break;
+    case 1:
+      str_aux = "Tamaño para pastel cuadrado Nro. ";
+      break;
+    case 2:
+      str_aux = "Tamaño para pastel rectangular Nro. ";
+      break;
+    case 3:
+      str_aux = "Tamaño para pastel con forma personalizada Nro. ";
+      break;
+  }
+  if (nombre_específico == true) {
+    let str_aux2 = str_aux.substring(0, str_aux.length - 6);
+    let str_aux3 = str_aux2.substring(str_aux2.lastIndexOf(" ") + 1);
+    let str_aux4 = str_aux3[0].toUpperCase() + str_aux3.substring(1);
+    if (str_aux4[str_aux4.length - 1] == "o") {
+      str_aux4 = str_aux4.substring(0, str_aux4.length - 1) + "a";
+    }
+    return (str_aux4);
+  }
+  return str_aux;
+}
 function removerDropsAdicionales() {
   if (img_figura != null) {
     img_figura.remove();
@@ -836,23 +941,62 @@ function seccionAdorno(event) {
   });
 }
 function diferentesFormas(event) {
-  seleccionables = document.getElementsByName("forma_pasteles");
-  let str = ' ';
-  let suma_formas = 0;
-  for (let k = 0; k < seleccionables.length; k++) {
-    suma_formas += parseInt(seleccionables[k].value);
+  let limite, num_aux, str_aux;
+  let str = '<option value="0">0</option>';
+  if (diferente_tamaño.checked == true) {
+    for (let i = 0; i < suma_formas; i++) {
+      pregunta_mismo_tamaño.nextElementSibling.remove();
+    }
   }
-  for (let i = 0; i <= cantidadInput.value - suma_formas; i++) {
+  suma_formas = sumaPastelesDiferentes();
+  if (suma_formas > cantidadInput.value) {
+    num_aux = event.target.value;
+    limite = cantidadInput.value - event.target.value;
+    for (let z = 0; z <= cantidadInput.value; z++) {
+      str_aux += '<option value="' + z + '">' + z + '</option>';
+    }
+    event.target.innerHTML = str_aux;
+    event.target.value = num_aux;
+  } else {
+    limite = cantidadInput.value - suma_formas;
+  }
+  for (let i = 1; i <= limite && event.target.value != cantidadInput.value; i++) {
     str += '<option value="' + i + '">' + i + '</option>';
   }
   for (let j = 0; j < seleccionables.length; j++) {
-    if (seleccionables[j].id != event.target.id && seleccionables[j].value == 0) {
-      seleccionables[j].innerHTML = str;
+    if (seleccionables[j].id != event.target.id) {
+      if (seleccionables[j].value == 0 || (cantidadInput.value - suma_formas) < 0) {
+        seleccionables[j].innerHTML = str;
+      }
     }
   }
+  if (diferente_tamaño.checked == true) {
+    if(mensajeNumValidos!=undefined&&mensajeNumValidos!=null){
+      for(let i=0;i<mensajeNumValidos.length;i++){
+        mensajeNumValidos[i].remove();
+      }
+    }
+    diferenteTamaño();
+  }
+}
+function sumaPastelesDiferentes() {
+  let suma_formas = 0;
+  seleccionables = document.getElementsByName("forma_pasteles");
+  if (seleccionables != null) {
+    for (let k = 0; k < seleccionables.length; k++) {
+      suma_formas += parseInt(seleccionables[k].value);
+    }
+  }
+  return suma_formas;
 }
 function tamañoSel(event) {
-  switch (event.target.value) {
+  let ingreso;
+  if (typeof event == "string") {
+    ingreso = event;
+  } else {
+    ingreso = event.target.value;
+  }
+  switch (ingreso) {
     case "Redonda":
       tamaño1 = "Mini (5-6 personas)";
       tamaño2 = "Pequeña (10-12 personas)";
@@ -880,10 +1024,10 @@ function tamañoSel(event) {
 <option value="`+ tamaño1 + `">` + tamaño1 + `</option>
 <option value="`+ tamaño2 + `">` + tamaño2 + `</option>
 `;
-  if (event.target.value == "Cuadrada") {
+  if (ingreso == "Cuadrada") {
     opciones_tamaño += `<option value="` + tamaño3 + `">` + tamaño3 + `</option>`;
   } else {
-    if (event.target.value == "Personalizada" || event.target.value == "Redonda") {
+    if (ingreso == "Personalizada" || ingreso == "Redonda") {
       opciones_tamaño += `
       <option value="`+ tamaño3 + `">` + tamaño3 + `</option>
       <option value="`+ tamaño4 + `">` + tamaño4 + `</option>
@@ -893,5 +1037,41 @@ function tamañoSel(event) {
   }
   if (cantidadInput.value == 1) {
     document.getElementById("opciones_tamaño").innerHTML = opciones_tamaño;
+  }
+  if (typeof event == "string") {
+    return opciones_tamaño;
+  }
+}
+function ingresoDiferentesTamaños(elem) {
+  for (let i = 0; i < seleccionables.length; i++) {
+    if (seleccionables[i].value != 0) {
+      for (let j = 1; j <= seleccionables[i].value; j++) {
+        elem.insertAdjacentHTML("beforebegin", `
+      <tr>
+        <th>`+ nombrePastelSegúnNro(i, false) + j + `</th>
+        <td>
+          <select id="opciones_tamaño" name="tamaño">
+            `+ tamañoSel(nombrePastelSegúnNro(i, true)) + `
+          </select>
+        </td>
+      </tr>
+      `);
+      }
+    }
+  }
+}
+function diferenteTamaño() {
+  suma_formas = sumaPastelesDiferentes();
+  if (suma_formas == 0) {
+    if (diferente_forma.checked == true) {
+      pregunta_mismo_tamaño.insertAdjacentHTML("afterend", `
+          <tr class="mensajeNumValidos">
+            <th colspan="2" style="color: red">Escoga números válidos para la forma de cada pastel</th>
+          </tr>
+          `);
+          mensajeNumValidos=document.getElementsByClassName("mensajeNumValidos");
+    }
+  } else {
+    ingresoDiferentesTamaños(pregunta_mismo_tipo);
   }
 }

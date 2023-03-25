@@ -21,17 +21,18 @@ if (!empty($_FILES)) {
   $tmp_name = $_FILES['file']['tmp_name'];
   $target_file = $target_path . $_FILES['file']['name'];
   if (file_exists($target_path)) {
-    if (esArchivoImagen($target_file)) {
+    if (esArchivoImagen($target_file, false)) {
+      $extension=esArchivoImagen($target_file,true);
       if (!empty($_GET['DibujoImgEspecial'])) {
-        $ruta = $target_path . $id . "_DibujoImgEspecial.png";
+        $ruta = $target_path . $id . "_DibujoImgEspecial.".$extension;
       }else{
         if(!empty(($_GET['Figura']))){
-          $ruta = $target_path . $id . "_Figura.png";
+          $ruta = $target_path . $id . "_Figura.".$extension;
         }else{
           if(!empty(($_GET['Adorno']))){
-            $ruta = $target_path . $id . "_Adorno.png";
+            $ruta = $target_path . $id . "_Adorno.".$extension;
           }else{
-            $ruta = $target_path . $id . ".png";
+            $ruta = $target_path . $id . ".".$extension;
           }
         }
       }
@@ -59,11 +60,15 @@ if (!empty($_FILES)) {
     header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
   }
 }
-function esArchivoImagen($archivo) {
+function esArchivoImagen($archivo, $retornar_extension) {
   $extension = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
-  $extensiones_imagen = array("jpg", "jpeg", "gif", "png", "bmp", "tiff", "tif");
+  $extensiones_imagen = array("jpg", "jpeg", "gif", "png", "bmp", "tiff", "tif", "webp");
   if (in_array($extension, $extensiones_imagen)) {
-    return true;
+    if ($retornar_extension) {
+      return $extension;
+    } else {
+      return true;
+    }
   } else {
     return false;
   }

@@ -1,5 +1,9 @@
+@font-face {
+    font-family: "Sanseriffic";
+    src: url("../fuente/Sanseriffic.woff");
+  }
 * {
-    font-family:Sanseriffic;
+    font-family: "Sanseriffic", Arial, sans-serif;
 }
 *:not(#Menu_Catalogo, #Menu_Catalogo *) {
     transition: 0.4s;
@@ -249,6 +253,10 @@ h3{
 }
 #form_proPersonalizado{
     padding: 0px 15px;
+    width: 810px;
+}
+#personalizacion{
+    width: auto;
 }
 ::-webkit-scrollbar {
     width: 10px;
@@ -279,10 +287,6 @@ table{
     text-align: center;
     table-layout: fixed;
 }
-
-#personalizacion{
-    width: auto;
-}
 .dropzone{
     display: grid !important;
     margin-left: auto;
@@ -292,7 +296,12 @@ table{
     padding: 3px !important;
     z-index: 0;
 }
-
+#seccion_dedicatorias>td{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
 #seccion_imagen>img{
     height: 120px;
     width: 120px;
@@ -373,7 +382,7 @@ h1{
 }
 select{
     background-color: transparent;
-    border: 0.2vw solid black;
+    border: 1px solid black;
     border-radius: 3px;
     font: normal normal normal 18px/1.4em Sanseriffic;
     text-indent: 16px;
@@ -397,7 +406,11 @@ input[type="text"], #num_tarjeta{
 input[name='dedicatoria'] {
     border: 1px solid black;
     cursor: text !important;
-    margin: 9px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+#cuadros_dedicatoria{
+    width: 150px;
 }
 #cambio_contraseña>input{
     display: flex;
@@ -724,7 +737,9 @@ footer {
 /*------------------------------------------------*/
 
 table:not(#tabla1), th:not(#tabla1 th), td:not(#tabla1 td) {
-    border: 2px solid transparent;
+    border-style: solid;
+    border-color: transparent;
+    border-width: 5px 0px;
   }
 input[name='ingreso_enlace']{
     cursor: text !important;
@@ -743,7 +758,7 @@ input[name='ingreso_enlace']{
 textarea{
     font: normal normal normal 18px/1.4em Sanseriffic;
     transition: initial;
-    width: 100%;
+    width: 98.4%;
     height: 60px;
 }
 #secdescrAdicional{
@@ -911,6 +926,11 @@ input[name='dedicatoria']{
     }
     #seccion_iconos{
         flex-direction: column;
+    }
+}
+@media screen and (max-width: 829px) {
+    #form_proPersonalizado{
+        width: auto;
     }
 }
 @media screen and (max-width: 720px) { 
