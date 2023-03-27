@@ -328,8 +328,6 @@ function aumentarCantidadP() {
   opcionSel(event);
   texto_dedicatoria = document.getElementById("texto_dedicatoria");
   texto_dedicatoria.innerHTML = "<b>Cantidad de dedicatorias:</b>";
-
-
   if (cantidadInput.value == "2") {
     if (seccion_forma != null) {
       let elem = seccion_forma.nextElementSibling;
@@ -496,7 +494,7 @@ function AgregarHermanosSelect(arreglo_dedicatorias) {
 }
 function AgregarMásContenido() {
   personalizacion.firstElementChild.insertAdjacentHTML("beforeend", `            
-  <tr>
+                <tr>
                     <th>Ingrese el número de pasteles que se encuentra en el modelo:</th>
                     <td colspan="1">
                         <input type="button" id="disminuir_cantidad" value="-" onclick="disminuirCantidadP()">
@@ -536,7 +534,7 @@ function contenidoUnPastel() {
 }
 function contenido_seccion_forma() {
   return `
-  <tr id="seccion_forma">
+                <tr id="seccion_forma">
                   <th><p><b>Forma:</b></p></th>
                   <td>
                     <select onchange="tamañoSel(event)" name="forma">
@@ -551,7 +549,7 @@ function contenido_seccion_forma() {
 }
 function contenido_seccion_tamaño() {
   return `
-  <tr id="seccion_tamaño">
+                <tr id="seccion_tamaño">
                   <th><p><b>Tamaño:</b></p></th>
                   <td>
                     <select id="opciones_tamaño" name="tamaño">
@@ -567,7 +565,7 @@ function contenido_seccion_tamaño() {
 }
 function contenido_seccion_tipoPastel() {
   return `
-  <tr id="seccion_tipoPastel">
+                <tr id="seccion_tipoPastel">
                   <th><p><b>Tipo de pastel:</b></p></th>
                   <td>
                     <select onchange="opcionSel(event)" id="opciones_pastel" name="masa">
@@ -584,7 +582,7 @@ function contenido_seccion_tipoPastel() {
 }
 function contenido_seccion_sabor() {
   return `
-  <tr id="seccion_sabor">
+                <tr id="seccion_sabor">
                   <th><p><b>Sabor:</b></p></th>
                   <td>
                     <select onchange="opcionSel(event)" id="opciones_sabor" name="sabor">
@@ -601,7 +599,7 @@ function contenido_seccion_sabor() {
 }
 function contenido_seccion_cobertura() {
   return `
-  <tr id="seccion_cobertura">
+                <tr id="seccion_cobertura">
                   <th><p><b>Cobertura:</b></p></th>
                   <td>
                     <select onchange="opcionSel(event)" id="opciones_cobertura" name="cobertura">
@@ -615,7 +613,7 @@ function contenido_seccion_cobertura() {
 }
 function contenido_seccion_relleno() {
   return `
-  <tr id="seccion_relleno">
+                <tr id="seccion_relleno">
                   <th><p><b>Relleno:</b></p></th>
                   <td>
                     <select onchange="opcionSel(event)" id="opciones_relleno" name="relleno">
@@ -651,7 +649,7 @@ function contenido_pregunta_imagenEspecífica(num_col) {
 }
 function contenido_pregunta_fig_adorno(num_col) {
   return `
-  <tr id="pregunta_fig_adorno">
+                <tr id="pregunta_fig_adorno">
                   <th>¿El modelo escogido tiene o desea incluir una figura / adorno en fondant?</th>
                   <td colspan="`+ num_col + `">
                     <select onchange="opcionSel(event)" id="opciones_fig_adEnFondant" name="fig_adEnFondant">
@@ -669,7 +667,7 @@ function contenido_pregunta_fig_adorno(num_col) {
 }
 function contenido_adicional(num_col) {
   return `
-  <tr id="espAdicional">
+                <tr id="espAdicional">
                   <th>Especificación adicional:</th>
                   <td colspan="`+ num_col + `">
                     <textarea name="descrAdicional" id="descrAdicional" placeholder="(Opcional)" onclick="quitarPlaceHolder(event)"></textarea>
@@ -814,7 +812,6 @@ function opcionSel(event) {
                     </div>
                   </td>
                 </tr>
-                
         `);
       ingreso_enlace2 = document.getElementById("enlace2");
       formDrop2 = configurarDropZone(ingreso_enlace2, "DibujoImgEspecial");
@@ -1016,9 +1013,8 @@ function seccionAdorno(event) {
                     <th>Previsualización de adorno:</th>
                     <td class="seccion_formDrop">
                       <div class="dropzone" id="formDrop4">
-                      <input type="url" placeholder="Ingresar enlace" name="ingreso_enlace" class="para_enlace" id="enlace4"
-                      onclick="quitarPlaceHolder(event)">
-                      <input type="hidden" name="enlace" class="aux_IngresarEnlace">
+                        <input type="url" placeholder="Ingresar enlace" name="ingreso_enlace" class="para_enlace" id="enlace4" onclick="quitarPlaceHolder(event)">
+                        <input type="hidden" name="enlace" class="aux_IngresarEnlace">
                       </div>
                     </td>
                   </tr>
@@ -1119,8 +1115,8 @@ function tamañoSel(event) {
       tamaño5 = "Extra grande (66-68 personas)";
   }
   contenido_opciones_tamaño = `
-<option value="`+ tamaño1 + `">` + tamaño1 + `</option>
-<option value="`+ tamaño2 + `">` + tamaño2 + `</option>
+  <option value="`+ tamaño1 + `">` + tamaño1 + `</option>
+  <option value="`+ tamaño2 + `">` + tamaño2 + `</option>
 `;
   if (ingreso == "Cuadrada") {
     contenido_opciones_tamaño += `<option value="` + tamaño3 + `">` + tamaño3 + `</option>`;
@@ -1136,9 +1132,7 @@ function tamañoSel(event) {
   if (typeof event != "string"||(misma_forma.checked==true&&mismo_tamaño.checked==true)) {
     document.getElementById("opciones_tamaño").innerHTML = contenido_opciones_tamaño;
   } else {
-   
       return contenido_opciones_tamaño;
-    
   }
 }
 function ingresoDiferentesTamaños(elem, mismo_tamaño, seleccionables) {
@@ -1149,14 +1143,14 @@ function ingresoDiferentesTamaños(elem, mismo_tamaño, seleccionables) {
           j = "";
         }
         elem.insertAdjacentHTML("beforebegin", `
-      <tr>
-        <th>`+ nombrePastelSegúnNro(i, false, mismo_tamaño) + j + `</th>
-        <td>
-          <select id="opciones_tamaño" name="tamaño">
-            `+ tamañoSel(nombrePastelSegúnNro(i, true, mismo_tamaño)) + `
-          </select>
-        </td>
-      </tr>
+        <tr>
+          <th>`+ nombrePastelSegúnNro(i, false, mismo_tamaño) + j + `</th>
+          <td>
+            <select id="opciones_tamaño" name="tamaño">
+              `+ tamañoSel(nombrePastelSegúnNro(i, true, mismo_tamaño)) + `
+            </select>
+          </td>
+        </tr>
       `);
         if (mismo_tamaño == true) {
           break;
@@ -1173,10 +1167,10 @@ function diferenteTamaño(mismo_tamaño, seleccionables) {
   if (suma_formas == 0) {
     if (diferente_forma.checked == true) {
       pregunta_mismo_tamaño.insertAdjacentHTML("afterend", `
-          <tr class="mensajeNumValidos">
-            <th colspan="2" style="color: red">Escoga números válidos para la forma de cada pastel</th>
-          </tr>
-          `);
+        <tr class="mensajeNumValidos">
+          <th colspan="2" style="color: red">Escoga números válidos para la forma de cada pastel</th>
+        </tr>
+      `);
       mensajeNumValidos = document.getElementsByClassName("mensajeNumValidos");
     }
   } else {
@@ -1197,9 +1191,9 @@ function formaANúmero(forma) {
 }
 function resetearDivElem() {
   div_elem.innerHTML = `
-<select><option value="0">0</option></select>
-<select><option value="0">0</option></select>
-<select><option value="0">0</option></select>
-<select><option value="0">0</option></select>
+  <select><option value="0">0</option></select>
+  <select><option value="0">0</option></select>
+  <select><option value="0">0</option></select>
+  <select><option value="0">0</option></select>
 `;
 }
