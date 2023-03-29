@@ -1,4 +1,6 @@
-let num_productos, img, cantidad_producto_carr, id_imagen, direccion_producto, dedicatoria, cuadros_dedicatoria, opciones, id_producto, precio_producto, descripción_adicional, porciones, masa, cobertura, sabor, relleno, reqAdicional;
+let num_productos, img, cantidad_producto_carr, id_imagen, direccion_producto, 
+dedicatoria, cuadros_dedicatoria, opciones, id_producto, precio_producto, 
+descripción_adicional, porciones, masa, cobertura, sabor, relleno, reqAdicional;
 let left = 0;
 let html_aux1="";
 let html_aux2="";
@@ -381,7 +383,6 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
         const srcString = event.target.nextSibling.src;
         carritoInfo="Añadir al carrito";
         req_Adicional="";
-        console.log(srcString);
         if (srcString.includes("imagenes")) {
             let dirImg;
             let num=srcString.indexOf("/imagenes");
@@ -396,7 +397,6 @@ function ProductoSeleccionado(event,imagen, carritoInfo, cantidad_productos, arr
     estilo = document.getElementById("estilo");
     estilo.href = "../styles/estilo_Modificación_ProductoSeleccionado.css";
     myData.then(result => {
-        console.log(result);
         id_producto = result[0].Codigo;
         precio_producto = result[0].Precio;
         descripción_adicional = result[0].Descripción;
@@ -571,7 +571,6 @@ function enviarInfoACarrito(carritoInfo) {
     });
 }
 
-//AQUI EMPIEZA LA VENTANA DE INGRESO 
 function MostrarVentanaDeIngreso() {
     if (event.target.id != "RegresarAIngreso") {
         document.head.appendChild(estilo_Ingreso_Registro);
@@ -672,7 +671,6 @@ function AgregarContenidoCarrito() {
     let primera_fila = document.getElementById("primera_fila");
     let myData = myAsyncFunction3();
     myData.then(result => {
-        console.log(result);
         if (result.usuario == "noIngresado"||result.length==0) {
             ProductosNoIngresados();
         }
@@ -709,13 +707,11 @@ function irAIndex() {
     window.location.href = "../html/Index.php";
 }
 function editarInfoProductoCarrito(event){
-    
     let enlaceImg=event.target.nextSibling.nextSibling.value;
     let string_dedicatorias=document.querySelector("p[name='dedicatoria']").innerHTML;
     const sin_parentesis_extremos = string_dedicatorias.replace(/^\(|\)$/g, "");
     const arreglo_dedicatorias = sin_parentesis_extremos.split("),(");
     reqAdicional=event.target.nextSibling.nextSibling.nextSibling.nextSibling.value;
     cantidadInput=document.querySelector("p[name='cantidad']").innerHTML;
-    //console.log(event.target.nextSibling.nextSibling.nextSibling.nextSibling.value);
     ProductoSeleccionado(event,enlaceImg,"si", cantidadInput, arreglo_dedicatorias, reqAdicional);
 }

@@ -258,7 +258,7 @@ function disminuirCantidadP() {
     }
   }
   seccion_forma = document.getElementById("seccion_forma");
-  seleccionables = document.getElementsByName("forma_pasteles");
+  seleccionables = document.getElementsByName("forma");
   if (cantidadInput.value >= 2) {
     cantidadInput.value = parseInt(cantidadInput.value) - 1;
   }
@@ -317,11 +317,14 @@ function disminuirCantidadP() {
       diferenteTamaño(true, seleccionables);
     }
   }
+  if(cantidadInput.value>1){
+    actualizarDesdeTipo();
+  } 
 }
 function aumentarCantidadP() {
   let str = "";
   seccion_forma = document.getElementById("seccion_forma");
-  seleccionables = document.getElementsByName("forma_pasteles");
+  seleccionables = document.getElementsByName("forma");
   cantidadInput.value = parseInt(cantidadInput.value) + 1;
   DedicatoriasP(cantidadInput);
   document.getElementById("cuadros_dedicatoria").innerHTML = `
@@ -405,8 +408,8 @@ function aumentarCantidadP() {
                   `+ contenido_pregunta_fig_adorno() + `
                   `+ contenido_adicional(1) + `
     `);
-    elems_masa=document.getElementsByName("masa");
-    elems_masa[0].onchange = function () { tipoPasteles(event, true, 0, true, true, true, false); };
+    elems_masa = document.getElementsByName("masa");
+    elems_masa[0].onchange = function () { tipoPasteles(event, true, 0, true, true, true, false, false); };
     inputs_radio = document.querySelectorAll("input[type='radio']");
     for (let i = 0; i < inputs_radio.length; i += 2) {
       if (i + 2 >= inputs_radio.length) {
@@ -448,10 +451,11 @@ function aumentarCantidadP() {
       diferenteTamaño(false, seleccionables);
     }
   } else {
-    if (diferente_forma.checked == true) {
+    if (diferente_forma.checked) {
       diferenteTamaño(true, seleccionables);
     }
   }
+  actualizarDesdeTipo();
 }
 function DedicatoriasP(cantidadInput) {
   opciones = document.getElementById("num_dedicatorias");
@@ -585,7 +589,7 @@ function contenido_seccion_tipoPastel(select, sabor, num_select, retorno_vacio, 
     str_aux2 = "";
   }
   if (contenido_onchange) {
-    contenido_onchange = ` onchange="tipoPasteles(event, ` + sabor + `,` + num_select + `,` + retorno_vacio + `,` + ver_mismo_relleno + `,` + ver_mismo_sabor + `,` + difTipo + `,`+difForma+`)" `;
+    contenido_onchange = ` onchange="tipoPasteles(event, ` + sabor + `,` + num_select + `,` + retorno_vacio + `,` + ver_mismo_relleno + `,` + ver_mismo_sabor + `,` + difTipo + `,` + difForma + `)" `;
   } else {
     contenido_onchange = " ";
   }
@@ -771,6 +775,23 @@ function opcionSel(event) {
         resetearDivElem();
       }
       seccion_forma = document.getElementById("seccion_forma");
+      actualizarDesdeTipo();
+      elems_masa = document.getElementsByName("masa");
+      for (let i = 0; i < elems_masa.length; i++) {
+        if (!mismo_sabor.checked) {
+          if (mismo_relleno.checked) {
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, false, diferente_tipo.checked, diferente_forma.checked); };
+          } else {
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, false, diferente_tipo.checked, diferente_forma.checked); };
+          }
+        } else {
+          if (mismo_relleno.checked) {
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, true, diferente_tipo.checked, diferente_forma.checked); };
+          } else {
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, true, diferente_tipo.checked, diferente_forma.checked); };
+          }
+        }
+      }
       break;
     case "diferente_forma":
       let str = "";
@@ -785,7 +806,7 @@ function opcionSel(event) {
                   <tr>
                       <th>Nro. de pasteles redondos</th>
                       <td colspan="2">
-                        <select id="num_circulares" onchange="diferentesFormas(event)" name="forma_pasteles">
+                        <select id="num_circulares" onchange="diferentesFormas(event)" name="forma">
                         `+ str + `
                         </select>
                       </td>
@@ -793,7 +814,7 @@ function opcionSel(event) {
                   <tr>
                       <th>Nro. de pasteles cuadrados</th>
                       <td colspan="2">
-                        <select id="num_cuadradas" onchange="diferentesFormas(event)" name="forma_pasteles">
+                        <select id="num_cuadradas" onchange="diferentesFormas(event)" name="forma">
                         `+ str + `
                         </select>
                       </td>
@@ -801,7 +822,7 @@ function opcionSel(event) {
                   <tr>
                       <th>Nro. de pasteles rectangulares</th>
                       <td colspan="2">
-                        <select id="num_rectangulares" onchange="diferentesFormas(event)" name="forma_pasteles">
+                        <select id="num_rectangulares" onchange="diferentesFormas(event)" name="forma">
                         `+ str + `
                         </select>
                       </td>
@@ -809,7 +830,7 @@ function opcionSel(event) {
                   <tr>
                       <th>Nro. de pasteles con forma personalizada</th>
                       <td colspan="2">
-                        <select id="num_personalizadas" onchange="diferentesFormas(event)" name="forma_pasteles">
+                        <select id="num_personalizadas" onchange="diferentesFormas(event)" name="forma">
                         `+ str + `
                         </select>
                       </td>
@@ -820,6 +841,23 @@ function opcionSel(event) {
         pregunta_mismo_tamaño.firstElementChild.innerHTML = "¿Los pasteles son del mismo tamaño?";
       } else {
         diferenteTamaño(false, seleccionables);
+      }
+      actualizarDesdeTipo();
+      elems_masa = document.getElementsByName("masa");
+      for (let i = 0; i < elems_masa.length; i++) {
+        if (!mismo_sabor.checked) {
+          if (mismo_relleno.checked) {
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, false, diferente_tipo.checked, diferente_forma.checked); };
+          } else {
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, false, diferente_tipo.checked, diferente_forma.checked); };
+          }
+        } else {
+          if (mismo_relleno.checked) {
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, true, diferente_tipo.checked, diferente_forma.checked); };
+          } else {
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, true, diferente_tipo.checked, diferente_forma.checked); };
+          }
+        }
       }
       break;
     case "mismo_tamaño":
@@ -845,130 +883,110 @@ function opcionSel(event) {
       }
       break;
     case "mismo_tipo":
-      if (mismo_relleno.checked) {
-        pregunta_mismo_relleno.nextElementSibling.firstElementChild.innerHTML = "Relleno:";
-      }
-      if (mismo_sabor.checked) {
-        pregunta_mismo_sabor.nextElementSibling.firstElementChild.innerHTML = "Sabor:";
-      }
-      while (event.target.parentElement.parentElement.nextElementSibling.id != "pregunta_mismo_sabor") {
-        event.target.parentElement.parentElement.nextElementSibling.remove();
-      }
-      event.target.parentElement.parentElement.insertAdjacentHTML("afterend", contenido_seccion_tipoPastel(false, true, 0, false, false, false, false, false, false));
+      mostrar_mismo_tipo();
       break;
     case "diferente_tipo":
-      if (mismo_relleno.checked) {
-        pregunta_mismo_relleno.nextElementSibling.firstElementChild.innerHTML = "Relleno para pasteles de tipo Normal (Con receta propia):";
-      }
-      while (event.target.parentElement.parentElement.nextElementSibling.id != "pregunta_mismo_sabor") {
-        event.target.parentElement.parentElement.nextElementSibling.remove();
-      }
-      if (pregunta_mismo_tamaño.nextElementSibling.firstElementChild.innerHTML.includes("Escoga")) {
-        event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
-            <tr>`+ pregunta_mismo_tamaño.nextElementSibling.innerHTML + `</tr>
-            `);
-      } else {
-          pregunta_mismo_sabor.firstElementChild.innerHTML = pregunta_mismo_sabor.firstElementChild.innerHTML.replace(" todos", "");
-          pregunta_mismo_relleno.firstElementChild.innerHTML = pregunta_mismo_relleno.firstElementChild.innerHTML.replace(" todos", "");
-          if(misma_forma.checked){
-            div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.value = cantidadInput.value;
-            div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.innerHTML = cantidadInput.value;
-            ingresoDiferentesTipos(pregunta_mismo_sabor, false, div_elem.children);
-            resetearDivElem();
-          }else{
-            ingresoDiferentesTipos(pregunta_mismo_sabor, false, seleccionables);
-          }   
-          elems_masa = document.getElementsByName("masa");
-          for (let i = 0; i < elems_masa.length; i++) {
-            if (!mismo_sabor.checked) {
-              if (mismo_relleno.checked) {
-                elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, false, true, diferente_forma.checked); };
-              } else {
-                elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, false, true, diferente_forma.checked); };
-              }
-            } else {
-              if (mismo_relleno.checked) {
-                elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, true, true, diferente_forma.checked); };
-              } else {
-                elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, true, true, diferente_forma.checked); };
-              }
-            }
-          }
-          if (mismo_relleno.checked) {
-            mostrar_mismo_relleno_difTipo(diferente_forma.checked);
-          } else {
-            mostrar_diferente_relleno_difTipo(diferente_forma.checked);
-          }
-          if (mismo_sabor.checked) {
-            mostrar_mismo_sabor_difTipo(diferente_forma.checked);
-          } else {
-            mostrar_diferente_sabor_difTipo(diferente_forma.checked);
-          }
-
-        
-      }
+      mostrar_diferente_tipo();
       break;
     case "mismo_sabor":
       if (diferente_tipo.checked) {
         for (let i = 0; i < elems_masa.length; i++) {
           if (mismo_relleno.checked) {
-            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, true, true); };
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, true, true, diferente_forma.checked); };
           } else {
-            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, true, true); };
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, true, true, diferente_forma.checked); };
           }
         }
-        mostrar_mismo_sabor_difTipo(diferente_forma.checked);
       } else {
         for (let i = 0; i < elems_masa.length; i++) {
           if (mismo_relleno.checked) {
-            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, true, false); };
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, true, false, diferente_forma.checked); };
           } else {
-            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, true, false); };
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, true, false, diferente_forma.checked); };
           }
+        }
+      }
+      if (diferente_tipo.checked) {
+        if (mismo_relleno.checked) {
+          mostrar_mismo_relleno_difTipo(diferente_forma.checked);
+        } else {
+          mostrar_diferente_relleno_difTipo(diferente_forma.checked);
+        }
+        mostrar_mismo_sabor_difTipo(diferente_forma.checked);
+      } else {
+        if (mismo_relleno.checked) {
+          mostrar_mismo_relleno_mismTipo(diferente_forma.checked);
+        } else {
+          mostrar_diferente_relleno_mismTipo(diferente_forma.checked);
         }
         mostrar_mismo_sabor_mismTipo(diferente_forma.checked);
       }
       break;
     case "diferente_sabor":
       elems_masa = document.getElementsByName("masa");
-        if (diferente_tipo.checked) {
-          for (let i = 0; i < elems_masa.length; i++) {
-            if (mismo_relleno.checked) {
-              elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, false, true); };
-            } else {
-              elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, false, true); };
-            }
+      if (diferente_tipo.checked) {
+        for (let i = 0; i < elems_masa.length; i++) {
+          if (mismo_relleno.checked) {
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, false, true, diferente_forma.checked); };
+          } else {
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, false, true, diferente_forma.checked); };
           }
-          mostrar_diferente_sabor_difTipo(diferente_forma.checked);
-        } else {
-          for (let i = 0; i < elems_masa.length; i++) {
-            if (mismo_relleno.checked) {
-              elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, false, false); };
-            } else {
-              elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, false, false); };
-            }
-          }
-          mostrar_diferente_sabor_mismTipo(diferente_forma.checked);
         }
-      
+      } else {
+        for (let i = 0; i < elems_masa.length; i++) {
+          if (mismo_relleno.checked) {
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, false, false, diferente_forma.checked); };
+          } else {
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, false, false, diferente_forma.checked); };
+          }
+        }
+      }
+      if (diferente_tipo.checked) {
+        if (mismo_relleno.checked) {
+          mostrar_mismo_relleno_difTipo(diferente_forma.checked);
+        } else {
+          mostrar_diferente_relleno_difTipo(diferente_forma.checked);
+        }
+        mostrar_diferente_sabor_difTipo(diferente_forma.checked);
+      } else {
+        if (mismo_relleno.checked) {
+          mostrar_mismo_relleno_mismTipo(diferente_forma.checked);
+        } else {
+          mostrar_diferente_relleno_mismTipo(diferente_forma.checked);
+        }
+        mostrar_diferente_sabor_mismTipo(diferente_forma.checked);
+      }
       break;
     case "mismo_relleno":
       if (diferente_tipo.checked) {
         for (let i = 0; i < elems_masa.length; i++) {
           if (!mismo_sabor.checked) {
-            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, false, true); };
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, false, true, diferente_forma.checked); };
           } else {
-            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, true, true); };
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, true, true, diferente_forma.checked); };
           }
         }
-        mostrar_mismo_relleno_difTipo(diferente_forma.checked);
-      }else{
+      } else {
         for (let i = 0; i < elems_masa.length; i++) {
           if (!mismo_sabor.checked) {
-            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, false, false); };
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, false, false, diferente_forma.checked); };
           } else {
-            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, true, false); };
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, true, false, diferente_forma.checked); };
           }
+        }
+      }
+      if (diferente_tipo.checked) {
+        if (mismo_sabor.checked) {
+          mostrar_mismo_sabor_difTipo(diferente_forma.checked);
+        } else {
+          mostrar_diferente_sabor_difTipo(diferente_forma.checked);
+        }
+        mostrar_mismo_relleno_difTipo(diferente_forma.checked);
+      } else {
+        if (mismo_sabor.checked) {
+          mostrar_mismo_sabor_mismTipo(diferente_forma.checked);
+        } else {
+          mostrar_diferente_sabor_mismTipo(diferente_forma.checked);
         }
         mostrar_mismo_relleno_mismTipo(diferente_forma.checked);
       }
@@ -978,19 +996,32 @@ function opcionSel(event) {
       if (diferente_tipo.checked) {
         for (let i = 0; i < elems_masa.length; i++) {
           if (!mismo_sabor.checked) {
-            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, false, true); };
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, false, true, diferente_forma.checked); };
           } else {
-            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, true, true); };
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, true, true, diferente_forma.checked); };
           }
         }
-        mostrar_diferente_relleno_difTipo(diferente_forma.checked);
       } else {
         for (let i = 0; i < elems_masa.length; i++) {
           if (!mismo_sabor.checked) {
-            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, false, false); };
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, false, false, diferente_forma.checked); };
           } else {
-            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, true, false); };
+            elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, true, false, diferente_forma.checked); };
           }
+        }
+      }
+      if (diferente_tipo.checked) {
+        if (mismo_sabor.checked) {
+          mostrar_mismo_sabor_difTipo(diferente_forma.checked);
+        } else {
+          mostrar_diferente_sabor_difTipo(diferente_forma.checked);
+        }
+        mostrar_diferente_relleno_difTipo(diferente_forma.checked);
+      } else {
+        if (mismo_sabor.checked) {
+          mostrar_mismo_sabor_mismTipo(diferente_forma.checked);
+        } else {
+          mostrar_diferente_sabor_mismTipo(diferente_forma.checked);
         }
         mostrar_diferente_relleno_mismTipo(diferente_forma.checked);
       }
@@ -1256,6 +1287,7 @@ function tamañoSel(event) {
       `;
     }
   }
+  actualizarDesdeTipo();
   if (typeof event != "string" || (misma_forma.checked == true && mismo_tamaño.checked == true)) {
     document.getElementById("opciones_tamaño").innerHTML = contenido_opciones_tamaño;
   } else {
@@ -1407,8 +1439,8 @@ function nombrePastelSegúnNro(num, nombre_específico, mismo_tamaño) {
   return str_aux;
 }
 function mostrar_mismo_sabor_difTipo(difForma) {
-  if(difForma){
-    elems_masa = document.getElementsByName("masa");
+  //if(difForma){
+  elems_masa = document.getElementsByName("masa");
   while (pregunta_mismo_sabor.nextElementSibling.id != "pregunta_misma_cobertura") {
     pregunta_mismo_sabor.nextElementSibling.remove();
   }
@@ -1455,11 +1487,11 @@ function mostrar_mismo_sabor_difTipo(difForma) {
       pregunta_misma_cobertura.previousElementSibling.children[1].appendChild(tipoPasteles(str_aux, select_sabor.cloneNode(true), 0));
     }
   }
-  }
+  //}
 }
 function mostrar_mismo_relleno_difTipo(difForma) {
-  if(difForma){
-    elems_masa = document.getElementsByName("masa");
+  //if(difForma){
+  elems_masa = document.getElementsByName("masa");
   while (pregunta_mismo_relleno.nextElementSibling.id != "pregunta_imagenEspecífica") {
     pregunta_mismo_relleno.nextElementSibling.remove();
   }
@@ -1496,216 +1528,274 @@ function mostrar_mismo_relleno_difTipo(difForma) {
     `);
     pregunta_imagenEspecífica.previousElementSibling.children[1].appendChild(select_relleno.cloneNode(true));
   }
-  }
+  //}
 }
 function mostrar_diferente_relleno_difTipo(difForma) {
-  if(difForma){
-    while (pregunta_mismo_relleno.nextElementSibling.id != "pregunta_imagenEspecífica") {
-      pregunta_mismo_relleno.nextElementSibling.remove();
-    }
-    array_tipoPasteles = [];
-    for (let i = 0; i < elems_masa.length; i++) {
-      array_tipoPasteles.push(elems_masa[i].value);
-    }
-    if (pregunta_mismo_tamaño.nextElementSibling.firstElementChild.innerHTML.includes("Escoga")) {
-      event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
+  //if(difForma){
+  while (pregunta_mismo_relleno.nextElementSibling.id != "pregunta_imagenEspecífica") {
+    pregunta_mismo_relleno.nextElementSibling.remove();
+  }
+  array_tipoPasteles = [];
+  for (let i = 0; i < elems_masa.length; i++) {
+    array_tipoPasteles.push(elems_masa[i].value);
+  }
+  if (pregunta_mismo_tamaño.nextElementSibling.firstElementChild.innerHTML.includes("Escoga")) {
+    event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
           <tr>`+ pregunta_mismo_tamaño.nextElementSibling.innerHTML + `</tr>
           `);
-    } else {
-      if (diferente_forma.checked == true) {
-        if (diferente_tipo.checked == true) {
-          let displayNone;
-          let elem = pregunta_mismo_tipo;
-          let cont_aux=0;
-          for (let j = 0; j < array_tipoPasteles.length; j++) {
-            displayNone = "";
-            if (elem.nextElementSibling.children[1].firstElementChild.value.includes("Cheesecake") || elem.nextElementSibling.children[1].firstElementChild.value.includes("Mousse") || elem.nextElementSibling.children[1].firstElementChild.value.includes("Tres leches")) {
-              displayNone = ' style="display: none"';
-              cont_aux++;
-            }
-            pregunta_imagenEspecífica.insertAdjacentHTML("beforebegin", `
+  } else {
+    if (diferente_tipo.checked == true) {
+      let displayNone;
+      let elem = pregunta_mismo_tipo;
+      let cont_aux = 0;
+      for (let j = 0; j < array_tipoPasteles.length; j++) {
+        displayNone = "";
+        if (elem.nextElementSibling.children[1].firstElementChild.value.includes("Cheesecake") || elem.nextElementSibling.children[1].firstElementChild.value.includes("Mousse") || elem.nextElementSibling.children[1].firstElementChild.value.includes("Tres leches")) {
+          displayNone = ' style="display: none"';
+          cont_aux++;
+        }
+        pregunta_imagenEspecífica.insertAdjacentHTML("beforebegin", `
                 <tr`+ displayNone + `>
                   <th> `+ elem.nextElementSibling.firstElementChild.innerHTML.replace("Tipo de pastel", "Relleno") + `</th>
                   <td></td>
                 </tr>
               `);
-            elem = elem.nextElementSibling;
-            pregunta_imagenEspecífica.previousElementSibling.children[1].innerHTML = "";
-            pregunta_imagenEspecífica.previousElementSibling.children[1].appendChild(select_relleno.cloneNode(true));
-          }
-          if(cont_aux==array_tipoPasteles.length){
-            pregunta_imagenEspecífica.insertAdjacentHTML("beforebegin", `
+        elem = elem.nextElementSibling;
+        pregunta_imagenEspecífica.previousElementSibling.children[1].innerHTML = "";
+        pregunta_imagenEspecífica.previousElementSibling.children[1].appendChild(select_relleno.cloneNode(true));
+      }
+      if (cont_aux == array_tipoPasteles.length) {
+        pregunta_imagenEspecífica.insertAdjacentHTML("beforebegin", `
             <tr>
               <th colspan="2" style="color: red">No hay rellenos disponibles para las selecciones anteriores</th>
             </tr>
             `);
-          }
-        }
       }
     }
+
   }
+  //}
 }
 function mostrar_diferente_sabor_difTipo(difForma) {
-  if(difForma){
-    while (pregunta_mismo_sabor.nextElementSibling.id != "pregunta_misma_cobertura") {
-      pregunta_mismo_sabor.nextElementSibling.remove();
-    }
-    array_tipoPasteles = [];
-    for (let i = 0; i < elems_masa.length; i++) {
-      array_tipoPasteles.push(elems_masa[i].value);
-    }
-    if (pregunta_mismo_tamaño.nextElementSibling.firstElementChild.innerHTML.includes("Escoga")) {
-      event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
+  //if(difForma){
+  while (pregunta_mismo_sabor.nextElementSibling.id != "pregunta_misma_cobertura") {
+    pregunta_mismo_sabor.nextElementSibling.remove();
+  }
+  array_tipoPasteles = [];
+  for (let i = 0; i < elems_masa.length; i++) {
+    array_tipoPasteles.push(elems_masa[i].value);
+  }
+  if (pregunta_mismo_tamaño.nextElementSibling.firstElementChild.innerHTML.includes("Escoga")) {
+    pregunta_mismo_sabor.insertAdjacentHTML("afterend", `
           <tr>`+ pregunta_mismo_tamaño.nextElementSibling.innerHTML + `</tr>
           `);
-    } else {
-      if (diferente_forma.checked) {
-          let displayNone;
-          let elem = pregunta_mismo_tipo;
-          let cont_aux=0;
-          for (let j = 0; j < array_tipoPasteles.length; j++) {
-            displayNone = "";
-            if (elem.nextElementSibling.children[1].firstElementChild.value.includes("Milhojas") || elem.nextElementSibling.children[1].firstElementChild.value.includes("Tres leches")) {
-              displayNone = ' style="display: none"';
-              cont_aux++;
-            }
-            pregunta_misma_cobertura.insertAdjacentHTML("beforebegin", `
+  } else {
+    let displayNone;
+    let elem = pregunta_mismo_tipo;
+    let cont_aux = 0;
+    for (let j = 0; j < array_tipoPasteles.length; j++) {
+      displayNone = "";
+      if (elem.nextElementSibling.children[1].firstElementChild.value.includes("Milhojas") || elem.nextElementSibling.children[1].firstElementChild.value.includes("Tres leches")) {
+        displayNone = ' style="display: none"';
+        cont_aux++;
+      }
+      pregunta_misma_cobertura.insertAdjacentHTML("beforebegin", `
                 <tr`+ displayNone + `>
                   <th> `+ elem.nextElementSibling.firstElementChild.innerHTML.replace("Tipo de pastel", "Sabor") + `</th>
                   <td></td>
                 </tr>
               `);
-            pregunta_misma_cobertura.previousElementSibling.children[1].appendChild(tipoPasteles(array_tipoPasteles[j], select_sabor.cloneNode(true), 0));
-            elem = elem.nextElementSibling;
-          }
-          if(cont_aux==array_tipoPasteles.length){
-            pregunta_misma_cobertura.insertAdjacentHTML("beforebegin", `
+      pregunta_misma_cobertura.previousElementSibling.children[1].appendChild(tipoPasteles(array_tipoPasteles[j], select_sabor.cloneNode(true), 0));
+      elem = elem.nextElementSibling;
+    }
+    if (cont_aux == array_tipoPasteles.length) {
+      pregunta_misma_cobertura.insertAdjacentHTML("beforebegin", `
             <tr>
               <th colspan="2" style="color: red">No hay sabores disponibles para las selecciones anteriores</th>
             </tr>
             `);
-          }
-      }
     }
+
   }
+  //}
 }
 function mostrar_diferente_sabor_mismTipo(difForma) {
-  if(difForma){
-    while (pregunta_mismo_sabor.nextElementSibling.id != "pregunta_misma_cobertura") {
-      pregunta_mismo_sabor.nextElementSibling.remove();
-    }
-    if (pregunta_mismo_tipo.nextElementSibling.children[1].firstElementChild.value != "Milhojas" && pregunta_mismo_tipo.nextElementSibling.children[1].firstElementChild.value != "Tres leches") {
-      let elem = pregunta_misma_cobertura;
-      let mismo_tamaño_aux = false;
-      for (let i = 0; i < seleccionables.length; i++) {
-        if (seleccionables[i].value != 0) {
-          for (let j = 1; j <= seleccionables[i].value; j++) {
-            if (mismo_tamaño_aux == true) {
-              j = "";
+  while (pregunta_mismo_sabor.nextElementSibling.id != "pregunta_misma_cobertura") {
+    pregunta_mismo_sabor.nextElementSibling.remove();
+  }
+  if (pregunta_mismo_tipo.nextElementSibling.children[1].firstElementChild.value != "Milhojas" && pregunta_mismo_tipo.nextElementSibling.children[1].firstElementChild.value != "Tres leches") {
+    let elem = pregunta_misma_cobertura;
+    let mismo_tamaño_aux = false;
+    if (difForma) {
+      suma_formas = sumaPastelesDiferentes(seleccionables);
+      if (suma_formas == 0) {
+        if (diferente_forma.checked == true) {
+          pregunta_mismo_sabor.insertAdjacentHTML("afterend", `
+        <tr>
+          <th colspan="2" style="color: red">Escoga números válidos para la forma de cada pastel</th>
+        </tr>
+      `);
+        }
+      } else {
+        for (let i = 0; i < seleccionables.length; i++) {
+          if (seleccionables[i].value != 0) {
+            for (let j = 1; j <= seleccionables[i].value; j++) {
+              if (mismo_tamaño_aux == true) {
+                j = "";
+              }
+              elem.insertAdjacentHTML("beforebegin", `
+        <tr>
+          <th>`+ nombrePastelSegúnNro(i, false, mismo_tamaño_aux).replace("Tamaño", "Sabor") + j + `</th>
+          <td>
+          </td>
+        </tr>
+      `);
+              pregunta_misma_cobertura.previousElementSibling.children[1].appendChild(tipoPasteles(pregunta_mismo_tipo.nextElementSibling.children[1].firstElementChild.value, select_sabor.cloneNode(true), 0));
             }
+          }
+        }
+      }
+
+    } else {
+      div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.value = cantidadInput.value;
+      div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.innerHTML = cantidadInput.value;
+      for (let i = 0; i < div_elem.children.length; i++) {
+        if (div_elem.children[i].value != 0) {
+          for (let j = 1; j <= div_elem.children[i].value; j++) {
             elem.insertAdjacentHTML("beforebegin", `
-          <tr>
-            <th>`+ nombrePastelSegúnNro(i, false, mismo_tamaño_aux).replace("Tamaño", "Sabor") + j + `</th>
-            <td>
-            </td>
-          </tr>
-        `);
+            <tr>
+              <th>`+ nombrePastelSegúnNro(i, false, mismo_tamaño_aux).replace("Tamaño", "Sabor") + j + `</th>
+              <td>
+              </td>
+            </tr>
+          `);
             pregunta_misma_cobertura.previousElementSibling.children[1].appendChild(tipoPasteles(pregunta_mismo_tipo.nextElementSibling.children[1].firstElementChild.value, select_sabor.cloneNode(true), 0));
           }
         }
       }
-    } else {
-      pregunta_mismo_sabor.insertAdjacentHTML("afterend", `
+      resetearDivElem();
+    }
+  } else {
+    pregunta_mismo_sabor.insertAdjacentHTML("afterend", `
     <tr>
       <th colspan="2" style="color: red">No hay sabores disponibles para el tipo de pastel seleccionado</th>
     </tr>
     `);
-    }
   }
 }
 function mostrar_mismo_sabor_mismTipo(difForma) {
-  if(difForma){
-    while (pregunta_mismo_sabor.nextElementSibling.id != "pregunta_misma_cobertura") {
-      pregunta_mismo_sabor.nextElementSibling.remove();
-    }
-    switch (document.getElementById("opciones_pastel").value) {
-      case "Milhojas":
-      case "Tres leches":
-        pregunta_mismo_sabor.insertAdjacentHTML("afterend", `
+  while (pregunta_mismo_sabor.nextElementSibling.id != "pregunta_misma_cobertura") {
+    pregunta_mismo_sabor.nextElementSibling.remove();
+  }
+  switch (document.getElementById("opciones_pastel").value) {
+    case "Milhojas":
+    case "Tres leches":
+      pregunta_mismo_sabor.insertAdjacentHTML("afterend", `
+    <tr>
+    <th colspan="2" style="color: red">No hay un sabor disponible para el tipo de pastel seleccionado</th>
+  </tr>
+  `);
+      break;
+    default:
+      pregunta_mismo_sabor.insertAdjacentHTML("afterend", `
       <tr>
-      <th colspan="2" style="color: red">No hay un sabor disponible para el tipo de pastel seleccionado</th>
-    </tr>
-    `);
-        break;
-      default:
-        pregunta_mismo_sabor.insertAdjacentHTML("afterend", `
-        <tr>
-          <th>Sabor:<th>
-          <td><td>
-        </tr>
-        `);
-        pregunta_misma_cobertura.previousElementSibling.children[1].appendChild(tipoPasteles(document.getElementById("opciones_pastel").value, select_sabor.cloneNode(true), 0));
-    }
+        <th>Sabor:<th>
+        <td><td>
+      </tr>
+      `);
+      pregunta_misma_cobertura.previousElementSibling.children[1].appendChild(tipoPasteles(document.getElementById("opciones_pastel").value, select_sabor.cloneNode(true), 0));
   }
 }
 function mostrar_mismo_relleno_mismTipo(difForma) {
-  if(difForma){
-    while (pregunta_mismo_relleno.nextElementSibling.id != "pregunta_imagenEspecífica") {
-      pregunta_mismo_relleno.nextElementSibling.remove();
-    }
-    switch (document.getElementById("opciones_pastel").value) {
-      case "Cheesecake":
-      case "Mousse":
-      case "Tres leches":
-        pregunta_mismo_relleno.insertAdjacentHTML("afterend", `
+
+  while (pregunta_mismo_relleno.nextElementSibling.id != "pregunta_imagenEspecífica") {
+    pregunta_mismo_relleno.nextElementSibling.remove();
+  }
+  switch (document.getElementById("opciones_pastel").value) {
+    case "Cheesecake":
+    case "Mousse":
+    case "Tres leches":
+      pregunta_mismo_relleno.insertAdjacentHTML("afterend", `
     <tr>
       <th colspan="2" style="color: red">No hay un relleno disponible para el tipo de pastel seleccionado</th>
     </tr>
     `);
-        break;
-      default:
-        pregunta_mismo_relleno.insertAdjacentHTML("afterend", `
+      break;
+    default:
+      pregunta_mismo_relleno.insertAdjacentHTML("afterend", `
           <tr>
             <th>Relleno:<th>
             <td><td>
           </tr>
           `);
-        pregunta_imagenEspecífica.previousElementSibling.children[1].appendChild(select_relleno.cloneNode(true));
-    }
+      pregunta_imagenEspecífica.previousElementSibling.children[1].appendChild(select_relleno.cloneNode(true));
   }
+  // if(difForma){
+
+  // }
 }
-function mostrar_diferente_relleno_mismTipo(difForma){
-  if(difForma){
-    while (pregunta_mismo_relleno.nextElementSibling.id != "pregunta_imagenEspecífica") {
-      pregunta_mismo_relleno.nextElementSibling.remove();
-    }
-    if (pregunta_mismo_tipo.nextElementSibling.children[1].firstElementChild.value != "Cheesecake" && pregunta_mismo_tipo.nextElementSibling.children[1].firstElementChild.value != "Mousse" && pregunta_mismo_tipo.nextElementSibling.children[1].firstElementChild.value != "Tres leches") {
-      let elem = pregunta_imagenEspecífica;
-      let mismo_tamaño_aux = false;
-      for (let i = 0; i < seleccionables.length; i++) {
-        if (seleccionables[i].value != 0) {
-          for (let j = 1; j <= seleccionables[i].value; j++) {
-            if (mismo_tamaño_aux == true) {
-              j = "";
+function mostrar_diferente_relleno_mismTipo(difForma) {
+  while (pregunta_mismo_relleno.nextElementSibling.id != "pregunta_imagenEspecífica") {
+    pregunta_mismo_relleno.nextElementSibling.remove();
+  }
+  if (pregunta_mismo_tipo.nextElementSibling.children[1].firstElementChild.value != "Cheesecake" && pregunta_mismo_tipo.nextElementSibling.children[1].firstElementChild.value != "Mousse" && pregunta_mismo_tipo.nextElementSibling.children[1].firstElementChild.value != "Tres leches") {
+    let elem = pregunta_imagenEspecífica;
+    let mismo_tamaño_aux = false;
+    if (difForma) {
+      suma_formas = sumaPastelesDiferentes(seleccionables);
+      if (suma_formas == 0) {
+        if (diferente_forma.checked == true) {
+          pregunta_mismo_relleno.insertAdjacentHTML("afterend", `
+        <tr>
+          <th colspan="2" style="color: red">Escoga números válidos para la forma de cada pastel</th>
+        </tr>
+      `);
+        }
+      }else{
+        for (let i = 0; i < seleccionables.length; i++) {
+          if (seleccionables[i].value != 0) {
+            for (let j = 1; j <= seleccionables[i].value; j++) {
+              if (mismo_tamaño_aux == true) {
+                j = "";
+              }
+              elem.insertAdjacentHTML("beforebegin", `
+              <tr>
+                <th>`+ nombrePastelSegúnNro(i, false, mismo_tamaño_aux).replace("Tamaño", "Relleno") + j + `</th>
+                <td>
+                </td>
+              </tr>
+            `);
+              pregunta_imagenEspecífica.previousElementSibling.children[1].appendChild(select_relleno.cloneNode(true));
             }
-            elem.insertAdjacentHTML("beforebegin", `
-          <tr>
-            <th>`+ nombrePastelSegúnNro(i, false, mismo_tamaño_aux).replace("Tamaño", "Relleno") + j + `</th>
-            <td>
-            </td>
-          </tr>
-        `);
-        pregunta_imagenEspecífica.previousElementSibling.children[1].appendChild(select_relleno.cloneNode(true));
           }
         }
       }
+      
     } else {
-      pregunta_mismo_relleno.insertAdjacentHTML("afterend", `
+      div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.value = cantidadInput.value;
+      div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.innerHTML = cantidadInput.value;
+      for (let i = 0; i < div_elem.children.length; i++) {
+        if (div_elem.children[i].value != 0) {
+          for (let j = 1; j <= div_elem.children[i].value; j++) {
+            elem.insertAdjacentHTML("beforebegin", `
+            <tr>
+              <th>`+ nombrePastelSegúnNro(i, false, mismo_tamaño_aux).replace("Tamaño", "Relleno") + j + `</th>
+              <td>
+              </td>
+            </tr>
+          `);
+            pregunta_imagenEspecífica.previousElementSibling.children[1].appendChild(select_relleno.cloneNode(true));
+          }
+        }
+      }
+      resetearDivElem();
+    }
+  } else {
+    pregunta_mismo_relleno.insertAdjacentHTML("afterend", `
     <tr>
       <th colspan="2" style="color: red">No hay rellenos disponibles para el tipo de pastel seleccionado</th>
     </tr>
     `);
-    }
   }
 }
 function ingresoDiferentesTipos(elem, mismo_tamaño_aux, seleccionables) {
@@ -1721,18 +1811,133 @@ function ingresoDiferentesTipos(elem, mismo_tamaño_aux, seleccionables) {
         `);
         if (mismo_sabor.checked) {
           if (mismo_relleno.checked) {
-            pregunta_mismo_sabor.previousElementSibling.children[1].innerHTML = contenido_seccion_tipoPastel(true, true, cont_aux, true, true, true, false, true,diferente_forma.checked);
+            pregunta_mismo_sabor.previousElementSibling.children[1].innerHTML = contenido_seccion_tipoPastel(true, true, 0, true, true, true, false, true, diferente_forma.checked);
           } else {
-            pregunta_mismo_sabor.previousElementSibling.children[1].innerHTML = contenido_seccion_tipoPastel(true, true, cont_aux, true, false, true, false, true, diferente_forma.checked);
+            pregunta_mismo_sabor.previousElementSibling.children[1].innerHTML = contenido_seccion_tipoPastel(true, true, 0, true, false, true, false, true, diferente_forma.checked);
           }
         } else {
           if (mismo_relleno.checked) {
-            pregunta_mismo_sabor.previousElementSibling.children[1].innerHTML = contenido_seccion_tipoPastel(true, true, cont_aux, true, true, false, false, true, diferente_forma.checked);
+            pregunta_mismo_sabor.previousElementSibling.children[1].innerHTML = contenido_seccion_tipoPastel(true, true, 0, true, true, false, false, true, diferente_forma.checked);
           } else {
-            pregunta_mismo_sabor.previousElementSibling.children[1].innerHTML = contenido_seccion_tipoPastel(true, true, cont_aux, true, false, false, false, true, diferente_forma.checked);
+            pregunta_mismo_sabor.previousElementSibling.children[1].innerHTML = contenido_seccion_tipoPastel(true, true, 0, true, false, false, false, true, diferente_forma.checked);
           }
         }
       }
+    }
+  }
+}
+function mostrar_diferente_tipo() {
+  if (mismo_relleno.checked) {
+    pregunta_mismo_relleno.nextElementSibling.firstElementChild.innerHTML = "Relleno para pasteles de tipo Normal (Con receta propia):";
+  }
+  while (pregunta_mismo_tipo.nextElementSibling.id != "pregunta_mismo_sabor") {
+    pregunta_mismo_tipo.nextElementSibling.remove();
+  }
+  if (pregunta_mismo_tamaño.nextElementSibling.firstElementChild.innerHTML.includes("Escoga")) {
+    pregunta_mismo_tipo.insertAdjacentHTML("afterend", `
+        <tr>`+ pregunta_mismo_tamaño.nextElementSibling.innerHTML + `</tr>
+        `);
+  } else {
+    pregunta_mismo_sabor.firstElementChild.innerHTML = pregunta_mismo_sabor.firstElementChild.innerHTML.replace(" todos", "");
+    pregunta_mismo_relleno.firstElementChild.innerHTML = pregunta_mismo_relleno.firstElementChild.innerHTML.replace(" todos", "");
+    if (misma_forma.checked) {
+      div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.value = cantidadInput.value;
+      div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.innerHTML = cantidadInput.value;
+      ingresoDiferentesTipos(pregunta_mismo_sabor, false, div_elem.children);
+      resetearDivElem();
+    } else {
+      ingresoDiferentesTipos(pregunta_mismo_sabor, false, seleccionables);
+    }
+    elems_masa = document.getElementsByName("masa");
+    for (let i = 0; i < elems_masa.length; i++) {
+      if (!mismo_sabor.checked) {
+        if (mismo_relleno.checked) {
+          elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, false, true, diferente_forma.checked); };
+        } else {
+          elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, false, true, diferente_forma.checked); };
+        }
+      } else {
+        if (mismo_relleno.checked) {
+          elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, true, true, diferente_forma.checked); };
+        } else {
+          elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, true, true, diferente_forma.checked); };
+        }
+      }
+    }
+    if (mismo_relleno.checked) {
+      mostrar_mismo_relleno_difTipo(diferente_forma.checked);
+    } else {
+      mostrar_diferente_relleno_difTipo(diferente_forma.checked);
+    }
+    if (mismo_sabor.checked) {
+      mostrar_mismo_sabor_difTipo(diferente_forma.checked);
+    } else {
+      mostrar_diferente_sabor_difTipo(diferente_forma.checked);
+    }
+  }
+}
+function mostrar_mismo_tipo() {
+  if (mismo_relleno.checked) {
+    pregunta_mismo_relleno.nextElementSibling.firstElementChild.innerHTML = "Relleno:";
+  }
+  if (mismo_sabor.checked) {
+    pregunta_mismo_sabor.nextElementSibling.firstElementChild.innerHTML = "Sabor:";
+  }
+  while (pregunta_mismo_tipo.nextElementSibling.id != "pregunta_mismo_sabor") {
+    pregunta_mismo_tipo.nextElementSibling.remove();
+  }
+  pregunta_mismo_tipo.insertAdjacentHTML("afterend", contenido_seccion_tipoPastel(false, true, 0, false, false, false, false, false, false));
+  elems_masa = document.getElementsByName("masa");
+  for (let i = 0; i < elems_masa.length; i++) {
+    if (!mismo_sabor.checked) {
+      if (mismo_relleno.checked) {
+        elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, false, false, diferente_forma.checked); };
+      } else {
+        elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, false, false, diferente_forma.checked); };
+      }
+    } else {
+      if (mismo_relleno.checked) {
+        elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, true, true, false, diferente_forma.checked); };
+      } else {
+        elems_masa[i].onchange = function () { tipoPasteles(event, true, 0, true, false, true, false, diferente_forma.checked); };
+      }
+    }
+  }
+  if (mismo_relleno.checked) {
+    mostrar_mismo_relleno_mismTipo(diferente_forma.checked);
+  } else {
+    mostrar_diferente_relleno_mismTipo(diferente_forma.checked);
+  }
+  if (mismo_sabor.checked) {
+    mostrar_mismo_sabor_mismTipo(diferente_forma.checked);
+  } else {
+    mostrar_diferente_sabor_mismTipo(diferente_forma.checked);
+  }
+}
+function actualizarDesdeTipo() {
+  if (diferente_tipo.checked) {
+    mostrar_diferente_tipo();
+    if (mismo_relleno.checked) {
+      mostrar_mismo_relleno_difTipo(diferente_forma.checked);
+    } else {
+      mostrar_diferente_relleno_difTipo(diferente_forma.checked);
+    }
+    if (mismo_sabor.checked) {
+      mostrar_mismo_sabor_difTipo(diferente_forma.checked);
+    } else {
+      mostrar_diferente_sabor_difTipo(diferente_forma.checked);
+    }
+  } else {
+    mostrar_mismo_tipo();
+    if (mismo_relleno.checked) {
+      mostrar_mismo_relleno_mismTipo(diferente_forma.checked);
+    } else {
+      mostrar_diferente_relleno_mismTipo(diferente_forma.checked);
+    }
+    if (mismo_sabor.checked) {
+      mostrar_mismo_sabor_mismTipo(diferente_forma.checked);
+    } else {
+      mostrar_diferente_sabor_mismTipo(diferente_forma.checked);
     }
   }
 }
