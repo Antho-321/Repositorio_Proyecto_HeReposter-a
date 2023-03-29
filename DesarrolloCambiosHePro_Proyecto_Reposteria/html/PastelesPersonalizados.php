@@ -76,6 +76,7 @@ if (isset($_SESSION['id'])) {
     </header>
 
     <div id="contenido_principal">
+        <!--
         <h1>Información sobre porciones</h1>
         <section id="Productos">
             <table id="tabla1">
@@ -141,6 +142,7 @@ if (isset($_SESSION['id'])) {
                 </tr>
             </table>
         </section>
+        -->
         <form action="" id="form_proPersonalizado">
             <table id="personalizacion">
                 <tbody>
