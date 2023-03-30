@@ -8,7 +8,7 @@ let formDrop1, formDrop2, formDrop3, formDrop4,
   seccion_sabor, seccion_relleno, seccion_forma,
   pregunta_mismo_tipo, pregunta_mismo_tamaño, pregunta_mismo_sabor, pregunta_mismo_relleno, pregunta_misma_cobertura, pregunta_imagenEspecífica,
   diferente_tamaño, diferente_forma,
-  misma_forma, mismo_tamaño,
+  misma_forma, mismo_tamaño,misma_cobertura,
   select_sabor, select_relleno;
 array_tipoPasteles = [];
 personalizacion = document.getElementById("personalizacion");
@@ -421,6 +421,7 @@ function aumentarCantidadP() {
     seccion_forma = document.getElementById("seccion_forma");
     mismo_tamaño = document.getElementById("mismo_tamaño");
     misma_forma = document.getElementById("misma_forma");
+    misma_cobertura = document.getElementById("misma_cobertura");
     diferente_tamaño = document.getElementById("diferente_tamaño");
     diferente_forma = document.getElementById("diferente_forma");
     pregunta_mismo_tamaño = document.getElementById("pregunta_mismo_tamaño");
@@ -873,7 +874,7 @@ function opcionSel(event) {
       }
       break;
     case "diferente_tamaño":
-      if (misma_forma.checked == true) {
+      if (misma_forma.checked) {
         div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.value = cantidadInput.value;
         div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.innerHTML = cantidadInput.value;
         diferenteTamaño(false, div_elem.children);
@@ -956,6 +957,12 @@ function opcionSel(event) {
         }
         mostrar_diferente_sabor_mismTipo(diferente_forma.checked);
       }
+      break;
+    case "misma_cobertura":
+      mostrar_misma_cobertura();
+      break;
+    case "diferente_cobertura":
+      mostrar_diferente_cobertura();
       break;
     case "mismo_relleno":
       if (diferente_tipo.checked) {
@@ -1241,7 +1248,7 @@ function tamañoSel(event) {
     ingreso = event;
   } else {
     ingreso = event.target.value;
-    if (diferente_tamaño.checked == true) {
+    if (diferente_tamaño.checked) {
       div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.value = cantidadInput.value;
       div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.innerHTML = cantidadInput.value;
       diferenteTamaño(false, div_elem.children);
@@ -1351,24 +1358,25 @@ function diferenteTamaño(mismo_tamaño, seleccionables) {
     ingresoDiferentesTamaños(pregunta_mismo_tipo, mismo_tamaño, seleccionables);
   }
 }
-function ingresoDiferentesTamaños(elem, mismo_tamaño, seleccionables) {
+function ingresoDiferentesTamaños(elem, mismo_tamaño_aux, seleccionables) {
   for (let i = 0; i < seleccionables.length; i++) {
     if (seleccionables[i].value != 0) {
-      for (let j = 1; j <= seleccionables[i].value; j++) {
-        if (mismo_tamaño == true) {
+      let limite=seleccionables[i].value;
+      for (let j = 1; j <= limite; j++) {
+        if (mismo_tamaño_aux == true) {
           j = "";
         }
         elem.insertAdjacentHTML("beforebegin", `
         <tr>
-          <th>`+ nombrePastelSegúnNro(i, false, mismo_tamaño) + j + `</th>
+          <th>`+ nombrePastelSegúnNro(i, false, mismo_tamaño_aux) + j + `</th>
           <td>
             <select id="opciones_tamaño" name="tamaño">
-              `+ tamañoSel(nombrePastelSegúnNro(i, true, mismo_tamaño)) + `
+              `+ tamañoSel(nombrePastelSegúnNro(i, true, mismo_tamaño_aux)) + `
             </select>
           </td>
         </tr>
       `);
-        if (mismo_tamaño == true) {
+        if (mismo_tamaño_aux == true) {
           break;
         }
       }
@@ -1540,7 +1548,7 @@ function mostrar_diferente_relleno_difTipo(difForma) {
     array_tipoPasteles.push(elems_masa[i].value);
   }
   if (pregunta_mismo_tamaño.nextElementSibling.firstElementChild.innerHTML.includes("Escoga")) {
-    event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
+    pregunta_mismo_relleno.insertAdjacentHTML("afterend", `
           <tr>`+ pregunta_mismo_tamaño.nextElementSibling.innerHTML + `</tr>
           `);
   } else {
@@ -1864,16 +1872,16 @@ function mostrar_diferente_tipo() {
         }
       }
     }
-    if (mismo_relleno.checked) {
-      mostrar_mismo_relleno_difTipo(diferente_forma.checked);
-    } else {
-      mostrar_diferente_relleno_difTipo(diferente_forma.checked);
-    }
-    if (mismo_sabor.checked) {
-      mostrar_mismo_sabor_difTipo(diferente_forma.checked);
-    } else {
-      mostrar_diferente_sabor_difTipo(diferente_forma.checked);
-    }
+  }
+  if (mismo_relleno.checked) {
+    mostrar_mismo_relleno_difTipo(diferente_forma.checked);
+  } else {
+    mostrar_diferente_relleno_difTipo(diferente_forma.checked);
+  }
+  if (mismo_sabor.checked) {
+    mostrar_mismo_sabor_difTipo(diferente_forma.checked);
+  } else {
+    mostrar_diferente_sabor_difTipo(diferente_forma.checked);
   }
 }
 function mostrar_mismo_tipo() {
@@ -1940,4 +1948,73 @@ function actualizarDesdeTipo() {
       mostrar_diferente_sabor_mismTipo(diferente_forma.checked);
     }
   }
+  if(misma_cobertura.checked){
+    mostrar_misma_cobertura();
+  }else{
+    mostrar_diferente_cobertura();
+  }
+}
+function diferenteCobertura(mismo_tamaño, seleccionables){
+  let select, nombrePasteles, final, referencia;
+    referencia = pregunta_misma_cobertura;
+    final = "pregunta_mismo_relleno";
+
+  while (referencia.nextElementSibling.id != final) {
+    referencia.nextElementSibling.remove();
+  }
+  suma_formas = sumaPastelesDiferentes(seleccionables);
+  if (suma_formas == 0) {
+    if (diferente_forma.checked == true) {
+      referencia.insertAdjacentHTML("afterend", `
+        <tr>
+          <th colspan="2" style="color: red">Escoga números válidos para la forma de cada pastel</th>
+        </tr>
+      `);
+    }
+  } else {
+    elem = pregunta_mismo_relleno;
+    for (let i = 0; i < seleccionables.length; i++) {
+    if (seleccionables[i].value != 0) {
+      for (let j = 1; j <= seleccionables[i].value; j++) {
+          select = `<select onchange="opcionSel(event)" name="cobertura">
+                      <option value="Crema">Crema</option>
+                      <option value="Fondant">Fondant</option>
+                      <option value="Ninguna">Ninguna</option>
+                  </select>`;
+          nombrePasteles = nombrePastelSegúnNro(i, false, mismo_tamaño).replace("Tamaño", "Cobertura");
+        
+        if (mismo_tamaño == true) {
+          j = "";
+        }
+        elem.insertAdjacentHTML("beforebegin", `
+        <tr>
+          <th>`+ nombrePasteles + j + `</th>
+          <td>
+            `+ select + `
+          </td>
+        </tr>
+      `);
+        if (mismo_tamaño == true) {
+          break;
+        }
+      }
+    }
+  }
+  }
+}
+function mostrar_diferente_cobertura(){
+  if (misma_forma.checked) {
+    div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.value = cantidadInput.value;
+    div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.innerHTML = cantidadInput.value;
+    diferenteCobertura(false, div_elem.children);
+    resetearDivElem();
+  } else {
+    diferenteCobertura(false, seleccionables);
+  }
+}
+function mostrar_misma_cobertura(){
+  while(pregunta_misma_cobertura.nextElementSibling.id!="pregunta_mismo_relleno"){
+    pregunta_misma_cobertura.nextElementSibling.remove();
+  }
+  pregunta_misma_cobertura.insertAdjacentHTML("afterend",contenido_seccion_cobertura());
 }
