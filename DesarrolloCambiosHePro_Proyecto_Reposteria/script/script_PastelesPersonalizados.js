@@ -718,6 +718,10 @@ function seccionFigura(event) {
       <select>
         <option value="Angel">Angel</option>
         <option value="Cruz">Cruz</option>
+        <option value="Bebé">Bebé</option>
+        <option value="Perro">Perro</option>
+        <option value="Cisne">Cisne</option>
+        <option value="Corona">Corona</option>
       </select>
     </td>
   </tr>
