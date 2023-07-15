@@ -1,6 +1,6 @@
 <?php
   // Conexión a la base de datos
-  $conn = mysqli_connect('localhost', 'root', 'root', 'db_pankey');
+  $conn = mysqli_connect('localhost', 'root', 'YES', 'db_pankey');
 
 // Recibir la variable "num" desde la petición fetch
 

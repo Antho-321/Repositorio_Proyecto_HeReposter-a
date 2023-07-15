@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 $host = "localhost";
 $user = "root";
-$pass = "root";
+$pass = "YES";
 $dbname = "db_pankey";
 $conn = mysqli_connect($host, $user, $pass, $dbname);
 $target_path = "../imagenes/Productos/";

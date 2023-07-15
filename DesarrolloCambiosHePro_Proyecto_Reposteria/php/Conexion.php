@@ -2,7 +2,7 @@
 class Conexion {
     private $host = "localhost";
     private $user = "root";
-    private $password = "root";
+    private $password = "YES";
     private $name_db ="db_pankey";
     private $conn;
 

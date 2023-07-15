@@ -2,7 +2,7 @@
 $enlace="";
 $host = "localhost";
 $user = "root";
-$pass = "root";
+$pass = "YES";
 $dbname = "db_pankey";
 
 $conn = mysqli_connect($host, $user, $pass, $dbname);

@@ -1,9 +1,9 @@
 <?php
 class Database{
   private $hostname="localhost:3306";
-  private $database="db_pankey(1)";
+  private $database="db_pankey";
   private $username="root";
-  private $password="root";
+  private $password="YES";
   private $charset="utf8";
 
  

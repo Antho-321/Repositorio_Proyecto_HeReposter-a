@@ -2,7 +2,7 @@
 $enlace = "";
 $host = "localhost";
 $user = "root";
-$pass = "root";
+$pass = "YES";
 $dbname = "db_pankey";
 $target_path = "../imagenes/Productos/";
 $conn = mysqli_connect($host, $user, $pass, $dbname);
