@@ -13,22 +13,18 @@
 
 <body>
     <header>
-
         <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
-
         <h1>Actualización de información</h1>
         <h4>ADMINISTRACIÓN</h4>
-
     </header>
-
     <h1>Ingreso de productos</h1>
     <form id="form" method='POST' enctype="multipart/form-data" action="../php/php_IngresoDeProductos.php">
         <h2>Previsualización de producto:</h2>
         <div class="dropzone" id="formDrop">
-    <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace" onclick="ingresarEnlace()">
-    <input type="hidden" name="enlace" id="aux_IngresarEnlace">
-    <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
-  </div>
+            <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace" onclick="ingresarEnlace()">
+            <input type="hidden" name="enlace" id="aux_IngresarEnlace">
+            <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
+        </div>
         <section id="seccion_principal">
 
             <div class="tabla_info">
@@ -52,27 +48,27 @@
                 <div class="fila">
                     <p class="col">Forma:</p>
                     <div class="col">
-                        <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" value="Redonda" name="forma">
+                        <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" value="Redonda"
+                            name="forma">
                         <label for="red">Redonda</label>
                     </div>
                     <div class="col">
-                        <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" value="Cuadrada" name="forma">
+                        <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" value="Cuadrada"
+                            name="forma">
                         <label for="cuad">Cuadrada</label>
                     </div>
                     <div class="col">
-                        <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" value="Rectangular" name="forma">
+                        <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" value="Rectangular"
+                            name="forma">
                         <label for="rec">Rectangular</label>
                     </div>
                     <div class="col">
-                        <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" value="Personalizada" name="forma">
+                        <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" value="Personalizada"
+                            name="forma">
                         <label for="per">Personalizada</label>
                     </div>
                 </div>
             </div>
-
-
-
-
 
         </section>
         <input type="hidden" name='formulario'>

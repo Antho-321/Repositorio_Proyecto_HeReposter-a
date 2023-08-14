@@ -52,14 +52,7 @@ function esUrlValida(url) {
   const expresionRegular = /^(https?|http):\/\/[^\s/$.?#].[^\s]*$/i;
   return expresionRegular.test(url);
 }
-function enlaceImgVálido() {
-  txtO.remove();
-  fileInput.remove();
-  imagePreview.src = ingreso_enlace.value;
-  verificacion_enlace.value = "si";
-  elem_imgNoValida.style.visibility = "hidden";
-  btnEnviar.disabled = false;
-}
+
 function opcionesPastel(event) {
   if (event.target.id == "rec") {
     tamaño1 = "Mediana (35-40 personas)";
@@ -306,15 +299,17 @@ function ingresarEnlace() {
   ingreso_enlace.placeholder = "";
 }
 ingreso_enlace.addEventListener('input', () => {
+  
   if (ingreso_enlace.value != "") {
-
+    
     if (!esUrlValida(ingreso_enlace.value)) {
       imgNoValida();
 
     } else {
-
+      
       esImagen1(ingreso_enlace.value).then((result) => {
         if (result) {
+          //alert("enlace validoooo");
           enlaceImgVálido();
         } else {
 
@@ -345,6 +340,7 @@ function enlaceImgVálido() {
   if (elem_estImgNoValido != undefined) {
     elem_estImgNoValido.remove();
   }
+  verificacion_enlace.value = "si";
 }
 function esUrlValida(url) {
   if (url.includes("data:image")) {

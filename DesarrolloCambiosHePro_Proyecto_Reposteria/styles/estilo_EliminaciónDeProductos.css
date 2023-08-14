@@ -1,6 +1,6 @@
 @font-face {
-    font-family: Sanseriffic;
-    src: url(../font/Sanseriffic.otf);
+    font-family: "Sanseriffic";
+    src: url("../fuente/Sanseriffic.woff");
 }
 
 *:not(#Menu_Catalogo, #Menu_Catalogo *) {

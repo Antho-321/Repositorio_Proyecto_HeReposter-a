@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../styles/estilo_IngresoDeProductos.css" id="estilo">
     <title>Ingreso de productos</title>
 </head>
@@ -32,10 +34,11 @@
                 </div>
                 
                 <div class="fila">
-                    <p class="col">Imagen:</p>
-                    <input class="col" type="file">
-                    <label class="col" for="">o</label>
-                    <input class="col" type="url" value="Ingresar enlace">
+                <div class="dropzone" id="formDrop">
+            <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace" onclick="ingresarEnlace()">
+            <input type="hidden" name="enlace" id="aux_IngresarEnlace">
+            <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
+        </div>
                 </div>
                 
             </div>

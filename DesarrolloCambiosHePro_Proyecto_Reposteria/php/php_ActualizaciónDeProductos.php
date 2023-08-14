@@ -20,12 +20,12 @@ if (isset($_POST['formulario'])) {
   $result = mysqli_query($conn, $query);
   $row = mysqli_fetch_array($result);
   $id = $row[0];
-  if($ingreso_enlace=="no"){
-  $target_file = $target_path . $_FILES['archivo']['name'];
-  $tmp_name = $_FILES['archivo']['tmp_name'];
-    $ruta = $target_path . $id . ".png";
-    $enlace=$ruta;
-    move_uploaded_file($tmp_name, $ruta);
+  if($ingreso_enlace!="si"){
+    if($ingreso_archivo="si"){
+
+    }else{
+      $enlace=$anterior_enlace;
+    }
   }else{
     $enlace = $_POST['enlace'];
   }

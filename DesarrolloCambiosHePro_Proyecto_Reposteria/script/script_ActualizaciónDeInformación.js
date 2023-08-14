@@ -7,6 +7,7 @@ let verificacion_enlace = document.getElementById("verificacion_enlace");
 let imgNoValida;
 let btnEnviar;
 let txtO = document.querySelector("label[for='ingreso_enlace']");
+Dropzone.autoDiscover = false;
 window.onload = AgregarContenido("");
 div_fila.className = "fila";
 function AgregarContenido(CategoríaSeleccionada) {
@@ -16,13 +17,10 @@ function AgregarContenido(CategoríaSeleccionada) {
         myData.then(result => {
             let div_aux = document.createElement("div");
             for (let i = 0; i < result.length; i++) {
-                let a = 15.0;
                 let div = document.createElement("div");
                 let imagen = document.createElement("img");
                 let h3 = document.createElement("h3");
                 imagen.src = result[i].Img;
-                imagen.style.paddingRight = a + "px";
-                imagen.style.paddingTop = (a / 2) + "px";
                 h3.innerHTML = "Mostrar más información";
                 div.appendChild(h3);
                 h3.addEventListener("click", ProductoSeleccionado);
@@ -250,172 +248,241 @@ function ProductoSeleccionado(event) {
   if (srcString.includes("imagenes")) {
     let num=srcString.indexOf("/imagenes");
     dirImg=".."+srcString.substring(num);
-}else{
+  }else{
     dirImg=srcString;
-}  
-console.log("dirImg: "+dirImg);
-document.documentElement.innerHTML=`
-<!DOCTYPE html>
-<html lang="en">
+  }  
+  console.log("dirImg: "+dirImg);
+  document.documentElement.innerHTML=`
+  <!DOCTYPE html>
+  <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../styles/estilo_IngresoDeProductos.css" id="estilo">
-    <title>Ingreso de productos</title>
-</head>
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+      <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../styles/estilo_IngresoDeProductos.css" id="estilo">
+      <title>Ingreso de productos</title>
+  </head>
 
-<body>
-    <h1 align="center">Actualización de información</h1>
-    <form id="form" method='POST' enctype="multipart/form-data" action="../php/php_ActualizaciónDeProductos.php" novalidate>
-        <section id="seccion_principal">
-            <div id="seccion__Izq">
-                <div>
-                    <div class="fila">
-                        <label class="col" for="lista_categoría">Categoría:</label>
-                        <select name="lista_categoría" id="lista_categoría" class="col">
-                            <option value="Bodas">Bodas</option>
-                            <option value="Bautizos">Bautizos</option>
-                            <option value="XV_años">XV años</option>
-                            <option value="Cumpleaños">Cumpleaños</option>
-                            <option value="Baby_Shower">Baby Shower</option>
-                            <option value="San_Valentin">San Valentin</option>
-                            <option value="Vísperas_de_Santos">Vísperas de Santos</option>
-                            <option value="Navidad">Navidad</option>
-                        </select>
-                    </div>
+  <body>
+      <h1 align="center">Actualización de información</h1>
+      <form id="form" method='POST' enctype="multipart/form-data" action="../php/php_ActualizaciónDeProductos.php" novalidate>
+          <section id="seccion_principal">
+              <div id="seccion__Izq">
+                  <div>
+                      <div class="fila">
+                          <label class="col" for="lista_categoría">Categoría:</label>
+                          <select name="lista_categoría" id="lista_categoría" class="col">
+                              <option value="Bodas">Bodas</option>
+                              <option value="Bautizos">Bautizos</option>
+                              <option value="XV_años">XV años</option>
+                              <option value="Cumpleaños">Cumpleaños</option>
+                              <option value="Baby_Shower">Baby Shower</option>
+                              <option value="San_Valentin">San Valentin</option>
+                              <option value="Vísperas_de_Santos">Vísperas de Santos</option>
+                              <option value="Navidad">Navidad</option>
+                          </select>
+                      </div>
 
-                    <div class="fila">
-                        <label class="col" for="ingresoArchivo">Imagen:</label>
-                        <input class="col" type="file" id="file-input" name="archivo">
-                        <label class="col" for="ingreso_enlace">o</label>
-                        <input class="col" type="url" placeholder="Ingresar enlace" value="" name="enlace" id="ingreso_enlace" onclick="colorTextoANegro(event)">
-                        <input type="hidden" name="img_de_cambio" id="img_cambio">
-                        <p class="col" id="imgNoValida">Enlace de imagen no válido</p>
-                        <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
-                        <input type="hidden" name='ant_enlace' id="anterior_enlace" value="`+dirImg+`">
-                    </div>
+                      <div class="fila">
+                          <label class="col" for="ingresoArchivo">Imagen:</label>
+                          <div class="dropzone" id="formDrop">
+              <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace" onclick="ingresarEnlace()">
+              <input type="hidden" name="enlace" id="aux_IngresarEnlace">
+              <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
+              <input type="hidden" name='ingreso_archivo' id="ruta_archivo_img">
+          </div>
+                          <input type="hidden" name='ant_enlace' id="anterior_enlace" value="`+dirImg+`">
+                      </div>
 
-                </div>
-                <div class="tabla_info">
-                    <div class="fila">
-                        <p class="col">Forma:</p>
-                        <div class="col">
-                            <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" value="Redonda" name="forma">
-                            <label for="red">Redonda</label>
-                        </div>
-                        <div class="col">
-                            <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" value="Cuadrada" name="forma">
-                            <label for="cuad">Cuadrada</label>
-                        </div>
-                        <div class="col">
-                            <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" value="Rectangular" name="forma">
-                            <label for="rec">Rectangular</label>
-                        </div>
-                        <div class="col">
-                            <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" value="Personalizada" name="forma">
-                            <label for="per">Personalizada</label>
-                        </div>
-                    </div>                   
-                </div>
-                
-            </div>
-            <div id="seccion__Der">
-                <h2>Previsualización de producto:</h2>
-                <img alt="Imagen de pastel" id="image-preview" src="`+dirImg+`" width="200px">
-            </div>
-        </section>
-        <input type="hidden" name='formulario'>
-        <div id="seccion_btn">
-            <input type="submit" value="Guardar cambios" id="enviarFormulario">
-        </div>
-    </form>
-    <script src="../script/script_ActualizaciónDeInformación.js"></script>
-</body>
+                  </div>
+                  <div class="tabla_info">
+                      <div class="fila">
+                          <p class="col">Forma:</p>
+                          <div class="col">
+                              <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" value="Redonda" name="forma">
+                              <label for="red">Redonda</label>
+                          </div>
+                          <div class="col">
+                              <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" value="Cuadrada" name="forma">
+                              <label for="cuad">Cuadrada</label>
+                          </div>
+                          <div class="col">
+                              <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" value="Rectangular" name="forma">
+                              <label for="rec">Rectangular</label>
+                          </div>
+                          <div class="col">
+                              <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" value="Personalizada" name="forma">
+                              <label for="per">Personalizada</label>
+                          </div>
+                      </div>                   
+                  </div>
 
-</html>
-`;
-verificacion_enlace = document.getElementById("verificacion_enlace");
-const fileInput = document.getElementById('file-input');
-const imagePreview = document.getElementById('image-preview');
+              </div>
+              <div id="seccion__Der">
+                  <h2>Previsualización de producto:</h2>
+                  <img alt="Imagen de pastel" id="image-preview" src="`+dirImg+`" width="200px">
+              </div>
+          </section>
+          <input type="hidden" name='formulario'>
+          <div id="seccion_btn">
+              <input type="submit" value="Guardar cambios" id="enviarFormulario">
+          </div>
+      </form>
+      <script src="../script/script_ActualizaciónDeInformación.js"></script>
+  </body>
 
+  </html>
+  `;
+  verificacion_enlace = document.getElementById("verificacion_enlace");
+  const fileInput = document.getElementById('file-input');
+  const imagePreview = document.getElementById('image-preview');
 
-fileInput.addEventListener('change', () => {
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      ingreso_enlace=document.getElementById("ingreso_enlace");
-      imagePreview.src = reader.result;
-      ingreso_enlace.value=document.getElementById("anterior_enlace").value;
-      // ingreso_enlace.style=`
-      // position: absolute;
-      // color: white;
-      // border-color: transparent;
-      // z-index: -1;
-      // `;
-    };
-    txtO.remove();
-    
-    verificacion_enlace.value = "no";
-  });
-  
-  div_fila.className = "fila";
-txtO = document.querySelector("label[for='ingreso_enlace']");
-btnEnviar = document.getElementById("enviarFormulario");
-imgNoValida = document.getElementById("imgNoValida");
-ingreso_enlace = document.getElementById("ingreso_enlace");
-ingreso_enlace.addEventListener('input', () => {
-  if (ingreso_enlace.value != "") {
-    if (!esUrlValida(ingreso_enlace.value)) {
-      console.log('Link no válido');
-      imgNoValida.style.visibility = "visible";
-      btnEnviar.disabled = true;
+    div_fila.className = "fila";
+  txtO = document.querySelector("label[for='ingreso_enlace']");
+  btnEnviar = document.getElementById("enviarFormulario");
+  imgNoValida = document.getElementById("imgNoValida");
+  ingreso_enlace = document.getElementById("ingreso_enlace");
+  ingreso_enlace.addEventListener('input', () => {
+    if (ingreso_enlace.value != "") {
+      if (!esUrlValida(ingreso_enlace.value)) {
+        console.log('Link no válido');
+        imgNoValida.style.visibility = "visible";
+        btnEnviar.disabled = true;
+      } else {
+        esImagen(ingreso_enlace.value).then((result) => {
+          if (result) {
+            console.log('Se ha ingresado una imagen');
+            console.log("ENLACE VALIDO");
+            txtO.remove();
+            fileInput.remove();
+            imagePreview.src = ingreso_enlace.value;
+            verificacion_enlace.value = "si";
+            imgNoValida.style.visibility = "hidden";
+            btnEnviar.disabled = false;
+          } else {
+            console.log('Link no válido');
+            imgNoValida.style.visibility = "visible";
+            btnEnviar.disabled = true;
+          }
+        });
+      }
+
     } else {
-      esImagen(ingreso_enlace.value).then((result) => {
-        if (result) {
-          console.log('Se ha ingresado una imagen');
-          console.log("ENLACE VALIDO");
-          txtO.remove();
-          fileInput.remove();
-          imagePreview.src = ingreso_enlace.value;
-          verificacion_enlace.value = "si";
-          imgNoValida.style.visibility = "hidden";
-          btnEnviar.disabled = false;
-        } else {
-          console.log('Link no válido');
-          imgNoValida.style.visibility = "visible";
-          btnEnviar.disabled = true;
+      imgNoValida.style.visibility = "hidden";
+      btnEnviar.disabled = false;
+    }
+  });
+
+  Dropzone.autoDiscover = false;
+  const dropzone = new Dropzone("div#formDrop", {
+    url: "../php/IngresoImagenProducto.php",
+    dictDefaultMessage: `<p id="txtDrop">Arrastra tu imagen, presiona aquí para subirla o ingresa su enlace:</p>
+      <input type="url" placeholder="Ingresar enlace" id="input2">
+      <div id="contenedorTxt">
+        <p id="txtImgNoValida">Enlace no válido</p>
+      <div>
+      `,
+    maxFiles: 1,
+    init: function () {
+      this.on("maxfilesexceeded", function (file) {
+        this.removeFile(file);
+        alert("¡Solo se puede subir un archivo!");
+        document.head.appendChild(estilo_noMasImg);
+      });
+      this.on("sending", function (file, xhr, data) {
+        ingreso_enlace = document.getElementById("ingreso_enlace");
+        if (ingreso_enlace != undefined) {
+          ingreso_enlace.remove();
+        }
+        data.append("type_chooser", "1");
+      });
+      this.on("addedfile", function (file) {
+        if (file.name.includes("http")||file.name.includes("data:image")) {
+          dzSize = file.previewElement.querySelector(".dz-size");
+          dzProgress = file.previewElement.querySelector(".dz-progress");
+          previsualizacion = file.previewElement.querySelector("img");
+          previsualizacion.src = file.name;
+          previsualizacion.style = "width: 100%; height: 100%;";
+          dzProgress.style = "display: none;";
+          dzSize.style = "display: none;";
+          ingreso_enlace.style = "z-index: -1;";
+          this.options.maxFiles = 0;
+          document.getElementById("aux_IngresarEnlace").value = file.name;
+        }
+      });
+      this.on("success", function(file, response) {
+        var obj = JSON.parse(response); // Este es el objeto resultante
+        console.log(obj.objeto);
+        
+      });
+    },
+    renameFile: function (file) {
+      let str1 = file.name;
+      let str2 = str1.substring(str1.lastIndexOf("."));
+      return "HOLA" + "_" + str2;
+    }
+  });
+  dropzone.on("complete", function (file) {
+    var ext = /(.jpg|.jpeg|.png|.gif)$/i;
+    if (!ext.exec(file.name)) {
+      console.log("El archivo no es una imagen válida"); // rechazar el archivo
+      dropzone.removeFile(file);
+    }
+  });
+  dropzone.on("addedfile", file => {
+    let contenedor_preImg = document.querySelector(".dz-image");
+    contenedor_preImg.style="width: 200px; height: 200px;";
+    contenedor_preImg.parentNode.style="width: 200px; height: 200px; margin: 0px !important;";
+    contenedor_preImg.children[0].style="width: 200px; height: 200px";
+    document.head.appendChild(estilo_contenedorPreImg);
+    
+  });
+
+}
+  function esImagen(url) {
+      return new Promise((resolve, reject) => {
+        try {
+          const img = new Image();
+          img.addEventListener('load', () => resolve(true));
+          img.addEventListener('error', (error) => {
+            //console.error(error); // mostrar el error en la consola
+            resolve(false);
+          });
+          img.src = url;
+        } catch (error) {
+          reject(error);
         }
       });
     }
+    function esUrlValida(url) {
+      const expresionRegular = /^(https?|http):\/\/[^\s/$.?#].[^\s]*$/i;
+      return expresionRegular.test(url);
+    }
 
-  } else {
-    imgNoValida.style.visibility = "hidden";
-    btnEnviar.disabled = false;
+
+    let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg;
+  estilo_txtImgNoValida = document.createElement("style");
+  estilo_noMasImg = document.createElement("style");
+  estilo_contenedorPreImg=document.createElement("style");
+  estilo_txtImgNoValida.id = "est_txtImgNoValida";
+  estilo_contenedorPreImg.id="est_contPreImg";
+  estilo_contenedorPreImg.innerHTML=`
+  #formDrop{
+    border: 0px;
   }
-
-
-});
-
-}
-function esImagen(url) {
-    return new Promise((resolve, reject) => {
-      try {
-        const img = new Image();
-        img.addEventListener('load', () => resolve(true));
-        img.addEventListener('error', (error) => {
-          //console.error(error); // mostrar el error en la consola
-          resolve(false);
-        });
-        img.src = url;
-      } catch (error) {
-        reject(error);
-      }
-    });
+  `;
+  estilo_txtImgNoValida.innerHTML = `
+  #txtImgNoValida{
+    visibility: visible;
   }
-  function esUrlValida(url) {
-    const expresionRegular = /^(https?|http):\/\/[^\s/$.?#].[^\s]*$/i;
-    return expresionRegular.test(url);
+  `;
+  estilo_noMasImg.innerHTML = `
+  #txtDrop, #input2, #contenedorTxt{
+    z-index: -1; 
+    position: absolute; 
+    color: white;
   }
+  `;

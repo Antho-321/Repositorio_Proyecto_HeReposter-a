@@ -33,6 +33,9 @@ if (!empty($_FILES)) {
             $ruta = $target_path . $id . "_Adorno.".$extension;
           }else{
             $ruta = $target_path . $id . ".".$extension;
+            $data = array(
+              'objeto' => $ruta
+            );
           }
         }
       }
@@ -73,5 +76,9 @@ function esArchivoImagen($archivo, $retornar_extension) {
     return false;
   }
 }
+
+$json_data = json_encode($data);
+//echo $json_data;
+echo $json_data;
 $conn->close();
 ?>
