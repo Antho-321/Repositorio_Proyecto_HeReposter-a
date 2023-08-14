@@ -435,7 +435,13 @@ header {
     width: 100vw;
     position: absolute;
 }
-
+#formDrop{
+    display: flex;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+    padding: 0px !important;
+}
   @media screen and (max-width: 1054px) {
     #check2:checked+header #Contenido_Cabecera,
     #check2:checked+header #botones_iconos,

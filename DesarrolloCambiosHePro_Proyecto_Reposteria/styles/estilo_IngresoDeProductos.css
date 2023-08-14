@@ -141,6 +141,7 @@ h2{
 #txtImgNoValida{
     visibility: hidden;
     color: red;
+    margin: 0px;
 }
 #contenedorTxt{
     height: 0px;

@@ -22,7 +22,7 @@ if (isset($_POST['formulario'])) {
   $id = $row[0];
   if($ingreso_enlace!="si"){
     if($ingreso_archivo="si"){
-
+      $enlace = $_POST['enlace'];
     }else{
       $enlace=$anterior_enlace;
     }

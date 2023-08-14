@@ -4,70 +4,92 @@ let div_col = document.createElement("div");
 let ingreso_enlace;
 let h1 = document.getElementsByTagName("h1")[0];
 let verificacion_enlace = document.getElementById("verificacion_enlace");
-let imgNoValida;
 let btnEnviar;
 let txtO = document.querySelector("label[for='ingreso_enlace']");
+let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg;
+estilo_txtImgNoValida = document.createElement("style");
+estilo_noMasImg = document.createElement("style");
+estilo_contenedorPreImg = document.createElement("style");
+estilo_txtImgNoValida.id = "est_txtImgNoValida";
+estilo_contenedorPreImg.id = "est_contPreImg";
+estilo_contenedorPreImg.innerHTML = `
+#formDrop{
+  border: 0px;
+}
+`;
+estilo_txtImgNoValida.innerHTML = `
+#txtImgNoValida{
+  visibility: visible;
+}
+`;
+estilo_noMasImg.innerHTML = `
+#txtDrop, #input2, #contenedorTxt{
+  z-index: -1; 
+  position: absolute; 
+  color: white;
+}
+`;
 Dropzone.autoDiscover = false;
 window.onload = AgregarContenido("");
 div_fila.className = "fila";
 function AgregarContenido(CategoríaSeleccionada) {
-    seccion_productos = document.getElementById("seccion_productos");
-    if (CategoríaSeleccionada == "") {
-        let myData = myAsyncFunction("");
-        myData.then(result => {
-            let div_aux = document.createElement("div");
-            for (let i = 0; i < result.length; i++) {
-                let div = document.createElement("div");
-                let imagen = document.createElement("img");
-                let h3 = document.createElement("h3");
-                imagen.src = result[i].Img;
-                h3.innerHTML = "Mostrar más información";
-                div.appendChild(h3);
-                h3.addEventListener("click", ProductoSeleccionado);
-                div.appendChild(imagen);
-                div_aux.appendChild(div);
-            }
-            seccion_productos.appendChild(div_aux);
-        }
-        );
-    } else {
-if(CategoríaSeleccionada==" Navidad"){
-CategoríaSeleccionada=CategoríaSeleccionada.substring(1);
-console.log("CATEGORÍA: "+"X"+CategoríaSeleccionada+"X");
-}
-let myData = myAsyncFunction(CategoríaSeleccionada);
-        myData.then(result => {
-            console.log(result);
-            let div_aux = document.createElement("div");
-            for (let i = 0; i < result.length; i++) {
-                let a = 15.0;
-                let div = document.createElement("div");
-                let imagen = document.createElement("img");
-                let h3 = document.createElement("h3");
-                imagen.src = result[i].Img;
-                imagen.style.paddingRight = a + "px";
-                imagen.style.paddingTop = (a / 2) + "px";
-                h3.innerHTML = "Mostrar más información";
-                div.appendChild(h3);
-                h3.addEventListener("click", ProductoSeleccionado);
-                div.appendChild(imagen);
-                div_aux.appendChild(div);
-            }
-            seccion_productos.appendChild(div_aux);
-        }
-        );
+  seccion_productos = document.getElementById("seccion_productos");
+  if (CategoríaSeleccionada == "") {
+    let myData = myAsyncFunction("");
+    myData.then(result => {
+      let div_aux = document.createElement("div");
+      for (let i = 0; i < result.length; i++) {
+        let div = document.createElement("div");
+        let imagen = document.createElement("img");
+        let h3 = document.createElement("h3");
+        imagen.src = result[i].Img;
+        h3.innerHTML = "Mostrar más información";
+        div.appendChild(h3);
+        h3.addEventListener("click", ProductoSeleccionado);
+        div.appendChild(imagen);
+        div_aux.appendChild(div);
+      }
+      seccion_productos.appendChild(div_aux);
     }
+    );
+  } else {
+    if (CategoríaSeleccionada == " Navidad") {
+      CategoríaSeleccionada = CategoríaSeleccionada.substring(1);
+      console.log("CATEGORÍA: " + "X" + CategoríaSeleccionada + "X");
+    }
+    let myData = myAsyncFunction(CategoríaSeleccionada);
+    myData.then(result => {
+      console.log(result);
+      let div_aux = document.createElement("div");
+      for (let i = 0; i < result.length; i++) {
+        let a = 15.0;
+        let div = document.createElement("div");
+        let imagen = document.createElement("img");
+        let h3 = document.createElement("h3");
+        imagen.src = result[i].Img;
+        imagen.style.paddingRight = a + "px";
+        imagen.style.paddingTop = (a / 2) + "px";
+        h3.innerHTML = "Mostrar más información";
+        div.appendChild(h3);
+        h3.addEventListener("click", ProductoSeleccionado);
+        div.appendChild(imagen);
+        div_aux.appendChild(div);
+      }
+      seccion_productos.appendChild(div_aux);
+    }
+    );
+  }
 }
 function myAsyncFunction(imagen) {
-    const encodedImagen = encodeURIComponent(imagen);
-    return new Promise((resolve, reject) => {
-        fetch("../php/ConsultaProductoSeleccionado.php?imagen=" + encodedImagen)
-            .then(response => response.json())
-            .then(data => { //archivo json       
-                resolve(data);
-            })
-            .catch(error => reject(error));
-    });
+  const encodedImagen = encodeURIComponent(imagen);
+  return new Promise((resolve, reject) => {
+    fetch("../php/ConsultaProductoSeleccionado.php?imagen=" + encodedImagen)
+      .then(response => response.json())
+      .then(data => { //archivo json       
+        resolve(data);
+      })
+      .catch(error => reject(error));
+  });
 }
 function esImagen(url) {
   return new Promise((resolve, reject) => {
@@ -88,16 +110,8 @@ function esUrlValida(url) {
   const expresionRegular = /^(https?|http):\/\/[^\s/$.?#].[^\s]*$/i;
   return expresionRegular.test(url);
 }
-function colorTextoANegro(event) {
-  let entrada_texto = event.target;
-  entrada_texto.style.color = "black";
-  console.log(entrada_texto.value);
-  if (entrada_texto.value == "Ingresar enlace" || entrada_texto.value == "(Opcional)") {
-    entrada_texto.value = "";
-  }
-}
 function opcionesPastel(event) {
-    let tabla = document.querySelector(".tabla_info");
+  let tabla = document.querySelector(".tabla_info");
   if (event.target.id == "rec") {
     tamaño1 = "Mediana (35-40 personas)";
     tamaño2 = "Extra grande (100 personas)";
@@ -125,18 +139,18 @@ function opcionesPastel(event) {
   div_fila.innerHTML = `
     <p class="col">Tamaño:</p>
     <div class="col">
-      <input class="col" type="radio" id="tamaño1" name="tamaño" value="`+tamaño1+`">
+      <input class="col" type="radio" id="tamaño1" name="tamaño" value="`+ tamaño1 + `">
       <label for="tamaño1">`+ tamaño1 + `</label>
     </div>
     <div class="col">
-      <input class="col" type="radio" id="tamaño2" name="tamaño" value="`+tamaño2+`">
+      <input class="col" type="radio" id="tamaño2" name="tamaño" value="`+ tamaño2 + `">
       <label for="tamaño2">`+ tamaño2 + `</label>
     </div>
   `;
   if (event.target.id == "cuad") {
     div_fila.insertAdjacentHTML("beforeend", `
     <div class="col">
-    <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+tamaño3+`">
+    <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+ tamaño3 + `">
     <label for="tamaño3">`+ tamaño3 + `</label>
   </div>
     `);
@@ -144,15 +158,15 @@ function opcionesPastel(event) {
     if (event.target.id == "per" || event.target.id == "red") {
       div_fila.insertAdjacentHTML("beforeend", `
       <div class="col">
-      <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+tamaño3+`">
+      <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+ tamaño3 + `">
       <label for="tamaño3">`+ tamaño3 + `</label>
     </div>
       <div class="col">
-    <input class="col" type="radio" id="tamaño4" name="tamaño" value="`+tamaño4+`">
+    <input class="col" type="radio" id="tamaño4" name="tamaño" value="`+ tamaño4 + `">
     <label for="tamaño4">`+ tamaño4 + `</label>
   </div>
   <div class="col">
-    <input class="col" type="radio" id="tamaño5" name="tamaño" value="`+tamaño5+`">
+    <input class="col" type="radio" id="tamaño5" name="tamaño" value="`+ tamaño5 + `">
     <label for="tamaño5">`+ tamaño5 + `</label>
   </div>
     `);
@@ -235,24 +249,27 @@ function opcionesPastel(event) {
                       </div>
                       <div class="fila">
                           <p class="col">Descripción adicional:</p>
-                          <textarea class="col" name="descAdicional" id="descAdicional">(Opcional)</textarea>
+                          <textarea class="col" name="descAdicional" id="descAdicional" placeholder="(Opcional)"></textarea>
                       </div>
   
                   </div>
     `);
-    document.getElementById("descAdicional").addEventListener("click", colorTextoANegro);
+    document.getElementById("descAdicional").addEventListener("click", vaciarPlaceHolder);
   }
+}
+function vaciarPlaceHolder(event) {
+  event.target.placeholder = "";
 }
 function ProductoSeleccionado(event) {
   const srcString = event.target.nextSibling.src;
   if (srcString.includes("imagenes")) {
-    let num=srcString.indexOf("/imagenes");
-    dirImg=".."+srcString.substring(num);
-  }else{
-    dirImg=srcString;
-  }  
-  console.log("dirImg: "+dirImg);
-  document.documentElement.innerHTML=`
+    let num = srcString.indexOf("/imagenes");
+    dirImg = ".." + srcString.substring(num);
+  } else {
+    dirImg = srcString;
+  }
+  console.log("dirImg: " + dirImg);
+  document.documentElement.innerHTML = `
   <!DOCTYPE html>
   <html lang="en">
 
@@ -289,12 +306,12 @@ function ProductoSeleccionado(event) {
                       <div class="fila">
                           <label class="col" for="ingresoArchivo">Imagen:</label>
                           <div class="dropzone" id="formDrop">
-              <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace" onclick="ingresarEnlace()">
+              <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace">
               <input type="hidden" name="enlace" id="aux_IngresarEnlace">
               <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
               <input type="hidden" name='ingreso_archivo' id="ruta_archivo_img">
           </div>
-                          <input type="hidden" name='ant_enlace' id="anterior_enlace" value="`+dirImg+`">
+                          <input type="hidden" name='ant_enlace' id="anterior_enlace" value="`+ dirImg + `">
                       </div>
 
                   </div>
@@ -323,7 +340,7 @@ function ProductoSeleccionado(event) {
               </div>
               <div id="seccion__Der">
                   <h2>Previsualización de producto:</h2>
-                  <img alt="Imagen de pastel" id="image-preview" src="`+dirImg+`" width="200px">
+                  <img alt="Imagen de pastel" id="image-preview" src="`+ dirImg + `" width="200px">
               </div>
           </section>
           <input type="hidden" name='formulario'>
@@ -339,40 +356,44 @@ function ProductoSeleccionado(event) {
   verificacion_enlace = document.getElementById("verificacion_enlace");
   const fileInput = document.getElementById('file-input');
   const imagePreview = document.getElementById('image-preview');
-
-    div_fila.className = "fila";
+  let aux_IngresarEnlace = document.getElementById("aux_IngresarEnlace");
+  div_fila.className = "fila";
   txtO = document.querySelector("label[for='ingreso_enlace']");
   btnEnviar = document.getElementById("enviarFormulario");
-  imgNoValida = document.getElementById("imgNoValida");
   ingreso_enlace = document.getElementById("ingreso_enlace");
   ingreso_enlace.addEventListener('input', () => {
+
     if (ingreso_enlace.value != "") {
+
       if (!esUrlValida(ingreso_enlace.value)) {
-        console.log('Link no válido');
-        imgNoValida.style.visibility = "visible";
-        btnEnviar.disabled = true;
+        imgNoValida();
+
       } else {
-        esImagen(ingreso_enlace.value).then((result) => {
+
+        esImagen1(ingreso_enlace.value).then((result) => {
           if (result) {
-            console.log('Se ha ingresado una imagen');
-            console.log("ENLACE VALIDO");
-            txtO.remove();
-            fileInput.remove();
-            imagePreview.src = ingreso_enlace.value;
-            verificacion_enlace.value = "si";
-            imgNoValida.style.visibility = "hidden";
-            btnEnviar.disabled = false;
+            //alert("enlace validoooo");
+            enlaceImgVálido();
           } else {
-            console.log('Link no válido');
-            imgNoValida.style.visibility = "visible";
-            btnEnviar.disabled = true;
+
+            esImagen2(ingreso_enlace.value).then((result) => {
+
+              if (result) {
+
+                enlaceImgVálido();
+              } else {
+                imgNoValida();
+              }
+            });
+
           }
         });
       }
-
     } else {
-      imgNoValida.style.visibility = "hidden";
-      btnEnviar.disabled = false;
+      elem_estImgNoValido = document.getElementById("est_txtImgNoValida");
+      if (elem_estImgNoValido != undefined) {
+        elem_estImgNoValido.remove();
+      }
     }
   });
 
@@ -400,7 +421,7 @@ function ProductoSeleccionado(event) {
         data.append("type_chooser", "1");
       });
       this.on("addedfile", function (file) {
-        if (file.name.includes("http")||file.name.includes("data:image")) {
+        if (file.name.includes("http") || file.name.includes("data:image")) {
           dzSize = file.previewElement.querySelector(".dz-size");
           dzProgress = file.previewElement.querySelector(".dz-progress");
           previsualizacion = file.previewElement.querySelector("img");
@@ -410,13 +431,17 @@ function ProductoSeleccionado(event) {
           dzSize.style = "display: none;";
           ingreso_enlace.style = "z-index: -1;";
           this.options.maxFiles = 0;
-          document.getElementById("aux_IngresarEnlace").value = file.name;
+          aux_IngresarEnlace.value = file.name;
+          imagePreview.src=file.name;
         }
       });
-      this.on("success", function(file, response) {
+      this.on("success", function (file, response) {
         var obj = JSON.parse(response); // Este es el objeto resultante
         console.log(obj.objeto);
-        
+        //localStorage.setItem("ruta_archivo_img", obj.objeto);
+        imagePreview.src = obj.objeto;
+        aux_IngresarEnlace.value = obj.objeto;
+        document.getElementById("ruta_archivo_img").value = "si";
       });
     },
     renameFile: function (file) {
@@ -434,55 +459,55 @@ function ProductoSeleccionado(event) {
   });
   dropzone.on("addedfile", file => {
     let contenedor_preImg = document.querySelector(".dz-image");
-    contenedor_preImg.style="width: 200px; height: 200px;";
-    contenedor_preImg.parentNode.style="width: 200px; height: 200px; margin: 0px !important;";
-    contenedor_preImg.children[0].style="width: 200px; height: 200px";
+    contenedor_preImg.style = "width: 200px; height: 200px;";
+    contenedor_preImg.parentNode.style = "width: 200px; height: 200px; margin: 0px !important;";
+    contenedor_preImg.children[0].style = "width: 200px; height: 200px";
     document.head.appendChild(estilo_contenedorPreImg);
-    
+
   });
-
+  function enlaceImgVálido() {
+    var file = { name: ingreso_enlace.value };
+    dropzone.emit("addedfile", file);
+    elem_estImgNoValido = document.getElementById("est_txtImgNoValida");
+    if (elem_estImgNoValido != undefined) {
+      elem_estImgNoValido.remove();
+    }
+    verificacion_enlace.value = "si";
+  }
 }
-  function esImagen(url) {
-      return new Promise((resolve, reject) => {
-        try {
-          const img = new Image();
-          img.addEventListener('load', () => resolve(true));
-          img.addEventListener('error', (error) => {
-            //console.error(error); // mostrar el error en la consola
-            resolve(false);
-          });
-          img.src = url;
-        } catch (error) {
-          reject(error);
-        }
+function esImagen(url) {
+  return new Promise((resolve, reject) => {
+    try {
+      const img = new Image();
+      img.addEventListener('load', () => resolve(true));
+      img.addEventListener('error', (error) => {
+        //console.error(error); // mostrar el error en la consola
+        resolve(false);
       });
+      img.src = url;
+    } catch (error) {
+      reject(error);
     }
-    function esUrlValida(url) {
-      const expresionRegular = /^(https?|http):\/\/[^\s/$.?#].[^\s]*$/i;
-      return expresionRegular.test(url);
+  });
+}
+function esUrlValida(url) {
+  const expresionRegular = /^(https?|http):\/\/[^\s/$.?#].[^\s]*$/i;
+  return expresionRegular.test(url);
+}
+function imgNoValida() {
+  document.head.appendChild(estilo_txtImgNoValida);
+}
+function esImagen1(url) {
+  return new Promise((resolve, reject) => {
+    try {
+      const img = new Image();
+      img.addEventListener('load', () => resolve(true));
+      img.addEventListener('error', (error) => {
+        resolve(false);
+      });
+      img.src = url;
+    } catch (error) {
+      reject(error);
     }
-
-
-    let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg;
-  estilo_txtImgNoValida = document.createElement("style");
-  estilo_noMasImg = document.createElement("style");
-  estilo_contenedorPreImg=document.createElement("style");
-  estilo_txtImgNoValida.id = "est_txtImgNoValida";
-  estilo_contenedorPreImg.id="est_contPreImg";
-  estilo_contenedorPreImg.innerHTML=`
-  #formDrop{
-    border: 0px;
-  }
-  `;
-  estilo_txtImgNoValida.innerHTML = `
-  #txtImgNoValida{
-    visibility: visible;
-  }
-  `;
-  estilo_noMasImg.innerHTML = `
-  #txtDrop, #input2, #contenedorTxt{
-    z-index: -1; 
-    position: absolute; 
-    color: white;
-  }
-  `;
+  });
+}

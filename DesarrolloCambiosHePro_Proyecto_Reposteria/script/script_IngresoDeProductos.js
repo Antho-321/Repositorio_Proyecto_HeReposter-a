@@ -5,7 +5,6 @@ let tabla = document.querySelectorAll(".tabla_info")[1];
 let h1 = document.getElementsByTagName("h1")[0];
 let ingreso_enlace = document.getElementById("ingreso_enlace");
 let verificacion_enlace = document.getElementById("verificacion_enlace");
-let elem_imgNoValida = document.getElementById("imgNoValida");
 let btnEnviar = document.getElementById("enviarFormulario");
 let txtO = document.querySelector("label[for='ingreso_enlace']");
 const imagePreview = document.getElementById('image-preview');
@@ -14,20 +13,7 @@ const searchParams = new URLSearchParams(searchString);
 div_fila.className = "fila";
 btnEnviar.disabled="true";
 
-function esImagen1(url) {
-  return new Promise((resolve, reject) => {
-    try {
-      const img = new Image();
-      img.addEventListener('load', () => resolve(true));
-      img.addEventListener('error', (error) => {
-        resolve(false);
-      });
-      img.src = url;
-    } catch (error) {
-      reject(error);
-    }
-  });
-}
+
 function esImagen2(url) {
   return new Promise((resolve, reject) => {
     try {
