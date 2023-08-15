@@ -20,7 +20,7 @@ h1{
     padding: 2vh 2vw;
     height: 6vh;
     text-align: center;
-    font: normal normal normal 33px/1.4em Sanseriffic;
+    font: normal normal normal 30px/1.4em Sanseriffic;
 }
 #seccion_principal{
     display: flex;
@@ -79,11 +79,24 @@ h1{
     color: red;
     visibility: hidden;
 }
-select{
+select {
     width: 100% !important;
     padding: 5px 0px !important;
     margin: 5px 0px;
     font: normal normal normal 16px/1.4em Sanseriffic;
+  appearance: none; /* Remove default arrow */
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  background-image: url("../imagenes/Icono_select.png"); /* Add custom arrow image */
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: 30px;
+	width: 120px;
+	background-color: #F2F4F8;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    text-align: center;
+    
 }
 input[type="text"], input[type="url"], button{
     color: rgb(0, 0, 0);
@@ -136,9 +149,11 @@ button{
 }
 h2{
     text-align: center;
-    font: normal normal normal 24px/1.4em Sanseriffic;
+    font: normal normal normal 21px/1.4em Sanseriffic;
     padding-top: 145px;
     width: 100vw;
+    margin: 0px;
+    padding-bottom: 17px;
 }
 #formDrop{
     display: flex;
@@ -147,6 +162,9 @@ h2{
     height: 200px;
     padding: 0px !important;
     z-index: 0;
+}
+.form_update{
+    padding-top: 145px !important;
 }
 #ingreso_enlace{
     position: absolute;
@@ -211,4 +229,8 @@ header {
 #regreso_pagina:hover{
     background-color: white;
     color: black;
+}
+.prev_act{
+    padding: 0px;
+    padding-bottom: 15px;
 }

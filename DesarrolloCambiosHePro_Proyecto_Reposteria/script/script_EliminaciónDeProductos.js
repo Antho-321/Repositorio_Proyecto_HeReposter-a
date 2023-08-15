@@ -1,6 +1,6 @@
 let producto;
 let estilo_Ingreso_Registro = document.createElement("style");
-let div_aux2=document.querySelector("body>div>div");
+let div_aux2=document.getElementById("Salto");
 estilo_Ingreso_Registro.innerHTML = `
   body>div>h1, #seccion_productos {
     opacity: 0.5;

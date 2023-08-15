@@ -336,7 +336,7 @@ h3 {
 }
 
 h1 {
-    font-size: 24px;
+    font: normal normal normal 30px/1.4em Sanseriffic;
 }
 
 #seccion_productos {

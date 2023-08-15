@@ -284,8 +284,24 @@ function ProductoSeleccionado(event) {
   </head>
 
   <body>
-      <h1 align="center">Actualización de información</h1>
-      <form id="form" method='POST' enctype="multipart/form-data" action="../php/php_ActualizaciónDeProductos.php" novalidate>
+  <header>
+
+<!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
+<a href="../html/ActualizaciónDeInformación.php" id="regreso_pagina">← Regresar</a>
+<div id="bloq_izq">
+<img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
+</div>
+<div id="bloq_der">
+<h1 align="center">Actualización de información</h1>
+</div>
+
+<!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
+
+
+
+</header>
+      
+      <form id="form" class="form_update" method='POST' enctype="multipart/form-data" action="../php/php_ActualizaciónDeProductos.php" novalidate>
           <section id="seccion_principal">
               <div id="seccion__Izq">
                   <div>
@@ -339,7 +355,7 @@ function ProductoSeleccionado(event) {
 
               </div>
               <div id="seccion__Der">
-                  <h2>Previsualización de producto:</h2>
+                  <h2 class="prev_act">Previsualización de producto:</h2>
                   <img alt="Imagen de pastel" id="image-preview" src="`+ dirImg + `" width="200px">
               </div>
           </section>

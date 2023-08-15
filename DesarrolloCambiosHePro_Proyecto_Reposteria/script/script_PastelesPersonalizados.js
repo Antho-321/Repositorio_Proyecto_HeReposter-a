@@ -2,14 +2,17 @@ let formDrop1, formDrop2, formDrop3, formDrop4,
   dropzone1, dropzone2, dropzone3, dropzone4,
   ingreso_enlace1, ingreso_enlace2, ingreso_enlace3, ingreso_enlace4,
   dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg, contenedor_preImg,
-  personalizacion, cantidadInput, texto_dedicatoria, cantidad_pasteles, seleccionables, div_elem,
+  personalizacion, cantidadInput, cantidadInput2, texto_dedicatoria, cantidad_pasteles, seleccionables, div_elem,
   contenido_opciones_tamaño, img_figura, img_adorno, inputs_radio, precio, contenedor_select, suma_formas, array_tipoPasteles, elems_masa,
   tamaño1, tamaño2, tamaño3, tamaño4, tamaño5,
   seccion_sabor, seccion_relleno, seccion_forma,
   pregunta_mismo_tipo, pregunta_mismo_tamaño, pregunta_mismo_sabor, pregunta_mismo_relleno, pregunta_misma_cobertura, pregunta_imagenEspecífica,
   diferente_tamaño, diferente_forma, diferente_tipo,
   misma_forma, mismo_tamaño,misma_cobertura,
-  select_sabor, select_relleno;
+  select_sabor, select_relleno,
+  txtespAdicional, espAdicional3,
+  enlaceAdd, numImgEspAdd, tdEspAdd, formDropAdd, dropzoneAdd, childrenAdd;
+numImgEspAdic=2;
 array_tipoPasteles = [];
 personalizacion = document.getElementById("personalizacion");
 ingreso_enlace1 = document.getElementById("enlace1");
@@ -511,7 +514,7 @@ function AgregarMásContenido() {
                     <th>Ingrese el número de pasteles que se encuentra en el modelo:</th>
                     <td colspan="1">
                         <input type="button" id="disminuir_cantidad" value="-" onclick="disminuirCantidadP()">
-                        <input type="number" id="cantidad" name="cantidad" value="1" readonly>
+                        <input type="number" class="cantidad" name="cantidad" value="1" readonly>
                         <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadP()">
                     </td>
                 </tr>
@@ -529,7 +532,7 @@ function AgregarMásContenido() {
                 `+ contenidoUnPastel() + `
   `);
   document.getElementById("sin_imgEspecífica").checked = true;
-  cantidadInput = document.getElementById("cantidad");
+  cantidadInput = document.getElementsByClassName("cantidad")[0];
   contenedor_select = document.getElementById("contenedor_select");
 }
 function contenidoUnPastel() {
@@ -688,10 +691,22 @@ function contenido_pregunta_fig_adorno(num_col) {
 function contenido_adicional(num_col) {
   return `
                 <tr id="espAdicional">
-                  <th>Especificación adicional:</th>
+                  <th rowspan="2">Especificación adicional:</th>
                   <td colspan="`+ num_col + `">
                     <textarea name="descrAdicional" id="descrAdicional" placeholder="(Opcional)" onclick="quitarPlaceHolder(event)"></textarea>
                   </td>
+                </tr>
+                <tr id="espAdicional2">
+                  <td>
+                    <p class="txtadd">Añadir</p>
+                    <input type="button" id="disminuir_cantidad" value="-" onclick="quitarDropAdd()">
+                    <input type="number" class="cantidad" name="cantidad" value="0" readonly>
+                    <input type="button" id="aumentar_cantidad" value="+" onclick="añadirDropAdd()">
+                    <p class="txtadd">imágenes</p>
+                  </td>
+                </tr>
+                <tr id="espAdicional3" style="display: none">
+                  <td></td>
                 </tr>
                 <tr id="seccion_precio">
                   <td colspan="`+ (num_col + 1) + `">
@@ -2033,4 +2048,35 @@ function mostrar_misma_cobertura(){
     pregunta_misma_cobertura.nextElementSibling.remove();
   }
   pregunta_misma_cobertura.insertAdjacentHTML("afterend",contenido_seccion_cobertura());
+}
+function añadirDropAdd(){
+  numImgEspAdic++;
+  cantidadInput2 = document.getElementsByClassName("cantidad")[1];
+  cantidadInput2.value = parseInt(cantidadInput2.value) + 1;
+  txtespAdicional = document.querySelector("#espAdicional>th");
+  espAdicional3 = document.getElementById("espAdicional3");
+  txtespAdicional.setAttribute("rowspan", 3);
+  espAdicional3.removeAttribute("style");
+  tdEspAdd=espAdicional3.firstElementChild;
+    tdEspAdd.insertAdjacentHTML("beforeend",`
+    <div class="dropzone dropAdd" id="formDrop`+numImgEspAdic+`">
+      <input type="url" placeholder="Ingresar enlace" name="ingreso_enlace" class="para_enlace enlaceAdd"
+        onclick="quitarPlaceHolder(event)">
+      <input type="hidden" name="enlace" class="aux_IngresarEnlace">
+    </div>
+    `);
+    enlaceAdd=document.getElementsByClassName("enlaceAdd")[numImgEspAdic-3];
+    formDropAdd = configurarDropZone(enlaceAdd, "DibujoImgEspecial");
+    dropzoneAdd = new Dropzone("div#formDrop"+numImgEspAdic, formDropAdd);
+    enlaceAdd.addEventListener('input', () => {
+      validaciónIngresoEnlace(enlaceAdd, dropzoneAdd);
+    });
+}
+function quitarDropAdd(){
+  cantidadInput2 = document.getElementsByClassName("cantidad")[1];
+  if(parseInt(cantidadInput2.value)>0){
+    numImgEspAdic--;
+    cantidadInput2.value = parseInt(cantidadInput2.value) - 1;
+    tdEspAdd.lastElementChild.remove();
+  } 
 }
