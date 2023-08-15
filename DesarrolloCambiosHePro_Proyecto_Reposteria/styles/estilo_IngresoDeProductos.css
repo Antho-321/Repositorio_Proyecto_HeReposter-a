@@ -146,3 +146,12 @@ h2{
 #contenedorTxt{
     height: 0px;
 }
+header{
+    display: flex;
+    flex-direction: column;
+}
+#regreso_pagina{
+    padding: 20px 0px;
+    text-decoration: none;
+    width: 100px;
+}

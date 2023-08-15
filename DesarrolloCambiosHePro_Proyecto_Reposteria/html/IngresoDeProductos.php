@@ -13,6 +13,7 @@
 
 <body>
     <header>
+        <a href="../html/InicioAdministración.php" id="regreso_pagina">← Regresar</a>
         <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
     </header>
     <h1>Ingreso de productos</h1>
