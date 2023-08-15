@@ -226,7 +226,7 @@ Dropzone.autoDiscover = false;
 const dropzone = new Dropzone("div#formDrop", {
   url: "../php/IngresoImagenProducto.php",
   dictDefaultMessage: `<p id="txtDrop">Arrastra tu imagen, presiona aquí para subirla o ingresa su enlace:</p>
-    <input type="url" placeholder="Ingresar enlace" id="input2">
+    <input type="url" placeholder="Ingresar enlace" id="input2" class="input_enlace">
     <div id="contenedorTxt">
       <p id="txtImgNoValida">Enlace no válido</p>
     <div>

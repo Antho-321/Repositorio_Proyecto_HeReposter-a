@@ -9,7 +9,11 @@
 </head>
 <body>
     <div>
-        <h1>Eliminación de productos</h1>
+        <div class="fixed">
+            <a href="../html/InicioAdministración.php" id="regreso_pagina">← Regresar</a>
+            <h1>Eliminación de productos</h1>
+        </div>
+        
         <div id="Salto"></div>
     </div>
     <section id="seccion_productos"></section>

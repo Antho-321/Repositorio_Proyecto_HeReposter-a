@@ -1,3 +1,11 @@
+@font-face {
+    font-family: "Sanseriffic";
+    src: url("../fuente/Sanseriffic.woff");
+  }
+* {
+    font-family: "Sanseriffic", Arial, sans-serif;
+    letter-spacing: 1.4px;
+}
 body {
     margin: 0px;
     width: 100vw;
@@ -31,6 +39,16 @@ h1{
     justify-content: center;
     position: absolute;
     z-index: -1;
+    letter-spacing: 8px;
+    font-size: 50px;
+}
+#wh_backg{
+    color: white;
+    z-index: -2;
+    font-size: 50.8px;
+}
+h3{
+    letter-spacing: 2px;
 }
 #opciones{
     width: 300px;
@@ -86,20 +104,11 @@ a{
     color: rgb(31, 31, 31);
     text-align: center;
     text-decoration: none;
-    margin: 0px 20%;
+    margin: 0px 15%;
 }
 a:hover {
     color: #7c7c7c41;
 }
-/*LO QUE TENGO QUE AGREGAR EN JAVASCRIPT*/
-/*
-body *:not(#opciones>*) {
-    opacity: 0.8;
-}
-#opciones, #opciones *{
-    opacity: 1 !important;
-}
-*/
 
 #check:checked + div #opciones #op_principales{
     visibility: visible;
@@ -109,4 +118,7 @@ body *:not(#opciones>*) {
 }
 #check{
     display: none;
+}
+.op{
+    transition: 0.4s;
 }

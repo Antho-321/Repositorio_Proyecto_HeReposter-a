@@ -17,6 +17,7 @@
     <header>
 
         <!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
+        <a href="../html/InicioAdministración.php" id="regreso_pagina">← Regresar</a>
         <div id="bloq_izq">
         <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
         </div>

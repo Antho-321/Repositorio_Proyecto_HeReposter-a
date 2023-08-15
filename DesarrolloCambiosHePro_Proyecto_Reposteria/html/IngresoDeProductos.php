@@ -12,15 +12,26 @@
 </head>
 
 <body>
-    <header>
-        <a href="../html/InicioAdministración.php" id="regreso_pagina">← Regresar</a>
-        <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
-    </header>
-    <h1>Ingreso de productos</h1>
-    <form id="form" method='POST' enctype="multipart/form-data" action="../php/php_IngresoDeProductos.php">
-        <h2>Previsualización de producto:</h2>
+<header>
+
+<!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
+<a href="../html/InicioAdministración.php" id="regreso_pagina">← Regresar</a>
+<div id="bloq_izq">
+<img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
+</div>
+<div id="bloq_der">
+<h1>Ingreso de productos</h1>
+</div>
+
+<!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
+
+
+
+</header>
+<h2>Previsualización de producto:</h2>
+    <form id="form" method='POST' enctype="multipart/form-data" action="../php/php_IngresoDeProductos.php"> 
         <div class="dropzone" id="formDrop">
-            <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace" onclick="ingresarEnlace()">
+            <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace" onclick="ingresarEnlace()" class="input_enlace">
             <input type="hidden" name="enlace" id="aux_IngresarEnlace">
             <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
         </div>

@@ -420,7 +420,7 @@ footer {
 
 header {
     height: 100px;
-    background-color: aliceblue;
+    background-color: white;
     width: 100%;
     color: black;
     display: flex;
@@ -429,7 +429,8 @@ header {
     z-index: 2;
 }
 #bloq_izq{
-    width: 40vw;
+    position: absolute;
+    right: 0px;
 }
 #bloq_der{
     width: 100vw;
@@ -441,6 +442,28 @@ header {
     width: 200px;
     height: 200px;
     padding: 0px !important;
+}
+#regreso_pagina{
+    margin: 20px 10px;
+    text-decoration: none;
+    width: 100px;
+    text-align: center;
+    color: white;
+    border: none;
+    background-color: black;
+    padding: 15px 10px;
+    font-size: 18px;
+    width: 145px;
+    border-radius: 12px;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    z-index: 2;
+    letter-spacing: 0.9px;
+}
+#regreso_pagina:hover{
+    background-color: white;
+    color: black !important;
 }
   @media screen and (max-width: 1054px) {
     #check2:checked+header #Contenido_Cabecera,
