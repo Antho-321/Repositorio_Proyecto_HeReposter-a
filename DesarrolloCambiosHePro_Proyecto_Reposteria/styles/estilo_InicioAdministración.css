@@ -86,7 +86,7 @@ a{
     color: rgb(31, 31, 31);
     text-align: center;
     text-decoration: none;
-    
+    margin: 0px 20%;
 }
 a:hover {
     color: #7c7c7c41;
@@ -100,3 +100,13 @@ body *:not(#opciones>*) {
     opacity: 1 !important;
 }
 */
+
+#check:checked + div #opciones #op_principales{
+    visibility: visible;
+}
+#check:checked + div .op{
+    opacity: 0.5;
+}
+#check{
+    display: none;
+}

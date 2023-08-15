@@ -14,8 +14,6 @@
 <body>
     <header>
         <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
-        <h1>Actualización de información</h1>
-        <h4>ADMINISTRACIÓN</h4>
     </header>
     <h1>Ingreso de productos</h1>
     <form id="form" method='POST' enctype="multipart/form-data" action="../php/php_IngresoDeProductos.php">

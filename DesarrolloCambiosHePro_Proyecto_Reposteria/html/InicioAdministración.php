@@ -8,25 +8,26 @@
     <title>Administración</title>
 </head>
 <body>
-    <div class="imgFondo"></div>
-    <h1>¡Bienvenido!</h1>
-    <section id="opciones">
-        <div id="inicial">
-            <div id="btn_despliegue" onclick="mostrarOpciones()">
-                <p></p>
-                <p></p>
-                <p></p>
+    <input type="checkbox" id="check">
+    <div>
+        <div class="imgFondo op"></div>
+        <h1 class="op">¡Bienvenido!</h1>
+        <section id="opciones">
+            <div id="inicial">
+                <label for="check" class="mostrar_menu" id="btn_despliegue">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </label>
+                <img src="../imagenes/LOGO_PANKEY.png" alt="Logo de Pankey" id="LogoPankey">
+                <h3>Administración</h3>
             </div>
-            <img src="../imagenes/LOGO_PANKEY.png" alt="Logo de Pankey" id="LogoPankey">
-            <h3>Administración</h3>
-        </div>
-        <div id="op_principales">
-            <a href="../html/IngresoDeProductos.php">Ingresar Producto</a>
-            <a href="../html/ActualizaciónDeInformación.php">Actualizar información</a>
-            <a href="../html/EliminaciónDeProductos.php">Eliminar producto</a>
-        </div>
-        <script src="../script/script_InicioAdministración.js"></script>
-    </section>
-    
+            <div id="op_principales">
+                <a href="../html/IngresoDeProductos.php">Ingresar Producto</a>
+                <a href="../html/ActualizaciónDeInformación.php">Actualizar información</a>
+                <a href="../html/EliminaciónDeProductos.php">Eliminar producto</a>
+            </div>
+        </section>
+    </div>
 </body>
 </html>
