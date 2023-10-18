@@ -85,6 +85,7 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
         document.head.appendChild(estilo_noMasImg);
       });
       this.on("addedfile", function (file) {
+        
         contenedor_preImg = file.previewElement.getElementsByClassName("dz-image")[0];
         dzSize = file.previewElement.getElementsByClassName("dz-size")[0];
         dzProgress = file.previewElement.getElementsByClassName("dz-progress")[0];
@@ -102,29 +103,32 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
             AgregarMásContenido();
           }
         }
-        if (file.name.includes("http") || file.name.includes("data:image")) {
-          previsualizacion.src = file.name;
+        
+        
+      });
+      this.on("success", function (_file, _response) {
+        ingreso_enlace.style = "z-index: -1;";
+      });
+      this.on("complete", function (file) {
+        if (previsualizacion.src.includes("http") || previsualizacion.src.includes("data:image")) {
           this.options.maxFiles = 0;
           if (imagenAdicional != "") {
             document.getElementsByClassName("aux_IngresarEnlace")[1].value = file.name;
           } else {
             document.getElementsByClassName("aux_IngresarEnlace")[0].value = file.name;
           }
+        }else{
+          let myData = ultimaImgIngresada();
+          myData.then(result => {
+            //previsualizacion = file.previewElement.querySelector("img");
+            
+            if (result.name != undefined) {
+             var nombres = Object.keys(result.name);
+             previsualizacion.src = "../imagenes/Productos/" + nombres[1];
+           }
+         });
         }
-      });
-      this.on("success", function (_file, _response) {
-        ingreso_enlace.style = "z-index: -1;";
-      });
-      this.on("complete", function (file) {
-        let myData = ultimaImgIngresada();
-        myData.then(result => {
-          previsualizacion = file.previewElement.querySelector("img");
-          if (result.name != undefined) {
-            var nombres = Object.keys(result.name);
-            previsualizacion.src = "../imagenes/Productos/" + nombres[1];
-          }
-        });
-
+         
       });
     },
     renameFile: function (file) {
