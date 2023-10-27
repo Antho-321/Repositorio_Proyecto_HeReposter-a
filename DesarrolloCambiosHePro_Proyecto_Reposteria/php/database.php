@@ -2,8 +2,8 @@
 class Database{
   private $hostname="localhost:3306";
   private $database="db_pankey";
-  private $username="root";
-  private $password="YES";
+  private $username="anthonyluisluna225";
+  private $password="anthonyluisluna225";
   private $charset="utf8";
 
  

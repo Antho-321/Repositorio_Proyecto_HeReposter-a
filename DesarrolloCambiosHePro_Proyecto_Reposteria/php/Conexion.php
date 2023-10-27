@@ -1,8 +1,8 @@
 <?php
 class Conexion {
     private $host = "localhost";
-    private $user = "root";
-    private $password = "root";
+    private $user = "anthonyluisluna225";
+    private $password = "anthonyluisluna225";
     private $name_db ="db_pankey";
     private $conn;
 
