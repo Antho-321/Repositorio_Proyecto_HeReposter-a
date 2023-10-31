@@ -11,7 +11,7 @@
     <header id="Cabecera">
         <img src="../imagenes/LOGO_PANKEY.png" alt="LOGO_PANKEY" id="LogoPankey">
         <section id="seccion_botones">
-            <a href="Index.php">Inicio</a>
+            <a href="index.php">Inicio</a>
             <a href="SobreNosotros.php">Sobre Nosotros</a>
             <div id="Catalogo">
                 <input class="Btn_Catalogo" type="button" value="Catalogo" >

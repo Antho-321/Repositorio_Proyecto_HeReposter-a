@@ -21,7 +21,7 @@
         </label>
         <nav class="menu">
             <ul class="menu_horizontal">
-                <li> <a href="Index.php">Inicio</a></li>
+                <li> <a href="index.php">Inicio</a></li>
                 <li><a href="SobreNosotros.php">Sobre Nosotros</a></li>
                 <li>
                     <a href="#"> Catalogo</a>

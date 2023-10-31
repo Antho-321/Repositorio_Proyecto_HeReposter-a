@@ -32,7 +32,7 @@ if (isset($_SESSION['id'])) {
             </label>
             <div id="botones_iconos">
                 <section id="seccion_botones">
-                    <a href="Index.php">Inicio</a>
+                    <a href="index.php">Inicio</a>
                     <a href="SobreNosotros.php">Sobre nosotros</a>
                     <div id="Catalogo">
                         <input class="Btn_Catalogo" type="button" value="Catalogo">
