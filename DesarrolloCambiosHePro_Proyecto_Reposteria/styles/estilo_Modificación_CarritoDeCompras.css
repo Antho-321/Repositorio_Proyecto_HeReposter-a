@@ -421,8 +421,8 @@ h1{
     letter-spacing: 0.15vw;
 }
 p{
-   font: normal normal normal 15px/1.4em Century Gothic; 
     margin: 0px;
+    font-size: 17px;
     /*padding-left: 50px;
     padding-right: 50px;*/
 }
