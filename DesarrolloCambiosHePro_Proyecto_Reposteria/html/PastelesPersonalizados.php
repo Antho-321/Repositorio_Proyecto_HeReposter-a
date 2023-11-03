@@ -17,7 +17,7 @@ if (isset($_SESSION['id'])) {
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <link rel="stylesheet" href="../styles/estilo_PastelesPersonalizados.css" id="estilo" type="text/css">
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" /> 
-    <link rel="shortcut icon" href="../imagenes/favicon.ico">
+    <link rel="shortcut icon" href="../favicon.ico">
     <title>Pankey</title>
 </head>
 
