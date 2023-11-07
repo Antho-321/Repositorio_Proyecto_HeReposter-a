@@ -2,10 +2,10 @@ let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoVa
 let ingreso_enlace = document.getElementById("ingreso_enlace");
 estilo_txtImgNoValida = document.createElement("style");
 estilo_noMasImg = document.createElement("style");
-estilo_contenedorPreImg=document.createElement("style");
+estilo_contenedorPreImg = document.createElement("style");
 estilo_txtImgNoValida.id = "est_txtImgNoValida";
-estilo_contenedorPreImg.id="est_contPreImg";
-estilo_contenedorPreImg.innerHTML=`
+estilo_contenedorPreImg.id = "est_contPreImg";
+estilo_contenedorPreImg.innerHTML = `
 #formDrop{
   border: 0px;
 }
@@ -22,51 +22,89 @@ estilo_noMasImg.innerHTML = `
   color: white;
 }
 `;
-Dropzone.autoDiscover = false;
-const dropzone = new Dropzone("div#formDrop", {
-  url: "../php/IngresoImagenProducto.php",
-  dictDefaultMessage: `<p id="txtDrop">Arrastra tu imagen, presiona aquí para subirla o ingresa su enlace:</p>
-    <input type="url" placeholder="Ingresar enlace" id="input2">
-    <div id="contenedorTxt">
-      <p id="txtImgNoValida">Enlace no válido</p>
-    <div>
-    `,
-  maxFiles: 1,
-  init: function () {
-    this.on("maxfilesexceeded", function (file) {
-      this.removeFile(file);
-      alert("¡Solo se puede subir un archivo!");
-      document.head.appendChild(estilo_noMasImg);
-    });
-    this.on("sending", function (file, xhr, data) {
 
-      ingreso_enlace = document.getElementById("ingreso_enlace");
-      if (ingreso_enlace != undefined) {
-        ingreso_enlace.remove();
-      }
-      data.append("type_chooser", "1");
+Dropzone.autoDiscover = false;
+// Crear una instancia de Dropzone
+var dropzone = new Dropzone(document.querySelector("div#formDrop"),
+  {
+    url: "../php/IngresoImagenProducto.php",
+  });
+
+// Añadir un evento de escucha para el evento "drop" en la ventana
+window.addEventListener("drop", function (e) {
+
+  e = e || event;
+  e.preventDefault();
+  // Obtener los archivos que se han soltado
+  var files = e.dataTransfer.files;
+  // Añadirlos a la cola de Dropzone
+  
+  alert(files[0]); //ME DICE QUE ES UNDEFINED
+  
+  for (var i = 0; i < files.length; i++) {
+
+    //dropzone.addFile(files[i]);
+    // Obtener el archivo del arreglo files 
+    var file = files[i];
+
+    var newFile = file.slice(0, file.size, file.type);
+    newFile.name = file.name;
+
+    // Agregar el archivo al dropzone 
+    dropzone.addFile(newFile);
+
+    // Crear una miniatura del archivo 
+    dropzone.createThumbnail(newFile, function (dataUrl) {
+      // Mostrar la miniatura en el elemento que se desee 
+
+      var img = document.getElementById("myImage");
+      img.src = dataUrl;
     });
-    this.on("addedfile", function (file) {
-      if (file.name.includes("http")||file.name.includes("data:image")) {
-        dzSize = file.previewElement.querySelector(".dz-size");
-        dzProgress = file.previewElement.querySelector(".dz-progress");
-        previsualizacion = file.previewElement.querySelector("img");
-        previsualizacion.src = file.name;
-        previsualizacion.style = "width: 100%; height: 100%;";
-        dzProgress.style = "display: none;";
-        dzSize.style = "display: none;";
-        ingreso_enlace.style = "z-index: -1;";
-        this.options.maxFiles = 0;
-        document.getElementById("aux_IngresarEnlace").value = file.name;
-      }
-    });
-  },
-  renameFile: function (file) {
-    let str1 = file.name;
-    let str2 = str1.substring(str1.lastIndexOf("."));
-    return "HOLA" + "_" + str2;
   }
-});
+}, false);
+
+
+
+
+
+// const dropzone = new Dropzone("div#formDrop", {
+//   url: "../php/IngresoImagenProducto.php",
+//   maxFiles: 1,
+//   init: function () {
+//     this.on("maxfilesexceeded", function (file) {
+//       this.removeFile(file);
+//       alert("¡Solo se puede subir un archivo!");
+//       document.head.appendChild(estilo_noMasImg);
+//     });
+//     this.on("sending", function (file, xhr, data) {
+
+//       ingreso_enlace = document.getElementById("ingreso_enlace");
+//       if (ingreso_enlace != undefined) {
+//         ingreso_enlace.remove();
+//       }
+//       data.append("type_chooser", "1");
+//     });
+//     this.on("addedfile", function (file) {
+//       if (file.name.includes("http")||file.name.includes("data:image")) {
+//         dzSize = file.previewElement.querySelector(".dz-size");
+//         dzProgress = file.previewElement.querySelector(".dz-progress");
+//         previsualizacion = file.previewElement.querySelector("img");
+//         previsualizacion.src = file.name;
+//         previsualizacion.style = "width: 100%; height: 100%;";
+//         dzProgress.style = "display: none;";
+//         dzSize.style = "display: none;";
+//         ingreso_enlace.style = "z-index: -1;";
+//         this.options.maxFiles = 0;
+//         document.getElementById("aux_IngresarEnlace").value = file.name;
+//       }
+//     });
+//   },
+//   renameFile: function (file) {
+//     let str1 = file.name;
+//     let str2 = str1.substring(str1.lastIndexOf("."));
+//     return "HOLA" + "_" + str2;
+//   }
+// });
 dropzone.on("complete", function (file) {
   var ext = /(.jpg|.jpeg|.png|.gif)$/i;
   if (!ext.exec(file.name)) {
@@ -78,8 +116,8 @@ dropzone.on("complete", function (file) {
 });
 dropzone.on("addedfile", file => {
   let contenedor_preImg = document.querySelector(".dz-image");
-  contenedor_preImg.style="width: 200px; height: 200px;";
-  contenedor_preImg.parentNode.style="width: 200px; height: 200px; margin: 0px !important;";
+  contenedor_preImg.style = "width: 200px; height: 200px;";
+  contenedor_preImg.parentNode.style = "width: 200px; height: 200px; margin: 0px !important;";
   document.head.appendChild(estilo_contenedorPreImg);
 });
 function ingresarEnlace() {
