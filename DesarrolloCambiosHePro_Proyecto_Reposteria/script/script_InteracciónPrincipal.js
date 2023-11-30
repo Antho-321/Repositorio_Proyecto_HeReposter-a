@@ -164,22 +164,31 @@ function AgregarContenido(CategoríaSeleccionada) {
     seccion_productos = document.getElementById("seccion_productos");
     if (CategoríaSeleccionada == "") {
         let myData = myAsyncFunction("");
-        myData.then(result => {
-            let div_aux = document.createElement("div");
-            for (let i = 0; i < result.length; i++) {
-                let div = document.createElement("div");
-                let imagen = document.createElement("img");
-                let h3 = document.createElement("h3");
-                imagen.src = result[i].Img;
-                h3.innerHTML = "Mostrar más información";
-                div.appendChild(h3);
-                h3.addEventListener("click", ProductoSeleccionado);
-                div.appendChild(imagen);
-                div_aux.appendChild(div);
-            }
-            seccion_productos.appendChild(div_aux);
-        }
-        );
+myData.then(
+  result => {
+    // Verificar si el resultado tiene la propiedad error
+    if (result.error) {
+      // Mostrar el error por consola
+      console.log(result.error);
+    } else {
+      // Procesar el resultado como un arreglo de objetos
+      let div_aux = document.createElement("div");
+      for (let i = 0; i < result.length; i++) {
+        let div = document.createElement("div");
+        let imagen = document.createElement("img");
+        let h3 = document.createElement("h3");
+        imagen.src = result[i].Img;
+        h3.innerHTML = "Mostrar más información";
+        div.appendChild(h3);
+        h3.addEventListener("click", ProductoSeleccionado);
+        div.appendChild(imagen);
+        div_aux.appendChild(div);
+      }
+      seccion_productos.appendChild(div_aux);
+    }
+  }
+);
+
     } else {
         if (CategoríaSeleccionada == " Navidad") {
             CategoríaSeleccionada = CategoríaSeleccionada.substring(1);
@@ -212,14 +221,21 @@ function myAsyncFunction(imagen) {
         }
     }
     return new Promise((resolve, reject) => {
+        
         fetch("../php/ConsultaProductoSeleccionado.php?imagen=" + encodedImagen)
             .then(response => response.json())
             .then(data => {
                 resolve(data);
             })
-            .catch(error => reject(error));
+            .catch(error => {
+                // mostrar el mensaje y la pila del error
+                console.error("MENSAJE DE ERROR: "+error.message+" | stack: "+error.stack);
+                // o mostrar el error completo
+                console.error(error);
+            });
     });
 }
+
 function myAsyncFunction2(id, cantidad, dedicatoria, carritoInfo, reqAdicional) {
     return new Promise((resolve, reject) => {
         fetch("../php/ConsultaIngresoACarrito.php?&id=" + id + "&cantidad=" + cantidad + "&dedicatoria=" + dedicatoria + "&carritoInfo=" + carritoInfo + "&espAdicional=" + reqAdicional)
