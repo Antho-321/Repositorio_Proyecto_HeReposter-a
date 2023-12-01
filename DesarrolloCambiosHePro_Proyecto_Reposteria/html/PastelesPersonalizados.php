@@ -153,7 +153,7 @@ if (isset($_SESSION['id'])) {
                     </tr>
                     <tr>
                         <td class="seccion_formDrop" colspan="2">       
-                            <div class="dropzone" id="formDrop">
+                            <div class="dropzone" id="formDrop" ondrop="drop(event)" ondragover="allowDrop(event)">
                                 <input type="url" placeholder="Ingresar enlace" name="ingreso_enlace" class="para_enlace" id="enlace1"
                                 onclick="quitarPlaceHolder(event)">
                                 <input type="hidden" name="enlace" class="aux_IngresarEnlace">
