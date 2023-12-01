@@ -1,25 +1,43 @@
 <?php
+// error_reporting(E_ALL);
+// ini_set('display_errors', '1');
+header("Access-Control-Allow-Origin: *");
 try {
-  function obtener_enlace_imagen($google_url)
+  function getBase64Image($original_url)
   {
-    // Use file_get_contents to get the HTML content of the Google URL
-  $html = file_get_contents($google_url);
-  // Use preg_match to extract the image URL from the HTML content
-  // The image URL is assumed to be within double quotes after imgurl=
-  if (preg_match('/imgurl="([^"]+)"/', $html, $matches)) {
-    // Return the first match
-    return $matches[1];
-  } else {
-    // Return null if no match is found
-    return null;
+    $query = parse_url($original_url, PHP_URL_QUERY); // Obtener la parte de la consulta de la URL
+    parse_str($query, $params); // Convertir la consulta en un array asociativo
+    $url = $params['url']; // Obtener el valor del parámetro url
+
+    // Obtener el contenido HTML de la página web
+    $html = file_get_contents($url);
+    // Crear una instancia de la clase DOMDocument
+    $dom = new DOMDocument();
+    // Cargar el contenido HTML en el objeto DOM
+    $dom->loadHTML($html);
+    //Buscar todas las etiquetas img en el contenido HTML
+    $images = $dom->getElementsByTagName("img");
+    // Obtener el primer elemento del array $images
+    $node = $images->item(0);
+    // Comprobar si el elemento es de tipo DOMElement
+    if ($node instanceof DOMElement) {
+      // Obtener el valor del atributo src de la etiqueta img
+      $image_url = $node->getAttribute("src");
+      // Continuar con el resto de la función original
+      $image = file_get_contents($image_url);
+      $type = mime_content_type($image_url);
+      $base64 = base64_encode($image);
+      return "data:$type;base64,$base64";
+    }
   }
-  }
+
 
   // Obtener los datos del cuerpo de la solicitud
   $data = json_decode(file_get_contents('php://input'), true);
   $imagen = $data['imagen'];
   $data = array(
-    'enlace' => obtener_enlace_imagen($imagen)
+    //'enlace_obtenido' => getBase64Image($imagen),
+    'enlace_original' => $imagen
   );
   header('Content-Type: application/json');
   $json_data = json_encode($data);
@@ -30,4 +48,3 @@ try {
   echo json_encode($data);
   die();
 }
-?>
