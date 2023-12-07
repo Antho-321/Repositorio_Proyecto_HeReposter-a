@@ -67,12 +67,17 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
   }
   return {
     url: "../php/IngresoImagenProducto.php" + imagenAdicional,
-    dictDefaultMessage: `<p id="txtDrop">Arrastra tu imagen, presiona aquí para subirla o ingresa su enlace:</p>
+    dictDefaultMessage: `<p id="txtDrop">Presiona aquí para subir tu imagen o ingresa su enlace:</p>
     <input type="url" placeholder="Ingresar enlace" id="input2" style="visibility: hidden">
     <div id="contenedorTxt">
       <p class="txtImgNoValida">Enlace no válido</p>
     <div>
     `,
+    clickable: true,
+    drop: function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+    },
     acceptedFiles: ".jpg,.jpeg,.png,.gif,.webp",
     maxFiles: 1,
     init: function () {
