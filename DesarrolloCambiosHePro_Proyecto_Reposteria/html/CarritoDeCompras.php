@@ -8,9 +8,9 @@ if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
     include("../php/Conexion.php");
     $conexion = new Conexion;
-    $aux = $conexion->OperSql("SELECT `Id_Canasta` FROM `canasta` WHERE  `Id_Usuario` = '$id'");
+    $aux = $conexion->OperSql("SELECT ID_PEDIDO FROM pedido WHERE ID_CLIENTE=$id AND ESTADO='pendiente';");
     $aux = $aux->fetch_array();
-    $aux = $aux['Id_Canasta'];
+    $aux = $aux['ID_PEDIDO'];
     // Configuración de la conexión a la base de datos
     $enlace = "";
     $host = "localhost";
@@ -22,7 +22,7 @@ if (isset($_SESSION['id'])) {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
 
     // Preparar la consulta SQL
-    $sql = "SELECT Subtotal FROM canasta_item WHERE Id_canasta = $aux";
+    $sql = "SELECT Subtotal FROM canasta WHERE ID_PEDIDO = $aux";
 
     // Ejecutar la consulta y obtener los resultados
     $stmt = $pdo->query($sql);

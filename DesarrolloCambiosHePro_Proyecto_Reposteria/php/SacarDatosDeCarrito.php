@@ -8,7 +8,7 @@ if (!$conn) {
 }
 if (isset($_SESSION['id'])) {
   $id_usuario = $_SESSION['id'];
-  $sql = "SELECT p.*, Cantidad_Cliente, Dedicatoria, Id_Canasta_item, Especificacion_adicional FROM canasta_item ci LEFT JOIN canasta c ON c.Id_canasta = ci.Id_Canasta LEFT JOIN producto p ON ci.Codigo = p.Codigo WHERE c.Id_Usuario = '" . $id_usuario . "'";
+  $sql = "SELECT p.*, CANTIDAD_CLIENTE, DEDICATORIA, ID_CANASTA, ESPECIFICACION_ADICIONAL FROM producto p, canasta c, pedido pe WHERE c.CODIGO_PRODUCTO=p.CODIGO_PRODUCTO AND c.ID_PEDIDO=pe.ID_PEDIDO AND pe.ESTADO='pendiente' AND pe.ID_CLIENTE='$id_usuario';";
   $result = mysqli_query($conn, $sql);
   if (!$result) {
     die("Consulta fallida: " . mysqli_error($conn));

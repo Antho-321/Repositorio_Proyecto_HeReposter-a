@@ -15,12 +15,12 @@ try {
 
 // Consulta a la base de datos
 if (strpos($imagen, "http") !== false || strpos($imagen, "../") !== false) {
-  $sql = "SELECT * FROM `producto` WHERE `Img` = '" . $imagen . "'";
+  $sql = "SELECT * FROM `producto` WHERE `IMG` = '" . $imagen . "'";
 } else {
   if ($imagen == "") {
     $sql = "SELECT `Img` FROM producto";
   } else {
-    $sql = "SELECT `Img` FROM `producto` WHERE `Categoría` = '" . $imagen . "'";
+    $sql = "SELECT `Img` FROM `producto` WHERE `Categoria` = '" . $imagen . "'";
   }
 }
 

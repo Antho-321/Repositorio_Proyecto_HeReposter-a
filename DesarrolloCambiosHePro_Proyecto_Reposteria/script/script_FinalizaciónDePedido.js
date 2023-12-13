@@ -1,4 +1,3 @@
-
     paypal.Buttons({
         // Configura la transacción cuando se hace clic en un botón de pago
         createOrder: (data, actions) => {

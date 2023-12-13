@@ -398,14 +398,15 @@ function ProductoSeleccionado(event, imagen, carritoInfo, cantidad_productos, ar
     estilo = document.getElementById("estilo");
     estilo.href = "../styles/estilo_Modificación_ProductoSeleccionado.css";
     myData.then(result => {
-        id_producto = result[0].Codigo;
-        precio_producto = result[0].Precio;
-        descripción_adicional = result[0].Descripción;
-        porciones = result[0].Porciones;
-        masa = result[0].Masa;
-        cobertura = result[0].Cobertura;
-        sabor = result[0].Sabor;
-        relleno = result[0].Relleno;
+        console.log(result);
+        id_producto = result[0].CODIGO_PRODUCTO;
+        precio_producto = result[0].PRECIO;
+        descripción_adicional = result[0].DESCRIPCION;
+        porciones = result[0].PORCIONES;
+        masa = result[0].MASA;
+        cobertura = result[0].COBERTURA;
+        sabor = result[0].SABOR;
+        relleno = result[0].RELLENO;
         contenido_principal.innerHTML = `
             <div id="DestacadoPrincipal">
                 <img src="`+ img + `" alt="imagenes">
@@ -670,6 +671,7 @@ function AgregarContenidoCarrito() {
     let primera_fila = document.getElementById("primera_fila");
     let myData = myAsyncFunction3();
     myData.then(result => {
+        //console.log(result);
         if (result.usuario == "noIngresado" || result.length == 0) {
             ProductosNoIngresados();
         }
@@ -677,22 +679,22 @@ function AgregarContenidoCarrito() {
             primera_fila.insertAdjacentHTML("afterend", `
         <form class="fila" action="../php/EliminarItemCarrito.php" method= "POST">
                         <div class="col" id="seccion_imagen">
-                            <img src="`+ result[i].Img + `" alt="Producto">
+                            <img src="`+ result[i].IMG + `" alt="Producto">
                         </div>   
-                            <p class="col" name="dedicatoria">`+ result[i].Dedicatoria + `</p>
-                            <p class="col" name="masa">`+ result[i].Masa + `</p>
-                            <p class="col" name="sabor">`+ result[i].Sabor + `</p>
-                            <p class="col" name="relleno">`+ result[i].Relleno + `</p>
-                            <p class="col" name="cobertura">`+ result[i].Cobertura + `</p>
-                            <p class="col" name="precio">$`+ result[i].Precio + `</p>
-                            <p class="col" name="cantidad">`+ result[i].Cantidad_Cliente + `</p>                   
+                            <p class="col" name="dedicatoria">`+ result[i].DEDICATORIA + `</p>
+                            <p class="col" name="masa">`+ result[i].MASA + `</p>
+                            <p class="col" name="sabor">`+ result[i].SABOR + `</p>
+                            <p class="col" name="relleno">`+ result[i].RELLENO + `</p>
+                            <p class="col" name="cobertura">`+ result[i].COBERTURA + `</p>
+                            <p class="col" name="precio">$`+ result[i].PRECIO + `</p>
+                            <p class="col" name="cantidad">`+ result[i].CANTIDAD_CLIENTE + `</p>                   
                             <div class="col" id="seccion_eliminar">
                                 <div>
-                                    <input type="hidden" name="id_canasta_item" value="`+ result[i].Id_Canasta_item + `">
+                                    <input type="hidden" name="id_canasta" value="`+ result[i].ID_CANASTA + `">
                                     
                                     <input type="button" id="editarCarrito" class="btn_eliminar" value="✏️">
-                                    <input type="hidden" value="`+ result[i].Img + `" id="test">
-                                    <input type="hidden" name="adicional" id="req_Adicional" value="`+ result[i].Especificacion_adicional + `">
+                                    <input type="hidden" value="`+ result[i].IMG + `" id="test">
+                                    <input type="hidden" name="adicional" id="req_Adicional" value="`+ result[i].ESPECIFICACION_ADICIONAL + `">
                                     <button class="btn_eliminar"><img src="../imagenes/Borrador.png" id="borrador"></button>
                                 </div>
                             </div>      
