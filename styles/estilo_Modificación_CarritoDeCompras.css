@@ -151,6 +151,9 @@ input{
     text-align: center; 
     letter-spacing: 0.1vw;
 }
+h2{
+    letter-spacing: 1px;
+}
 button, .btn_eliminar{
     font: normal normal normal 18px/1.4em Sanseriffic;
     background-color: transparent;

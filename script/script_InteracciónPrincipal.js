@@ -525,7 +525,8 @@ function ProductosNoIngresados() {
     <h1>No se ha ingresado productos</h1>
     `;
 }
-function añadirBtnPago() {
+function finalizarPedido() {
+    let tabla_info=document.getElementsByClassName("tabla_info")[1];
     let scripts = document.getElementsByTagName("script");
     let btnFinPedido = document.getElementById("fin_pedido");
     let script = document.createElement("script");
@@ -537,6 +538,9 @@ function añadirBtnPago() {
     contenedorBtnPaypal.insertAdjacentElement("afterend", script);
     btnFinPedido.remove();
     scripts[scripts.length - 1].remove();
+    tabla_info.insertAdjacentHTML("afterend",`
+    <h2>Datos para comprobante de venta:</h2>
+    `);
 }
 function enviarInfoACarrito(carritoInfo) {
     dedicatoria = "";

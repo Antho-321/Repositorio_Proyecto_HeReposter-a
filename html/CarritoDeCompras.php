@@ -149,7 +149,7 @@ if (isset($_SESSION['id'])) {
                 </div>
             </div>
             <div id="botones_carrito">
-                <input id="fin_pedido" type="button" value="Finalizar pedido" onclick="añadirBtnPago()">
+                <input id="fin_pedido" type="button" value="Finalizar pedido" onclick="finalizarPedido()">
 
             </div>
 
