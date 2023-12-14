@@ -666,6 +666,10 @@ function CerrarVentana() {
     } else {
         document.getElementsByTagName("style")[0].remove();
     }
+    let opera_bug=document.getElementById("operaUserStyle");
+    if (opera_bug!=null&&opera_bug!=undefined) {
+        opera_bug.remove();
+    }
 }
 function AgregarContenidoCarrito() {
     let primera_fila = document.getElementById("primera_fila");
