@@ -539,7 +539,16 @@ function finalizarPedido() {
     btnFinPedido.remove();
     scripts[scripts.length - 1].remove();
     tabla_info.insertAdjacentHTML("afterend",`
-    <h2>Datos para comprobante de venta:</h2>
+    <h2>Datos para generación de comprobante:</h2>
+    <label for="cedula">Cédula:</label>
+    <input type="text" name="cedula" class="entrada_texto">
+    <label for="nombre">Nombre:</label>
+    <input type="text" name="nombre" class="entrada_texto">
+    <label for="direccion">Dirección domiciliaria:</label>
+    <input type="text" name="direccion" class="entrada_texto">
+    <label for="telefono">Teléfono móvil:</label>
+    <input type="tel" name="telefono" class="entrada_texto">
+    <h2>Información de pago:</h2>
     `);
 }
 function enviarInfoACarrito(carritoInfo) {

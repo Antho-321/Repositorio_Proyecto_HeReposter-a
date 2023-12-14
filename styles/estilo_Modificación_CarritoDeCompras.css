@@ -262,6 +262,9 @@ a{
 #Info_adicional>p{
     text-align: center;
 }
+#Info_adicional label{
+    cursor: text;
+}
 h2{
     text-align: center;
 }
@@ -383,12 +386,12 @@ select{
     padding: 5px 0px !important;
     margin: 5px 0px;
 }
-input[type="text"], input[type="url"], #cod_postal, #tel{
-    cursor: auto;
+input[type="text"], input[type="tel"], input[type="url"], #cod_postal, #tel{
+    cursor: text !important;
     padding: 5px 0px !important;
     margin: 5px 0px;
 }
-input[type="text"], #num_tarjeta{ 
+input[type="text"], input[type="tel"], #num_tarjeta{ 
     width: 100%; 
     cursor: auto;
     border: 1px solid !important;
@@ -589,7 +592,6 @@ h3 {
     background-color: rgb(255, 255, 255);
 }
 
-input:hover,
 a:hover,
 button:hover,
 #Catalogo:hover .Btn_Catalogo {
