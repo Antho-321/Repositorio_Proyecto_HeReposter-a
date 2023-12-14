@@ -11,7 +11,7 @@ $dedicatoria = $_GET['dedicatoria'];
 $carritoInfo = $_GET['carritoInfo'];
 $reqAdicional = $_GET['espAdicional'];
 if (isset($_GET['id']) && isset($_GET['cantidad']) && isset($_SESSION['id'])) {
-    $id_cliente=$_SESSION['id'];
+    $id_cliente = $_SESSION['id'];
     $usuario = $_SESSION['id'];
     $data = array(
         'usuario' => "Ingresado"
@@ -34,20 +34,20 @@ if (isset($_GET['id']) && isset($_GET['cantidad']) && isset($_SESSION['id'])) {
         }
     } else {
         //Inserta
-        $consulta = $conexion->OperSql("SELECT IF(    (SELECT COUNT(*) FROM pedido WHERE ID_CLIENTE='$id_cliente') = 0     OR     (SELECT COUNT(*) FROM pedido WHERE ID_CLIENTE='$id_cliente') = (SELECT COUNT(*) FROM pedido WHERE ESTADO = 'CONFIRMADO' AND ID_CLIENTE='$id_cliente'),     'true',     'false') AS resultado;");
+        $consulta = $conexion->OperSql("SELECT IF(    (SELECT COUNT(*) FROM pedido WHERE ID_CLIENTE='$id_cliente' AND ESTADO='pendiente') < 1     OR     (SELECT COUNT(*) FROM pedido WHERE ID_CLIENTE='$id_cliente') = (SELECT COUNT(*) FROM pedido WHERE ESTADO = 'confirmado' AND ID_CLIENTE='$id_cliente'),     'true',     'false') AS resultado;");
         $array_creoPedido = $consulta->fetch_array();
         //id de la canasta
         $creoPedido = $array_creoPedido['resultado'];
-        if ($creoPedido=='true') {
+        if ($creoPedido == 'true') {
             $consulta = $conexion->OperSql("SELECT COUNT(*) AS cantidad_pedidos FROM pedido;");
             $array_cantidadPedidos = $consulta->fetch_array();
             //id de la canasta
             $cantidadPedidos = $array_cantidadPedidos['cantidad_pedidos'];
-            $id_pedido=$cantidadPedidos+1;
+            $id_pedido = $cantidadPedidos + 1;
             $conexion->OperSql("INSERT INTO `pedido`(`ID_PEDIDO`, `ID_CLIENTE`, `ESTADO`) VALUES ('$id_pedido','$id_cliente','pendiente')");
             $conexion->OperSql("INSERT INTO `canasta`(`CODIGO_PRODUCTO`, `ID_PEDIDO`, `CANTIDAD_CLIENTE`, `SUBTOTAL`, `DEDICATORIA`, `ESPECIFICACION_ADICIONAL`) VALUES ('$id','$id_pedido','$cantidad','$precio'*'$cantidad','$dedicatoria','$reqAdicional')");
-        }else{
-            $consulta = $conexion->OperSql("SELECT c.ID_PEDIDO FROM canasta c, pedido p WHERE c.ID_PEDIDO=p.ID_PEDIDO AND p.ESTADO='pendiente' AND p.ID_CLIENTE='$id_cliente' GROUP BY c.ID_PEDIDO;");
+        } else {
+            $consulta = $conexion->OperSql("SELECT ID_PEDIDO FROM pedido WHERE ESTADO='pendiente' AND ID_CLIENTE='2';");
             $array_id_pedido = $consulta->fetch_array();
             //id de la canasta
             $id_pedido = $array_id_pedido['ID_PEDIDO'];
@@ -61,7 +61,8 @@ if (isset($_GET['id']) && isset($_GET['cantidad']) && isset($_SESSION['id'])) {
     $data = array(
         'usuario' => "noIngresado"
     );
- }
+}
+
 // Convertir arreglo a JSON
 $json_data = json_encode($data);
 //echo $json_data;
