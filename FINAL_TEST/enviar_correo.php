@@ -13,7 +13,7 @@ $correo = $_POST['Correo'];
 $contraseña = $_POST['Contraseña'];
 $Rep_contraseña = $_POST['Rep_contraseña'];
 //Inicia la consulta
-$correoExiste= $conexion->OperSql("SELECT  `Email` FROM `usuario` WHERE `Email`='$correo';");
+$correoExiste= $conexion->OperSql("SELECT  `Email` FROM `cliente` WHERE `Email`='$correo';");
 $existe = mysqli_fetch_array($correoExiste);
 //Valida y ejecuta
 if(isset($existe)){

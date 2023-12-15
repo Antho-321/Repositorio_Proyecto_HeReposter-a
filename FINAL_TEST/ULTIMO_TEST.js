@@ -215,7 +215,7 @@ async function sendEmail() {
                                                                         <table cellpadding="0" cellspacing="0" width="100%">
                                                                             <tbody>
                                                                                 <tr>
-                                                                                    <td align="center" class="esd-block-image" style="font-size: 0px;"><a target="_blank"><img class="adapt-img" src="https://i.pinimg.com/originals/5e/bf/27/5ebf27c52e14c63cd2970c593f45d6aa.png" alt style="display: block;" width="100"></a></td>
+                                                                                    <td align="center" class="esd-block-image" style="font-size: 0px;"><a target="_blank"><img class="adapt-img" src="https://dipruu.stripocdn.email/content/guids/CABINET_1782a0105a8e97581d2e6ae2057001d0b9a3dce0a67b2f9de86c5e982f45d837/images/logo_pankey1.png" alt style="display: block;" width="100"></a></td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>

@@ -4,7 +4,7 @@ $correo = $_POST['Correo'];
 $para = $correo;
 //PARTE PARA CHECAR SI ESTA EN LA BASE DE DATOS
 $conexion = new Conexion;
-$array = $conexion->OperSql("SELECT `Password` FROM `usuario` WHERE `Email`= '$correo';");
+$array = $conexion->OperSql("SELECT `Password` FROM `cliente` WHERE `Email`= '$correo';");
 $existe = mysqli_fetch_array($array);
 $conexion->closeConnection();
 if(!isset($existe)){

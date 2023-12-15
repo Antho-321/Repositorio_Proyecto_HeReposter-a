@@ -10,7 +10,8 @@ if (isset($_SESSION['id'])) {
     $conexion = new Conexion;
     $aux = $conexion->OperSql("SELECT ID_PEDIDO FROM pedido WHERE ID_CLIENTE=$id AND ESTADO='pendiente';");
     $aux = $aux->fetch_array();
-    $aux = $aux['ID_PEDIDO'];
+    if ($aux!=null) {
+        $aux = $aux['ID_PEDIDO'];
     // Configuración de la conexión a la base de datos
     $enlace = "";
     $host = "localhost";
@@ -41,6 +42,8 @@ if (isset($_SESSION['id'])) {
     $Iva = ($Subtotal * 12) / 100;
     $Total = $Subtotal + $Iva;
 
+    }
+    
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 } else if (isset($_SESSION['contraseña'])) {
