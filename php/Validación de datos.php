@@ -29,13 +29,13 @@ if($random == $comparacion){
     $conexion->closeConnection();
     echo '<script>
     window.alert("Usuario registrado exitosamente, inicie sesión por favor."); 
-    window.location = "../html/Index.php";
+    window.location = "../vistas/Index.php";
     </script>';
 }else{
     $conexion->closeConnection();
     echo '<script>
     window.alert("Codigos incorrectos"); 
-    window.location = "../html/Index.php";
+    window.location = "../vistas/Index.php";
     </script>';
 }
 ?>

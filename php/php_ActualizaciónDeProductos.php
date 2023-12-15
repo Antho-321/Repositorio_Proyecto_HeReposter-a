@@ -51,7 +51,7 @@ if (isset($_POST['formulario'])) {
   if ($conn->query($sql) === TRUE) {
     // echo '<script>
     // window.alert("INGRESADO CORRECTAMENTE"); 
-    // window.location = "../html/InicioAdministración.php";
+    // window.location = "../vistas/InicioAdministración.php";
     // </script>';
   } else {
     echo "Error al insertar los datos: " . $conn->error;

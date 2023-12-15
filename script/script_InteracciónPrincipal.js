@@ -622,7 +622,7 @@ function MostrarVentanaDeRegistro() {
         <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
     </div>
     <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
-    <form action="../FINAL_TEST/enviar_correo.php" method="POST" class="Formulario_Registro" id="Ventana">
+    <form action="../php/enviar_correo.php" method="POST" class="Formulario_Registro" id="Ventana">
         <h2>Registrarse</h2>
         <label for="correo">Correo electrónico:</label>
         <input type="email" id="correo" name="Correo" class="entrada_texto">
@@ -644,7 +644,7 @@ function MostrarVentanaDeRegistro() {
 function MostrarVentanaRecuperación_Correo() {
     salto.innerHTML = "";
     divVentana.innerHTML = `
-    <form id="Ventana" action="../FINAL_TEST/confirmacion.php" method="POST" class="Recuperación">
+    <form id="Ventana" action="../php/confirmacion.php" method="POST" class="Recuperación">
         <div class="btnHaciaDerecha">
             <input type="button" value="✕" id="btn_salir"  onclick="CerrarVentana(event)">
         </div>

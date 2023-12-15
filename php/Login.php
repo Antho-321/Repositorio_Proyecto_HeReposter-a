@@ -19,16 +19,16 @@ if ($email != null) {
     if ($email['Email'] == $correo && $pass['Password'] == $contraseña) {
         //Login correcto
         $_SESSION['id'] = $Id['Id_cliente'];
-        echo '<script>window.location = "../html/index.php";</script>';
+        echo '<script>window.location = "../vistas/index.php";</script>';
     } else {
         echo '<script>
         window.alert("ERROR DE INGRESO: contraseña incorrecta"); 
-        window.location = "../html/index.php";
+        window.location = "../vistas/index.php";
         </script>';
     }
 } else {
     echo '<script>
         window.alert("ERROR DE INGRESO: correo no registrado"); 
-        window.location = "../html/index.php";
+        window.location = "../vistas/index.php";
         </script>';
 }
