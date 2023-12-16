@@ -550,6 +550,7 @@ function finalizarPedido() {
     <input type="tel" name="telefono" class="entrada_texto">
     <h2>Información de pago:</h2>
     `);
+    
 }
 function enviarInfoACarrito(carritoInfo) {
     dedicatoria = "";

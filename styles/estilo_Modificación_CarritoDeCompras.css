@@ -12,14 +12,13 @@
     width: 310px;
     height: 120px;
 }
-#desc_fact>*{
-    border: solid;
-    padding: 7px;
-    border-radius: 8px;
+.desc_fact{
+    margin: 15px 0px;
+    border: solid !important;
+    border-radius: 8px !important;
     border-width: 1px;
-}
-#desc_fact{
-    padding: 18px 0px;
+    text-align: center;
+    cursor: pointer !important;
 }
 
 body {
@@ -51,6 +50,9 @@ body {
 }
 #check {
     display: none;
+}
+#check3{
+    z-index: 100000;
 }
 .mostrar_menu,
 .esconder_menu {
@@ -96,7 +98,7 @@ body {
     background-color: rgb(255, 255, 255);
     z-index: 1;
 }
-input:hover, a:hover, button:hover {
+input:hover, a:hover, button:hover, .desc_fact:hover {
     cursor: pointer;
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
@@ -154,7 +156,7 @@ input{
 h2{
     letter-spacing: 1px;
 }
-button, .btn_eliminar{
+button, .desc_fact, .btn_eliminar{
     font: normal normal normal 18px/1.4em Sanseriffic;
     background-color: transparent;
     padding: 6px 0.5vw;
@@ -280,6 +282,7 @@ h2{
     display: flex;
     width: 100%;
     justify-content: center;
+    flex-direction: column;
 }
 h1{
     font: normal normal normal 1.6vw/1.4em Sanseriffic;
@@ -543,7 +546,7 @@ footer,
 label,
 input:hover,
 a:hover,
-button:hover,
+button:hover, .desc_fact:hover,
 #seccion_iconos img,
 h3:hover {
     cursor: pointer;
@@ -593,7 +596,7 @@ h3 {
 }
 
 a:hover,
-button:hover,
+button:hover, .desc_fact:hover,
 #Catalogo:hover .Btn_Catalogo {
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
@@ -625,7 +628,7 @@ footer,
 #búsqueda,
 input,
 #seccion_botones a,
-button {
+button, .desc_fact {
     border-radius: 3px;
 }
 
@@ -642,7 +645,7 @@ button {
 
 input,
 #seccion_botones a,
-button,
+button, .desc_fact,
 #Salto,
 h1,
 footer {
@@ -651,7 +654,7 @@ footer {
 
 input,
 #seccion_botones a,
-button {
+button, .desc_fact {
     font: normal normal normal 18px/1.4em Sanseriffic;
     background-color: transparent;
     border: 0.5vw solid transparent;
@@ -682,7 +685,7 @@ h3 {
     padding-bottom: 5px;
 }
 
-button {
+button, .desc_fact {
     padding: 6px 0.5vw;
     letter-spacing: 1.6px;
 }

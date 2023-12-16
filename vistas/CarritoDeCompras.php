@@ -10,40 +10,40 @@ if (isset($_SESSION['id'])) {
     $conexion = new Conexion;
     $aux = $conexion->OperSql("SELECT ID_PEDIDO FROM pedido WHERE ID_CLIENTE=$id AND ESTADO='pendiente';");
     $aux = $aux->fetch_array();
-    if ($aux!=null) {
+    if ($aux != null) {
         $aux = $aux['ID_PEDIDO'];
-    // Configuración de la conexión a la base de datos
-    $enlace = "";
-    $host = "localhost";
-    $user = "anthonyluisluna225";
-    $pass = "anthonyluisluna225";
-    $dbname = "db_pankey";
+        // Configuración de la conexión a la base de datos
+        $enlace = "";
+        $host = "localhost";
+        $user = "anthonyluisluna225";
+        $pass = "anthonyluisluna225";
+        $dbname = "db_pankey";
 
-    // Crear una nueva conexión PDO
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+        // Crear una nueva conexión PDO
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
 
-    // Preparar la consulta SQL
-    $sql = "SELECT Subtotal FROM canasta WHERE ID_PEDIDO = $aux";
+        // Preparar la consulta SQL
+        $sql = "SELECT Subtotal FROM canasta WHERE ID_PEDIDO = $aux";
 
-    // Ejecutar la consulta y obtener los resultados
-    $stmt = $pdo->query($sql);
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // Defino variables
-    $Subtotal = 0;
-    $Iva = 0;
-    $Total = 0;
+        // Ejecutar la consulta y obtener los resultados
+        $stmt = $pdo->query($sql);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Defino variables
+        $Subtotal = 0;
+        $Iva = 0;
+        $Total = 0;
 
 
-    // Iterar a través de los resultados y mostrar la columna "Sutotal"
-    foreach ($results as $row) {
+        // Iterar a través de los resultados y mostrar la columna "Sutotal"
+        foreach ($results as $row) {
 
-        $Subtotal += $row['Subtotal'];
+            $Subtotal += $row['Subtotal'];
+        }
+        $Iva = ($Subtotal * 12) / 100;
+        $Total = $Subtotal + $Iva;
+
     }
-    $Iva = ($Subtotal * 12) / 100;
-    $Total = $Subtotal + $Iva;
 
-    }
-    
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 } else if (isset($_SESSION['contraseña'])) {
@@ -54,16 +54,21 @@ if (isset($_SESSION['id'])) {
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/estilo_Modificación_CarritoDeCompras.css" id="estilo">
-    <script src="https://www.paypal.com/sdk/js?client-id=Ae1w7jU4kbRrRCFluXHkxbnTITPA_JXsU-0aSuXq0oSiqkA-IKkxyIeexgvkG5QFbQTa9EhbbJaECvUP&currency=USD"></script>
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=Ae1w7jU4kbRrRCFluXHkxbnTITPA_JXsU-0aSuXq0oSiqkA-IKkxyIeexgvkG5QFbQTa9EhbbJaECvUP&currency=USD"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script>
     <link rel="shortcut icon" href="../favicon.ico">
     <title>Pankey</title>
 </head>
 
 <body>
+<input type="checkbox" id="check3" onchange="DescargarComprobante()">
     <input type="checkbox" id="check2">
     <header id="Cabecera">
         <div id="Contenido_Cabecera">
@@ -135,7 +140,9 @@ if (isset($_SESSION['id'])) {
         </section>
         <section id="Info_adicional">
             <h2>Total</h2>
-            <p class="col"><?= $Subtotal ?> $</p>
+            <p class="col">
+                <?= $Subtotal ?> $
+            </p>
             <div class="tabla_info">
                 <div class="fila">
                     <label class="col" for="fecha_entrega">Fecha de entrega:</label>
@@ -148,12 +155,14 @@ if (isset($_SESSION['id'])) {
                     <div id="entrada_tiempo" class="col">
                         <input type="time">
                     </div>
-
                 </div>
+
             </div>
             <div id="botones_carrito">
                 <input id="fin_pedido" type="button" value="Finalizar pedido" onclick="finalizarPedido()">
-
+                <label for="check3" id="desc_comp" class="desc_fact" style="display:none">
+                    Descargar comprobante
+                </label>
             </div>
 
             <p>Nota: Pronto incorporaremos la entrega a
@@ -164,6 +173,7 @@ if (isset($_SESSION['id'])) {
                 unos pasos del coliseo de la Bola Amarilla
             </p>
         </section>
+
     </div>
 
     <footer>
@@ -171,8 +181,10 @@ if (isset($_SESSION['id'])) {
             © 2023 Web Personal. Creado por Tito Córdova, De la Cruz Brayan, Luna Anthony
         </div>
     </footer>
+
     <script src="../script/script_querys.js"></script>
     <script src="../script/script_InteracciónPrincipal.js"></script>
+
 </body>
 
 </html>

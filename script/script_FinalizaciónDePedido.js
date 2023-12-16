@@ -54,9 +54,7 @@ paypal.Buttons({
             elementoNuevo.id="pago_exitoso";
             // Reemplaza el elemento antiguo con el nuevo
             elementoViejo.parentNode.replaceChild(elementoNuevo, elementoViejo);
-            document.getElementById("pago_exitoso").parentElement.insertAdjacentHTML("afterend",`
-            <button  id="desc_fact" onclick="DescargarComprobante()"><a>Descargar comprobante de venta</a></button>
-            `);
+            document.getElementById("desc_comp").removeAttribute("style");
             // Cuando esté listo para comenzar, elimine la alerta y muestre un mensaje de éxito dentro de esta página. Por ejemplo:
             // const element = document.getElementById('paypal-button-container');
             // element.innerHTML = '<h3>¡Gracias por su pago!</h3>';
