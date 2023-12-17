@@ -47,7 +47,7 @@ if (isset($_GET['id']) && isset($_GET['cantidad']) && isset($_SESSION['id'])) {
             $conexion->OperSql("INSERT INTO `pedido`(`ID_PEDIDO`, `ID_CLIENTE`, `ESTADO`) VALUES ('$id_pedido','$id_cliente','pendiente')");
             $conexion->OperSql("INSERT INTO `canasta`(`CODIGO_PRODUCTO`, `ID_PEDIDO`, `CANTIDAD_CLIENTE`, `SUBTOTAL`, `DEDICATORIA`, `ESPECIFICACION_ADICIONAL`) VALUES ('$id','$id_pedido','$cantidad','$precio'*'$cantidad','$dedicatoria','$reqAdicional')");
         } else {
-            $consulta = $conexion->OperSql("SELECT ID_PEDIDO FROM pedido WHERE ESTADO='pendiente' AND ID_CLIENTE='2';");
+            $consulta = $conexion->OperSql("SELECT ID_PEDIDO FROM pedido WHERE ESTADO='pendiente' AND ID_CLIENTE='$id_cliente';");
             $array_id_pedido = $consulta->fetch_array();
             //id de la canasta
             $id_pedido = $array_id_pedido['ID_PEDIDO'];

@@ -3,14 +3,67 @@
 
 <head>
   <title>HTML a PDF</title>
+  <link rel="stylesheet" type="text/css" href="../styles/estilo_Modificación_CarritoDeCompras.css" id="estilo">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script>
+  
 </head>
 
 <body>
 
-  <button onclick="convertirHTMLaPDF()">Convertir a PDF</button>
+  <button onclick="convertirHTMLaPDF()" id="check3">Convertir a PDF</button>
+  <input type="checkbox" id="check2">
+    <header id="Cabecera">
+        <div id="Contenido_Cabecera">
+            <img src="../imagenes/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
+            <input type="checkbox" id="check">
+            <label for="check" class="mostrar_menu">
+                &#8801
+            </label>
+            <div id="botones_iconos">
+                <section id="seccion_botones">
+                    <a href="index.php">Inicio</a>
+                    <a href="SobreNosotros.php">Sobre nosotros</a>
+                    <div id="Catalogo">
+                        <input class="Btn_Catalogo" type="button" value="Catalogo">
+                        <div>
+                            <div id="Menu_Catalogo">
+                                <input type="button" value="Bodas">
+                                <input type="button" value="Bautizos">
+                                <input type="button" value="XV años">
+                                <input type="button" value="Cumpleaños">
+                                <input type="button" value="Baby Shower">
+                                <input type="button" value="San Valentin">
+                                <input type="button" value="Halloween">
+                                <input type="button" value="Navidad">
+                            </div>
+                        </div>
+                    </div>
+                    <a href="PastelesPersonalizados.php">Pasteles personalizados</a>
+                </section>
+                <section id="seccion_iconos">
+                    <a href="../vistas/CarritoDeCompras.php">
+                        <img src="../iconos/carro-de-la-carretilla.png" type="button" value="Catalogo">
+                    </a>
+                    <img onclick="mostrarBúsqueda()" src="../iconos/lupa1.png" type="button" value="Catalogo">
+                    <div id="seccion_busqueda">
+                        <input type="search" id="búsqueda">
+                    </div>
+                    <?php if (!isset($id)) { ?>
+                        <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
+                    <?php } else { ?>
+                        <button onclick="Logout()" id="Salida"><a>Salir</button>
+                    <?php } ?>
 
+                </section>
+                <label for="check" class="esconder_menu">
+                    &#215
+                </label>
+            </div>
+        </div>
+        <div id="Salto">
+        </div>
+    </header>
   <script>
     function convertirHTMLaPDF() {
       // Tu HTML en una variable string
@@ -360,7 +413,11 @@
       }, 1500); // Tiempo de espera en milisegundos
     }        
   </script>
-
+<footer>
+        <div id="Derechos">
+            © 2023 Web Personal. Creado por Tito Córdova, De la Cruz Brayan, Luna Anthony
+        </div>
+    </footer>
 </body>
 
 </html>

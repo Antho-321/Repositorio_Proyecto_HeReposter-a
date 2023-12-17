@@ -8,10 +8,10 @@ if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
     include("../php/Conexion.php");
     $conexion = new Conexion;
-    $aux = $conexion->OperSql("SELECT ID_PEDIDO FROM pedido WHERE ID_CLIENTE=$id AND ESTADO='pendiente';");
-    $aux = $aux->fetch_array();
-    if ($aux != null) {
-        $aux = $aux['ID_PEDIDO'];
+    $consulta_id_pedido = $conexion->OperSql("SELECT ID_PEDIDO FROM pedido WHERE ID_CLIENTE=$id AND ESTADO='pendiente';");
+    $array_id_pedido = $consulta_id_pedido->fetch_array();
+    if ($array_id_pedido != null) {
+        $id_pedido = $array_id_pedido['ID_PEDIDO'];
         // Configuración de la conexión a la base de datos
         $enlace = "";
         $host = "localhost";
@@ -23,7 +23,7 @@ if (isset($_SESSION['id'])) {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
 
         // Preparar la consulta SQL
-        $sql = "SELECT Subtotal FROM canasta WHERE ID_PEDIDO = $aux";
+        $sql = "SELECT Subtotal FROM canasta WHERE ID_PEDIDO = $id_pedido";
 
         // Ejecutar la consulta y obtener los resultados
         $stmt = $pdo->query($sql);
@@ -43,8 +43,10 @@ if (isset($_SESSION['id'])) {
         $Total = $Subtotal + $Iva;
 
     }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    $consulta_num_comprobantes = $conexion->OperSql("SELECT COUNT(*) AS NUM_COMPROBANTES FROM comprobante_venta;");
+    $array_num_comprobantes = $consulta_num_comprobantes->fetch_array();
+    $num_comprobantes = $array_num_comprobantes['NUM_COMPROBANTES'];
+    $id_comprobante=$num_comprobantes+1;
 
 } else if (isset($_SESSION['contraseña'])) {
     header("Location: ../php/Logout.php");
@@ -58,17 +60,18 @@ if (isset($_SESSION['id'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" type="text/css" href="../styles/estilo_Modificación_CarritoDeCompras.css" id="estilo">
     <script
         src="https://www.paypal.com/sdk/js?client-id=Ae1w7jU4kbRrRCFluXHkxbnTITPA_JXsU-0aSuXq0oSiqkA-IKkxyIeexgvkG5QFbQTa9EhbbJaECvUP&currency=USD"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script>
     <link rel="shortcut icon" href="../favicon.ico">
     <title>Pankey</title>
 </head>
 
 <body>
-<input type="checkbox" id="check3" onchange="DescargarComprobante()">
+    <input type="checkbox" id="check3" onchange="DescargarComprobante()">
     <input type="checkbox" id="check2">
     <header id="Cabecera">
         <div id="Contenido_Cabecera">
@@ -140,26 +143,31 @@ if (isset($_SESSION['id'])) {
         </section>
         <section id="Info_adicional">
             <h2>Total</h2>
-            <p class="col">
-                <?= $Subtotal ?> $
+            <p class="col" id="total">
+            $<?php echo $Subtotal ?>
             </p>
             <div class="tabla_info">
                 <div class="fila">
                     <label class="col" for="fecha_entrega">Fecha de entrega:</label>
                     <div id="entrada_fecha" class="col">
-                        <input type="date" id="fecha_entrega" name="fecha_entrega">
+                        <input type="date" id="fecha_entrega" name="fecha_entrega" required>
+                        <div id="error-message" class="error">La fecha ingresada no puede ser menor o igual a la fecha actual.</div>
+                        <div id="error-message3" class="error">Fecha inválida.</div>
                     </div>
                 </div>
                 <div class="fila">
                     <label class="col" for="time">Hora:</label>
                     <div id="entrada_tiempo" class="col">
-                        <input type="time">
+                        <input type="time" id="hora_entrega">
+                        <input type="hidden" name="id_comprobante" id="id_comprobante" value="<?php echo $id_comprobante?>">
+                        <input type="hidden" name="id_pedido" id="id_pedido" value="<?php echo $id_pedido?>">
+                        <div id="error-message2" class="error">La entrega del pedido no puede realizarse en menos de 24 horas.</div>
                     </div>
                 </div>
 
             </div>
             <div id="botones_carrito">
-                <input id="fin_pedido" type="button" value="Finalizar pedido" onclick="finalizarPedido()">
+                <input id="fin_pedido" class="fin_pedido" type="button" value="Finalizar pedido" onclick="finalizarPedido()">
                 <label for="check3" id="desc_comp" class="desc_fact" style="display:none">
                     Descargar comprobante
                 </label>

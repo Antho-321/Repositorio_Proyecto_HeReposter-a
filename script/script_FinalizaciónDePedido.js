@@ -55,10 +55,8 @@ paypal.Buttons({
             // Reemplaza el elemento antiguo con el nuevo
             elementoViejo.parentNode.replaceChild(elementoNuevo, elementoViejo);
             document.getElementById("desc_comp").removeAttribute("style");
-            // Cuando esté listo para comenzar, elimine la alerta y muestre un mensaje de éxito dentro de esta página. Por ejemplo:
-            // const element = document.getElementById('paypal-button-container');
-            // element.innerHTML = '<h3>¡Gracias por su pago!</h3>';
-            // O vaya a otra URL: actions.redirect('thank_you.html');
+            //console.log("testtttt: "+document.getElementById("total").innerHTML.match(/(\d+)/)[0]);
+            insertComprobante(document.getElementById("id_comprobante").value,document.getElementById("id_pedido").value,document.getElementById("total").innerHTML.match(/(\d+)/)[0]);
         });
     },
     onError: function (err) {
@@ -76,5 +74,9 @@ paypal.Buttons({
     }
 }).render('#paypal-button-container');
 
-
-
+function insertComprobante(id_comprobante_venta, id_pedido, total_pago) {
+    return new Promise((resolve, reject) => {
+        fetch("../php/InsertarComprobante.php?&id_comprobante_venta=" + id_comprobante_venta + "&id_pedido=" + id_pedido + "&total_pago=" + total_pago)
+            .catch(error => reject(error));
+    });
+}

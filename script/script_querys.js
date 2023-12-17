@@ -1,10 +1,43 @@
+var contenido, temporalDiv, cedula, nombre, direccion, telefono, htmlString, id_comprobante, array_carrito, filas_productos;
 function Logout() {
   window.location = "../php/Logout.php";
   window.alert("Se ha cerrado sesión");
 }
-
+function getReferenciaPasteles(num_pasteles){
+  if (num_pasteles>1) {
+    return "Pasteles ";
+  }else{
+    return "Pastel ";
+  }
+}
+function getReferenciaCategoria(categoria){
+  let aux_categoria=categoria.toLowerCase();
+  if (aux_categoria=="bodas"||aux_categoria=="bautizos"){
+    return aux_categoria.slice(0, -1)
+  }else{
+    return aux_categoria;
+  }
+}
 function DescargarComprobante() {
-  var htmlString = `
+  id_comprobante=document.getElementById("id_comprobante").value;
+  cedula=document.getElementById("cedula").value;
+  nombre=document.getElementById("nombre").value;
+  direccion=document.getElementById("direccion").value;
+  telefono=document.getElementById("telefono").value;
+  array_carrito=JSON.parse(localStorage.getItem('datos_carrito'));
+  filas_productos="";
+  for (let i = array_carrito.length-1; i >= 0; i--) {
+    filas_productos+=`
+    <tr>
+      <td>`+ array_carrito[i].CANTIDAD_CLIENTE + `</td>
+      <td>`+getReferenciaPasteles(array_carrito[i].CANTIDAD_CLIENTE)+` de `+getReferenciaCategoria(array_carrito[i].CATEGORIA)+` con sabor a `+array_carrito[i].SABOR.toLowerCase()+` y relleno de `+array_carrito[i].RELLENO.toLowerCase()+`</td>
+      <td>$`+array_carrito[i].PRECIO+`</td>
+      <td>$`+(array_carrito[i].PRECIO*array_carrito[i].CANTIDAD_CLIENTE)+`</td>
+    </tr>
+  `;
+  }
+  
+  htmlString = `
   <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -249,26 +282,26 @@ function DescargarComprobante() {
   <div class="nota-venta-container">
     <img alt="pastedImage" src="https://dipruu.stripocdn.email/content/guids/CABINET_72533ce9143499f857c068a4234fc687515b70207d6550b554554b0a5086e5df/images/pastedimage0bs81000w.png" class="nota-venta-imagenespasteles" />
     <img alt="pastedImage" src="https://dipruu.stripocdn.email/content/guids/CABINET_72533ce9143499f857c068a4234fc687515b70207d6550b554554b0a5086e5df/images/pastedimagek6uo200w.png" class="nota-venta-logopankey" />
-    <span class="nota-venta-notaventa"><b>Nota de venta Nro. X1</b>&nbsp;</span>
+    <span class="nota-venta-notaventa"><b>Nota de venta Nro. `+id_comprobante+`</b>&nbsp;</span>
     <div class="nota-venta-container1">
       <div class="nota-venta-container2">
         <table>
           <tbody>
             <tr>
               <th>Cédula / RUC:</th>
-              <td id="cedula_ruc">X2</td>
+              <td id="cedula_ruc">`+cedula+`</td>
             </tr>
             <tr>
               <th>Nombre:</th>
-              <td id="nombre">X3</td>
+              <td id="nombre">`+nombre+`</td>
             </tr>
             <tr>
               <th>Dirección domiciliaria:</th>
-              <td id="direccion">X4</td>
+              <td id="direccion">`+direccion+`</td>
             </tr>
             <tr>
               <th>Teléfono:</th>
-              <td id="telefono">X5</td>
+              <td id="telefono">`+telefono+`</td>
             </tr>
           </tbody>
         </table>
@@ -284,15 +317,10 @@ function DescargarComprobante() {
               <th>Precio unitario</th>
               <th>Subtotal</th>
             </tr>
-            <tr>
-              <td>X6</td>
-              <td>Pastel/es de (categoría) con sabor a (sabor) y relleno de (relleno)</td>
-              <td>$X7</td>
-              <td>$X8</td>
-            </tr>
+            `+filas_productos+`
             <tr>
               <td colspan="3">Total</td>
-              <td>$X9</td>
+              <td>`+document.getElementById("total").innerHTML+`</td>
             </tr>
           </tbody>
         </table>
@@ -313,37 +341,39 @@ function DescargarComprobante() {
 </body>
 </html>
 
-  `; // tu string HTML aquí
+  `;
 
-    // Crear un elemento temporal en el DOM
-    var temporalDiv = document.createElement('div');
-    temporalDiv.innerHTML = htmlString;
-    temporalDiv.style.visibility = 'hidden'; // Ocultar el contenido temporal
-    temporalDiv.id="temporalDiv";
-    document.body.appendChild(temporalDiv);
+  document.documentElement.innerHTML = "";
+  temporalDiv = document.createElement('div');
+  temporalDiv.innerHTML = htmlString;
+  temporalDiv.style.visibility = 'hidden'; // Ocultar el contenido temporal
+  temporalDiv.id = "temporalDiv";
+  document.body.appendChild(temporalDiv);
 
-    // Ajustar el tamaño de html2canvas según sea necesario
-    html2canvas(temporalDiv, {
-        scale: 1, // Puedes ajustar la escala aquí
-        useCORS: true, // Intentar cargar imágenes con CORS
-        onclone: function(clonedDoc) {
-            clonedDoc.getElementById('temporalDiv').style.visibility = '';
-        }
-    }).then(canvas => {
-        var imgData = canvas.toDataURL('image/png');
-        var doc = new jsPDF('p', 'mm', 'a4');
-        var pageWidth = doc.internal.pageSize.getWidth();
-        var pageHeight = doc.internal.pageSize.getHeight();
-        var canvasWidth = canvas.width;
-        var canvasHeight = canvas.height;
+  // Ajustar el tamaño de html2canvas según sea necesario
+  html2canvas(temporalDiv, {
+    scale: 1, // Puedes ajustar la escala aquí
+    useCORS: true, // Intentar cargar imágenes con CORS
+    onclone: function (clonedDoc) {
+      clonedDoc.getElementById('temporalDiv').style.visibility = '';
+    }
+  }).then(canvas => {
+    var imgData = canvas.toDataURL('image/png');
+    var doc = new jsPDF('p', 'mm', 'a4');
+    var pageWidth = doc.internal.pageSize.getWidth();
+    var pageHeight = doc.internal.pageSize.getHeight();
+    var canvasWidth = canvas.width;
+    var canvasHeight = canvas.height;
 
-        // Ajustar la relación de aspecto
-        var scale = Math.min(pageWidth / canvasWidth, pageHeight / canvasHeight);
+    // Ajustar la relación de aspecto
+    var scale = Math.min(pageWidth / canvasWidth, pageHeight / canvasHeight);
 
-        // Agregar la imagen al PDF
-        doc.addImage(imgData, 'PNG', 0, 0, canvasWidth * scale, canvasHeight * scale);
-        doc.save('nota-venta.pdf');
-
-        document.body.removeChild(temporalDiv); // Eliminar el elemento temporal
-    });
-} 
+    // Agregar la imagen al PDF
+    doc.addImage(imgData, 'PNG', 0, 0, canvasWidth * scale, canvasHeight * scale);
+    doc.save('nota-venta.pdf');
+    document.body.removeChild(temporalDiv); // Eliminar el elemento temporal
+    location.reload();
+  });
+  
+  console.log(array_carrito);
+}

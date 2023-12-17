@@ -1,6 +1,7 @@
 let num_productos, cantidad_producto_carr, img, id_imagen, direccion_producto,
     dedicatoria, cuadros_dedicatoria, opciones, id_producto, precio_producto,
-    descripción_adicional, porciones, masa, cobertura, sabor, relleno, reqAdicional;
+    descripción_adicional, porciones, masa, cobertura, sabor, relleno, reqAdicional,
+    fecha_valida, dia_mañana, hora_valida;
 let html_aux1 = "";
 let html_aux2 = "";
 let productos = [];
@@ -153,6 +154,94 @@ if (seccion_productos != null) {
 }
 if (ubicación_página.substring(ubicación_página.lastIndexOf("/")) == "/CarritoDeCompras.php") {
     window.onload = AgregarContenidoCarrito();
+    var btnFinPedido = document.getElementById("fin_pedido");
+    var fecha_entrega = document.getElementById("fecha_entrega");
+    var error_message = document.getElementById("error-message");
+    var error_message2 = document.getElementById("error-message2");
+    var error_message3 = document.getElementById("error-message3");
+    var hora_entrega = document.getElementById("hora_entrega");
+    var inputTime, currentDate;
+    fecha_entrega.addEventListener('change', function (event) {
+        var dateComponents = event.target.value.split('-');
+        var year = parseInt(dateComponents[0], 10);
+        var month = parseInt(dateComponents[1], 10) - 1; // Los meses en JavaScript empiezan en 0
+        var day = parseInt(dateComponents[2], 10) + 1;
+        var inputDate = new Date(Date.UTC(year, month, day));
+        if (year < 100) {
+            inputDate.setFullYear(inputDate.getFullYear() - 1900);
+        }
+        currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+        inputDate.setHours(0, 0, 0, 0);
+
+
+        // create a new timeout and store its id
+        if (inputDate <= currentDate) {
+            error_message3.style.display = "none"; // hide the error message
+            error_message.style.display = "block"; // show the error message
+            fecha_valida = false;
+            btnFinPedido.className = "fin_pedido";
+            dia_mañana = false;
+        } else {
+
+            fecha_valida = true;
+            error_message2.style.display = "none"; // hide the error message
+            error_message3.style.display = "none"; // hide the error message
+            error_message.style.display = "none"; // hide the error message
+            let aux_currentDate = new Date();
+            aux_currentDate.setHours(0, 0, 0, 0);
+            aux_currentDate.setDate(aux_currentDate.getDate() + 1);
+            
+            if (inputDate.getTime() == aux_currentDate.getTime()) {
+                dia_mañana = true;
+                alert("pedido para mañana");
+            } else {
+                dia_mañana = false;
+            }
+            comprobacionHora();
+        }
+    });
+    hora_entrega.addEventListener('input', function (event) {
+        comprobacionHora();
+        setTimeout(function () {
+            hora_entrega.blur();
+        }, 1010);
+
+    });
+
+}
+function comprobacionHora() {
+    currentDate = new Date();
+    inputTime = hora_entrega.value + "";
+    let [hours, mins] = inputTime.split(":");
+    var inputDate = new Date();
+    inputDate.setHours(hours);
+    inputDate.setMinutes(mins);
+    hora_entrega.value = hours + ":" + mins;
+    console.log(hora_entrega.value);
+    if (inputDate == "Invalid Date") {
+        hora_valida = false;
+    } else {
+        if (dia_mañana == true) {
+            if (inputDate.getTime() < currentDate.getTime()) {
+                error_message2.style.display = "block"; // show the error message
+                btnFinPedido.className = "fin_pedido";
+                hora_valida = false;
+            } else {
+                error_message2.style.display = "none"; // hide the error message
+                btnFinPedido.removeAttribute("class");
+                hora_valida = true;
+            }
+        } else {
+            hora_valida = true;
+            if (fecha_valida == true) {
+                btnFinPedido.removeAttribute("class");
+                error_message2.style.display = "none"; // hide the error message
+            } else {
+                error_message3.style.display = "block"; // show the error message  
+            }
+        }
+    }
 }
 if (contenido_categorías != null) {
     let tamaño = contenido_categorías.children.length;
@@ -247,9 +336,9 @@ function myAsyncFunction2(id, cantidad, dedicatoria, carritoInfo, reqAdicional) 
     });
 }
 
-function myAsyncFunction3(id_usuario) {
+function myAsyncFunction3() {
     return new Promise((resolve, reject) => {
-        fetch("../php/SacarDatosDeCarrito.php?id_usuario=" + id_usuario)
+        fetch("../php/SacarDatosDeCarrito.php")
             .then(response => response.json())
             .then(data => {
                 resolve(data);
@@ -526,31 +615,36 @@ function ProductosNoIngresados() {
     `;
 }
 function finalizarPedido() {
-    let tabla_info=document.getElementsByClassName("tabla_info")[1];
-    let scripts = document.getElementsByTagName("script");
-    let btnFinPedido = document.getElementById("fin_pedido");
-    let script = document.createElement("script");
-    let contenedorBtnPaypal = document.createElement("div");
-    contenedorBtnPaypal.id = "paypal-button-container";
-    contenedorBtnPaypal.style.width = "25vw";
-    script.src = "../script/script_FinalizaciónDePedido.js";
-    btnFinPedido.insertAdjacentElement("afterend", contenedorBtnPaypal);
-    contenedorBtnPaypal.insertAdjacentElement("afterend", script);
-    btnFinPedido.remove();
-    scripts[scripts.length - 1].remove();
-    tabla_info.insertAdjacentHTML("afterend",`
+    // MostrarMensaje("Por favor déjese de mamadas");
+    if (fecha_valida == true && hora_valida == true) {
+        fecha_entrega.disabled=true;
+        hora_entrega.disabled=true;
+        let tabla_info = document.getElementsByClassName("tabla_info")[1];
+        let scripts = document.getElementsByTagName("script");
+        let script = document.createElement("script");
+        let contenedorBtnPaypal = document.createElement("div");
+        contenedorBtnPaypal.id = "paypal-button-container";
+        contenedorBtnPaypal.style.width = "25vw";
+        script.src = "../script/script_FinalizaciónDePedido.js";
+        btnFinPedido.insertAdjacentElement("afterend", contenedorBtnPaypal);
+        contenedorBtnPaypal.insertAdjacentElement("afterend", script);
+        btnFinPedido.remove();
+        scripts[scripts.length - 1].remove();
+        tabla_info.insertAdjacentHTML("afterend", `
     <h2>Datos para generación de comprobante:</h2>
     <label for="cedula">Cédula:</label>
-    <input type="text" name="cedula" class="entrada_texto">
+    <input type="text" name="cedula" id="cedula" class="entrada_texto">
     <label for="nombre">Nombre:</label>
-    <input type="text" name="nombre" class="entrada_texto">
+    <input type="text" name="nombre" id="nombre" class="entrada_texto">
     <label for="direccion">Dirección domiciliaria:</label>
-    <input type="text" name="direccion" class="entrada_texto">
+    <input type="text" name="direccion" id="direccion" class="entrada_texto">
     <label for="telefono">Teléfono móvil:</label>
-    <input type="tel" name="telefono" class="entrada_texto">
+    <input type="tel" name="telefono" id="telefono" class="entrada_texto">
     <h2>Información de pago:</h2>
     `);
-    
+    } else {
+        alert("Datos inválidos");
+    }
 }
 function enviarInfoACarrito(carritoInfo) {
     dedicatoria = "";
@@ -573,10 +667,10 @@ function enviarInfoACarrito(carritoInfo) {
     let myData = myAsyncFunction2(id_producto, cantidad_producto_carr, dedicatoria, carritoInfo, reqAdicional);
     myData.then(result => {
         if (result.usuario == "noIngresado") {
-            MostrarMensajeCarrito();
+            MostrarMensaje("Por favor inicia sesión para poder ingresar productos al carrito");
         } else {
             if (carritoInfo == "Actualizar información") {
-                window.location.href = "../html/CarritoDeCompras.php";
+                window.location.href = "../vistas/CarritoDeCompras.php";
             } else {
                 document.head.appendChild(estilo_aux_EnvíoACarrito);
                 setTimeout(function () {
@@ -658,7 +752,7 @@ function MostrarVentanaRecuperación_Correo() {
     `;
     salto.appendChild(divVentana);
 }
-function MostrarMensajeCarrito() {
+function MostrarMensaje(mensaje) {
     document.head.appendChild(estilo_Ingreso_Registro);
     salto.innerHTML = "";
     divVentana.innerHTML = `
@@ -667,7 +761,7 @@ function MostrarMensajeCarrito() {
             <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
         </div>  
         <h2>Estimado usuario</h2>
-        <p>Por favor inicia sesión para poder ingresar productos al carrito</p>
+        <p>`+ mensaje + `</p>
     </form>
     `;
     salto.appendChild(divVentana);
@@ -680,8 +774,8 @@ function CerrarVentana() {
     } else {
         document.getElementsByTagName("style")[0].remove();
     }
-    let opera_bug=document.getElementById("operaUserStyle");
-    if (opera_bug!=null&&opera_bug!=undefined) {
+    let opera_bug = document.getElementById("operaUserStyle");
+    if (opera_bug != null && opera_bug != undefined) {
         opera_bug.remove();
     }
 }
@@ -689,7 +783,9 @@ function AgregarContenidoCarrito() {
     let primera_fila = document.getElementById("primera_fila");
     let myData = myAsyncFunction3();
     myData.then(result => {
-        //console.log(result);
+        console.log(result);
+        var datos_carrito_string = JSON.stringify(result);
+        localStorage.setItem('datos_carrito',datos_carrito_string)
         if (result.usuario == "noIngresado" || result.length == 0) {
             ProductosNoIngresados();
         }
@@ -723,7 +819,7 @@ function AgregarContenidoCarrito() {
     });
 }
 function irAIndex() {
-    window.location.href = "../html/Index.php";
+    window.location.href = "../vistas/Index.php";
 }
 function editarInfoProductoCarrito(event) {
     let enlaceImg = event.target.nextSibling.nextSibling.value;
