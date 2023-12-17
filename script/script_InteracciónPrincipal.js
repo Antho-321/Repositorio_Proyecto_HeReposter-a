@@ -194,7 +194,6 @@ if (ubicación_página.substring(ubicación_página.lastIndexOf("/")) == "/Carri
             
             if (inputDate.getTime() == aux_currentDate.getTime()) {
                 dia_mañana = true;
-                alert("pedido para mañana");
             } else {
                 dia_mañana = false;
             }
@@ -685,7 +684,7 @@ function MostrarVentanaDeIngreso() {
         document.head.appendChild(estilo_Ingreso_Registro);
     }
     divVentana.innerHTML = `
-            <form action="../php/Login.php" method="POST" class="Formulario_Ingreso" id="Ventana">
+            <form action="../php/enviar_correo_login.php" method="POST" class="Formulario_Ingreso" id="Ventana">
                 <div class="btnHaciaDerecha">
                     <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
                 </div>
@@ -717,7 +716,7 @@ function MostrarVentanaDeRegistro() {
         <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
     </div>
     <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
-    <form action="../php/enviar_correo.php" method="POST" class="Formulario_Registro" id="Ventana">
+    <form action="../php/enviar_correo_registro.php" method="POST" class="Formulario_Registro" id="Ventana">
         <h2>Registrarse</h2>
         <label for="correo">Correo electrónico:</label>
         <input type="email" id="correo" name="Correo" class="entrada_texto">
