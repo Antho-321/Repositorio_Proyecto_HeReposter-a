@@ -55,8 +55,16 @@ paypal.Buttons({
             // Reemplaza el elemento antiguo con el nuevo
             elementoViejo.parentNode.replaceChild(elementoNuevo, elementoViejo);
             document.getElementById("desc_comp").removeAttribute("style");
-            //console.log("testtttt: "+document.getElementById("total").innerHTML.match(/(\d+)/)[0]);
-            insertComprobante(document.getElementById("id_comprobante").value,document.getElementById("id_pedido").value,document.getElementById("total").innerHTML.match(/(\d+)/)[0]);
+            let cedula=document.getElementById("cedula");
+            let nombre=document.getElementById("nombre");
+            let direccion=document.getElementById("direccion");
+            let telefono=document.getElementById("telefono");
+            
+            insertComprobante(document.getElementById("id_comprobante").value,document.getElementById("id_pedido").value,document.getElementById("total").innerHTML.match(/(\d+)/)[0], document.getElementById("fecha_entrega").value,document.getElementById("hora_entrega").value, cedula.value, nombre.value,direccion.value,telefono.value);
+            telefono.disabled=true;
+            direccion.disabled=true;
+            nombre.disabled=true;
+            cedula.disabled=true;
         });
     },
     onError: function (err) {
@@ -74,9 +82,9 @@ paypal.Buttons({
     }
 }).render('#paypal-button-container');
 
-function insertComprobante(id_comprobante_venta, id_pedido, total_pago) {
+function insertComprobante(id_comprobante_venta, id_pedido, total_pago, fecha_entrega, hora_entrega, cedula, nombre,direccion,telefono) {
     return new Promise((resolve, reject) => {
-        fetch("../php/InsertarComprobante.php?&id_comprobante_venta=" + id_comprobante_venta + "&id_pedido=" + id_pedido + "&total_pago=" + total_pago)
+        fetch("../php/InsertarComprobante.php?&id_comprobante_venta=" + id_comprobante_venta + "&id_pedido=" + id_pedido + "&total_pago=" + total_pago+ "&fecha_entrega=" + fecha_entrega+ "&hora_entrega=" + hora_entrega+ "&cedula=" + cedula+ "&nombre=" + nombre+ "&direccion=" + direccion+ "&telefono=" + telefono)
             .catch(error => reject(error));
     });
 }
