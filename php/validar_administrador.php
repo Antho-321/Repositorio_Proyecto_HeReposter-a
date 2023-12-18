@@ -1,7 +1,9 @@
 <?php
+session_start();
 $usuario= $_POST['user'];
 $pass = $_POST['pass'];
-if($pass== "admin" && $usuario=="admin@admin"){
+if($pass== "c@f3c0np@n" && $usuario=="luchitolondra522@gmail.com"){
+    $_SESSION['correo_actual']="luchitolondra522@gmail.com";
     echo '<script>
     window.alert("Ingreso correcto"); 
     window.location = "../vistas/InicioAdministración.php";

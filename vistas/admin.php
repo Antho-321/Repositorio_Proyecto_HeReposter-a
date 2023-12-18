@@ -14,7 +14,7 @@
         <div id="VentanaDeIngreso">
             <form id="Ventana" action="../php/validar_administrador.php" method="POST">
                 <h2>Ingresar</h2>
-                <label for="correo">Usuario</label>
+                <label for="correo">Correo:</label>
                 <input type="email" id="correo" name="user" class="entrada_texto">
                 <label for="contraseña">Contraseña:</label>
                 <input type="password" id="contraseña" name="pass" class="entrada_texto">

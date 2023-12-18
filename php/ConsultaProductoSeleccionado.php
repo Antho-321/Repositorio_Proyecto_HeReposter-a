@@ -4,7 +4,7 @@ $imagen = $_GET['imagen'];
 
 // Conexión a la base de datos
 try {
-  $conn = mysqli_connect('localhost', 'anthonyluisluna225', '1234', 'db_pankey');
+  $conn = mysqli_connect('localhost', 'anthonyluisluna225', 'anthonyluisluna225', 'db_pankey');
 } catch (Exception $e) {
   // Enviar un JSON con el error
   $data = array('error' => $e->getMessage());
