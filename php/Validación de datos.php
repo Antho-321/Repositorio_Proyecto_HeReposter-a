@@ -25,7 +25,8 @@ if($random == $comparacion){
     }else{
         $nueva_canasta = $nueva_canasta + 1;
     }
-    $conexion->OperSql("INSERT INTO `cliente`(`ID_CLIENTE`, `Email`, `Password`) VALUES ('$nueva_cedula','$correo','$contraseña')"); 
+    $hashed_password = password_hash($contraseña, PASSWORD_DEFAULT);
+    $conexion->OperSql("INSERT INTO `cliente`(`ID_CLIENTE`, `Email`, `Password`) VALUES ('$nueva_cedula','$correo','$hashed_password')"); 
     $conexion->closeConnection();
     echo '<script>
     window.alert("Usuario registrado exitosamente, inicie sesión por favor."); 

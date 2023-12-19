@@ -19,7 +19,7 @@ $Id = mysqli_fetch_array($consultId);
 $connection->closeConnection();
 
 if ($email != null) {
-    if ($email['Email'] == $correo && $pass['Password'] == $contraseña) {
+    if ($email['Email'] == $correo && password_verify($contraseña, $pass['Password'])) {
         if($random == $comparacion){
             //Login correcto
         $_SESSION['id'] = $Id['Id_cliente'];

@@ -16,13 +16,12 @@ $correoExiste = $conexion->OperSql("SELECT  `Email` FROM `cliente` WHERE `Email`
 $existe = mysqli_fetch_array($correoExiste);
 //Valida y ejecuta
 if (isset($existe)) {
-    $consulta_contraseña = $conexion->OperSql("SELECT PASSWORD FROM `cliente` WHERE `Email`='$correo' AND PASSWORD='$contraseña';");
+    $consulta_contraseña = $conexion->OperSql("SELECT PASSWORD FROM `cliente` WHERE `Email`='$correo';");
     $array_consulta_contraseña = $consulta_contraseña->fetch_array();
     $contraseña_registrada = $array_consulta_contraseña['PASSWORD'];
-    if ($contraseña != $contraseña_registrada) {
+    if (!password_verify($contraseña, $contraseña_registrada)) {
         echo '<script>
-        window.alert("ERROR DE INGRESO: contraseña incorrecta"); 
-        window.location = "../vistas/Index.php";
+        console.log('.password_verify($contraseña, $contraseña_registrada).');
         </script>';
     } else {
         $para = $correo;
