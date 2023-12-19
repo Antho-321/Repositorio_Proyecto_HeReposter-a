@@ -21,7 +21,8 @@ if (isset($existe)) {
     $contraseña_registrada = $array_consulta_contraseña['PASSWORD'];
     if (!password_verify($contraseña, $contraseña_registrada)) {
         echo '<script>
-        console.log('.password_verify($contraseña, $contraseña_registrada).');
+        window.alert("ERROR DE INGRESO: Contraseña no válida"); 
+    window.location = "../vistas/Index.php";
         </script>';
     } else {
         $para = $correo;

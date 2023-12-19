@@ -745,7 +745,7 @@ function MostrarVentanaRecuperación_Correo() {
         <h2>RECUPERACIÓN DE CUENTA</h2>
         <label for="correo">Correo electrónico:</label>
         <input type="email" id="correo" name="Correo" class="entrada_texto">
-        <button id="finalización_registro">Enviar contraseña al correo</button>
+        <button id="finalización_registro">Enviar código al correo</button>
         <div></div>
     </form>
     `;
