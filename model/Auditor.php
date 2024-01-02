@@ -1,150 +1,150 @@
 <?php 
 class Auditor {
-    private $ID_AUDITORIA;
-    private $CEDULA_USUARIO;
-    private $FECHA;
-    private $HORA;
-    private $TABLA_AFECTADA;
-    private $OPERACION_REALIZADA;
-    private $NOMBRE_USUARIO;
+    private $id_auditoria;
+    private $cedula_usuario;
+    private $fecha;
+    private $hora;
+    private $tabla_afectada;
+    private $operacion_realizada;
+    private $nombre_usuario;
     
 
     /**
-     * Get the value of ID_AUDITORIA
+     * Get the value of id_auditoria
      */ 
-    public function getID_AUDITORIA()
+    public function getid_auditoria()
     {
-        return $this->ID_AUDITORIA;
+        return $this->id_auditoria;
     }
 
     /**
-     * Set the value of ID_AUDITORIA
+     * Set the value of id_auditoria
      *
      * @return  self
      */ 
-    public function setID_AUDITORIA($ID_AUDITORIA)
+    public function setid_auditoria($id_auditoria)
     {
-        $this->ID_AUDITORIA = $ID_AUDITORIA;
+        $this->id_auditoria = $id_auditoria;
 
         return $this;
     }
 
     /**
-     * Get the value of CEDULA_USUARIO
+     * Get the value of cedula_usuario
      */ 
-    public function getCEDULA_USUARIO()
+    public function getcedula_usuario()
     {
-        return $this->CEDULA_USUARIO;
+        return $this->cedula_usuario;
     }
 
     /**
-     * Set the value of CEDULA_USUARIO
+     * Set the value of cedula_usuario
      *
      * @return  self
      */ 
-    public function setCEDULA_USUARIO($CEDULA_USUARIO)
+    public function setcedula_usuario($cedula_usuario)
     {
-        $this->CEDULA_USUARIO = $CEDULA_USUARIO;
+        $this->cedula_usuario = $cedula_usuario;
 
         return $this;
     }
 
     /**
-     * Get the value of FECHA
+     * Get the value of fecha
      */ 
-    public function getFECHA()
+    public function getfecha()
     {
-        return $this->FECHA;
+        return $this->fecha;
     }
 
     /**
-     * Set the value of FECHA
+     * Set the value of fecha
      *
      * @return  self
      */ 
-    public function setFECHA($FECHA)
+    public function setfecha($fecha)
     {
-        $this->FECHA = $FECHA;
+        $this->fecha = $fecha;
 
         return $this;
     }
 
     /**
-     * Get the value of HORA
+     * Get the value of hora
      */ 
-    public function getHORA()
+    public function gethora()
     {
-        return $this->HORA;
+        return $this->hora;
     }
 
     /**
-     * Set the value of HORA
+     * Set the value of hora
      *
      * @return  self
      */ 
-    public function setHORA($HORA)
+    public function sethora($hora)
     {
-        $this->HORA = $HORA;
+        $this->hora = $hora;
 
         return $this;
     }
 
     /**
-     * Get the value of TABLA_AFECTADA
+     * Get the value of tabla_afectada
      */ 
-    public function getTABLA_AFECTADA()
+    public function gettabla_afectada()
     {
-        return $this->TABLA_AFECTADA;
+        return $this->tabla_afectada;
     }
 
     /**
-     * Set the value of TABLA_AFECTADA
+     * Set the value of tabla_afectada
      *
      * @return  self
      */ 
-    public function setTABLA_AFECTADA($TABLA_AFECTADA)
+    public function settabla_afectada($tabla_afectada)
     {
-        $this->TABLA_AFECTADA = $TABLA_AFECTADA;
+        $this->tabla_afectada = $tabla_afectada;
 
         return $this;
     }
 
     /**
-     * Get the value of OPERACION_REALIZADA
+     * Get the value of operacion_realizada
      */ 
-    public function getOPERACION_REALIZADA()
+    public function getoperacion_realizada()
     {
-        return $this->OPERACION_REALIZADA;
+        return $this->operacion_realizada;
     }
 
     /**
-     * Set the value of OPERACION_REALIZADA
+     * Set the value of operacion_realizada
      *
      * @return  self
      */ 
-    public function setOPERACION_REALIZADA($OPERACION_REALIZADA)
+    public function setoperacion_realizada($operacion_realizada)
     {
-        $this->OPERACION_REALIZADA = $OPERACION_REALIZADA;
+        $this->operacion_realizada = $operacion_realizada;
 
         return $this;
     }
 
     /**
-     * Get the value of NOMBRE_USUARIO
+     * Get the value of nombre_usuario
      */ 
-    public function getNOMBRE_USUARIO()
+    public function getnombre_usuario()
     {
-        return $this->NOMBRE_USUARIO;
+        return $this->nombre_usuario;
     }
 
     /**
-     * Set the value of NOMBRE_USUARIO
+     * Set the value of nombre_usuario
      *
      * @return  self
      */ 
-    public function setNOMBRE_USUARIO($NOMBRE_USUARIO)
+    public function setnombre_usuario($nombre_usuario)
     {
-        $this->NOMBRE_USUARIO = $NOMBRE_USUARIO;
+        $this->nombre_usuario = $nombre_usuario;
 
         return $this;
     }

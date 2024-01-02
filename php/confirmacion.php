@@ -5,17 +5,17 @@ $correo = $_POST['Correo'];
 $para = $correo;
 //PARTE PARA CHECAR SI ESTA EN LA BASE DE DATOS
 $conexion = new Conexion;
-$array = $conexion->OperSql("SELECT `Password` FROM `cliente` WHERE `Email`= '$correo';");
+$array = $conexion->OperSql("SELECT `password` FROM `cliente` WHERE `email`= '$correo';");
 $existe = mysqli_fetch_array($array);
 $conexion->closeConnection();
 if(!isset($existe)){
     echo '<script>
-    window.alert("ERROR: Este Email no esta registrado"); 
+    window.alert("ERROR: Este email no esta registrado"); 
     window.location = "../vistas/Index.php";
     </script>';
 }else{
 
-    $pass= $existe['Password'];
+    $pass= $existe['password'];
     $asunto = "Recuperación de cuenta";
     $cuerpo = "Contraseña";
     $texto2="Hemos recibido una solicitud de recuperación de contraseña para tu cuenta en nuestro sitio web de pastelería utilizando tu dirección de correo electrónico. Tu contraseña es la siguiente:";
@@ -170,7 +170,7 @@ if(!isset($existe)){
             </label>
             <div id="botones_iconos">
                 <section id="seccion_botones">
-                    <a href="../vistas/Index.php">Inicio</a>
+                    <a href="../vistas/index.php">Inicio</a>
                     <a href="../vistas/SobreNosotros.php">Sobre Nosotros</a>
                     <div id="Catalogo">
                         <input class="Btn_Catalogo" type="button"

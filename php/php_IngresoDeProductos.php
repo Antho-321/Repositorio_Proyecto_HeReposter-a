@@ -13,7 +13,7 @@ if (!$conn) {
 
 
 if (isset($_POST['formulario'])) {
-  $query = "SELECT MAX(Codigo) FROM producto";
+  $query = "SELECT MAX(codigo_pastel) FROM pastel";
   $result = mysqli_query($conn, $query);
   $row=mysqli_fetch_array($result);
   $ultimo_id_ingresado = $row[0];
@@ -42,7 +42,7 @@ if (isset($_POST['formulario'])) {
     echo "ARCHIVO INGRESADO";
   }
 
-  ////////////////////////////////////////////////////SEPARA LAS PORCIONES DEL TAMAÑO/////////////////////////////////////////7
+  ////////////////////////////////////////////////////SEPARA LAS porciones DEL TAMAÑO/////////////////////////////////////////7
 
 $delimiter="(";
   $chars = explode($delimiter, $tamaño);
@@ -61,13 +61,13 @@ if (isset($porciones[1])){
  
 
 
-  // echo "ID: ".$id."; CATEGORÍA: ".$categoría."; ENLACE: ".$enlace."; FORMA: ".$forma."; TAMAÑO: ".$tam."; PORCIONES: ".$porciones."; MASA: ".$masa."; SABOR: ".$sabor."; COBERTURA: ".$cobertura."; RELLENO: ".$relleno."; PRECIO: ".$precio."; DESCRIPCIÓN ADICIONAL: ".$descAdicional;
+  // echo "ID: ".$id."; CATEGORÍA: ".$categoría."; ENLACE: ".$enlace."; FORMA: ".$forma."; TAMAÑO: ".$tam."; porciones: ".$porciones."; masa: ".$masa."; sabor: ".$sabor."; cobertura: ".$cobertura."; relleno: ".$relleno."; precio: ".$precio."; DESCRIPCIÓN ADICIONAL: ".$descAdicional;
 
 
 
- /////////////////////////////77///////////////////////////ENVIAR A LA TABLA PRODUCTOS/////////////////////////////////7/////////////////////
+ /////////////////////////////77///////////////////////////ENVIAR A LA TABLA pastelS/////////////////////////////////7/////////////////////
  
- $sql = "INSERT INTO producto (Codigo, Categoría, Tamaño, Masa, Sabor, Cobertura, Relleno, Descripción, Precio, Porciones, Img) 
+ $sql = "INSERT INTO pastel (codigo_pastel, categoria, tamano, masa, sabor, cobertura, relleno, descripcion, precio, porciones, img) 
  VALUES ('$id', '$categoría', '$tam', '$masa', '$sabor', '$cobertura', '$relleno', '$descAdicional', '$precio', '$porciones', '$enlace')";
  // Ejecutar la consulta SQL
 if ($conn->query($sql) === TRUE) {

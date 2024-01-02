@@ -12,17 +12,17 @@ $random = rand(10000, 100000);
 $correo = $_POST['Correo'];
 $contraseña = $_POST['Contraseña'];
 //Inicia la consulta
-$correoExiste = $conexion->OperSql("SELECT  `Email` FROM `cliente` WHERE `Email`='$correo';");
+$correoExiste = $conexion->OperSql("SELECT  `email` FROM `cliente` WHERE `email`='$correo';");
 $existe = mysqli_fetch_array($correoExiste);
 //Valida y ejecuta
 if (isset($existe)) {
-    $consulta_contraseña = $conexion->OperSql("SELECT PASSWORD FROM `cliente` WHERE `Email`='$correo';");
+    $consulta_contraseña = $conexion->OperSql("SELECT password FROM `cliente` WHERE `email`='$correo';");
     $array_consulta_contraseña = $consulta_contraseña->fetch_array();
-    $contraseña_registrada = $array_consulta_contraseña['PASSWORD'];
+    $contraseña_registrada = $array_consulta_contraseña['password'];
     if (!password_verify($contraseña, $contraseña_registrada)) {
         echo '<script>
         window.alert("ERROR DE INGRESO: Contraseña no válida"); 
-    window.location = "../vistas/Index.php";
+    window.location = "../vistas/index.php";
         </script>';
     } else {
         $para = $correo;
@@ -44,7 +44,7 @@ if (isset($existe)) {
 } else {
     echo '<script>
     window.alert("ERROR DE INGRESO: Correo no registrado"); 
-    window.location = "../vistas/Index.php";
+    window.location = "../vistas/index.php";
     </script>';
 }
 ?>
@@ -188,7 +188,7 @@ if (isset($existe)) {
             </label>
             <div id="botones_iconos">
                 <section id="seccion_botones">
-                    <a href="../vistas/Index.php">Inicio</a>
+                    <a href="../vistas/index.php">Inicio</a>
                     <a href="../vistas/SobreNosotros.php">Sobre Nosotros</a>
                     <div id="Catalogo">
                         <input class="Btn_Catalogo" type="button"

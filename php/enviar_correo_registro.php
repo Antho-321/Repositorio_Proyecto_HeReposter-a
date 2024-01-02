@@ -13,18 +13,18 @@ $correo = $_POST['Correo'];
 $contraseña = $_POST['Contraseña'];
 $Rep_contraseña = $_POST['Rep_contraseña'];
 //Inicia la consulta
-$correoExiste= $conexion->OperSql("SELECT  `Email` FROM `cliente` WHERE `Email`='$correo';");
+$correoExiste= $conexion->OperSql("SELECT  `email` FROM `cliente` WHERE `email`='$correo';");
 $existe = mysqli_fetch_array($correoExiste);
 //Valida y ejecuta
 if(isset($existe)){
     echo '<script>
     window.alert("ERROR DE REGISTRO: Correo ya registrado por otro usuario"); 
-    window.location = "../vistas/Index.php";
+    window.location = "../vistas/index.php";
     </script>';
 }else if ($contraseña != $Rep_contraseña) {
     echo '<script>
     window.alert("ERROR DE REGISTRO: Las contraseñas no coinciden"); 
-    window.location = "../vistas/Index.php";
+    window.location = "../vistas/index.php";
     </script>';
 } else {
     $para = $correo;
@@ -183,7 +183,7 @@ if(isset($existe)){
             </label>
             <div id="botones_iconos">
                 <section id="seccion_botones">
-                    <a href="../vistas/Index.php">Inicio</a>
+                    <a href="../vistas/index.php">Inicio</a>
                     <a href="../vistas/SobreNosotros.php">Sobre Nosotros</a>
                     <div id="Catalogo">
                         <input class="Btn_Catalogo" type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;Catalogo&nbsp;&nbsp;&nbsp;">

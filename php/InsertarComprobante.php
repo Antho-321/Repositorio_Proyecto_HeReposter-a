@@ -13,8 +13,8 @@ $telefono = $_GET['telefono'];
 $id_cliente=$_SESSION['id'];
 
 $conexion = new Conexion;
-$conexion->OperSql("INSERT INTO `comprobante_venta`(`ID_COMPROBANTE_VENTA`, `ID_PEDIDO`, `FCOMPRA`, `TOTAL_PAGO`) VALUES ('$id_comprobante_venta','$id_pedido',CURRENT_DATE(),'$total_pago');");
-$conexion->OperSql("UPDATE `pedido` SET `FECHA_ENTREGA`='$fecha_entrega',`HORA_ENTREGA`='$hora_entrega',`ESTADO`='confirmado' WHERE `ID_PEDIDO`='$id_pedido';");
-$conexion->OperSql("UPDATE `cliente` SET `CEDULA_CLIENTE`='$cedula',`NOMBRE_CLIENTE`='$nombre',`DIRECCION_DOMICILIO`='$direccion',`TELEFONO_MOVIL`='$telefono' WHERE `ID_CLIENTE`='$id_cliente';");
+$conexion->OperSql("INSERT INTO `comprobante_venta`(`id_comprobante_venta`, `id_pedido`, `fecha_compra`, `total_pago`) VALUES ('$id_comprobante_venta','$id_pedido',CURRENT_DATE(),'$total_pago');");
+$conexion->OperSql("UPDATE `pedido` SET `fecha_entrega`='$fecha_entrega',`hora_entrega`='$hora_entrega',`estado`='confirmado' WHERE `id_pedido`='$id_pedido';");
+$conexion->OperSql("UPDATE `cliente` SET `cedula_cliente`='$cedula',`nombre_cliente`='$nombre',`direccion_domicilio`='$direccion',`telefono_movil`='$telefono' WHERE `id_cliente`='$id_cliente';");
 $conexion->closeConnection();
 ?>

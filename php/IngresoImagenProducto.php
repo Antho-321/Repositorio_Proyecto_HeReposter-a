@@ -13,7 +13,7 @@ if (!$conn) {
 }
 
 if (!empty($_FILES)) {
-  $query = "SELECT MAX(Codigo) FROM producto";
+  $query = "SELECT MAX(codigo_pastel) FROM pastel";
   $result = mysqli_query($conn, $query);
   $row=mysqli_fetch_array($result);
   $ultimo_id_ingresado = $row[0];

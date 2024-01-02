@@ -16,7 +16,7 @@ if (isset($_POST['formulario'])) {
   if (strpos($categoría, '_') !== false) {
     $categoría = str_replace("_", " ", $categoría);
   }
-  $query = "SELECT Codigo FROM producto WHERE Img='" . $anterior_enlace . "'";
+  $query = "SELECT codigo_pastel FROM pastel WHERE img='" . $anterior_enlace . "'";
   $result = mysqli_query($conn, $query);
   $row = mysqli_fetch_array($result);
   $id = $row[0];
@@ -37,16 +37,16 @@ if (isset($_POST['formulario'])) {
   $relleno = $_POST['relleno'];
   $precio = $_POST['precio'];
   $descAdicional = $_POST['descAdicional'];
-  ////////////////////////////////////////////////////SEPARA LAS PORCIONES DEL TAMAÑO/////////////////////////////////////////7
+  ////////////////////////////////////////////////////SEPARA LAS porciones DEL TAMAÑO/////////////////////////////////////////7
 
   $posinicial = strpos($tamaño, "(");
   $tam = substr($tamaño, 0, $posinicial - 1);
   $longitud = (strpos($tamaño, "personas") - $posinicial) - 1;
   $porciones = substr($tamaño, $posinicial + 1, $longitud);
 
-  /////////////////////////////77///////////////////////////ENVIAR A LA TABLA PRODUCTOS/////////////////////////////////7/////////////////////
+  /////////////////////////////77///////////////////////////ENVIAR A LA TABLA pastelS/////////////////////////////////7/////////////////////
 
-  $sql = "UPDATE `producto` SET `Codigo`='" . $id . "',`Categoría`='" . $categoría . "',`Tamaño`='" . $tam . "',`Masa`='" . $masa . "',`Sabor`='" . $sabor . "',`Cobertura`='" . $cobertura . "',`Relleno`='" . $relleno . "',`Descripción`='" . $descAdicional . "',`Precio`='" . $precio . "',`Porciones`='" . $porciones . "',`Img`='" . $enlace . "' WHERE `Codigo`='" . $id . "'";
+  $sql = "UPDATE `pastel` SET `codigo_pastel`='" . $id . "',`categoria`='" . $categoría . "',`tamano`='" . $tam . "',`masa`='" . $masa . "',`sabor`='" . $sabor . "',`cobertura`='" . $cobertura . "',`relleno`='" . $relleno . "',`descripcion`='" . $descAdicional . "',`precio`='" . $precio . "',`porciones`='" . $porciones . "',`img`='" . $enlace . "' WHERE `codigo_pastel`='" . $id . "'";
   // Ejecutar la consulta SQL
   if ($conn->query($sql) === TRUE) {
     // echo '<script>

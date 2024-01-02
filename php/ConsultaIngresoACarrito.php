@@ -17,24 +17,24 @@ if (isset($_GET['id']) && isset($_GET['cantidad']) && isset($_SESSION['id'])) {
         'usuario' => "Ingresado"
     );
     ///////////////////////////
-    $consulta = $conexion->OperSql("SELECT `PRECIO` FROM `producto` WHERE `CODIGO_PRODUCTO`= '$id';");
+    $consulta = $conexion->OperSql("SELECT `precio` FROM `pastel` WHERE `codigo_pastel`= '$id';");
     $precio_array = $consulta->fetch_array();
     //precio producto
-    $precio = $precio_array['PRECIO'];
+    $precio = $precio_array['precio'];
     //Insertar en el carrito
 //Comprueba si el producto ya está añadido, si lo está, entonces solo aumenta la cantidad
-    $consulta = $conexion->OperSql("SELECT p.CODIGO_PRODUCTO FROM producto p, canasta c, pedido pe WHERE c.CODIGO_PRODUCTO=p.CODIGO_PRODUCTO AND c.ID_PEDIDO=pe.ID_PEDIDO AND pe.ESTADO='pendiente' AND pe.ID_CLIENTE='$id_cliente' AND p.CODIGO_PRODUCTO='$id';");
+    $consulta = $conexion->OperSql("SELECT p.codigo_pastel FROM pastel p, canasta c, pedido pe WHERE c.codigo_pastel=p.codigo_pastel AND c.id_pedido=pe.id_pedido AND pe.estado='pendiente' AND pe.id_cliente='$id_cliente' AND p.codigo_pastel='$id';");
     $producto = $consulta->fetch_array();
     if (isset($producto)) {
         //Actualiza
         if ($carritoInfo == "Actualizar información") {
-            $conexion->OperSql("UPDATE `canasta` SET `Subtotal`='$cantidad'*'$precio', `Cantidad_Cliente`='$cantidad', `Dedicatoria`='$dedicatoria', `Especificacion_adicional`='$reqAdicional' WHERE `CODIGO_PRODUCTO`='$id';");
+            $conexion->OperSql("UPDATE `canasta` SET `subtotal`='$cantidad'*'$precio', `cantidad_cliente`='$cantidad', `dedicatoria`='$dedicatoria', `especificacion_adicional`='$reqAdicional' WHERE `codigo_pastel`='$id';");
         } else {
-            $conexion->OperSql("UPDATE `canasta` SET `Subtotal`=`Subtotal`+'$cantidad'*'$precio', `Cantidad_Cliente`=`Cantidad_Cliente`+'$cantidad', `Dedicatoria`='$dedicatoria', `Especificacion_adicional`='$reqAdicional' WHERE `CODIGO_PRODUCTO`='$id';");
+            $conexion->OperSql("UPDATE `canasta` SET `subtotal`=`subtotal`+'$cantidad'*'$precio', `cantidad_cliente`=`cantidad_cliente`+'$cantidad', `dedicatoria`='$dedicatoria', `especificacion_adicional`='$reqAdicional' WHERE `codigo_pastel`='$id';");
         }
     } else {
         //Inserta
-        $consulta = $conexion->OperSql("SELECT IF(    (SELECT COUNT(*) FROM pedido WHERE ID_CLIENTE='$id_cliente' AND ESTADO='pendiente') < 1     OR     (SELECT COUNT(*) FROM pedido WHERE ID_CLIENTE='$id_cliente') = (SELECT COUNT(*) FROM pedido WHERE ESTADO = 'confirmado' AND ID_CLIENTE='$id_cliente'),     'true',     'false') AS resultado;");
+        $consulta = $conexion->OperSql("SELECT IF(    (SELECT COUNT(*) FROM pedido WHERE id_cliente='$id_cliente' AND estado='pendiente') < 1     OR     (SELECT COUNT(*) FROM pedido WHERE id_cliente='$id_cliente') = (SELECT COUNT(*) FROM pedido WHERE estado = 'confirmado' AND id_cliente='$id_cliente'),     'true',     'false') AS resultado;");
         $array_creoPedido = $consulta->fetch_array();
         //id de la canasta
         $creoPedido = $array_creoPedido['resultado'];
@@ -44,18 +44,18 @@ if (isset($_GET['id']) && isset($_GET['cantidad']) && isset($_SESSION['id'])) {
             //id de la canasta
             $cantidadPedidos = $array_cantidadPedidos['cantidad_pedidos'];
             $id_pedido = $cantidadPedidos + 1;
-            $conexion->OperSql("INSERT INTO `pedido`(`ID_PEDIDO`, `ID_CLIENTE`, `ESTADO`) VALUES ('$id_pedido','$id_cliente','pendiente')");
-            $conexion->OperSql("INSERT INTO `canasta`(`CODIGO_PRODUCTO`, `ID_PEDIDO`, `CANTIDAD_CLIENTE`, `SUBTOTAL`, `DEDICATORIA`, `ESPECIFICACION_ADICIONAL`) VALUES ('$id','$id_pedido','$cantidad','$precio'*'$cantidad','$dedicatoria','$reqAdicional')");
+            $conexion->OperSql("INSERT INTO `pedido`(`id_pedido`, `id_cliente`, `estado`) VALUES ('$id_pedido','$id_cliente','pendiente')");
+            $conexion->OperSql("INSERT INTO `canasta`(`codigo_pastel`, `id_pedido`, `cantidad_cliente`, `subtotal`, `dedicatoria`, `especificacion_adicional`) VALUES ('$id','$id_pedido','$cantidad','$precio'*'$cantidad','$dedicatoria','$reqAdicional')");
         } else {
-            $consulta = $conexion->OperSql("SELECT ID_PEDIDO FROM pedido WHERE ESTADO='pendiente' AND ID_CLIENTE='$id_cliente';");
+            $consulta = $conexion->OperSql("SELECT id_pedido FROM pedido WHERE estado='pendiente' AND id_cliente='$id_cliente';");
             $array_id_pedido = $consulta->fetch_array();
             //id de la canasta
-            $id_pedido = $array_id_pedido['ID_PEDIDO'];
-            $conexion->OperSql("INSERT INTO `canasta`(`CODIGO_PRODUCTO`, `ID_PEDIDO`, `CANTIDAD_CLIENTE`, `SUBTOTAL`, `DEDICATORIA`, `ESPECIFICACION_ADICIONAL`) VALUES ('$id','$id_pedido','$cantidad','$precio'*'$cantidad','$dedicatoria','$reqAdicional')");
+            $id_pedido = $array_id_pedido['id_pedido'];
+            $conexion->OperSql("INSERT INTO `canasta`(`codigo_pastel`, `id_pedido`, `cantidad_cliente`, `subtotal`, `dedicatoria`, `especificacion_adicional`) VALUES ('$id','$id_pedido','$cantidad','$precio'*'$cantidad','$dedicatoria','$reqAdicional')");
         }
 
-        //$conexion->OperSql("INSERT INTO `canasta`( `Id_canasta`, `Codigo`, `Cantidad_Cliente`, `Subtotal`, `Dedicatoria`, `Especificacion_adicional`) VALUES ('$id_canasta','$id','$cantidad','$precio'*'$cantidad','$dedicatoria','$reqAdicional');");
-        //$conexion->OperSql("INSERT INTO `canasta`( `Id_canasta`, `Codigo`, `Cantidad_Cliente`, `Subtotal`, `Dedicatoria`, `Especificacion_adicional`) VALUES ('$id_canasta','$id','$cantidad','$precio'*'$cantidad','$dedicatoria','$reqAdicional');");
+        //$conexion->OperSql("INSERT INTO `canasta`( `Id_canasta`, `Codigo`, `cantidad_cliente`, `subtotal`, `dedicatoria`, `especificacion_adicional`) VALUES ('$id_canasta','$id','$cantidad','$precio'*'$cantidad','$dedicatoria','$reqAdicional');");
+        //$conexion->OperSql("INSERT INTO `canasta`( `Id_canasta`, `Codigo`, `cantidad_cliente`, `subtotal`, `dedicatoria`, `especificacion_adicional`) VALUES ('$id_canasta','$id','$cantidad','$precio'*'$cantidad','$dedicatoria','$reqAdicional');");
     }
 } else {
     $data = array(

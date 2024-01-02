@@ -7,13 +7,13 @@ include("../php/Conexion.php");
 $conexion= new Conexion;
 // Consulta a la base de datos
 if (strpos($imagen, "http") !== false||strpos($imagen, "../") !== false) {
-    //$sql = "DELETE FROM producto WHERE `Img`='$imagen'";
+    //$sql = "DELETE FROM pastel WHERE `Img`='$imagen'";
     
-    $consulta= $conexion->OperSql("DELETE FROM `producto` WHERE `Img`='$imagen'");
+    $consulta= $conexion->OperSql("DELETE FROM `pastel` WHERE `img`='$imagen'");
     //$consulta= $conexion->OperSql("SELECT '$imagen'");
 } else {
-    //$sql = "SELECT `Img` FROM producto";
-    $consulta= $conexion->OperSql("SELECT `Img` FROM producto");
+    //$sql = "SELECT `Img` FROM pastel";
+    $consulta= $conexion->OperSql("SELECT `img` FROM pastel");
 
 
 //id de la canasta

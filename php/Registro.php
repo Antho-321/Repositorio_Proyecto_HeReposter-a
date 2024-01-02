@@ -17,7 +17,7 @@ if($contraseña==$Rep_contraseña){
 }else{
     echo '<script>
     window.alert("Las contraseñas no coinciden"); 
-    window.location = "../vistas/Index.php";
+    window.location = "../vistas/index.php";
     </script>';
 }
 ?>

@@ -99,16 +99,16 @@ function AgregarContenido(CategoríaSeleccionada) {
     let myData = myAsyncFunction("");
 
     myData.then(result => {
-        console.log(result[0]);
         
         let div_aux = document.createElement("div");
         //console.log(Object.keys(result).length);
+        console.log(result);
         for (let i = 0; i < Object.keys(result[0]).length; i++) {
             let a = 15.0;
             let div = document.createElement("div");
             let imagen = document.createElement("img");
             let h3 = document.createElement("h3");
-            imagen.src = result[0][i].Img;
+            imagen.src = result[0][i].IMG;
             imagen.style.paddingRight = a + "px";
             imagen.style.paddingTop = (a / 2) + "px";
             h3.innerHTML = "Seleccionar producto";
