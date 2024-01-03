@@ -7,6 +7,7 @@ let verificacion_enlace = document.getElementById("verificacion_enlace");
 let btnEnviar;
 let txtO = document.querySelector("label[for='ingreso_enlace']");
 let dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, elem_estImgNoValido, estilo_noMasImg;
+let ubicación_página = window.location.href;
 estilo_txtImgNoValida = document.createElement("style");
 estilo_noMasImg = document.createElement("style");
 estilo_contenedorPreImg = document.createElement("style");
@@ -30,7 +31,134 @@ estilo_noMasImg.innerHTML = `
 }
 `;
 Dropzone.autoDiscover = false;
-window.onload = AgregarContenido("");
+if (ubicación_página.substring(ubicación_página.lastIndexOf("/")) == "/actualizar_producto") {
+  window.onload = AgregarContenido("");
+}else{
+  if (ubicación_página.includes("/actualizar_seleccionado")) {
+  verificacion_enlace = document.getElementById("verificacion_enlace");
+  const fileInput = document.getElementById('file-input');
+  const imagePreview = document.getElementById('image-preview');
+  let aux_IngresarEnlace = document.getElementById("aux_IngresarEnlace");
+  div_fila.className = "fila";
+  txtO = document.querySelector("label[for='ingreso_enlace']");
+  btnEnviar = document.getElementById("enviarFormulario");
+  ingreso_enlace = document.getElementById("ingreso_enlace");
+  ingreso_enlace.addEventListener('input', () => {
+
+    if (ingreso_enlace.value != "") {
+
+      if (!esUrlValida(ingreso_enlace.value)) {
+        imgNoValida();
+
+      } else {
+
+        esImagen1(ingreso_enlace.value).then((result) => {
+          if (result) {
+            //alert("enlace validoooo");
+            enlaceImgVálido();
+          } else {
+
+            esImagen2(ingreso_enlace.value).then((result) => {
+
+              if (result) {
+
+                enlaceImgVálido();
+              } else {
+                imgNoValida();
+              }
+            });
+
+          }
+        });
+      }
+    } else {
+      elem_estImgNoValido = document.getElementById("est_txtImgNoValida");
+      if (elem_estImgNoValido != undefined) {
+        elem_estImgNoValido.remove();
+      }
+    }
+  });
+
+  Dropzone.autoDiscover = false;
+  const dropzone = new Dropzone("div#formDrop", {
+    url: "../php/IngresoImagenProducto.php",
+    dictDefaultMessage: `<p id="txtDrop">Arrastra tu imagen, presiona aquí para subirla o ingresa su enlace:</p>
+      <input type="url" placeholder="Ingresar enlace" id="input2">
+      <div id="contenedorTxt">
+        <p id="txtImgNoValida">Enlace no válido</p>
+      <div>
+      `,
+    maxFiles: 1,
+    init: function () {
+      this.on("maxfilesexceeded", function (file) {
+        this.removeFile(file);
+        alert("¡Solo se puede subir un archivo!");
+        document.head.appendChild(estilo_noMasImg);
+      });
+      this.on("sending", function (file, xhr, data) {
+        ingreso_enlace = document.getElementById("ingreso_enlace");
+        if (ingreso_enlace != undefined) {
+          ingreso_enlace.remove();
+        }
+        data.append("type_chooser", "1");
+      });
+      this.on("addedfile", function (file) {
+        if (file.name.includes("http") || file.name.includes("data:image")) {
+          dzSize = file.previewElement.querySelector(".dz-size");
+          dzProgress = file.previewElement.querySelector(".dz-progress");
+          previsualizacion = file.previewElement.querySelector("img");
+          previsualizacion.src = file.name;
+          previsualizacion.style = "width: 100%; height: 100%;";
+          dzProgress.style = "display: none;";
+          dzSize.style = "display: none;";
+          ingreso_enlace.style = "z-index: -1;";
+          this.options.maxFiles = 0;
+          aux_IngresarEnlace.value = file.name;
+          imagePreview.src=file.name;
+        }
+      });
+      this.on("success", function (file, response) {
+        var obj = JSON.parse(response); // Este es el objeto resultante
+        console.log(obj.objeto);
+        //localStorage.setItem("ruta_archivo_img", obj.objeto);
+        imagePreview.src = obj.objeto;
+        aux_IngresarEnlace.value = obj.objeto;
+        document.getElementById("ruta_archivo_img").value = "si";
+      });
+    },
+    renameFile: function (file) {
+      let str1 = file.name;
+      let str2 = str1.substring(str1.lastIndexOf("."));
+      return "HOLA" + "_" + str2;
+    }
+  });
+  dropzone.on("complete", function (file) {
+    var ext = /(.jpg|.jpeg|.png|.gif)$/i;
+    if (!ext.exec(file.name)) {
+      console.log("El archivo no es una imagen válida"); // rechazar el archivo
+      dropzone.removeFile(file);
+    }
+  });
+  dropzone.on("addedfile", file => {
+    let contenedor_preImg = document.querySelector(".dz-image");
+    contenedor_preImg.style = "width: 200px; height: 200px;";
+    contenedor_preImg.parentNode.style = "width: 200px; height: 200px; margin: 0px !important;";
+    contenedor_preImg.children[0].style = "width: 200px; height: 200px";
+    document.head.appendChild(estilo_contenedorPreImg);
+
+  });
+  function enlaceImgVálido() {
+    var file = { name: ingreso_enlace.value };
+    dropzone.emit("addedfile", file);
+    elem_estImgNoValido = document.getElementById("est_txtImgNoValida");
+    if (elem_estImgNoValido != undefined) {
+      elem_estImgNoValido.remove();
+    }
+    verificacion_enlace.value = "si";
+  }
+  }
+}
+
 div_fila.className = "fila";
 function AgregarContenido(CategoríaSeleccionada) {
   seccion_productos = document.getElementById("seccion_productos");
@@ -273,229 +401,108 @@ function ProductoSeleccionado(event) {
     dirImg = srcString;
   }
   console.log("dirImg: " + dirImg);
+  window.location.href="/actualizar_seleccionado?test="+dirImg;
+  // document.documentElement.innerHTML = `
+  // <!DOCTYPE html>
+  // <html lang="en">
 
-  document.documentElement.innerHTML = `
-  <!DOCTYPE html>
-  <html lang="en">
+  // <head>
+  //     <meta charset="UTF-8">
+  //     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  //     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  //     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+  //     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+  //     <link rel="stylesheet" type="text/css" href="../css/estilo_IngresoDeProductos.css" id="estilo">
+  //     <title>Ingreso de productos</title>
+  // </head>
 
-  <head>
-      <meta charset="UTF-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-      <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
-      <link rel="stylesheet" type="text/css" href="../css/estilo_IngresoDeProductos.css" id="estilo">
-      <title>Ingreso de productos</title>
-  </head>
+  // <body>
+  // <header>
 
-  <body>
-  <header>
+  // <!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
+  // <a href="/actualizar_producto" id="regreso_pagina">← Regresar</a>
+  // <div id="bloq_izq">
+  // <img src="../images/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
+  // </div>
+  // <div id="bloq_der">
+  // <h1 align="center">Actualización de información</h1>
+  // </div>
 
-<!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
-<a href="/actualizar_producto" id="regreso_pagina">← Regresar</a>
-<div id="bloq_izq">
-<img src="../images/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
-</div>
-<div id="bloq_der">
-<h1 align="center">Actualización de información</h1>
-</div>
-
-<!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
+  // <!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
 
 
 
-</header>
+  // </header>
       
-      <form id="form" class="form_update" method='POST' enctype="multipart/form-data" action="../php/php_ActualizaciónDeProductos.php" novalidate>
-      @csrf    
-      <section id="seccion_principal">
-              <div id="seccion__Izq">
-                  <div>
-                      <div class="fila">
-                          <label class="col" for="lista_categoría">Categoría:</label>
-                          <select name="lista_categoría" id="lista_categoría" class="col">
-                              <option value="Bodas">Bodas</option>
-                              <option value="Bautizos">Bautizos</option>
-                              <option value="XV_años">XV años</option>
-                              <option value="Cumpleaños">Cumpleaños</option>
-                              <option value="Baby_Shower">Baby Shower</option>
-                              <option value="San_Valentin">San Valentin</option>
-                              <option value="Vísperas_de_Santos">Vísperas de Santos</option>
-                              <option value="Navidad">Navidad</option>
-                          </select>
-                      </div>
+  //     <form id="form" class="form_update" method='POST' enctype="multipart/form-data" action="../php/php_ActualizaciónDeProductos.php" novalidate>
+  //     @csrf    
+  //     <section id="seccion_principal">
+  //             <div id="seccion__Izq">
+  //                 <div>
+  //                     <div class="fila">
+  //                         <label class="col" for="lista_categoría">Categoría:</label>
+  //                         <select name="lista_categoría" id="lista_categoría" class="col">
+  //                             <option value="Bodas">Bodas</option>
+  //                             <option value="Bautizos">Bautizos</option>
+  //                             <option value="XV_años">XV años</option>
+  //                             <option value="Cumpleaños">Cumpleaños</option>
+  //                             <option value="Baby_Shower">Baby Shower</option>
+  //                             <option value="San_Valentin">San Valentin</option>
+  //                             <option value="Vísperas_de_Santos">Vísperas de Santos</option>
+  //                             <option value="Navidad">Navidad</option>
+  //                         </select>
+  //                     </div>
 
-                      <div class="fila">
-                          <label class="col" for="ingresoArchivo">Imagen:</label>
-                          <div class="dropzone" id="formDrop">
-              <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace">
-              <input type="hidden" name="enlace" id="aux_IngresarEnlace">
-              <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
-              <input type="hidden" name='ingreso_archivo' id="ruta_archivo_img">
-          </div>
-                          <input type="hidden" name='ant_enlace' id="anterior_enlace" value="`+ dirImg + `">
-                      </div>
+  //                     <div class="fila">
+  //                         <label class="col" for="ingresoArchivo">Imagen:</label>
+  //                         <div class="dropzone" id="formDrop">
+  //             <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace">
+  //             <input type="hidden" name="enlace" id="aux_IngresarEnlace">
+  //             <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
+  //             <input type="hidden" name='ingreso_archivo' id="ruta_archivo_img">
+  //         </div>
+  //                         <input type="hidden" name='ant_enlace' id="anterior_enlace" value="`+ dirImg + `">
+  //                     </div>
 
-                  </div>
-                  <div class="tabla_info">
-                      <div class="fila">
-                          <p class="col">Forma:</p>
-                          <div class="col">
-                              <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" value="Redonda" name="forma">
-                              <label for="red">Redonda</label>
-                          </div>
-                          <div class="col">
-                              <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" value="Cuadrada" name="forma">
-                              <label for="cuad">Cuadrada</label>
-                          </div>
-                          <div class="col">
-                              <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" value="Rectangular" name="forma">
-                              <label for="rec">Rectangular</label>
-                          </div>
-                          <div class="col">
-                              <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" value="Personalizada" name="forma">
-                              <label for="per">Personalizada</label>
-                          </div>
-                      </div>                   
-                  </div>
+  //                 </div>
+  //                 <div class="tabla_info">
+  //                     <div class="fila">
+  //                         <p class="col">Forma:</p>
+  //                         <div class="col">
+  //                             <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" value="Redonda" name="forma">
+  //                             <label for="red">Redonda</label>
+  //                         </div>
+  //                         <div class="col">
+  //                             <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" value="Cuadrada" name="forma">
+  //                             <label for="cuad">Cuadrada</label>
+  //                         </div>
+  //                         <div class="col">
+  //                             <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" value="Rectangular" name="forma">
+  //                             <label for="rec">Rectangular</label>
+  //                         </div>
+  //                         <div class="col">
+  //                             <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" value="Personalizada" name="forma">
+  //                             <label for="per">Personalizada</label>
+  //                         </div>
+  //                     </div>                   
+  //                 </div>
 
-              </div>
-              <div id="seccion__Der">
-                  <h2 class="prev_act">Previsualización de producto:</h2>
-                  <img alt="Imagen de pastel" id="image-preview" src="`+ dirImg + `" width="200px">
-              </div>
-          </section>
-          <input type="hidden" name='formulario'>
-          <div id="seccion_btn">
-              <input type="submit" value="Guardar cambios" id="enviarFormulario">
-          </div>
-      </form>
-      <script src="../js/script_ActualizaciónDeInformación.js"></script>
-  </body>
+  //             </div>
+  //             <div id="seccion__Der">
+  //                 <h2 class="prev_act">Previsualización de producto:</h2>
+  //                 <img alt="Imagen de pastel" id="image-preview" src="`+ dirImg + `" width="200px">
+  //             </div>
+  //         </section>
+  //         <input type="hidden" name='formulario'>
+  //         <div id="seccion_btn">
+  //             <input type="submit" value="Guardar cambios" id="enviarFormulario">
+  //         </div>
+  //     </form>
+  //     <script src="../js/script_ActualizaciónDeInformación.js"></script>
+  // </body>
 
-  </html>
-  `;
-  verificacion_enlace = document.getElementById("verificacion_enlace");
-  const fileInput = document.getElementById('file-input');
-  const imagePreview = document.getElementById('image-preview');
-  let aux_IngresarEnlace = document.getElementById("aux_IngresarEnlace");
-  div_fila.className = "fila";
-  txtO = document.querySelector("label[for='ingreso_enlace']");
-  btnEnviar = document.getElementById("enviarFormulario");
-  ingreso_enlace = document.getElementById("ingreso_enlace");
-  ingreso_enlace.addEventListener('input', () => {
-
-    if (ingreso_enlace.value != "") {
-
-      if (!esUrlValida(ingreso_enlace.value)) {
-        imgNoValida();
-
-      } else {
-
-        esImagen1(ingreso_enlace.value).then((result) => {
-          if (result) {
-            //alert("enlace validoooo");
-            enlaceImgVálido();
-          } else {
-
-            esImagen2(ingreso_enlace.value).then((result) => {
-
-              if (result) {
-
-                enlaceImgVálido();
-              } else {
-                imgNoValida();
-              }
-            });
-
-          }
-        });
-      }
-    } else {
-      elem_estImgNoValido = document.getElementById("est_txtImgNoValida");
-      if (elem_estImgNoValido != undefined) {
-        elem_estImgNoValido.remove();
-      }
-    }
-  });
-
-  Dropzone.autoDiscover = false;
-  const dropzone = new Dropzone("div#formDrop", {
-    url: "../php/IngresoImagenProducto.php",
-    dictDefaultMessage: `<p id="txtDrop">Arrastra tu imagen, presiona aquí para subirla o ingresa su enlace:</p>
-      <input type="url" placeholder="Ingresar enlace" id="input2">
-      <div id="contenedorTxt">
-        <p id="txtImgNoValida">Enlace no válido</p>
-      <div>
-      `,
-    maxFiles: 1,
-    init: function () {
-      this.on("maxfilesexceeded", function (file) {
-        this.removeFile(file);
-        alert("¡Solo se puede subir un archivo!");
-        document.head.appendChild(estilo_noMasImg);
-      });
-      this.on("sending", function (file, xhr, data) {
-        ingreso_enlace = document.getElementById("ingreso_enlace");
-        if (ingreso_enlace != undefined) {
-          ingreso_enlace.remove();
-        }
-        data.append("type_chooser", "1");
-      });
-      this.on("addedfile", function (file) {
-        if (file.name.includes("http") || file.name.includes("data:image")) {
-          dzSize = file.previewElement.querySelector(".dz-size");
-          dzProgress = file.previewElement.querySelector(".dz-progress");
-          previsualizacion = file.previewElement.querySelector("img");
-          previsualizacion.src = file.name;
-          previsualizacion.style = "width: 100%; height: 100%;";
-          dzProgress.style = "display: none;";
-          dzSize.style = "display: none;";
-          ingreso_enlace.style = "z-index: -1;";
-          this.options.maxFiles = 0;
-          aux_IngresarEnlace.value = file.name;
-          imagePreview.src=file.name;
-        }
-      });
-      this.on("success", function (file, response) {
-        var obj = JSON.parse(response); // Este es el objeto resultante
-        console.log(obj.objeto);
-        //localStorage.setItem("ruta_archivo_img", obj.objeto);
-        imagePreview.src = obj.objeto;
-        aux_IngresarEnlace.value = obj.objeto;
-        document.getElementById("ruta_archivo_img").value = "si";
-      });
-    },
-    renameFile: function (file) {
-      let str1 = file.name;
-      let str2 = str1.substring(str1.lastIndexOf("."));
-      return "HOLA" + "_" + str2;
-    }
-  });
-  dropzone.on("complete", function (file) {
-    var ext = /(.jpg|.jpeg|.png|.gif)$/i;
-    if (!ext.exec(file.name)) {
-      console.log("El archivo no es una imagen válida"); // rechazar el archivo
-      dropzone.removeFile(file);
-    }
-  });
-  dropzone.on("addedfile", file => {
-    let contenedor_preImg = document.querySelector(".dz-image");
-    contenedor_preImg.style = "width: 200px; height: 200px;";
-    contenedor_preImg.parentNode.style = "width: 200px; height: 200px; margin: 0px !important;";
-    contenedor_preImg.children[0].style = "width: 200px; height: 200px";
-    document.head.appendChild(estilo_contenedorPreImg);
-
-  });
-  function enlaceImgVálido() {
-    var file = { name: ingreso_enlace.value };
-    dropzone.emit("addedfile", file);
-    elem_estImgNoValido = document.getElementById("est_txtImgNoValida");
-    if (elem_estImgNoValido != undefined) {
-      elem_estImgNoValido.remove();
-    }
-    verificacion_enlace.value = "si";
-  }
+  // </html>
+  // `;
 }
 function esImagen(url) {
   return new Promise((resolve, reject) => {

@@ -25,6 +25,7 @@ Route::get('actualizar_producto',function(){
     $pasteles = DB::select('select * from pastel');
     return view('actualizar_producto',['pasteles'=>$pasteles]);
 });
+Route::view('/actualizar_seleccionado','actualizar_seleccionado');
 Route::get('eliminar_producto',function(){
     $pasteles = DB::select('select * from pastel');
     return view('eliminar_producto',['pasteles'=>$pasteles]);

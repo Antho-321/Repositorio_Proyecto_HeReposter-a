@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,7 @@
         <div class="imgFondo op"></div>
         <h1 class="op">¡Bienvenido!</h1>
         <h1 id="wh_backg" class="op">¡Bienvenido!</h1>
+        
         <section id="opciones">
             <div id="inicial">
                 <label for="check" class="mostrar_menu" id="btn_despliegue">
