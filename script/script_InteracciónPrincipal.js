@@ -217,7 +217,6 @@ function comprobacionHora() {
     inputDate.setHours(hours);
     inputDate.setMinutes(mins);
     hora_entrega.value = hours + ":" + mins;
-    console.log(hora_entrega.value);
     if (inputDate == "Invalid Date") {
         hora_valida = false;
     } else {
@@ -265,7 +264,7 @@ function AgregarContenido(CategoríaSeleccionada) {
                         let div = document.createElement("div");
                         let imagen = document.createElement("img");
                         let h3 = document.createElement("h3");
-                        imagen.src = result[i].Img;
+                        imagen.src = result[i].img;
                         h3.innerHTML = "Mostrar más información";
                         div.appendChild(h3);
                         h3.addEventListener("click", ProductoSeleccionado);
@@ -288,7 +287,7 @@ function AgregarContenido(CategoríaSeleccionada) {
                 let div = document.createElement("div");
                 let imagen = document.createElement("img");
                 let h3 = document.createElement("h3");
-                imagen.src = result[i].Img;
+                imagen.src = result[i].img;
                 h3.innerHTML = "Mostrar más información";
                 div.appendChild(h3);
                 h3.addEventListener("click", ProductoSeleccionado);
@@ -486,15 +485,14 @@ function ProductoSeleccionado(event, imagen, carritoInfo, cantidad_productos, ar
     estilo = document.getElementById("estilo");
     estilo.href = "../styles/estilo_Modificación_ProductoSeleccionado.css";
     myData.then(result => {
-        console.log(result);
-        id_producto = result[0].CODIGO_PRODUCTO;
-        precio_producto = result[0].PRECIO;
-        descripción_adicional = result[0].DESCRIPCION;
-        porciones = result[0].PORCIONES;
-        masa = result[0].MASA;
-        cobertura = result[0].COBERTURA;
-        sabor = result[0].SABOR;
-        relleno = result[0].RELLENO;
+        id_producto = result[0].codigo_producto;
+        precio_producto = result[0].precio;
+        descripción_adicional = result[0].descripcion;
+        porciones = result[0].porciones;
+        masa = result[0].masa;
+        cobertura = result[0].cobertura;
+        sabor = result[0].sabor;
+        relleno = result[0].relleno;
         contenido_principal.innerHTML = `
             <div id="DestacadoPrincipal">
                 <img src="`+ img + `" alt="imagenes">
@@ -782,7 +780,6 @@ function AgregarContenidoCarrito() {
     let primera_fila = document.getElementById("primera_fila");
     let myData = myAsyncFunction3();
     myData.then(result => {
-        console.log(result);
         var datos_carrito_string = JSON.stringify(result);
         localStorage.setItem('datos_carrito',datos_carrito_string)
         if (result.usuario == "noIngresado" || result.length == 0) {
@@ -795,11 +792,11 @@ function AgregarContenidoCarrito() {
                             <img src="`+ result[i].IMG + `" alt="Producto">
                         </div>   
                             <p class="col" name="dedicatoria">`+ result[i].DEDICATORIA + `</p>
-                            <p class="col" name="masa">`+ result[i].MASA + `</p>
-                            <p class="col" name="sabor">`+ result[i].SABOR + `</p>
-                            <p class="col" name="relleno">`+ result[i].RELLENO + `</p>
-                            <p class="col" name="cobertura">`+ result[i].COBERTURA + `</p>
-                            <p class="col" name="precio">$`+ result[i].PRECIO + `</p>
+                            <p class="col" name="masa">`+ result[i].masa + `</p>
+                            <p class="col" name="sabor">`+ result[i].sabor + `</p>
+                            <p class="col" name="relleno">`+ result[i].relleno + `</p>
+                            <p class="col" name="cobertura">`+ result[i].cobertura + `</p>
+                            <p class="col" name="precio">$`+ result[i].precio + `</p>
                             <p class="col" name="cantidad">`+ result[i].CANTIDAD_CLIENTE + `</p>                   
                             <div class="col" id="seccion_eliminar">
                                 <div>
