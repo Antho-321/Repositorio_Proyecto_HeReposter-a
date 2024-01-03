@@ -1,0 +1,236 @@
+@font-face {
+    font-family: "Sanseriffic";
+    src: url("../font/Sanseriffic.woff");
+  }
+* {
+    font-family: "Sanseriffic", Arial, sans-serif;
+    letter-spacing: 1.4px;
+}
+*:not(#Catalogo, #Catalogo *) {
+    transition: 0.4s;
+}
+body {
+    margin: 0px;
+    width: 96%;
+    height: 100vh;
+    overflow-x: hidden;
+}
+h1{
+    margin: 0px;
+    padding: 2vh 2vw;
+    height: 6vh;
+    text-align: center;
+    font: normal normal normal 30px/1.4em Sanseriffic;
+}
+#seccion_principal{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+#form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    width: 96vw;
+    padding: 0px 2vw;
+    font-size: 16.5px;
+}
+.input_enlace, #form *{
+    font-size: 16.5px;
+}
+
+.tabla_info {
+    display: table;
+    width: 100%;
+}
+.fila {
+    display: table-row;
+}
+/*
+.fila>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}*/
+.fila>div>img{
+    height: 100px;
+    width: 100px;
+}
+.col {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 10px;
+    text-align: center;
+}
+#seccion_enlace{
+    padding-left: 0px;
+}
+#seccion_archivo{
+    padding-right: 0px;
+}
+/* #dropzone{
+    width: 300px; 
+    height: 100px; 
+    border: 2px dashed gray;
+} */
+#imgNoValida{
+    color: red;
+    visibility: hidden;
+}
+select {
+    width: 100% !important;
+    padding: 5px 0px !important;
+    margin: 5px 0px;
+    font: normal normal normal 16px/1.4em Sanseriffic;
+  appearance: none; /* Remove default arrow */
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  background-image: url("/images/Icono_select.png"); /* Add custom arrow image */
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: 30px;
+	width: 120px;
+	background-color: #F2F4F8;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    text-align: center;
+    
+}
+input[type="text"], input[type="url"], button{
+    color: rgb(0, 0, 0);
+}
+textarea{
+    width: 100%;
+    color: rgb(0, 0, 0);
+}
+#seccion__Der{
+    display: flex;
+    width: 25vw;
+    height: 80%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#seccion__Der>div{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#seccion__Der>div>p, #seccion__Der>div>label{
+    width: 48%;
+    text-align: center;
+}
+#seccion__Der>div>div{
+    padding: 0px 1.6vw;
+}
+#LogoPankey {
+    min-width: 70px;
+    max-width: 90px;
+    min-height: 80px;
+    max-height: 90px;
+    padding: 1vh 4vw;
+}
+#seccion_btn{
+    display: flex;
+    height: 10vh;
+    border: 0px;
+    padding: 0px;
+    align-items: center;
+    justify-content: center;
+}
+#btnsubirArchivo{
+    display: none;
+}
+button{
+    color: black;
+}
+h2{
+    text-align: center;
+    font: normal normal normal 21px/1.4em Sanseriffic;
+    padding-top: 145px;
+    width: 100vw;
+    margin: 0px;
+    padding-bottom: 17px;
+}
+#formDrop{
+    display: flex;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+    padding: 0px !important;
+    z-index: 0;
+}
+.form_update{
+    padding-top: 145px !important;
+}
+#ingreso_enlace{
+    position: absolute;
+    height: 22px;
+    cursor: text !important;
+    margin-top: 130px;
+}
+#input2{
+    position: relative;
+    visibility: hidden;
+}
+#txtDrop{
+    position: relative;
+}
+#txtImgNoValida{
+    visibility: hidden;
+    color: red;
+    margin: 0px;
+}
+#contenedorTxt{
+    height: 0px;
+}
+header {
+    height: 100px;
+    background-color: white;
+    width: 100%;
+    color: black;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    z-index: 2;
+    border-bottom-style: solid;
+    border-bottom-color: black;
+    border-bottom-width: 25px;
+}
+#bloq_izq{
+    position: absolute;
+    right: 0px;
+}
+#bloq_der{
+    width: 100vw;
+    position: absolute;
+}
+#regreso_pagina{
+    margin: 20px 0px;
+    text-decoration: none;
+    width: 100px;
+    text-align: center;
+    color: white;
+    border: none;
+    background-color: black;
+    padding: 15px 10px;
+    font-size: 18px;
+    width: 145px;
+    border-radius: 12px;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    margin-left: 20px;
+    z-index: 1;
+}
+#regreso_pagina:hover{
+    background-color: white;
+    color: black;
+}
+.prev_act{
+    padding: 0px;
+    padding-bottom: 15px;
+}
