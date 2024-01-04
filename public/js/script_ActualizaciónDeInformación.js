@@ -271,18 +271,18 @@ function opcionesPastel(event) {
   div_fila.innerHTML = `
     <p class="col">Tamaño:</p>
     <div class="col">
-      <input class="col" type="radio" id="tamaño1" name="tamaño" value="`+ tamaño1 + `">
+      <input class="col" type="radio" id="tamaño1" name="tamano" value="`+ tamaño1 + `" onchange="cambioTamano(this.value)">
       <label for="tamaño1">`+ tamaño1 + `</label>
     </div>
     <div class="col">
-      <input class="col" type="radio" id="tamaño2" name="tamaño" value="`+ tamaño2 + `">
+      <input class="col" type="radio" id="tamaño2" name="tamano" value="`+ tamaño2 + `" onchange="cambioTamano(this.value)">
       <label for="tamaño2">`+ tamaño2 + `</label>
     </div>
   `;
   if (event.target.id == "cuad") {
     div_fila.insertAdjacentHTML("beforeend", `
     <div class="col">
-    <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+ tamaño3 + `">
+    <input class="col" type="radio" id="tamaño3" name="tamano" value="`+ tamaño3 + `" onchange="cambioTamano(this.value)">
     <label for="tamaño3">`+ tamaño3 + `</label>
   </div>
     `);
@@ -290,15 +290,15 @@ function opcionesPastel(event) {
     if (event.target.id == "per" || event.target.id == "red") {
       div_fila.insertAdjacentHTML("beforeend", `
       <div class="col">
-      <input class="col" type="radio" id="tamaño3" name="tamaño" value="`+ tamaño3 + `">
+      <input class="col" type="radio" id="tamaño3" name="tamano" value="`+ tamaño3 + `" onchange="cambioTamano(this.value)">
       <label for="tamaño3">`+ tamaño3 + `</label>
     </div>
       <div class="col">
-    <input class="col" type="radio" id="tamaño4" name="tamaño" value="`+ tamaño4 + `">
+    <input class="col" type="radio" id="tamaño4" name="tamano" value="`+ tamaño4 + `" onchange="cambioTamano(this.value)">
     <label for="tamaño4">`+ tamaño4 + `</label>
   </div>
   <div class="col">
-    <input class="col" type="radio" id="tamaño5" name="tamaño" value="`+ tamaño5 + `">
+    <input class="col" type="radio" id="tamaño5" name="tamano" value="`+ tamaño5 + `" onchange="cambioTamano(this.value)">
     <label for="tamaño5">`+ tamaño5 + `</label>
   </div>
     `);
@@ -381,7 +381,7 @@ function opcionesPastel(event) {
                       </div>
                       <div class="fila">
                           <p class="col">Descripción adicional:</p>
-                          <textarea class="col" name="descAdicional" id="descAdicional" placeholder="(Opcional)"></textarea>
+                          <textarea class="col" name="descripcion" id="descAdicional" placeholder="(Opcional)"></textarea>
                       </div>
   
                   </div>
@@ -392,6 +392,13 @@ function opcionesPastel(event) {
 function vaciarPlaceHolder(event) {
   event.target.placeholder = "";
 }
+function obtenerNumeros(cadena) {
+  let resultado = cadena.match(/\d+-\d+|\d+/g);
+  return resultado ? resultado.join('') : '';
+}
+function cambioTamano(value) {
+  document.getElementById("porciones").value=obtenerNumeros(value);
+}
 function ProductoSeleccionado(event) {
   const srcString = event.target.nextSibling.src;
   if (srcString.includes("imagenes")) {
@@ -401,108 +408,7 @@ function ProductoSeleccionado(event) {
     dirImg = srcString;
   }
   console.log("dirImg: " + dirImg);
-  window.location.href="/actualizar_seleccionado?test="+dirImg;
-  // document.documentElement.innerHTML = `
-  // <!DOCTYPE html>
-  // <html lang="en">
-
-  // <head>
-  //     <meta charset="UTF-8">
-  //     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  //     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  //     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-  //     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
-  //     <link rel="stylesheet" type="text/css" href="../css/estilo_IngresoDeProductos.css" id="estilo">
-  //     <title>Ingreso de productos</title>
-  // </head>
-
-  // <body>
-  // <header>
-
-  // <!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
-  // <a href="/actualizar_producto" id="regreso_pagina">← Regresar</a>
-  // <div id="bloq_izq">
-  // <img src="../images/LOGO_PANKEY1.png" alt="LOGO_PANKEY" id="LogoPankey">
-  // </div>
-  // <div id="bloq_der">
-  // <h1 align="center">Actualización de información</h1>
-  // </div>
-
-  // <!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
-
-
-
-  // </header>
-      
-  //     <form id="form" class="form_update" method='POST' enctype="multipart/form-data" action="../php/php_ActualizaciónDeProductos.php" novalidate>
-  //     @csrf    
-  //     <section id="seccion_principal">
-  //             <div id="seccion__Izq">
-  //                 <div>
-  //                     <div class="fila">
-  //                         <label class="col" for="lista_categoría">Categoría:</label>
-  //                         <select name="lista_categoría" id="lista_categoría" class="col">
-  //                             <option value="Bodas">Bodas</option>
-  //                             <option value="Bautizos">Bautizos</option>
-  //                             <option value="XV_años">XV años</option>
-  //                             <option value="Cumpleaños">Cumpleaños</option>
-  //                             <option value="Baby_Shower">Baby Shower</option>
-  //                             <option value="San_Valentin">San Valentin</option>
-  //                             <option value="Vísperas_de_Santos">Vísperas de Santos</option>
-  //                             <option value="Navidad">Navidad</option>
-  //                         </select>
-  //                     </div>
-
-  //                     <div class="fila">
-  //                         <label class="col" for="ingresoArchivo">Imagen:</label>
-  //                         <div class="dropzone" id="formDrop">
-  //             <input type="url" placeholder="Ingresar enlace" id="ingreso_enlace">
-  //             <input type="hidden" name="enlace" id="aux_IngresarEnlace">
-  //             <input type="hidden" name='ingreso_enlace' id="verificacion_enlace">
-  //             <input type="hidden" name='ingreso_archivo' id="ruta_archivo_img">
-  //         </div>
-  //                         <input type="hidden" name='ant_enlace' id="anterior_enlace" value="`+ dirImg + `">
-  //                     </div>
-
-  //                 </div>
-  //                 <div class="tabla_info">
-  //                     <div class="fila">
-  //                         <p class="col">Forma:</p>
-  //                         <div class="col">
-  //                             <input class="col" type="radio" id="red" onchange="opcionesPastel(event)" value="Redonda" name="forma">
-  //                             <label for="red">Redonda</label>
-  //                         </div>
-  //                         <div class="col">
-  //                             <input class="col" type="radio" id="cuad" onchange="opcionesPastel(event)" value="Cuadrada" name="forma">
-  //                             <label for="cuad">Cuadrada</label>
-  //                         </div>
-  //                         <div class="col">
-  //                             <input class="col" type="radio" id="rec" onchange="opcionesPastel(event)" value="Rectangular" name="forma">
-  //                             <label for="rec">Rectangular</label>
-  //                         </div>
-  //                         <div class="col">
-  //                             <input class="col" type="radio" id="per" onchange="opcionesPastel(event)" value="Personalizada" name="forma">
-  //                             <label for="per">Personalizada</label>
-  //                         </div>
-  //                     </div>                   
-  //                 </div>
-
-  //             </div>
-  //             <div id="seccion__Der">
-  //                 <h2 class="prev_act">Previsualización de producto:</h2>
-  //                 <img alt="Imagen de pastel" id="image-preview" src="`+ dirImg + `" width="200px">
-  //             </div>
-  //         </section>
-  //         <input type="hidden" name='formulario'>
-  //         <div id="seccion_btn">
-  //             <input type="submit" value="Guardar cambios" id="enviarFormulario">
-  //         </div>
-  //     </form>
-  //     <script src="../js/script_ActualizaciónDeInformación.js"></script>
-  // </body>
-
-  // </html>
-  // `;
+  window.location.href="/actualizar_seleccionado/"+dirImg;
 }
 function esImagen(url) {
   return new Promise((resolve, reject) => {

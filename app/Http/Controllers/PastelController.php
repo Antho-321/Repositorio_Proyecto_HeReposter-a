@@ -16,7 +16,6 @@ class PastelController extends Controller
 
         $pastel = Pastel::orderBy('codigo_pastel', 'DESC')->get();
         return view('pastel.index', compact('pastel'));
-
     }
 
     /**
@@ -62,35 +61,16 @@ class PastelController extends Controller
         return redirect()->route('pastel.index')->with('success', 'Registro
 creado satisfactoriamente');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $codigo_pastel)
-    {
-
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $codigo_pastel)
-    {
-        // Busca el pastel por el campo codigo_pastel
-        $pastel = Pastel::where('codigo_pastel', $codigo_pastel)->first();
-
-        return view('pastel.edit', compact('pastel'));
-
-    }
-
-    /**
+/**
      * Update the specified resource in storage.
-     */public function update(Request $request, $codigo_pastel)
+     */ 
+    public function update(Request $request, $codigo_pastel)
     {
-        // Obtener el modelo del pastel por su codigo_pastel
-        $pastel = Pastel::find($codigo_pastel);
-        // Actualizar los atributos con un array de valores
+
+
+// Buscar el pastel por su código o lanzar una excepción si no existe
+$pastel = Pastel::findOrFail($codigo_pastel);
+        // Actualizar los atributos con un solo array de valores
         $pastel->update([
             'categoria' => $request->input('categoria'),
             'tamano' => $request->input('tamano'),
@@ -104,9 +84,66 @@ creado satisfactoriamente');
             'img' => $request->input('img')
         ]);
 
-        // Retornar una respuesta al usuario
-        return view('InicioAdministración');
+        // // Retornar una respuesta al usuario con el modelo actualizado y la variable img
+        return view('/InicioAdministración');
     }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Request $request, $img)
+    {
+        // Obtener la URL completa
+        $full_url = $request->fullUrl();
+
+        // Extraer el parámetro img
+        $cadena = substr($full_url, strpos($full_url, $img));
+        // Obtenemos los componentes de la URL
+        $componentes = parse_url($cadena);
+
+        if (isset($componentes['query']) && !empty($componentes['query'])) { // Verifica si el componente 'query' existe y no está vacío
+            // Obtenemos los pares de clave-valor de la cadena de consulta
+            parse_str($componentes["query"], $parametros);
+
+            // Obtenemos el último parámetro
+            $ultimo = end($parametros);
+
+            // Obtenemos la clave del último parámetro
+            $ultima_clave = key(array_slice($parametros, -1, 1, TRUE));
+
+            // Eliminamos el último parámetro del array
+            array_pop($parametros);
+
+            // Añadimos el último parámetro al principio del array
+            $parametros = array($ultima_clave => $ultimo) + $parametros;
+
+            // Reconstruimos la cadena de consulta con el nuevo orden
+            $nueva_consulta = http_build_query($parametros);
+
+            // Reconstruimos la URL con la nueva cadena de consulta
+            $img = $componentes["scheme"] . "://" . $componentes["host"] . $componentes["path"] . "?" . $nueva_consulta;
+        }
+
+
+
+
+        return view('/actualizar_seleccionado', compact('img'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $codigo_pastel)
+    {
+        // Busca el pastel por el campo codigo_pastel
+        $pastel = Pastel::where('codigo_pastel', $codigo_pastel)->first();
+
+        return view('pastel.edit', compact('pastel'));
+    }
+
+    
+
+
 
 
     /**
@@ -117,6 +154,5 @@ creado satisfactoriamente');
         Pastel::find($codigo_pastel)->delete();
         return redirect()->route('pastel.index')->with('success', 'Registro
 eliminado satisfactoriamente');
-
     }
 }

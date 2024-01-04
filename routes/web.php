@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\PastelController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\IngresoProductoController;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,13 +25,10 @@ Route::get('actualizar_producto',function(){
     $pasteles = DB::select('select * from pastel');
     return view('actualizar_producto',['pasteles'=>$pasteles]);
 });
-Route::view('/actualizar_seleccionado','actualizar_seleccionado');
 Route::get('eliminar_producto',function(){
     $pasteles = DB::select('select * from pastel');
     return view('eliminar_producto',['pasteles'=>$pasteles]);
 }); 
-
-Route::resource('/pastel', PastelController::class);
-
 Route::post('/ingreso_producto',[PastelController::class,'create'])->name('ingreso_producto');
-Route::put('/actualizar_producto',[PastelController::class,'update'])->name('actualizar_producto');
+Route::get('/actualizar_seleccionado/{img}', [PastelController::class, 'show'])->where('img', '(http|https)://[A-Za-z0-9\.\-\/]+');
+Route::put('/actualizar_seleccionado/{img}', [PastelController::class, 'update'])->name('actualizar_seleccionado');
