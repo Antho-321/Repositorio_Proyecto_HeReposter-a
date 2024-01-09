@@ -61,15 +61,15 @@ class PastelController extends Controller
         return redirect()->route('pastel.index')->with('success', 'Registro
 creado satisfactoriamente');
     }
-/**
+    /**
      * Update the specified resource in storage.
-     */ 
+     */
     public function update(Request $request, $codigo_pastel)
     {
 
 
-// Buscar el pastel por su código o lanzar una excepción si no existe
-$pastel = Pastel::findOrFail($codigo_pastel);
+        // Buscar el pastel por su código o lanzar una excepción si no existe
+        $pastel = Pastel::findOrFail($codigo_pastel);
         // Actualizar los atributos con un solo array de valores
         $pastel->update([
             'categoria' => $request->input('categoria'),
@@ -91,41 +91,12 @@ $pastel = Pastel::findOrFail($codigo_pastel);
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, $img)
+    public function show(Request $request)
     {
-        // Obtener la URL completa
-        $full_url = $request->fullUrl();
+        $img = $request->input('img'); // Directly use the img parameter
 
-        // Extraer el parámetro img
-        $cadena = substr($full_url, strpos($full_url, $img));
-        // Obtenemos los componentes de la URL
-        $componentes = parse_url($cadena);
-
-        if (isset($componentes['query']) && !empty($componentes['query'])) { // Verifica si el componente 'query' existe y no está vacío
-            // Obtenemos los pares de clave-valor de la cadena de consulta
-            parse_str($componentes["query"], $parametros);
-
-            // Obtenemos el último parámetro
-            $ultimo = end($parametros);
-
-            // Obtenemos la clave del último parámetro
-            $ultima_clave = key(array_slice($parametros, -1, 1, TRUE));
-
-            // Eliminamos el último parámetro del array
-            array_pop($parametros);
-
-            // Añadimos el último parámetro al principio del array
-            $parametros = array($ultima_clave => $ultimo) + $parametros;
-
-            // Reconstruimos la cadena de consulta con el nuevo orden
-            $nueva_consulta = http_build_query($parametros);
-
-            // Reconstruimos la URL con la nueva cadena de consulta
-            $img = $componentes["scheme"] . "://" . $componentes["host"] . $componentes["path"] . "?" . $nueva_consulta;
-        }
-
-
-
+        // Ensure the URL is decoded
+        $img = urldecode($img);
 
         return view('/actualizar_seleccionado', compact('img'));
     }
@@ -141,7 +112,7 @@ $pastel = Pastel::findOrFail($codigo_pastel);
         return view('pastel.edit', compact('pastel'));
     }
 
-    
+
 
 
 
@@ -151,7 +122,7 @@ $pastel = Pastel::findOrFail($codigo_pastel);
      */
     public function destroy(Request $request)
     {
-        $img=$request->input('img');
+        $img = $request->input('img');
         // Busca el pastel por el atributo img
         $pastel = Pastel::where('img', $img)->first();
         // Delete the product
@@ -159,6 +130,5 @@ $pastel = Pastel::findOrFail($codigo_pastel);
 
         // Redirect to a certain route after deletion
         return view('/InicioAdministración');
-    
     }
 }

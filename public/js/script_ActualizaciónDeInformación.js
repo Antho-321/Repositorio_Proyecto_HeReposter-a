@@ -175,9 +175,10 @@ function AgregarContenido(CategoríaSeleccionada) {
       for (let i = 0; i < array.length; i++) {
         let div = document.createElement("div");
         let imagen = document.createElement("img");
-        let h3 = document.createElement("h3");
+        let h3 = document.createElement("button");
         imagen.src = array[i].img;
         h3.innerHTML = "Mostrar más información";
+        h3.className="mostrar_informacion";
         div.appendChild(h3);
         h3.addEventListener("click", ProductoSeleccionado);
         div.appendChild(imagen);
@@ -197,7 +198,7 @@ function AgregarContenido(CategoríaSeleccionada) {
         let a = 15.0;
         let div = document.createElement("div");
         let imagen = document.createElement("img");
-        let h3 = document.createElement("h3");
+        let h3 = document.createElement("button");
         imagen.src = result[i].Img;
         imagen.style.paddingRight = a + "px";
         imagen.style.paddingTop = (a / 2) + "px";
@@ -401,15 +402,13 @@ function cambioTamano(value) {
 }
 function ProductoSeleccionado(event) {
   const srcString = event.target.nextSibling.src;
-  if (srcString.includes("imagenes")) {
-    let num = srcString.indexOf("/imagenes");
-    dirImg = ".." + srcString.substring(num);
-  } else {
-    dirImg = srcString;
-  }
-  console.log("dirImg: " + dirImg);
-  window.location.href="/actualizar_seleccionado/"+dirImg;
+  // Decode the URL if it's encoded
+  const decodedUrl = decodeURIComponent(srcString);
+
+  document.getElementById("enlace_img").value = decodedUrl; // Use the decoded URL
+  console.log("Image URL: " + decodedUrl);
 }
+
 function esImagen(url) {
   return new Promise((resolve, reject) => {
     try {

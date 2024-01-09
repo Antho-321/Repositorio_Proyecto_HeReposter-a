@@ -28,7 +28,7 @@ $pastel = $pastel_search->getPastelByImg($img);
         </div>
         <!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
     </header>
-    <form id="form" class="form_update" method="POST" action="{{ route('actualizar_seleccionado',$pastel->codigo_pastel) }}" role="form">
+    <form id="form" class="form_update" method="POST" action="{{ route('actualizar_seleccionado_put',$pastel->codigo_pastel) }}" role="form">
     @csrf
     @method('PUT')
         <section id="seccion_principal">

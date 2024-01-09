@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,6 +11,7 @@
     <div class="dropzone" id="formDrop" style="display: none"></div>
     <title>Actualización de información</title>
 </head>
+
 <body>
 
     <!-- ///////////////////////////////////////////////////////////////////////////ENCABEZADO///////////////////////////////////////////////////////////////////////////////////////////// -->
@@ -19,27 +21,26 @@
         <!-- //////////////////////////////////////////LOGO/////////////////////////////////////////////// -->
         <a href="/InicioAdministración" id="regreso_pagina">← Regresar</a>
         <div id="bloq_izq">
-        <img src="{{ asset('images/LOGO_PANKEY1.png') }}" alt="LOGO_PANKEY" id="LogoPankey">
+            <img src="{{ asset('images/LOGO_PANKEY1.png') }}" alt="LOGO_PANKEY" id="LogoPankey">
         </div>
         <div id="bloq_der">
-        <h1>Actualización de información</h1>
+            <h1>Actualización de información</h1>
         </div>
         <input type="hidden" name="pasteles" value="{{json_encode($pasteles)}}" id="pasteles">
         <!-- //////////////////////////////////////////MENU/////////////////////////////////////////////// -->
 
-        
-       
     </header>
 
-    
-<div id="contenido_principal">
-<div id="Salto"></div>
-<form id="seccion_productos" method="POST" action="{{ route('actualizar_seleccionado') }}" role="form">
+    <div id="contenido_principal">
+        <div id="Salto"></div>
+        <form id="seccion_productos" method="GET" action="{{ route('actualizar_seleccionado_get') }}" role="form">
+            <input type="hidden" name="img" id="enlace_img">
+        </form>
 
-</form>
-    <script src="{{ asset('js/script_ActualizaciónDeInformación.js') }}"></script>
-</div>
+        <script src="{{ asset('js/script_ActualizaciónDeInformación.js') }}"></script>
+    </div>
 
-    
+
 </body>
+
 </html>

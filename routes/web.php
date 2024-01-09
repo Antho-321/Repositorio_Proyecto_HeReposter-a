@@ -28,8 +28,8 @@ Route::get('actualizar_producto',function(){
 Route::get('eliminar_producto',function(){
     $pasteles = DB::select('select * from pastel');
     return view('eliminar_producto',['pasteles'=>$pasteles]);
-}); 
+});
 Route::post('/ingreso_producto',[PastelController::class,'create'])->name('ingreso_producto');
-Route::get('/actualizar_seleccionado/{img}', [PastelController::class, 'show'])->where('img', '(http|https)://[A-Za-z0-9\.\-\/]+');
-Route::put('/actualizar_seleccionado/{img}', [PastelController::class, 'update'])->name('actualizar_seleccionado');
+Route::get('/actualizar_seleccionado', [PastelController::class, 'show'])->name('actualizar_seleccionado_get');
+Route::put('/actualizar_seleccionado/{img}', [PastelController::class, 'update'])->name('actualizar_seleccionado_put');
 Route::delete('/eliminar_seleccionado', [PastelController::class, 'destroy'])->name('eliminar_seleccionado');
