@@ -32,3 +32,4 @@ Route::get('eliminar_producto',function(){
 Route::post('/ingreso_producto',[PastelController::class,'create'])->name('ingreso_producto');
 Route::get('/actualizar_seleccionado/{img}', [PastelController::class, 'show'])->where('img', '(http|https)://[A-Za-z0-9\.\-\/]+');
 Route::put('/actualizar_seleccionado/{img}', [PastelController::class, 'update'])->name('actualizar_seleccionado');
+Route::delete('/eliminar_seleccionado', [PastelController::class, 'destroy'])->name('eliminar_seleccionado');

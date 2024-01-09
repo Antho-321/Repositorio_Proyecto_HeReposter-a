@@ -34,7 +34,9 @@
     
 <div id="contenido_principal">
 <div id="Salto"></div>
-<section id="seccion_productos"></section>
+<form id="seccion_productos" method="POST" action="{{ route('actualizar_seleccionado') }}" role="form">
+
+</form>
     <script src="{{ asset('js/script_ActualizaciónDeInformación.js') }}"></script>
 </div>
 

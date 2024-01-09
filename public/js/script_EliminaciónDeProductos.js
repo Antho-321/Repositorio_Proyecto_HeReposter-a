@@ -145,19 +145,9 @@ function myAsyncFunction(imagen) {
 function ProductoSeleccionado(event) {
     document.head.appendChild(estilo_Ingreso_Registro);
     producto=event.target.nextSibling.src;
-    div_aux2.innerHTML=`
-    <div class="Mensaje" id="Ventana">
-                <div class="btnHaciaDerecha">
-                    <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
-                </div>  
-                    <h2>¿Eliminar producto?</h2>
-                    <div id="botones">
-                    <button id="finalización_registro" onclick="eliminarProducto()">Aceptar</button>
-                    <button id="finalización_registro" onclick="CerrarVentana()">Cancelar</button>
-                    <div>
-                    
-            </div>
-    `;  
+    document.getElementById("enlace_imagen").value=producto;
+    console.log("enlace: "+producto);
+    document.getElementById("Ventana").removeAttribute("style");
 }
 function eliminarProducto(){
     const srcString = producto;

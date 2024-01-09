@@ -149,10 +149,16 @@ $pastel = Pastel::findOrFail($codigo_pastel);
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $codigo_pastel)
+    public function destroy(Request $request)
     {
-        Pastel::find($codigo_pastel)->delete();
-        return redirect()->route('pastel.index')->with('success', 'Registro
-eliminado satisfactoriamente');
+        $img=$request->input('img');
+        // Busca el pastel por el atributo img
+        $pastel = Pastel::where('img', $img)->first();
+        // Delete the product
+        $pastel->delete();
+
+        // Redirect to a certain route after deletion
+        return view('/InicioAdministración');
+    
     }
 }
