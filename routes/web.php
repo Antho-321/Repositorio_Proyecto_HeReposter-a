@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\PastelController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
@@ -15,9 +16,7 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource('/', ClienteController::class);
 
 Route::view('/InicioAdministración','InicioAdministración');
 Route::view('/ingreso_producto','ingreso_producto');

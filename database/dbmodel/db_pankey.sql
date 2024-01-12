@@ -101,6 +101,7 @@ create table detalles_pedido
    id_varios            int,
    cantidad             decimal,
    precio               int,
+   img  varchar(300),
    primary key (detalle_id)
 );
 
