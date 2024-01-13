@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_Index.css') }}" id="estilo">
+    @yield('estilo_adicional')
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
     <title>Pankey</title>
 </head>
+
 <body>
     <input type="checkbox" id="check2">
     <header id="Cabecera">
@@ -42,26 +45,27 @@
                     <a href="CarritoDeCompras.php">
                         <img src="{{ asset('images/carro-de-la-carretilla.png') }}" type="button" value="Catalogo">
                     </a>
-                    <img onclick="mostrarBúsqueda()" src="{{ asset('images/lupa1.png') }}" type="button" value="Catalogo">
+                    <img onclick="mostrarBúsqueda()" src="{{ asset('images/lupa1.png') }}" type="button"
+                        value="Catalogo">
                     <div id="seccion_busqueda">
                         <input type="search" id="búsqueda">
                     </div>
-                    <?php if (!isset($id)) { ?>
-                        <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
-                    <?php } else { ?>
-                        <button onclick="Logout()" id="Salida"><a>Salir</button>
-                    <?php } ?>
+                    @yield('content_btn_ingresar')
                 </section>
                 <label for="check" class="esconder_menu">
                     &#215
                 </label>
             </div>
         </div>
-        <div id="Salto">
-        </div>
+
+        <form action="{{ route('cliente.ingreso') }}" method="POST" id="Salto">
+            @csrf
+            @yield('content_envio_correo')
+        </form>
+
     </header>
     <div id="contenido_principal">
-    @yield('content')
+        @yield('content')
 
     </div>
 

@@ -67,7 +67,7 @@ estilo_Ingreso_Registro.innerHTML = `
 #VentanaForm *{
     color: black;
 }
-#Ventana{
+#Ventana, .Ventana{
     background-color: aliceblue !important;  
     width: 550px;
     height: 75vh;
@@ -85,7 +85,7 @@ estilo_Ingreso_Registro.innerHTML = `
 .Recuperación{
     height: 58vh !important;
 }
-#Ventana>*{
+#Ventana>*, .Ventana>*{
     background-color: transparent !important; 
 }
 label{
@@ -103,7 +103,7 @@ label{
     width: 100%;
     justify-content: flex-end;
 }
-#Ventana>input, #SinCuenta>input, .btnHaciaDerecha>input, #Ventana>button {
+#Ventana>input, .Ventana>input, #SinCuenta>input, .btnHaciaDerecha>input, #Ventana>button, .Ventana>button {
     border: 1px solid;
     border-color: black;   
     width: auto;
@@ -191,7 +191,7 @@ if (ubicación_página.substring(ubicación_página.lastIndexOf("/")) == "/Carri
             let aux_currentDate = new Date();
             aux_currentDate.setHours(0, 0, 0, 0);
             aux_currentDate.setDate(aux_currentDate.getDate() + 1);
-            
+
             if (inputDate.getTime() == aux_currentDate.getTime()) {
                 dia_mañana = true;
             } else {
@@ -614,8 +614,8 @@ function ProductosNoIngresados() {
 function finalizarPedido() {
     // MostrarMensaje("Por favor déjese de mamadas");
     if (fecha_valida == true && hora_valida == true) {
-        fecha_entrega.disabled=true;
-        hora_entrega.disabled=true;
+        fecha_entrega.disabled = true;
+        hora_entrega.disabled = true;
         let tabla_info = document.getElementsByClassName("tabla_info")[1];
         let scripts = document.getElementsByTagName("script");
         let script = document.createElement("script");
@@ -682,16 +682,16 @@ function MostrarVentanaDeIngreso() {
         document.head.appendChild(estilo_Ingreso_Registro);
     }
     divVentana.innerHTML = `
-            <form action="../php/enviar_correo_login.php" method="POST" class="Formulario_Ingreso" id="Ventana">
+    <div class="Formulario_Ingreso Ventana" id="Ventana">
                 <div class="btnHaciaDerecha">
                     <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
                 </div>
-                <form action="" id="Ventana">
+                <div action="" id="Ventana">
                     <h2>Ingresar</h2>
                     <label for="correo">Correo electrónico:</label>
-                    <input type="email" id="correo" name="Correo" class="entrada_texto">
+                    <input type="email" id="correo" name="email" class="entrada_texto">
                     <label for="contraseña">Contraseña:</label>
-                    <input type="password" id="contraseña" name="Contraseña" class="entrada_texto">
+                    <input type="password" id="contraseña" name="clave" class="entrada_texto">
                     <div class="btnHaciaDerecha">
                         <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?" onclick="MostrarVentanaRecuperación_Correo()">
                     </div>
@@ -700,13 +700,18 @@ function MostrarVentanaDeIngreso() {
                         <label for="contraseña">¿No tienes una cuenta?</label>
                         <input type="button" id="sin_cuenta" value="Registrarse" onclick="MostrarVentanaDeRegistro()">
                     </div>
-                </form>
-            </div>
+                </div>
+                </div>
     `;
     salto.appendChild(divVentana);
 }
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
 function MostrarVentanaDeRegistro() {
+
+    // Save the CSRF token element
+    let csrfToken = salto.querySelector('input[name="_token"]');
+
+    // Clear the innerHTML of the salto element
     salto.innerHTML = "";
     divVentana.innerHTML = `
     <div id="Ventana">
@@ -714,23 +719,27 @@ function MostrarVentanaDeRegistro() {
         <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
     </div>
     <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
-    <form action="../php/enviar_correo_registro.php" method="POST" class="Formulario_Registro" id="Ventana">
+    <div class="Formulario_Registro" id="Ventana">
         <h2>Registrarse</h2>
         <label for="correo">Correo electrónico:</label>
-        <input type="email" id="correo" name="Correo" class="entrada_texto">
+        <input type="email" id="correo" name="email" class="entrada_texto">
         <label for="contraseña">Contraseña:</label>
-        <input type="password" id="contraseña" name="Contraseña" class="entrada_texto">
+        <input type="password" id="contraseña" name="clave" class="entrada_texto">
         <label for="rep_contraseña">Repita la contraseña:</label>
         <input type="password" id="rep_contraseña" name="Rep_contraseña" class="entrada_texto">
         <!------LA FUNCIÓN runQuery está en el archivo script_Registro.js------>
         <button id="registro">Registrarse</button>
-            <label for="RegresarAIngreso">¿Ya tienes una cuenta?</label>
-            <input type="button" value="Ingresar" id="RegresarAIngreso" onclick="MostrarVentanaDeIngreso()">
+        <label for="RegresarAIngreso">¿Ya tienes una cuenta?</label>
+        <input type="button" value="Ingresar" id="RegresarAIngreso" onclick="MostrarVentanaDeIngreso()">
         <script src="../script/script_Registro.js"></script>
-    </form>
+    </div>
 </div>
     `;
     salto.appendChild(divVentana);
+    // Reinsert the CSRF token back into the salto element
+    if (csrfToken) {
+        salto.appendChild(csrfToken);
+    }
 }
 
 function MostrarVentanaRecuperación_Correo() {
@@ -781,7 +790,7 @@ function AgregarContenidoCarrito() {
     let myData = myAsyncFunction3();
     myData.then(result => {
         var datos_carrito_string = JSON.stringify(result);
-        localStorage.setItem('datos_carrito',datos_carrito_string)
+        localStorage.setItem('datos_carrito', datos_carrito_string)
         if (result.usuario == "noIngresado" || result.length == 0) {
             ProductosNoIngresados();
         }
