@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\DB;
 Route::get('/', [ClienteController::class, 'index'])->name('home');
 Route::resource('cliente', ClienteController::class);
 Route::post('/cliente/ingreso', [ClienteController::class, 'ingreso'])->name('cliente.ingreso');
-Route::get('/cliente/handleGoogleCallback', [ClienteController::class, 'handleGoogleCallback']);
 
 Route::view('/InicioAdministración','InicioAdministración');
 Route::view('/ingreso_producto','ingreso_producto');

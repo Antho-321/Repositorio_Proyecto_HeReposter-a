@@ -80,54 +80,26 @@ class ClienteController extends Controller
         $cliente = new Cliente();
         $cliente->fill($request->all());
 
-        // Retrieve the access token from the session or storage
-        $accessToken = $request->session()->get('access_token');
-        if (!$accessToken) {
-            // Initialize the Google Client
-            $client = new Client();
-            $client->setAuthConfig(storage_path('app/google-credentials.json'));
-            $client->setScopes(['https://www.googleapis.com/auth/gmail.send']);
-    
-            // Here, instead of redirecting for OAuth flow, you can use a refresh token to get a new access token
-            // Check if a refresh token is available
-            $refreshToken = $request->session()->get('refresh_token'); // or however you have stored the refresh token
-            if ($refreshToken) {
-                $client->fetchAccessTokenWithRefreshToken($refreshToken);
-                $newAccessToken = $client->getAccessToken();
-                $request->session()->put('access_token', $newAccessToken);
-                $accessToken = $newAccessToken;
-            } else {
-                // Handle the case where a refresh token is not available
-                // You might need to log this and handle it accordingly
-                Log::error("Refresh token not available.");
-                return response()->json(['error' => "Authentication required"], 401);
-            }
-        }
-
+        // Create a new Google Client
         $client = new Client();
+
         // Set the path to the JSON file with your credentials
         $client->setAuthConfig(storage_path('app/google-credentials.json'));
 
         // Set the required scopes
         $client->setScopes(['https://www.googleapis.com/auth/gmail.send']);
 
-        // Set the access token from the session
-        $client->setAccessToken($accessToken);
+        // Get and set the refresh token
+        $refreshToken = '1//04I03yTtUV79dCgYIARAAGAQSNwF-L9IrCDWIJy_5_nu5tuErUuFKoN55ZB87ZW6QPsfoNuRQtILriw2jCT9V_ca1Jgp47qGIYZY'; // Replace with your refresh token
+        $client->refreshToken($refreshToken);
 
-        // Check if the access token is expired and refresh it if necessary
-        if ($client->isAccessTokenExpired()) {
-            $refreshToken = $client->getRefreshToken();
-            $client->fetchAccessTokenWithRefreshToken($refreshToken);
-            // Store the new access token back into the session or your storage system
-        }
-
+        // Get the new access token
+        $accessToken = $client->getAccessToken();
         // Initialize the Gmail service with the configured client
         $service = new Gmail($client);
 
-
-
         // Construct the email message
-        $subject = 'Testing subject1 of Your Email';
+        $subject = 'Test3 Subject of Your Email';
         $bodyText = 'Your email body here';
         $emailBody = "To: anthonyluisluna225@gmail.com\r\n";
         $emailBody .= "Subject: $subject\r\n";
@@ -151,24 +123,6 @@ class ClienteController extends Controller
             // Log the detailed error message
             Log::error("Error in ingreso: " . $e->getMessage());
             return response()->json(['error' => "An error occurred: " . $e->getMessage()], 500);
-        }
-    }
-
-    public function handleGoogleCallback(Request $request)
-    {
-        try {
-            $googleClient = new Client();
-            $googleClient->setAuthConfig(storage_path('app/google-credentials.json'));
-            $googleClient->setRedirectUri('https://developers.google.com/oauthplayground');
-
-            $token = $googleClient->fetchAccessTokenWithAuthCode($request->code);
-            $request->session()->put('access_token', $token);
-
-            return view('cliente.envio_correo_registro');
-        } catch (\Exception $e) {
-            // Log the detailed error message
-            Log::error("Error in handleGoogleCallback: " . $e->getMessage());
-            return "An error occurred: " . $e->getMessage();
         }
     }
 }
