@@ -124,6 +124,7 @@ create table pedido
    cliente_id           int,
    fecha_pedido         date,
    fecha_entrega        date,
+   pedido_confirmado    boolean,
    primary key (pedido_id)
 );
 
