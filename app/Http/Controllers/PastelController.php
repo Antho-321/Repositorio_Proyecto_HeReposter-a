@@ -13,7 +13,6 @@ class PastelController extends Controller
      */
     public function index()
     {
-
         $pastel = Pastel::orderBy('codigo_pastel', 'DESC')->get();
         return view('pastel.index', compact('pastel'));
     }

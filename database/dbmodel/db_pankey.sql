@@ -51,7 +51,7 @@ create table auditoria
 /*==============================================================*/
 create table clientes
 (
-   cliente_id           int not null,
+   cliente_id           int not null AUTO_INCREMENT,
    cedula               varchar(10),
    nombre_cliente       varchar(50),
    telefono             numeric(10,0),
