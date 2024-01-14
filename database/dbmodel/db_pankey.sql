@@ -92,7 +92,8 @@ create table detalles_pedido
    cantidad             decimal,
    precio               int,
    img                  varchar(300),
-   categoria_id               int,
+   especificacion_adicional                varchar(100),
+   categoria_id         int,
    primary key (detalle_id)
 );
 
