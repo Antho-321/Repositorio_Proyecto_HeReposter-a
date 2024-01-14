@@ -180,6 +180,7 @@ create table tamanos_formas
    tamanos_formas_id    int not null,
    tamano_id            int,
    formas_id            int,
+   num_porciones        varchar(8),
    altura               decimal,
    longitud1            decimal,
    longitud2            decimal,
