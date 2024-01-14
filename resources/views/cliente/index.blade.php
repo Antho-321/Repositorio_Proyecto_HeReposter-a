@@ -1,3 +1,4 @@
+
 @extends('plantilla_cliente.plantilla')
 
 @section('content_btn_ingresar')
@@ -5,6 +6,7 @@
     if (isset($cliente)){
     $id = $cliente->cliente_id;
     }
+    Session::put('email_sent', false);
     @endphp
 
     @if (!isset($id))
@@ -13,7 +15,12 @@
     <button onclick="Logout()" id="Salida">Salir</button>
     @endif
 @endsection
-
+@section('content_envio_correo')
+<form action="{{ route('cliente.ingreso') }}" method="POST" id="Salto">
+    @csrf
+    
+</form>
+@endsection
 @section('content')
 <div id="DestacadoPrincipal">
     <ul>

@@ -57,11 +57,8 @@
                 </label>
             </div>
         </div>
-
-        <form action="{{ route('cliente.ingreso') }}" method="POST" id="Salto">
-            @csrf
-            @yield('content_envio_correo')
-        </form>
+        @yield('content_envio_correo')
+        
 
     </header>
     <div id="contenido_principal">

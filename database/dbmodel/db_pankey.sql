@@ -56,7 +56,7 @@ create table clientes
    nombre_cliente       varchar(50),
    telefono             numeric(10,0),
    direccion_domicilio  varchar(50),
-   email                varchar(25),
+   email                varchar(40),
    clave                varchar(10),
    primary key (cliente_id)
 );
