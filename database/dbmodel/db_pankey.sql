@@ -323,3 +323,12 @@ INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Mil
 INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Cheesecake', 0.009276214);
 INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Mousse', 0.006069417);
 INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Tres leches', 0.003570245);
+
+INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Bodas');
+INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Bautizos');
+INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('XV años');
+INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Cumpleaños');
+INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Baby Shower');
+INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('San Valentin');
+INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Halloween');
+INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Navidad');
