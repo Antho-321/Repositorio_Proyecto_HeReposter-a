@@ -299,6 +299,12 @@ INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`
 INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('1','4','100','4.5','64.75','45.35');
 INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('3','4','35-40','6','39.9','25');
 
+INSERT INTO `rellenos` (`relleno_descripcion`, `relleno_altura`, `relleno_precio_base_volumen`) VALUES ('Mermelada', NULL, NULL);
+INSERT INTO `rellenos` (`relleno_descripcion`, `relleno_altura`, `relleno_precio_base_volumen`) VALUES ('Glass de frutilla con crema', 0.75, 0.009185692);
+INSERT INTO `rellenos` (`relleno_descripcion`, `relleno_altura`, `relleno_precio_base_volumen`) VALUES ('Crema napolitana', 0.75, 0.01102283);
+INSERT INTO `rellenos` (`relleno_descripcion`, `relleno_altura`, `relleno_precio_base_volumen`) VALUES ('Durazno con crema', 0.75, 0.01102283);
+INSERT INTO `rellenos` (`relleno_descripcion`, `relleno_altura`, `relleno_precio_base_volumen`) VALUES ('Ninguno', 0, 0);
+
 INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Naranja', 0.002061381);
 INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Naranja y chocolate (Marmoleada)', 0.002061381);
 INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Vainilla', 0.002061381);
