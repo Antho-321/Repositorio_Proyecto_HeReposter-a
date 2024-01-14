@@ -4,33 +4,21 @@
 /*==============================================================*/
 
 
-drop table if exists auditoria;
-
-drop table if exists clientes;
-
-drop table if exists cobertura;
-
-drop table if exists comprobante_venta;
-
-drop table if exists detalles_pedido;
-
-drop table if exists formas;
-
-drop table if exists pedido;
-
-drop table if exists rellenos;
-
-drop table if exists roles;
-
-drop table if exists sabores;
-
-drop table if exists tamano;
-
-drop table if exists tamanos_formas;
-
-drop table if exists usuarios;
-
-drop table if exists varios;
+DROP TABLE IF EXISTS detalles_pedido;
+DROP TABLE IF EXISTS comprobante_venta;
+DROP TABLE IF EXISTS pedido;
+DROP TABLE IF EXISTS tamanos_formas;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS auditoria;
+DROP TABLE IF EXISTS clientes;
+DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS formas;
+DROP TABLE IF EXISTS tamano;
+DROP TABLE IF EXISTS tipo;
+DROP TABLE IF EXISTS rellenos;
+DROP TABLE IF EXISTS cobertura;
+DROP TABLE IF EXISTS sabores;
+DROP TABLE IF EXISTS varios;
 
 /*==============================================================*/
 /* Table: auditoria                                             */
@@ -95,6 +83,7 @@ create table detalles_pedido
    detalle_id           int not null AUTO_INCREMENT,
    pedido_id            int,
    tamanos_formas_id    int,
+   tipo_id            int,
    relleno_id           int,
    cobertura_id         int,
    sabores_id           int,
@@ -179,7 +168,7 @@ create table tipo
 (
    tipo_id            int not null AUTO_INCREMENT,
    tipo_descripcion   varchar(50),
-   primary key (tamano_id)
+   primary key (tipo_id)
 );
 
 /*==============================================================*/
