@@ -315,3 +315,11 @@ INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VAL
 INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Uva', 0.009276214);
 INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Manzana', 0.009276214);
 
+INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Normal (Con receta propia)', 0.002061381);
+INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Normal (Con premezcla)', 0.002983874);
+INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Especial (Con frutos secos)', 0.007214833);
+INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Bizcochuelo', 0.002061381);
+INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Milhojas', 0.002061381);
+INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Cheesecake', 0.009276214);
+INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Mousse', 0.006069417);
+INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Tres leches', 0.003570245);
