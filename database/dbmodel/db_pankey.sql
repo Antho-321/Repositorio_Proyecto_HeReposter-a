@@ -55,7 +55,7 @@ create table clientes
 /*==============================================================*/
 create table cobertura
 (
-   cobertura_id         int not null,
+   cobertura_id         int not null AUTO_INCREMENT,
    cobertura_descripcion varchar(100),
    cobertura_precio_base_volumen decimal(10, 9),
    primary key (cobertura_id)
@@ -148,7 +148,7 @@ create table roles
 /*==============================================================*/
 create table sabores
 (
-   sabores_id           int not null,
+   sabores_id           int not null AUTO_INCREMENT,
    sabores_descripcion  varchar(100),
    sabores_precio_base_volumen decimal(10, 9),
    primary key (sabores_id)
