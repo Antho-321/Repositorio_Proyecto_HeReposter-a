@@ -56,7 +56,7 @@ create table cobertura
 (
    cobertura_id         int not null,
    cobertura_descripcion varchar(100),
-   cobertura_volumen_precio_base decimal,
+   cobertura_precio_base_volumen decimal,
    primary key (cobertura_id)
 );
 
@@ -125,7 +125,7 @@ create table rellenos
    relleno_id           int not null,
    relleno_descripcion  varchar(50),
    relleno_altura       decimal,
-   relleno_volumen_precio_base decimal,
+   relleno_precio_base_volumen decimal,
    primary key (relleno_id)
 );
 
@@ -147,7 +147,7 @@ create table sabores
 (
    sabores_id           int not null,
    sabores_descripcion  varchar(100),
-   sabores_volumen_precio_base decimal,
+   sabores_precio_base_volumen decimal,
    primary key (sabores_id)
 );
 
@@ -168,6 +168,7 @@ create table tipo
 (
    tipo_id            int not null AUTO_INCREMENT,
    tipo_descripcion   varchar(50),
+   tipo_precio_base_volumen decimal,
    primary key (tipo_id)
 );
 
