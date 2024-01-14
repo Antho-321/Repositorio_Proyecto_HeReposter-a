@@ -57,7 +57,7 @@ create table cobertura
 (
    cobertura_id         int not null,
    cobertura_descripcion varchar(100),
-   cobertura_precio_base_volumen decimal,
+   cobertura_precio_base_volumen decimal(10, 9),
    primary key (cobertura_id)
 );
 
@@ -123,13 +123,13 @@ create table pedido
 /*==============================================================*/
 /* Table: rellenos                                              */
 /*==============================================================*/
-create table rellenos
+CREATE TABLE rellenos
 (
-   relleno_id           int not null AUTO_INCREMENT,
-   relleno_descripcion  varchar(50),
-   relleno_altura       decimal,
-   relleno_precio_base_volumen decimal,
-   primary key (relleno_id)
+   relleno_id int NOT NULL AUTO_INCREMENT,
+   relleno_descripcion varchar(50),
+   relleno_altura decimal(10, 2), -- Example with 2 decimal places
+   relleno_precio_base_volumen decimal(10, 9), -- Example with 9 decimal places
+   PRIMARY KEY (relleno_id)
 );
 
 /*==============================================================*/
@@ -150,7 +150,7 @@ create table sabores
 (
    sabores_id           int not null,
    sabores_descripcion  varchar(100),
-   sabores_precio_base_volumen decimal,
+   sabores_precio_base_volumen decimal(10, 9),
    primary key (sabores_id)
 );
 
@@ -171,7 +171,7 @@ create table tipo
 (
    tipo_id            int not null AUTO_INCREMENT,
    tipo_descripcion   varchar(50),
-   tipo_precio_base_volumen decimal,
+   tipo_precio_base_volumen decimal(10, 9),
    primary key (tipo_id)
 );
 
@@ -194,9 +194,9 @@ create table tamanos_formas
    tamano_id            int,
    formas_id            int,
    num_porciones        varchar(8),
-   altura               decimal,
-   longitud1            decimal,
-   longitud2            decimal,
+   altura               decimal(10, 9),
+   longitud1            decimal(10, 9),
+   longitud2            decimal(10, 9),
    primary key (tamanos_formas_id)
 );
 
