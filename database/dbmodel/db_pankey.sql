@@ -110,7 +110,7 @@ create table detalles_pedido
 /*==============================================================*/
 create table formas
 (
-   formas_id            int not null,
+   formas_id            int not null AUTO_INCREMENT,
    formas_descripcion   varchar(50),
    primary key (formas_id)
 );
@@ -167,7 +167,7 @@ create table sabores
 /*==============================================================*/
 create table tamano
 (
-   tamano_id            int not null,
+   tamano_id            int not null AUTO_INCREMENT,
    tamano_descripcion   varchar(50),
    primary key (tamano_id)
 );
@@ -177,7 +177,7 @@ create table tamano
 /*==============================================================*/
 create table tamanos_formas
 (
-   tamanos_formas_id    int not null,
+   tamanos_formas_id    int not null AUTO_INCREMENT,
    tamano_id            int,
    formas_id            int,
    num_porciones        varchar(8),
@@ -247,3 +247,35 @@ alter table tamanos_formas add constraint fk_formas_tamanosformas foreign key (f
 alter table tamanos_formas add constraint fk_tamano_tamanosformas foreign key (tamano_id)
       references tamano (tamano_id) on delete restrict on update restrict;
 
+/*==============================================================*/
+/* INSERCIONES                                             */
+/*==============================================================*/
+
+INSERT INTO `tamano`(`tamano_descripcion`) VALUES
+('Extra grande'),
+('Grande'),
+('Mediana'),
+('Pequeña'),
+('Mini');
+
+INSERT INTO `formas`(`formas_descripcion`) VALUES 
+('Redonda'),
+('Personalizada'),
+('Cuadrada'),
+('Rectangular');
+
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('1','1','70','8.90625','18.06408604',null);
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('2','1','30','8.4375','15.19929707',null);
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('3','1','16','6.09375','12.09577567',null);
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('4','1','10-12','5.15625','10.10633889',null);
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('5','1','5-6','4.6875','8.116902098',null);
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('1','2','66-68','8.90625','18.06408604',null);
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('2','2','26-28','8.4375','15.19929707',null);
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('3','2','12-14','6.09375','12.09577567',null);
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('4','2','8-10','5.15625','10.10633889',null);
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('5','2','2-4','4.6875','8.116902098',null);
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('2','3','50','5.9','40.45','40.05');
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('3','3','35-40','5.9','35.25','34.9');
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('4','3','20-25','5.7','24.5','24.25');
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('1','4','100','4.5','64.75','45.35');
+INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('3','4','35-40','6','39.9','25');
