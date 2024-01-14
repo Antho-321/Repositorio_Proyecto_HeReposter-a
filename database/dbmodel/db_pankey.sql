@@ -83,14 +83,15 @@ create table detalles_pedido
    detalle_id           int not null AUTO_INCREMENT,
    pedido_id            int,
    tamanos_formas_id    int,
-   tipo_id            int,
+   tipo_id              int,
    relleno_id           int,
    cobertura_id         int,
    sabores_id           int,
    id_varios            int,
    cantidad             decimal,
    precio               int,
-   img  varchar(300),
+   img                  varchar(300),
+   categoria_id               int,
    primary key (detalle_id)
 );
 
