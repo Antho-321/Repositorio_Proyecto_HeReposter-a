@@ -299,3 +299,13 @@ INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`
 INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('1','4','100','4.5','64.75','45.35');
 INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('3','4','35-40','6','39.9','25');
 
+INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Naranja', 0.002061381);
+INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Naranja y chocolate (Marmoleada)', 0.002061381);
+INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Vainilla', 0.002061381);
+INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Chocolate', 0.003607416);
+INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Maracuyá', 0.004122762);
+INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Fresa', 0.009276214);
+INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Limón', 0.009276214);
+INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Uva', 0.009276214);
+INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Manzana', 0.009276214);
+
