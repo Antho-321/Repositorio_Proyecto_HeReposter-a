@@ -173,6 +173,16 @@ create table tamano
 );
 
 /*==============================================================*/
+/* Table: tipo                                                */
+/*==============================================================*/
+create table tipo
+(
+   tipo_id            int not null AUTO_INCREMENT,
+   tipo_descripcion   varchar(50),
+   primary key (tamano_id)
+);
+
+/*==============================================================*/
 /* Table: tamanos_formas                                        */
 /*==============================================================*/
 create table tamanos_formas
@@ -232,6 +242,9 @@ alter table detalles_pedido add constraint fk_sabores_detallespedido foreign key
 alter table detalles_pedido add constraint fk_tamanoformas_detallespedido foreign key (tamanos_formas_id)
       references tamanos_formas (tamanos_formas_id) on delete restrict on update restrict;
 
+alter table detalles_pedido add constraint fk_tipo_detallespedido foreign key (tipo_id)
+      references tipo (tipo_id) on delete restrict on update restrict;
+
 alter table detalles_pedido add constraint fk_varios_detallespedido foreign key (id_varios)
       references varios (id_varios) on delete restrict on update restrict;
 
@@ -279,3 +292,4 @@ INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`
 INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('4','3','20-25','5.7','24.5','24.25');
 INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('1','4','100','4.5','64.75','45.35');
 INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('3','4','35-40','6','39.9','25');
+
