@@ -173,6 +173,16 @@ create table tipo
 );
 
 /*==============================================================*/
+/* Table: categoria                                                */
+/*==============================================================*/
+create table categoria
+(
+   categoria_id            int not null AUTO_INCREMENT,
+   categoria_descripcion   varchar(50),
+   primary key (categoria_id)
+);
+
+/*==============================================================*/
 /* Table: tamanos_formas                                        */
 /*==============================================================*/
 create table tamanos_formas
@@ -234,6 +244,9 @@ alter table detalles_pedido add constraint fk_tamanoformas_detallespedido foreig
 
 alter table detalles_pedido add constraint fk_tipo_detallespedido foreign key (tipo_id)
       references tipo (tipo_id) on delete restrict on update restrict;
+
+alter table detalles_pedido add constraint fk_categoria_detallespedido foreign key (categoria_id)
+      references categoria (categoria_id) on delete restrict on update restrict;
 
 alter table detalles_pedido add constraint fk_varios_detallespedido foreign key (id_varios)
       references varios (id_varios) on delete restrict on update restrict;
