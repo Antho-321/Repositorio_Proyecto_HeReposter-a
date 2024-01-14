@@ -125,7 +125,7 @@ create table pedido
 /*==============================================================*/
 create table rellenos
 (
-   relleno_id           int not null,
+   relleno_id           int not null AUTO_INCREMENT,
    relleno_descripcion  varchar(50),
    relleno_altura       decimal,
    relleno_precio_base_volumen decimal,
