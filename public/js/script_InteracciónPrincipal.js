@@ -250,31 +250,31 @@ if (contenido_categorías != null) {
 function AgregarContenido(CategoríaSeleccionada) {
     seccion_productos = document.getElementById("seccion_productos");
     if (CategoríaSeleccionada == "") {
-        let myData = myAsyncFunction("");
-        myData.then(
-            result => {
-                // Verificar si el resultado tiene la propiedad error
-                if (result.error) {
-                    // Mostrar el error por consola
-                    console.log(result.error);
-                } else {
-                    // Procesar el resultado como un arreglo de objetos
-                    let div_aux = document.createElement("div");
-                    for (let i = 0; i < result.length; i++) {
-                        let div = document.createElement("div");
-                        let imagen = document.createElement("img");
-                        let h3 = document.createElement("h3");
-                        imagen.src = result[i].img;
-                        h3.innerHTML = "Mostrar más información";
-                        div.appendChild(h3);
-                        h3.addEventListener("click", ProductoSeleccionado);
-                        div.appendChild(imagen);
-                        div_aux.appendChild(div);
-                    }
-                    seccion_productos.appendChild(div_aux);
-                }
-            }
-        );
+        // Seleccionar el input oculto por su nombre
+        let input = document.getElementById("pasteles");
+        // Obtener el valor del input, que es una cadena JSON
+        let value = input.value;
+        // Convertir la cadena JSON en un array de javascript
+        let array = JSON.parse(value);
+        // Mostrar el contenido del array en la consola
+        console.log(array);
+        // Procesar el resultado como un arreglo de objetos
+        let div_aux = document.createElement("div");
+        for (let i = 0; i < result.length; i++) {
+            let div = document.createElement("div");
+            let imagen = document.createElement("img");
+            let h3 = document.createElement("h3");
+            imagen.src = array[i].img;
+            h3.innerHTML = "Mostrar más información";
+            div.appendChild(h3);
+            h3.addEventListener("click", ProductoSeleccionado);
+            div.appendChild(imagen);
+            div_aux.appendChild(div);
+        }
+        seccion_productos.appendChild(div_aux);
+
+
+
 
     } else {
         if (CategoríaSeleccionada == " Navidad") {

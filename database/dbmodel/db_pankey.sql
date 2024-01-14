@@ -92,7 +92,7 @@ create table comprobante_venta
 /*==============================================================*/
 create table detalles_pedido
 (
-   detalle_id           int not null,
+   detalle_id           int not null AUTO_INCREMENT,
    pedido_id            int,
    tamanos_formas_id    int,
    relleno_id           int,

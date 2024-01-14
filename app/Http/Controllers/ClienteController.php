@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pastel;
 use App\Models\Cliente;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Google\Client;
-use Google\Service\Gmail;
-use Google\Service\Gmail\Message;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+
+use Google\Client;
+use Google\Service\Gmail;
+use Google\Service\Gmail\Message;
 
 class ClienteController extends Controller
 {
@@ -19,7 +22,8 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        return view('cliente.index');
+        $pastel = Pastel::orderBy('codigo_pastel', 'DESC')->get();
+        return view('cliente.index', compact('pastel'));
     }
 
     /**

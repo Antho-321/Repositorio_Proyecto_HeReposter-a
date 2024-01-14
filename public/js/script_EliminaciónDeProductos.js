@@ -1,6 +1,6 @@
 let producto;
 let estilo_Ingreso_Registro = document.createElement("style");
-let div_aux2=document.getElementById("Salto");
+let div_aux2 = document.getElementById("Salto");
 estilo_Ingreso_Registro.innerHTML = `
   body>div>h1, #seccion_productos {
     opacity: 0.5;
@@ -93,45 +93,40 @@ h3{
 window.onload = AgregarContenido("");
 function AgregarContenido(CategoríaSeleccionada) {
     seccion_productos = document.getElementById("seccion_productos");
-    //let div, imagen, h3, a;
-    //let div_aux = document.createElement("div");
-// Seleccionar el input oculto por su nombre
-let input = document.getElementById("pasteles");
-// Obtener el valor del input, que es una cadena JSON
-let value = input.value;
-// Convertir la cadena JSON en un array de javascript
-let array = JSON.parse(value);
-// Mostrar el contenido del array en la consola
-console.log(array);
+    // Seleccionar el input oculto por su nombre
+    let input = document.getElementById("pasteles");
+    // Obtener el valor del input, que es una cadena JSON
+    let value = input.value;
+    // Convertir la cadena JSON en un array de javascript
+    let array = JSON.parse(value);
+    // Mostrar el contenido del array en la consola
+    console.log(array);
+    let div_aux = document.createElement("div");
+    //console.log(Object.keys(result).length);
+    for (let i = 0; i < array.length; i++) {
+        let a = 15.0;
+        let div = document.createElement("div");
+        let imagen = document.createElement("img");
+        let h3 = document.createElement("h3");
+        imagen.src = array[i].img;
+        imagen.style.paddingRight = a + "px";
+        imagen.style.paddingTop = (a / 2) + "px";
+        h3.innerHTML = "Seleccionar producto";
+        div.appendChild(h3);
+        h3.addEventListener("click", ProductoSeleccionado);
+        div.appendChild(imagen);
+        div_aux.appendChild(div);
+    }
 
+    seccion_productos.appendChild(div_aux);
 
-        
-        let div_aux = document.createElement("div");
-        //console.log(Object.keys(result).length);
-        for (let i = 0; i < array.length; i++) {
-            let a = 15.0;
-            let div = document.createElement("div");
-            let imagen = document.createElement("img");
-            let h3 = document.createElement("h3");
-            imagen.src = array[i].img;
-            imagen.style.paddingRight = a + "px";
-            imagen.style.paddingTop = (a / 2) + "px";
-            h3.innerHTML = "Seleccionar producto";
-            div.appendChild(h3);
-            h3.addEventListener("click", ProductoSeleccionado);
-            div.appendChild(imagen);
-            div_aux.appendChild(div);
-        }
-
-        seccion_productos.appendChild(div_aux);
-   
 }
 function myAsyncFunction(imagen) {
     let encodedImagen;
-    if (imagen.includes("http")){
+    if (imagen.includes("http")) {
         encodedImagen = encodeURIComponent(imagen);
-    }else{
-        encodedImagen=imagen;
+    } else {
+        encodedImagen = imagen;
     }
     return new Promise((resolve, reject) => {
         fetch("../php/php_EliminacionDeproducto.php?imagen=" + encodedImagen)
@@ -144,21 +139,21 @@ function myAsyncFunction(imagen) {
 }
 function ProductoSeleccionado(event) {
     document.head.appendChild(estilo_Ingreso_Registro);
-    producto=event.target.nextSibling.src;
-    document.getElementById("enlace_imagen").value=producto;
-    console.log("enlace: "+producto);
+    producto = event.target.nextSibling.src;
+    document.getElementById("enlace_imagen").value = producto;
+    console.log("enlace: " + producto);
     document.getElementById("Ventana").removeAttribute("style");
 }
-function eliminarProducto(){
+function eliminarProducto() {
     const srcString = producto;
-        if (srcString.includes("imagenes")) {
-            let dirImg;
-            let num=srcString.indexOf("/imagenes");
-            dirImg=".."+srcString.substring(num);
-            myData=myAsyncFunction(dirImg);
-        }else{
-            myData = myAsyncFunction(producto);
-        }
+    if (srcString.includes("imagenes")) {
+        let dirImg;
+        let num = srcString.indexOf("/imagenes");
+        dirImg = ".." + srcString.substring(num);
+        myData = myAsyncFunction(dirImg);
+    } else {
+        myData = myAsyncFunction(producto);
+    }
     myData.then(result => {
         console.log(result);
     });

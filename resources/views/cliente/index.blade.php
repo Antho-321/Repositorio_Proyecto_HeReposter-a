@@ -3,6 +3,7 @@
 
 @section('content_btn_ingresar')
     @php
+    
     if (isset($cliente)){
     $id = $cliente->cliente_id;
     }
@@ -16,6 +17,7 @@
     @endif
 @endsection
 @section('content_envio_correo')
+<input type="hidden" name="pasteles" value="{{json_encode($pasteles)}}" id="pasteles">
 <form action="{{ route('cliente.ingreso') }}" method="POST" id="Salto">
     @csrf
     
