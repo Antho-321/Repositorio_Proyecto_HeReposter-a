@@ -195,8 +195,8 @@ create table tamanos_formas
    formas_id            int,
    num_porciones        varchar(8),
    altura               decimal(10, 9),
-   longitud1            decimal(10, 9),
-   longitud2            decimal(10, 9),
+   longitud1            decimal(10, 8),
+   longitud2            decimal(10, 8),
    primary key (tamanos_formas_id)
 );
 
