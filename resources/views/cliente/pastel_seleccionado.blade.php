@@ -30,7 +30,7 @@
     <div id="DestacadoPrincipal">
         <img src="{{$pastel->img}}"
             alt="imagenes">
-        <p>$12</p>
+        <p>${{$pastel->precio}}</p>
         <div id="seccion_cantidad">
             <label for="cantidad" id="label_cantidad">Cantidad:&nbsp;&nbsp;&nbsp;</label>
             <input type="button" id="disminuir_cantidad" value="-" onclick="disminuirCantidadProducto()">
@@ -53,7 +53,7 @@
                     <div class="col">
                     </div>
                     <div class="col" id="cuadros_dedicatoria">
-                        <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" value="">
+                        <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" value="">                   
                     </div>
                 </div>
             </div>
@@ -61,13 +61,13 @@
 
                 <div class="fila">
                     <p class="col">Porciones:</p>
-                    <p class="col">16</p>
+                    <p class="col">{{$pastel->getNumPorcionesPastel()}}</p>
                 </div>
                 <div class="fila">
                     <p class="col">Tipo de pastel:</p>
-                    <p class="col">Normal (Con receta propia)</p>
+                    <p class="col">{{$pastel->getTipoPastel()}}</p>
                     <p class="col">Cobertura:</p>
-                    <p class="col">Crema</p>
+                    <p class="col">{{$pastel->getCoberturaPastel()}}</p>
                 </div>
                 <div class="fila">
                     <p class="col">Sabor:</p>

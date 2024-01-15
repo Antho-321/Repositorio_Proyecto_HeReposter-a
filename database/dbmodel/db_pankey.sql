@@ -335,6 +335,10 @@ INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('San Valentin');
 INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Halloween');
 INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Navidad');
 
+INSERT INTO `cobertura` (`cobertura_descripcion`, `cobertura_precio_base_volumen`) VALUES ('Crema', '0.008338684');
+INSERT INTO `cobertura` (`cobertura_descripcion`, `cobertura_precio_base_volumen`) VALUES ('Fondant', '0.050032103');
+INSERT INTO `cobertura` (`cobertura_descripcion`, `cobertura_precio_base_volumen`) VALUES ('Ninguna', '0');
+
 SET FOREIGN_KEY_CHECKS=0;
 INSERT INTO `detalles_pedido` (`pedido_id`, `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `id_varios`, `cantidad`, `precio`, `img`, `especificacion_adicional`, `categoria_id`, `dedicatoria`) VALUES (null, '1', '1', '1', '1', '1', null, null, '20', 'https://th.bing.com/th/id/R.b042dade06440a9cf8c236b81ad2c4d8?rik=8ynKhjpIzp3%2bmA&pid=ImgRaw&r=0', null, '1', null);
 INSERT INTO `detalles_pedido` (`pedido_id`, `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `id_varios`, `cantidad`, `precio`, `img`, `especificacion_adicional`, `categoria_id`, `dedicatoria`) VALUES (null, '1', '1', '1', '1', '1', null, null, '10', 'https://th.bing.com/th/id/R.b40b59c817f0ec2c24a5097a457b2c58?rik=LSOvD1PsMJfxeA&pid=ImgRaw&r=0', null, '2', null);

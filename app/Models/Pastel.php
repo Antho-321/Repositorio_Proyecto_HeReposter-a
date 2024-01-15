@@ -29,7 +29,7 @@ class Pastel extends Model
         'dedicatoria'         
     ];
 
-    // Este es el método que te permite obtener un pastel por su imagen
+    // Este es el método que permite obtener un pastel por su imagen
     public function getPastelByImg($img)
     {
         // Usas el método where para filtrar los pasteles por la columna img
@@ -39,5 +39,29 @@ class Pastel extends Model
 
         // Devuelves el pastel encontrado o null si no hay ninguno
         return $pastel;
+    }
+    // Este es el método que permite obtener el número de porciones de un pastel
+    public function getNumPorcionesPastel()
+    {      
+        $tamanos_formas_id=$this->tamanos_formas_id;
+        $tamano_forma = Tamano_Forma::where('tamanos_formas_id', $tamanos_formas_id)->first();
+        $num_porciones=$tamano_forma->num_porciones;
+        return $num_porciones;
+    }
+    // Este es el método que permite obtener el nombre del tipo de un pastel
+    public function getTipoPastel()
+    {      
+        $tipo_id=$this->tipo_id;
+        $tipo = TipoPastel::where('tipo_id', $tipo_id)->first();
+        $nombre_tipo=$tipo->tipo_descripcion;
+        return $nombre_tipo;
+    }
+    // Este es el método que permite obtener el nombre de la cobertura de un pastel
+    public function getCoberturaPastel()
+    {      
+        $cobertura_id=$this->cobertura_id;
+        $cobertura = Cobertura::where('cobertura_id', $cobertura_id)->first();
+        $nombre_cobertura=$cobertura->cobertura_descripcion;
+        return $nombre_cobertura;
     }
 }
