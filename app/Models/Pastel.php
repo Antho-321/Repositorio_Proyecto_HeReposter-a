@@ -8,11 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class Pastel extends Model
 {
     // Especificar el nombre de la clave primaria
-    protected $primaryKey = 'codigo_pastel';
-    protected $table = "pastel";
+    protected $primaryKey = 'detalle_id';
+    protected $table = "detalles_pedido";
     public $timestamps = false;
     use HasFactory;
-    protected $fillable = ['codigo_pastel', 'categoria', 'tamano', 'masa', 'sabor', 'cobertura', 'relleno', 'descripcion', 'precio', 'porciones', 'img'];
+    protected $fillable = [
+        'detalle_id',           
+        'pedido_id',            
+        'tamanos_formas_id',    
+        'tipo_id',              
+        'relleno_id',           
+        'cobertura_id',         
+        'sabores_id',           
+        'id_varios',            
+        'cantidad',
+        'precio',               
+        'img',
+        'especificacion_adicional',
+        'categoria_id'         
+    ];
 
     // Este es el método que te permite obtener un pastel por su imagen
     public function getPastelByImg($img)

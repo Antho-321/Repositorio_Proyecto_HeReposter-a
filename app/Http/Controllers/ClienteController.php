@@ -22,8 +22,8 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $pastel = Pastel::orderBy('codigo_pastel', 'DESC')->get();
-        return view('cliente.index', compact('pastel'));
+        $pasteles = Pastel::orderBy('detalle_id', 'DESC')->get();
+        return view('cliente.index', compact('pasteles'));
     }
 
     /**
