@@ -7,7 +7,6 @@
     if (isset($cliente)){
     $id = $cliente->cliente_id;
     }
-    Session::put('email_sent', false);
     @endphp
 
     @if (!isset($id))
