@@ -25,7 +25,8 @@ class Pastel extends Model
         'precio',               
         'img',
         'especificacion_adicional',
-        'categoria_id'         
+        'categoria_id',
+        'dedicatoria'         
     ];
 
     // Este es el método que te permite obtener un pastel por su imagen
