@@ -28,7 +28,7 @@
 @endsection
 @section('content')
     <div id="DestacadoPrincipal">
-        <img src="https://th.bing.com/th/id/R.b042dade06440a9cf8c236b81ad2c4d8?rik=8ynKhjpIzp3%2bmA&amp;pid=ImgRaw&amp;r=0"
+        <img src="{{$pastel->img}}"
             alt="imagenes">
         <p>$12</p>
         <div id="seccion_cantidad">

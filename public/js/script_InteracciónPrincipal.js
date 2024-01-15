@@ -485,6 +485,8 @@ function ProductoSeleccionado(event, imagen, carritoInfo, cantidad_productos, ar
     }
     VerificaciónCuadroDeBúsqueda();
     estilo = document.getElementById("estilo");
+    document.getElementById("enlace_pastel").value=img;
+
     //estilo.href = "/styles/estilo_Modificación_ProductoSeleccionado.css";
     
     // myData.then(result => {

@@ -371,6 +371,9 @@ class ClienteController extends Controller
     }
     public function pastel_seleccionado(Request $request)
     {
-        return view('cliente.pastel_seleccionado');
+        $img=$request->input('img');
+        $pastel_search = new Pastel();
+        $pastel = $pastel_search->getPastelByImg($img);
+        return view('cliente.pastel_seleccionado', compact('pastel'));
     }
 }
