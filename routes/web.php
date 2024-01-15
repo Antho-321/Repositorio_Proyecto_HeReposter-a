@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 Route::get('/', [ClienteController::class, 'index'])->name('home');
 Route::resource('cliente', ClienteController::class);
 Route::post('/cliente/ingreso', [ClienteController::class, 'ingreso'])->name('cliente.ingreso');
+Route::post('/cliente/pastel_seleccionado', [ClienteController::class, 'pastel_seleccionado'])->name('cliente.pastel_seleccionado');
 
 Route::view('/InicioAdministración','InicioAdministración');
 Route::view('/ingreso_producto','ingreso_producto');

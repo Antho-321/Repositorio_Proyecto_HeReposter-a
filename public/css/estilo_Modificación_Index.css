@@ -16,7 +16,7 @@ body,
 #Contenido_Cabecera section,
 #DestacadoPrincipal ul,
 #seccion_productos>*:first-child,
-h3,
+.mostrar_informacion,
 footer,
 #Derechos {
     display: flex;
@@ -42,7 +42,7 @@ body,
 
 body,
 h1,
-h3 {
+.mostrar_informacion {
     margin: 0px;
 }
 
@@ -65,7 +65,7 @@ body {
 #Contenido_Cabecera section,
 #Menu_Catalogo,
 #seccion_busqueda,
-h3,
+.mostrar_informacion,
 footer,
 #Derechos {
     align-items: center;
@@ -88,9 +88,9 @@ footer,
 label,
 input:hover,
 a:hover,
-button:hover,
+h3,
 #seccion_iconos img,
-h3:hover {
+.mostrar_informacion:hover {
     cursor: pointer;
 }
 
@@ -122,12 +122,12 @@ h3:hover {
 #Menu_Catalogo,
 #seccion_busqueda,
 #check2,
-h3 {
+.mostrar_informacion {
     position: absolute;
 }
 
 #Menu_Catalogo,
-h3 {
+.mostrar_informacion {
     z-index: 1;
 }
 
@@ -137,7 +137,7 @@ h3 {
 
 input:hover,
 a:hover,
-button:hover,
+h3,
 #Catalogo:hover .Btn_Catalogo {
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
@@ -151,7 +151,7 @@ h1 {
 #seccion_busqueda,
 #Salto,
 #seccion_productos>div,
-h3,
+.mostrar_informacion,
 footer,
 #Derechos {
     justify-content: center;
@@ -205,7 +205,7 @@ button {
 input,
 #seccion_botones a,
 h1,
-h3 {
+.mostrar_informacion {
     letter-spacing: 1.4px;
 }
 
@@ -250,7 +250,7 @@ a {
 #DestacadoPrincipal li,
 #DestacadoPrincipal img,
 #seccion_productos>*:first-child,
-#seccion_productos>div>div>img,
+#seccion_productos>div>*>img,
 footer {
     width: 100%;
 }
@@ -259,7 +259,7 @@ footer {
     height: 25px;
     background-color: black;
     color: aliceblue;
-}
+    }
 
 body>a:hover {
     all: initial;
@@ -329,7 +329,7 @@ body>a:hover {
 
 /* FIN DE SLIDER*/
 h1,
-h3 {
+.mostrar_informacion {
     font: normal normal normal 1.6vw/1.4em Sanseriffic;
 }
 
@@ -343,42 +343,43 @@ h1 {
     padding: 0px 15px;
 }
 
-#seccion_productos>div>div,
-h3 {
+#seccion_productos>div>*,
+.mostrar_informacion {
     width: 295px;
 }
 
-#seccion_productos>div>div,
-#seccion_productos>div>div>img,
-h3 {
+#seccion_productos>div>*,
+#seccion_productos>div>*>img,
+.mostrar_informacion {
     height: 302.5px;
 }
 
 #seccion_productos>div,
-#seccion_productos>div>div {
+#seccion_productos>div>* {
     display: inline-block;
     position: relative;
 }
 
-#seccion_productos>div>div {
+#seccion_productos>div>* {
     padding: 2.5%;
 }
 
 #seccion_productos>*:first-child {
     flex-wrap: wrap;
     padding-bottom: 2.5%;
+    padding-top: 40px;
 }
 
-h3 {
+.mostrar_informacion {
     font-size: 20px;
     opacity: 0;
 }
 
-h3:hover {
+.mostrar_informacion:hover {
     opacity: 1;
 }
 
-h3:hover+img {
+.mostrar_informacion:hover+img {
     opacity: 0.3;
     transition: initial;
 }

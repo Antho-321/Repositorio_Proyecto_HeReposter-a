@@ -263,9 +263,10 @@ function AgregarContenido(CategoríaSeleccionada) {
         for (let i = 0; i < array.length; i++) {
             let div = document.createElement("div");
             let imagen = document.createElement("img");
-            let h3 = document.createElement("h3");
+            let h3 = document.createElement("button");
             imagen.src = array[i].img;
             h3.innerHTML = "Mostrar más información";
+            h3.className="mostrar_informacion";
             div.appendChild(h3);
             h3.addEventListener("click", ProductoSeleccionado);
             div.appendChild(imagen);
@@ -465,7 +466,7 @@ function ProductoSeleccionado(event, imagen, carritoInfo, cantidad_productos, ar
     }
     if (carritoInfo == "si") {
         carritoInfo = "Actualizar información";
-        myData = myAsyncFunction(imagen);
+        //myData = myAsyncFunction(imagen);
         img = imagen;
     } else {
         const srcString = event.target.nextSibling.src;
@@ -475,99 +476,100 @@ function ProductoSeleccionado(event, imagen, carritoInfo, cantidad_productos, ar
             let dirImg;
             let num = srcString.indexOf("/imagenes");
             dirImg = ".." + srcString.substring(num);
-            myData = myAsyncFunction(dirImg);
+            //myData = myAsyncFunction(dirImg);
         } else {
-            myData = myAsyncFunction(event.target.nextSibling.src);
+            //myData = myAsyncFunction(event.target.nextSibling.src);
         }
         img = event.target.nextSibling.src;
     }
     VerificaciónCuadroDeBúsqueda();
     estilo = document.getElementById("estilo");
-    estilo.href = "../styles/estilo_Modificación_ProductoSeleccionado.css";
-    myData.then(result => {
-        id_producto = result[0].codigo_producto;
-        precio_producto = result[0].precio;
-        descripción_adicional = result[0].descripcion;
-        porciones = result[0].porciones;
-        masa = result[0].masa;
-        cobertura = result[0].cobertura;
-        sabor = result[0].sabor;
-        relleno = result[0].relleno;
-        contenido_principal.innerHTML = `
-            <div id="DestacadoPrincipal">
-                <img src="`+ img + `" alt="imagenes">
-                <p>$`+ precio_producto + `</p>
-                <div id="seccion_cantidad">
-                    <label for="cantidad" id="label_cantidad">Cantidad:&nbsp;&nbsp;&nbsp;</label>
-                    <input type="button" id="disminuir_cantidad" value="-" onclick="disminuirCantidadProducto()">
-                    <input type="number" id="cantidad" name="cantidad" value="`+ cantidad_productos + `" readonly>
-                    <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadProducto()">
-                </div>
-                <div id="seccion_envio">
-                    <input type="button" value="`+ carritoInfo + `" onclick="enviarInfoACarrito('` + carritoInfo + `')">
-                    <div>
-                        <p>Producto/s ingresado/s</p>
-                    </div>
-                </div>
-            </div>
-            <div id="infoDetallada">
-                <div>
-                <p id="infoAdicional">`+ descripción_adicional + `</p>
-                <div class="tabla_info">
-                    <div class="fila">
-                        <p class="col" id="texto_dedicatoria">Dedicatoria para el pedido:</p>
-                        <div class="col">
-                        </div>
-                        <div class="col" id="cuadros_dedicatoria">
-                            <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" value="`+ primer_dedicatoria + `">
-                        </div>              
-                    </div>
-                </div>
-                <div class="tabla_info">
+    //estilo.href = "/styles/estilo_Modificación_ProductoSeleccionado.css";
+    
+    // myData.then(result => {
+    //     id_producto = result[0].codigo_producto;
+    //     precio_producto = result[0].precio;
+    //     descripción_adicional = result[0].descripcion;
+    //     porciones = result[0].porciones;
+    //     masa = result[0].masa;
+    //     cobertura = result[0].cobertura;
+    //     sabor = result[0].sabor;
+    //     relleno = result[0].relleno;
+    //     contenido_principal.innerHTML = `
+    //         <div id="DestacadoPrincipal">
+    //             <img src="`+ img + `" alt="imagenes">
+    //             <p>$`+ precio_producto + `</p>
+    //             <div id="seccion_cantidad">
+    //                 <label for="cantidad" id="label_cantidad">Cantidad:&nbsp;&nbsp;&nbsp;</label>
+    //                 <input type="button" id="disminuir_cantidad" value="-" onclick="disminuirCantidadProducto()">
+    //                 <input type="number" id="cantidad" name="cantidad" value="`+ cantidad_productos + `" readonly>
+    //                 <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadProducto()">
+    //             </div>
+    //             <div id="seccion_envio">
+    //                 <input type="button" value="`+ carritoInfo + `" onclick="enviarInfoACarrito('` + carritoInfo + `')">
+    //                 <div>
+    //                     <p>Producto/s ingresado/s</p>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //         <div id="infoDetallada">
+    //             <div>
+    //             <p id="infoAdicional">`+ descripción_adicional + `</p>
+    //             <div class="tabla_info">
+    //                 <div class="fila">
+    //                     <p class="col" id="texto_dedicatoria">Dedicatoria para el pedido:</p>
+    //                     <div class="col">
+    //                     </div>
+    //                     <div class="col" id="cuadros_dedicatoria">
+    //                         <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" value="`+ primer_dedicatoria + `">
+    //                     </div>              
+    //                 </div>
+    //             </div>
+    //             <div class="tabla_info">
                     
-                    <div class="fila">
-                        <p class="col">Porciones:</p>
-                        <p class="col">`+ porciones + `</p>
-                    </div>
-                    <div class="fila">
-                        <p class="col">Tipo de pastel:</p>
-                        <p class="col">`+ masa + `</p>
-                        <p class="col">Cobertura:</p>
-                        <p class="col">`+ cobertura + `</p>
-                    </div>
-                    <div class="fila">
-                        <p class="col">Sabor:</p>
-                        <p class="col">`+ sabor + `</p>
-                        <p class="col">Relleno:</p>
-                        <p class="col">`+ relleno + `</p>
-                    </div>
-                    <div class="fila">
-                        <p class="col" id="txtadicional">Especificación adicional:</p>
-                        <div class="col" id="adicional">
-                            <textarea name="espAdicional" id="espAdicional" placeholder="(Opcional)">`+ req_Adicional + `</textarea>
-                        </div>
+    //                 <div class="fila">
+    //                     <p class="col">Porciones:</p>
+    //                     <p class="col">`+ porciones + `</p>
+    //                 </div>
+    //                 <div class="fila">
+    //                     <p class="col">Tipo de pastel:</p>
+    //                     <p class="col">`+ masa + `</p>
+    //                     <p class="col">Cobertura:</p>
+    //                     <p class="col">`+ cobertura + `</p>
+    //                 </div>
+    //                 <div class="fila">
+    //                     <p class="col">Sabor:</p>
+    //                     <p class="col">`+ sabor + `</p>
+    //                     <p class="col">Relleno:</p>
+    //                     <p class="col">`+ relleno + `</p>
+    //                 </div>
+    //                 <div class="fila">
+    //                     <p class="col" id="txtadicional">Especificación adicional:</p>
+    //                     <div class="col" id="adicional">
+    //                         <textarea name="espAdicional" id="espAdicional" placeholder="(Opcional)">`+ req_Adicional + `</textarea>
+    //                     </div>
                         
-                    </div>
-                </div>
-                </div>
-            </div>
-            `;
-        if (descripción_adicional == "") {
-            document.getElementById("infoAdicional").remove();
-        }
-        let dedicatorias = document.getElementsByName("dedicatoria");
-        for (let i = 0; i < dedicatorias.length; i++) {
-            dedicatorias[i].addEventListener("click", quitarPlaceHolder);
-        }
-        document.getElementById("espAdicional").addEventListener("click", quitarPlaceHolder);
-        if (carritoInfo == "Actualizar información") {
-            cantidadInput = document.getElementById("cantidad");
-            Dedicatorias(cantidadInput);
-            opciones = document.getElementById("num_dedicatorias");
-            opciones.value = arreglo_dedicatorias.length;
-            AgregarHermanosSelect(arreglo_dedicatorias)
-        }
-    });
+    //                 </div>
+    //             </div>
+    //             </div>
+    //         </div>
+    //         `;
+    //     if (descripción_adicional == "") {
+    //         document.getElementById("infoAdicional").remove();
+    //     }
+    //     let dedicatorias = document.getElementsByName("dedicatoria");
+    //     for (let i = 0; i < dedicatorias.length; i++) {
+    //         dedicatorias[i].addEventListener("click", quitarPlaceHolder);
+    //     }
+    //     document.getElementById("espAdicional").addEventListener("click", quitarPlaceHolder);
+    //     if (carritoInfo == "Actualizar información") {
+    //         cantidadInput = document.getElementById("cantidad");
+    //         Dedicatorias(cantidadInput);
+    //         opciones = document.getElementById("num_dedicatorias");
+    //         opciones.value = arreglo_dedicatorias.length;
+    //         AgregarHermanosSelect(arreglo_dedicatorias)
+    //     }
+    // });
 }
 function funcCategoríaSeleccionada(event) {
     document.getElementById("est_ver_categorías").remove();

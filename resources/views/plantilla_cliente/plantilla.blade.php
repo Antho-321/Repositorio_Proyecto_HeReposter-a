@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_Index.css') }}" id="estilo">
-    @yield('estilo_adicional')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @yield('estilo')
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
     <title>Pankey</title>
 </head>
@@ -50,7 +50,21 @@
                     <div id="seccion_busqueda">
                         <input type="search" id="búsqueda">
                     </div>
-                    @yield('content_btn_ingresar')
+                    @php
+                        $cliente = Session::get('cliente');
+                        if (isset($cliente)) {
+                            $id = $cliente->getClienteByEmail($cliente->email);
+                        }
+                    @endphp
+                    @if (!isset($id))
+                        <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
+                    @else
+                        <form action="{{ route('cliente.index') }}" method="GET">
+                            @csrf
+                            <input type="hidden" name="cerrar_sesion" value="true">
+                            <button id="Salida">Salir</button>
+                        </form>
+                    @endif
                 </section>
                 <label for="check" class="esconder_menu">
                     &#215
@@ -58,7 +72,7 @@
             </div>
         </div>
         @yield('content_envio_correo')
-        
+
 
     </header>
     <div id="contenido_principal">

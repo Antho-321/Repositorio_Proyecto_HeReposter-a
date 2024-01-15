@@ -1,19 +1,6 @@
 @extends('plantilla_cliente.plantilla')
-@section('content_btn_ingresar')
-    @php
-        $cliente=Session::get('cliente');
-        if (isset($cliente)) {
-            $id = $cliente->getClienteByEmail($cliente->email);
-        }
-    @endphp
-    @if (!isset($id))
-        <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
-    @else 
-        <form action="{{ route('cliente.index') }}" method="GET">
-            <input type="hidden" name="cerrar_sesion" value="true">
-            <button id="Salida">Salir</button>
-        </form>
-    @endif
+@section('estilo')
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_Index.css') }}" id="estilo">
 @endsection
 @section('content_envio_correo')
     <input type="hidden" name="pasteles" value="{{ json_encode(Session::get('pasteles')) }}" id="pasteles">
@@ -32,7 +19,9 @@
         </ul>
     </div>
     <h1>PRODUCTOS DESTACADOS</h1>
-    <section id="seccion_productos"></section>
+    <form action="{{ route('cliente.pastel_seleccionado') }}" method="POST" id="seccion_productos">
+        @csrf
+    </form>
     <script src="{{ asset('js/script_querys.js') }}"></script>
     <script src="{{ asset('js/script_InteracciónPrincipal.js') }}"></script>
 @endsection

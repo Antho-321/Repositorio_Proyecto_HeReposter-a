@@ -2,15 +2,9 @@
     use Illuminate\Support\Facades\Session;
 @endphp
 @extends('plantilla_cliente.plantilla')
-@section('estilo_adicional')
+@section('estilo')
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_Index.css') }}" id="estilo">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_envio_correo_registro.css') }}">
-@endsection
-@section('content_btn_ingresar')
-    @if (!isset($id))
-        <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
-    @else
-        <button onclick="Logout()" id="Salida">Salir</button>
-    @endif
 @endsection
 @section('content_envio_correo')
 <div id="Salto">

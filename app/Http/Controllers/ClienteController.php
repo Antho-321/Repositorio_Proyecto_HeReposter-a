@@ -368,7 +368,9 @@ class ClienteController extends Controller
             Log::error("Error in ingreso: " . $e->getMessage());
             return response()->json(['error' => "An error occurred: " . $e->getMessage()], 500);
         }
-
-
+    }
+    public function pastel_seleccionado(Request $request)
+    {
+        return view('cliente.pastel_seleccionado');
     }
 }
