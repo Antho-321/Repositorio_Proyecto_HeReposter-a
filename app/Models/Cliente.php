@@ -19,4 +19,15 @@ class Cliente extends Model
         'email',
         'clave'
     ];
+    // Este es el método que te permite obtener un cliente por su email
+    public function getClienteByEmail($email)
+    {
+        // Usas el método where para filtrar los pasteles por la columna img
+        // y usas el método first para obtener el primero que cumpla la condición
+        
+        $cliente = Cliente::where('email', $email)->first();
+
+        // Devuelves el pastel encontrado o null si no hay ninguno
+        return $cliente;
+    }
 }

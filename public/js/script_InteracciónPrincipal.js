@@ -707,7 +707,8 @@ function MostrarVentanaDeIngreso() {
 }
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
 function MostrarVentanaDeRegistro() {
-
+    let registro=document.getElementById("registro");
+    registro.value="true";
     // Save the CSRF token element
     let csrfToken = salto.querySelector('input[name="_token"]');
 

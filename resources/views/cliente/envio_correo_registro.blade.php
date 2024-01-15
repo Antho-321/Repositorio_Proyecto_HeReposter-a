@@ -21,7 +21,7 @@
                 <div class="btnHaciaDerecha">
                     <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana(event)">
                 </div>
-                <h2>REGISTRARSE</h2>
+                <h2>{{ucfirst(Session::get('tipo_ingreso_aux'))}}</h2>
                 <label id="texto_info" for="correo">Ingrese el código enviado a su correo electrónico. Por favor revise la
                     carpeta de correo no deseado si no lo encuentra.</label>
                 @if (Session::has('codigo_correcto'))
@@ -31,7 +31,11 @@
                     @endif
                 @endif
                 <input type="number" id="código" name="random" class="entrada_texto">
-                <button id="finalización_registro">Finalizar registro</button>
+                @if (Session::get('tipo_ingreso_aux')=="ingresar")
+                    <button id="finalización_registro">Ingresar</button>
+                @else
+                    <button id="finalización_registro">Finalizar registro</button>
+                @endif
                 <div></div>
             </div>
 
