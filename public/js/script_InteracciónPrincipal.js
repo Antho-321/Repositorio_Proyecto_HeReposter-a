@@ -151,6 +151,30 @@ catalogo.addEventListener("mouseover", function () {
 });
 if (seccion_productos != null) {
     window.onload = AgregarContenido("");
+    window.onload = function() {
+        // Function to adjust width for first N children
+        function adjustWidthForNChildren(n) {
+            var container = document.querySelector('.contenedor_imagenes');
+            var children = container.children;
+            var totalWidth = 0;
+    
+            // Calculate the sum of the widths of the first N children
+            for (var i = 0; i < n && i < children.length; i++) {
+                totalWidth += children[i].offsetWidth;
+            }
+    
+            // Set the width of the container
+            container.style.width = totalWidth + 'px';
+        }
+    
+        // Call the function for the first N children
+        adjustWidthForNChildren(3); // Replace 3 with any number of children you want to sum
+    
+        // Optional: Adjust on window resize if dynamic changes are expected
+        window.onresize = function() {
+            adjustWidthForNChildren(3); // Replace 3 with the same number as above
+        };
+    };
 }
 if (ubicación_página.substring(ubicación_página.lastIndexOf("/")) == "/CarritoDeCompras.php") {
     window.onload = AgregarContenidoCarrito();
@@ -260,6 +284,7 @@ function AgregarContenido(CategoríaSeleccionada) {
         console.log(array);
         // Procesar el resultado como un arreglo de objetos
         let div_aux = document.createElement("div");
+        div_aux.className="contenedor_imagenes";
         for (let i = 0; i < array.length; i++) {
             let div = document.createElement("div");
             let imagen = document.createElement("img");

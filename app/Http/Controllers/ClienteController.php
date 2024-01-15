@@ -23,7 +23,7 @@ class ClienteController extends Controller
     public function index(Request $request)
     {
         if ($request->input('cerrar_sesion') == "true") {
-            session()->flush();
+            session()->forget('cliente');
         }
         $pasteles = Pastel::orderBy('detalle_id', 'DESC')->get();
         Session::put('pasteles', $pasteles);
