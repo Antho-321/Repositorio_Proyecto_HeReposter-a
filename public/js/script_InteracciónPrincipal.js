@@ -260,7 +260,7 @@ function AgregarContenido(CategoríaSeleccionada) {
         console.log(array);
         // Procesar el resultado como un arreglo de objetos
         let div_aux = document.createElement("div");
-        for (let i = 0; i < result.length; i++) {
+        for (let i = 0; i < array.length; i++) {
             let div = document.createElement("div");
             let imagen = document.createElement("img");
             let h3 = document.createElement("h3");
