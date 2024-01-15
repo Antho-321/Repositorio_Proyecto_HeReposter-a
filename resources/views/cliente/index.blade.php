@@ -17,7 +17,7 @@
     @endif
 @endsection
 @section('content_envio_correo')
-<input type="hidden" name="pasteles" value="{{json_encode($pasteles)}}" id="pasteles">
+<input type="hidden" name="pasteles" value="{{json_encode(Session::get('pasteles'))}}" id="pasteles">
 <form action="{{ route('cliente.ingreso') }}" method="POST" id="Salto">
     @csrf
     

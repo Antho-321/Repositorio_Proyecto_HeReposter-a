@@ -15,7 +15,7 @@
 @section('content_envio_correo')
 <div id="Salto">
     <div id="VentanaForm">
-        <form action="{{ route('cliente.create', $cliente) }}" method="PUT">
+        <form action="{{ route('cliente.create') }}" method="PUT">
             @csrf
             <div id="Ventana" class="Recuperación">
                 <div class="btnHaciaDerecha">

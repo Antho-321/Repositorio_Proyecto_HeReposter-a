@@ -23,7 +23,8 @@ class ClienteController extends Controller
     public function index()
     {
         $pasteles = Pastel::orderBy('detalle_id', 'DESC')->get();
-        return view('cliente.index', compact('pasteles'));
+        Session::put('pasteles', $pasteles);
+        return view('cliente.index');
     }
 
     /**
@@ -101,7 +102,7 @@ class ClienteController extends Controller
      */
     public function ingreso(Request $request)
     {
-        if (Session::get('email_sent')==false) {
+        
                 $cliente = new Cliente();
                 $cliente->fill($request->all());
                 // Ensure that the email field is not empty
@@ -347,20 +348,15 @@ HTML;
                     $service->users_messages->send('me', $message);
                     Session::put('random', $random);
                     Session::put('cliente', $cliente);
-                    // Set email_sent session variable to prevent resending
-                    Session::put('email_sent', true);
+                    
                     // Return the view after sending the email
-                    return view('cliente.envio_correo_registro', compact('cliente'));
+                    return view('cliente.envio_correo_registro');
                 } catch (\Exception $e) {
                     // Log the detailed error message
                     Log::error("Error in ingreso: " . $e->getMessage());
                     return response()->json(['error' => "An error occurred: " . $e->getMessage()], 500);
                 }
             
-        } else {
-            // Email has already been sent, return to a different view or handle accordingly
-            $cliente = Session::get('cliente');
-            return view('cliente.envio_correo_registro', compact('cliente'));
-        }
+         
     }
 }
