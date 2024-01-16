@@ -115,10 +115,10 @@ create table pedido
 (
    pedido_id            int not null AUTO_INCREMENT,
    cliente_id           int,
-   fecha_pedido         date,
+   fecha_pedido         date DEFAULT NOW(),
    fecha_entrega        date,
    hora_entrega         time,
-   pedido_confirmado    boolean,
+   pedido_confirmado    boolean DEFAULT false,
    primary key (pedido_id)
 );
 
@@ -340,10 +340,11 @@ INSERT INTO `cobertura` (`cobertura_descripcion`, `cobertura_precio_base_volumen
 INSERT INTO `cobertura` (`cobertura_descripcion`, `cobertura_precio_base_volumen`) VALUES ('Ninguna', '0');
 
 SET FOREIGN_KEY_CHECKS=0;
-INSERT INTO `detalles_pedido` (`pedido_id`, `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `id_varios`, `cantidad`, `precio`, `img`, `especificacion_adicional`, `categoria_id`, `dedicatoria`) VALUES (null, '1', '1', '1', '1', '1', null, null, '20', 'https://th.bing.com/th/id/R.b042dade06440a9cf8c236b81ad2c4d8?rik=8ynKhjpIzp3%2bmA&pid=ImgRaw&r=0', null, '1', null);
-INSERT INTO `detalles_pedido` (`pedido_id`, `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `id_varios`, `cantidad`, `precio`, `img`, `especificacion_adicional`, `categoria_id`, `dedicatoria`) VALUES (null, '1', '1', '1', '1', '1', null, null, '10', 'https://th.bing.com/th/id/R.b40b59c817f0ec2c24a5097a457b2c58?rik=LSOvD1PsMJfxeA&pid=ImgRaw&r=0', null, '2', null);
-INSERT INTO `detalles_pedido` (`pedido_id`, `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `id_varios`, `cantidad`, `precio`, `img`, `especificacion_adicional`, `categoria_id`, `dedicatoria`) VALUES (null, '1', '1', '1', '1', '1', null, null, '18', 'https://sallysbakingaddiction.com/wp-content/uploads/2013/04/triple-chocolate-cake-4.jpg', null, '1', null);
-INSERT INTO `detalles_pedido` (`pedido_id`, `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `id_varios`, `cantidad`, `precio`, `img`, `especificacion_adicional`, `categoria_id`, `dedicatoria`) VALUES (null, '1', '1', '1', '1', '1', null, null, '27', 'https://th.bing.com/th/id/OIP.-vDV59NDSrLbo5SKb2jxggHaF3?pid=ImgDet&rs=1', null, '4', null);
-INSERT INTO `detalles_pedido` (`pedido_id`, `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `id_varios`, `cantidad`, `precio`, `img`, `especificacion_adicional`, `categoria_id`, `dedicatoria`) VALUES (null, '1', '1', '1', '1', '1', null, null, '68', 'https://th.bing.com/th/id/R.46fb8a09fc2f95a905b4342a428bd1fd?rik=C3KVdZ9n6YOTIw&pid=ImgRaw&r=0', null, '5', null);
-INSERT INTO `detalles_pedido` (`pedido_id`, `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `id_varios`, `cantidad`, `precio`, `img`, `especificacion_adicional`, `categoria_id`, `dedicatoria`) VALUES (null, '1', '1', '1', '1', '1', null, null, '90', 'https://www.recipetineats.com/wp-content/uploads/2020/08/My-best-Vanilla-Cake_9-SQ.jpg', null, '1', null);
+INSERT INTO `detalles_pedido` ( `pedido_id`, `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `id_varios`, `cantidad`, `precio`, `img`, `especificacion_adicional`, `categoria_id`, `dedicatoria`) VALUES
+(NULL, 1, 1, 1, 1, 1, NULL, NULL, 20, 'https://th.bing.com/th/id/R.b042dade06440a9cf8c236b81ad2c4d8?rik=8ynKhjpIzp3%2bmA&pid=ImgRaw&r=0', NULL, 1, NULL),
+(NULL, 2, 4, 2, 2, 4, NULL, NULL, 10, 'https://th.bing.com/th/id/R.b40b59c817f0ec2c24a5097a457b2c58?rik=LSOvD1PsMJfxeA&pid=ImgRaw&r=0', NULL, 2, NULL),
+(NULL, 1, 1, 1, 1, 1, NULL, NULL, 18, 'https://sallysbakingaddiction.com/wp-content/uploads/2013/04/triple-chocolate-cake-4.jpg', NULL, 1, NULL),
+(NULL, 1, 1, 1, 1, 1, NULL, NULL, 27, 'https://th.bing.com/th/id/OIP.-vDV59NDSrLbo5SKb2jxggHaF3?pid=ImgDet&rs=1', NULL, 4, NULL),
+(NULL, 1, 1, 1, 1, 1, NULL, NULL, 68, 'https://th.bing.com/th/id/R.46fb8a09fc2f95a905b4342a428bd1fd?rik=C3KVdZ9n6YOTIw&pid=ImgRaw&r=0', NULL, 5, NULL),
+(NULL, 1, 1, 1, 1, 1, NULL, NULL, 90, 'https://www.recipetineats.com/wp-content/uploads/2020/08/My-best-Vanilla-Cake_9-SQ.jpg', NULL, 1, NULL);
 SET FOREIGN_KEY_CHECKS=1;

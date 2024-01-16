@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\PastelController;
+use App\Http\Controllers\PedidoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 
 Route::resource('cliente', ClienteController::class);
 
+Route::get('/cliente.ingreso_carrito/{pastel}', [PedidoController::class,'create'])->name('cliente.ingreso_carrito');
 
 Route::controller(ClienteController::class)->group(function(){
     Route::get('/', 'index')->name('home');
@@ -27,7 +29,7 @@ Route::controller(ClienteController::class)->group(function(){
     Route::get('/cliente.sobre_nosotros', 'show')->name('cliente.sobre_nosotros');
     Route::get('/cliente.pasteles_personalizados', 'pasteles_personalizados')->name('cliente.pasteles_personalizados');
     Route::get('/cliente.categoria_seleccionada', 'categoria_seleccionada')->name('cliente.categoria_seleccionada');
-    Route::get('/cliente.ingreso_carrito/{pastel}', 'ingreso_carrito')->name('cliente.ingreso_carrito');
+    Route::get('/cliente.carrito', 'carrito')->name('cliente.carrito');
 });
 
 Route::view('/InicioAdministración','InicioAdministración');

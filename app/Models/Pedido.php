@@ -13,11 +13,20 @@ class Pedido extends Model
     public $timestamps = false;
     use HasFactory;
     protected $fillable = [
-        'pedido_id',            
-        'cliente_id',  
-        'fecha_pedido', 
+        'pedido_id',
+        'cliente_id',
+        'fecha_pedido',
         'fecha_entrega',
-        'hora_entrega', 
-        'pedido_confirmado'  
+        'hora_entrega',
+        'pedido_confirmado'
     ];
+    public function getPedidosNoConfirmadosPorCliente($cliente_id)
+    {
+        $pedidos = Pedido::where([
+            ['pedido_confirmado', false],
+            ['cliente_id', $cliente_id]
+        ])->get();
+        return $pedidos;
+    }
+
 }

@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pastel;
-use App\Models\Pedido;
 use App\Models\Cliente;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\DB;
 
 use Google\Client;
 use Google\Service\Gmail;
@@ -361,7 +359,7 @@ class ClienteController extends Controller
             Session::put('cliente', $cliente);
             // Return the view after sending the email
             Session::put('tipo_ingreso_aux', $tipo_ingreso_aux);
-            return view('cliente.envio_correo_registro');
+            return view('cliente.envio_correo');
         } catch (\Exception $e) {
             // Log the detailed error message
             Log::error("Error in ingreso: " . $e->getMessage());
@@ -389,10 +387,7 @@ class ClienteController extends Controller
         return view("cliente.categoria_seleccionada", compact('array_categoria_pasteles'));
     }
 
-    public function ingreso_carrito(Pastel $pastel, Request $request){
-        $codigo_pastel=$pastel->detalle_id;
-        $pedido = new Pedido();
-        $pedido->fill($request->all());
-        return $codigo_pastel;
+    public function carrito(){
+        return view('cliente.carrito');
     }
 }

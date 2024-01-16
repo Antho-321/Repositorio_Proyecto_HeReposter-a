@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    @yield('comprobante_venta')
     <input type="checkbox" id="check2">
     <header id="Cabecera">
         <div id="Contenido_Cabecera">
@@ -23,11 +24,12 @@
             <div id="botones_iconos">
                 <section id="seccion_botones">
                     <a href="/">Inicio</a>
-                    <a href="{{ route('cliente.sobre_nosotros')}}">Sobre nosotros</a>
+                    <a href="{{ route('cliente.sobre_nosotros') }}">Sobre nosotros</a>
                     <div id="Catalogo">
                         <input class="Btn_Catalogo" type="button" value="Catalogo">
                         <div>
-                            <form id="Menu_Catalogo" action="{{ route('cliente.categoria_seleccionada') }}" method="GET">
+                            <form id="Menu_Catalogo" action="{{ route('cliente.categoria_seleccionada') }}"
+                                method="GET">
                                 @csrf
                                 <input type="hidden" name="categoria_value" id="nombre_categoria">
                                 <button class="categoria"value="Bodas">Bodas</button>
@@ -41,10 +43,10 @@
                             </form>
                         </div>
                     </div>
-                    <a href="{{ route('cliente.pasteles_personalizados')}}">Pasteles personalizados</a>
+                    <a href="{{ route('cliente.pasteles_personalizados') }}">Pasteles personalizados</a>
                 </section>
                 <section id="seccion_iconos">
-                    <a href="CarritoDeCompras.php">
+                    <a href="{{ route('cliente.carrito') }}">
                         <img src="{{ asset('images/carro-de-la-carretilla.png') }}" type="button" value="Catalogo">
                     </a>
                     <img onclick="mostrarBúsqueda()" src="{{ asset('images/lupa1.png') }}" type="button"
@@ -54,18 +56,15 @@
                     </div>
                     @php
                         $cliente = Session::get('cliente');
-                        if (isset($cliente)) {
-                            $id = $cliente->getClienteByEmail($cliente->email);
-                        }
                     @endphp
-                    @if (!isset($id))
-                        <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
-                    @else
+                    @if (isset($cliente))
                         <form action="{{ route('cliente.index') }}" method="GET">
                             @csrf
                             <input type="hidden" name="cerrar_sesion" value="true">
                             <button id="Salida">Salir</button>
                         </form>
+                    @else
+                        <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
                     @endif
                 </section>
                 <label for="check" class="esconder_menu">
@@ -77,8 +76,8 @@
 
 
     </header>
-    
-        @yield('content')
+
+    @yield('content')
 
     <footer>
         <div id="Derechos">

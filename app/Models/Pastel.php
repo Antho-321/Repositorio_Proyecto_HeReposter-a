@@ -51,6 +51,10 @@ class Pastel extends Model
         // Devuelves el pastel encontrado o null si no hay ninguno
         return $pasteles;
     }
+    public function getPastelesByPedidoId($pedido_id){
+        $pasteles = Pastel::where('pedido_id', $pedido_id)->get();
+        return $pasteles;
+    }
     // Este es el método que permite obtener el número de porciones de un pastel
     public function getNumPorcionesPastel()
     {      

@@ -28,6 +28,7 @@
 @endsection
 @section('content')
 <form id="contenido_principal" action="{{ route('cliente.ingreso_carrito',$pastel) }}" method="GET">
+    @csrf
     <div id="DestacadoPrincipal">
         <img src="{{$pastel->img}}" alt="imagenes" name="img">
         <p>${{$pastel->precio}}</p>
