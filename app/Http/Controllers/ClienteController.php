@@ -76,7 +76,7 @@ class ClienteController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('cliente.sobre_nosotros');
     }
 
     /**
@@ -375,5 +375,18 @@ class ClienteController extends Controller
         $pastel_search = new Pastel();
         $pastel = $pastel_search->getPastelByImg($img);
         return view('cliente.pastel_seleccionado', compact('pastel'));
+    }
+    
+    public function pasteles_personalizados(){
+        return "ESTAMOS TESTEANDO";
+    }
+
+    public function categoria_seleccionada(Request $request){
+        $categoria= $request->input('categoria_value');
+        $pastel_search = new Pastel();
+        
+        $pasteles = $pastel_search->getPastelesByCategoria($categoria);
+        $array_categoria_pasteles=array($categoria,$pasteles);
+        return view("cliente.categoria_seleccionada", compact('array_categoria_pasteles'));
     }
 }

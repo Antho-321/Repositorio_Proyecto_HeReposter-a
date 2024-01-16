@@ -575,34 +575,38 @@ function ProductoSeleccionado(event, imagen, carritoInfo, cantidad_productos, ar
     // });
 }
 function funcCategoríaSeleccionada(event) {
-    document.getElementById("est_ver_categorías").remove();
-    VerificaciónCuadroDeBúsqueda();
-    let título = event.target.value;
-    let h1 = document.getElementsByTagName("h1")[0];
-    let destacado_principal = document.getElementById("DestacadoPrincipal");
-    seccion_productos = document.getElementById("seccion_productos");
-    if (document.getElementById("est_CategoríaSel") == null) {
-        document.head.appendChild(estilo_aux_CategoríaSel);
-    }
-    if (destacado_principal != null) {
-        destacado_principal.remove();
-    }
-    if (seccion_productos != null) {
-        document.querySelector("#seccion_productos>div").remove();
-    } else {
-        contenido_principal.innerHTML = `
-        <h1 align="center">`+ título + `</h1>
-        <section id="seccion_productos"></section>
-        `;
-        document.getElementById("estilo").href = "../styles/estilo_Modificación_Index.css";;
-    }
-    if (h1 == undefined) {
-        h1 = document.getElementsByTagName("h1")[0];
-    }
-    h1.innerHTML = título;
-    h1.align = "center";
-    AgregarContenido(título);
+    // Your custom logic
+    console.log(event.target.innerHTML); 
+    document.getElementById("nombre_categoria").value = event.target.innerHTML;
 }
+// document.getElementById("est_ver_categorías").remove();
+    // VerificaciónCuadroDeBúsqueda();
+    // let título = event.target.value;
+    // let h1 = document.getElementsByTagName("h1")[0];
+    // let destacado_principal = document.getElementById("DestacadoPrincipal");
+    // seccion_productos = document.getElementById("seccion_productos");
+    // if (document.getElementById("est_CategoríaSel") == null) {
+    //     document.head.appendChild(estilo_aux_CategoríaSel);
+    // }
+    // if (destacado_principal != null) {
+    //     destacado_principal.remove();
+    // }
+    // if (seccion_productos != null) {
+    //     document.querySelector("#seccion_productos>div").remove();
+    // } else {
+    //     contenido_principal.innerHTML = `
+    //     <h1 align="center">`+ título + `</h1>
+    //     <section id="seccion_productos"></section>
+    //     `;
+    //     document.getElementById("estilo").href = "../styles/estilo_Modificación_Index.css";;
+    // }
+    // if (h1 == undefined) {
+    //     h1 = document.getElementsByTagName("h1")[0];
+    // }
+    // h1.innerHTML = título;
+    // h1.align = "center";
+    // AgregarContenido(título);
+
 function VerificaciónCuadroDeBúsqueda() {
     let est_búsqueda = document.getElementById("estilo_búsqueda");
     if (est_búsqueda != null) {

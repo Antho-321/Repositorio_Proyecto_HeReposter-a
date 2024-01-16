@@ -16,10 +16,18 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/', [ClienteController::class, 'index'])->name('home');
+
 Route::resource('cliente', ClienteController::class);
-Route::post('/cliente/ingreso', [ClienteController::class, 'ingreso'])->name('cliente.ingreso');
-Route::post('/cliente/pastel_seleccionado', [ClienteController::class, 'pastel_seleccionado'])->name('cliente.pastel_seleccionado');
+
+
+Route::controller(ClienteController::class)->group(function(){
+    Route::get('/', 'index')->name('home');
+    Route::post('/cliente/ingreso',  'ingreso')->name('cliente.ingreso');
+    Route::post('/cliente/pastel_seleccionado', 'pastel_seleccionado')->name('cliente.pastel_seleccionado');
+    Route::get('/cliente.sobre_nosotros', 'show')->name('cliente.sobre_nosotros');
+    Route::get('/cliente.pasteles_personalizados', 'pasteles_personalizados')->name('cliente.pasteles_personalizados');
+    Route::get('/cliente.categoria_seleccionada', 'categoria_seleccionada')->name('cliente.categoria_seleccionada');
+});
 
 Route::view('/InicioAdministración','InicioAdministración');
 Route::view('/ingreso_producto','ingreso_producto');

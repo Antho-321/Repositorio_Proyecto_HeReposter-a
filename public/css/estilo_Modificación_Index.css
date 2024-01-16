@@ -627,3 +627,18 @@ footer {
     /* Ensures no part of the image spills out of the container */
 }
 
+.categoria {
+    border-radius: 3px !important;
+    text-align: center !important;
+    font: normal normal normal 18px/1.4em Sanseriffic !important;
+    background-color: transparent !important;
+    border: .5vw solid transparent !important;
+    color: #1f1f1f !important;
+    min-width: 100px !important;
+}
+
+.categoria:hover {
+    cursor: pointer !important;
+    color: #7c7c7c41 !important;
+    transition: .4s !important;
+}

@@ -40,6 +40,17 @@ class Pastel extends Model
         // Devuelves el pastel encontrado o null si no hay ninguno
         return $pastel;
     }
+    // Este es el método que permite obtener un conjunto de pasteles por su categoria
+    public function getPastelesByCategoria($categoria_descripcion)
+    {
+        // Usas el método where para filtrar los pasteles por la columna img
+        // y usas el método first para obtener el primero que cumpla la condición
+        $categoria_search = new Categoria();
+        $categoria_id = $categoria_search->getCategoriaId($categoria_descripcion);
+        $pasteles = Pastel::where('categoria_id', $categoria_id)->get();
+        // Devuelves el pastel encontrado o null si no hay ninguno
+        return $pasteles;
+    }
     // Este es el método que permite obtener el número de porciones de un pastel
     public function getNumPorcionesPastel()
     {      
@@ -63,5 +74,21 @@ class Pastel extends Model
         $cobertura = Cobertura::where('cobertura_id', $cobertura_id)->first();
         $nombre_cobertura=$cobertura->cobertura_descripcion;
         return $nombre_cobertura;
+    }
+    // Este es el método que permite obtener el nombre del sabor de un pastel
+    public function getSaborPastel()
+    {      
+        $sabores_id=$this->sabores_id;
+        $sabores = Sabor::where('sabores_id', $sabores_id)->first();
+        $nombre_sabor=$sabores->sabores_descripcion;
+        return $nombre_sabor;
+    }
+    // Este es el método que permite obtener el nombre del sabor de un pastel
+    public function getRellenoPastel()
+    {      
+        $relleno_id=$this->relleno_id;
+        $relleno = Relleno::where('relleno_id', $relleno_id)->first();
+        $nombre_relleno=$relleno->relleno_descripcion;
+        return $nombre_relleno;
     }
 }

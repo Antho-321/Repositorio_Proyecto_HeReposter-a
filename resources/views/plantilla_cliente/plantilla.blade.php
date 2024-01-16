@@ -22,24 +22,26 @@
             </label>
             <div id="botones_iconos">
                 <section id="seccion_botones">
-                    <a href="/index">Inicio</a>
-                    <a href="/SobreNosotros">Sobre nosotros</a>
+                    <a href="/">Inicio</a>
+                    <a href="{{ route('cliente.sobre_nosotros')}}">Sobre nosotros</a>
                     <div id="Catalogo">
                         <input class="Btn_Catalogo" type="button" value="Catalogo">
                         <div>
-                            <div id="Menu_Catalogo">
-                                <input type="button" value="Bodas">
-                                <input type="button" value="Bautizos">
-                                <input type="button" value="XV años">
-                                <input type="button" value="Cumpleaños">
-                                <input type="button" value="Baby Shower">
-                                <input type="button" value="San Valentin">
-                                <input type="button" value="Halloween">
-                                <input type="button" value="Navidad">
-                            </div>
+                            <form id="Menu_Catalogo" action="{{ route('cliente.categoria_seleccionada') }}" method="GET">
+                                @csrf
+                                <input type="hidden" name="categoria_value" id="nombre_categoria">
+                                <button class="categoria"value="Bodas">Bodas</button>
+                                <button class="categoria"value="Bautizos">Bautizos</button>
+                                <button class="categoria"value="XV años">XV años</button>
+                                <button class="categoria"value="Cumpleaños">Cumpleaños</button>
+                                <button class="categoria"value="Baby Shower">Baby Shower</button>
+                                <button class="categoria"value="San Valentin">San Valentin</button>
+                                <button class="categoria"value="Halloween">Halloween</button>
+                                <button class="categoria"value="Navidad">Navidad</button>
+                            </form>
                         </div>
                     </div>
-                    <a href="PastelesPersonalizados.php">Pasteles personalizados</a>
+                    <a href="{{ route('cliente.pasteles_personalizados')}}">Pasteles personalizados</a>
                 </section>
                 <section id="seccion_iconos">
                     <a href="CarritoDeCompras.php">

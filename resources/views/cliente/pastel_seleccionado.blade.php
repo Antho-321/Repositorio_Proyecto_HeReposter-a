@@ -71,9 +71,9 @@
                 </div>
                 <div class="fila">
                     <p class="col">Sabor:</p>
-                    <p class="col">Naranja</p>
+                    <p class="col">{{$pastel->getSaborPastel()}}</p>
                     <p class="col">Relleno:</p>
-                    <p class="col">Mermelada de frutilla</p>
+                    <p class="col">{{$pastel->getRellenoPastel()}}</p>
                 </div>
                 <div class="fila">
                     <p class="col" id="txtadicional">Especificación adicional:</p>
