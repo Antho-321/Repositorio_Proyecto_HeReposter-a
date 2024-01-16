@@ -74,7 +74,7 @@ class ClienteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
         return view('cliente.sobre_nosotros');
     }
@@ -384,7 +384,7 @@ class ClienteController extends Controller
     public function categoria_seleccionada(Request $request){
         $categoria= $request->input('categoria_value');
         $pastel_search = new Pastel();
-        
+
         $pasteles = $pastel_search->getPastelesByCategoria($categoria);
         $array_categoria_pasteles=array($categoria,$pasteles);
         return view("cliente.categoria_seleccionada", compact('array_categoria_pasteles'));
