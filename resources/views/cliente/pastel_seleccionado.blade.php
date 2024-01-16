@@ -27,9 +27,9 @@
     </form>
 @endsection
 @section('content')
+<form id="contenido_principal" action="{{ route('cliente.ingreso_carrito',$pastel) }}" method="GET">
     <div id="DestacadoPrincipal">
-        <img src="{{$pastel->img}}"
-            alt="imagenes">
+        <img src="{{$pastel->img}}" alt="imagenes" name="img">
         <p>${{$pastel->precio}}</p>
         <div id="seccion_cantidad">
             <label for="cantidad" id="label_cantidad">Cantidad:&nbsp;&nbsp;&nbsp;</label>
@@ -38,15 +38,11 @@
             <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadProducto()">
         </div>
         <div id="seccion_envio">
-            <input type="button" value="Añadir al carrito" onclick="enviarInfoACarrito('Añadir al carrito')">
-            <div>
-                <p>Producto/s ingresado/s</p>
-            </div>
+            <button value="Añadir al carrito">Añadir al carrito</button>
         </div>
     </div>
     <div id="infoDetallada">
         <div>
-
             <div class="tabla_info">
                 <div class="fila">
                     <p class="col" id="texto_dedicatoria">Dedicatoria para el pedido:</p>
@@ -85,4 +81,5 @@
             </div>
         </div>
     </div>
+</form>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pastel;
+use App\Models\Pedido;
 use App\Models\Cliente;
 
 use Illuminate\Http\Request;
@@ -108,8 +109,6 @@ class ClienteController extends Controller
      */
     public function ingreso(Request $request)
     {
-        
-
         $cliente = new Cliente();
         $cliente->fill($request->all());
         // Ensure that the email field is not empty
@@ -388,5 +387,12 @@ class ClienteController extends Controller
         $pasteles = $pastel_search->getPastelesByCategoria($categoria);
         $array_categoria_pasteles=array($categoria,$pasteles);
         return view("cliente.categoria_seleccionada", compact('array_categoria_pasteles'));
+    }
+
+    public function ingreso_carrito(Pastel $pastel, Request $request){
+        $codigo_pastel=$pastel->detalle_id;
+        $pedido = new Pedido();
+        $pedido->fill($request->all());
+        return $codigo_pastel;
     }
 }

@@ -27,6 +27,7 @@ Route::controller(ClienteController::class)->group(function(){
     Route::get('/cliente.sobre_nosotros', 'show')->name('cliente.sobre_nosotros');
     Route::get('/cliente.pasteles_personalizados', 'pasteles_personalizados')->name('cliente.pasteles_personalizados');
     Route::get('/cliente.categoria_seleccionada', 'categoria_seleccionada')->name('cliente.categoria_seleccionada');
+    Route::get('/cliente.ingreso_carrito/{pastel}', 'ingreso_carrito')->name('cliente.ingreso_carrito');
 });
 
 Route::view('/InicioAdministración','InicioAdministración');

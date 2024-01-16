@@ -10,6 +10,7 @@
     </form>
 @endsection
 @section('content')
+<div id="contenido_principal">
     <h1>{{$array_categoria_pasteles[0]}}</h1>
     <form action="{{ route('cliente.pastel_seleccionado') }}" method="POST" id="seccion_productos">
         @csrf
@@ -17,4 +18,5 @@
     </form>
     <script src="{{ asset('js/script_querys.js') }}"></script>
     <script src="{{ asset('js/script_InteracciónPrincipal.js') }}"></script>
+</div>
 @endsection

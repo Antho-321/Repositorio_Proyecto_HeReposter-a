@@ -38,6 +38,7 @@
 </div>
 @endsection
 @section('content')
+<div id="contenido_principal">
     <div id="DestacadoPrincipal">
         <ul>
             <li><img src="{{ asset('images/Slider1.jpg') }}" alt=""></li>
@@ -50,4 +51,5 @@
     <section id="seccion_productos"></section>
     <script src="{{ asset('js/script_querys.js') }}"></script>
     <script src="{{ asset('js/script_InteracciónPrincipal.js') }}"></script>
+</div>
 @endsection

@@ -77,10 +77,8 @@
 
 
     </header>
-    <div id="contenido_principal">
+    
         @yield('content')
-
-    </div>
 
     <footer>
         <div id="Derechos">

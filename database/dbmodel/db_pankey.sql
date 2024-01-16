@@ -113,7 +113,7 @@ create table formas
 /*==============================================================*/
 create table pedido
 (
-   pedido_id            int not null,
+   pedido_id            int not null AUTO_INCREMENT,
    cliente_id           int,
    fecha_pedido         date,
    fecha_entrega        date,
