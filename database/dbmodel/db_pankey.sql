@@ -5,6 +5,7 @@
 
 
 DROP TABLE IF EXISTS detalles_pedido;
+DROP TABLE IF EXISTS pastel;
 DROP TABLE IF EXISTS comprobante_venta;
 DROP TABLE IF EXISTS pedido;
 DROP TABLE IF EXISTS tamanos_formas;
@@ -83,18 +84,8 @@ create table detalles_pedido
 (
    detalle_id           int not null AUTO_INCREMENT,
    pedido_id            int,
-   tamanos_formas_id    int,
-   tipo_id              int,
-   relleno_id           int,
-   cobertura_id         int,
-   sabores_id           int,
    id_varios            int,
-   cantidad             decimal,
-   precio               int,
-   img                  varchar(300),
-   especificacion_adicional                varchar(100),
-   categoria_id         int,
-   dedicatoria          varchar(300),
+   pastel_id            int,
    primary key (detalle_id)
 );
 
@@ -106,6 +97,26 @@ create table formas
    formas_id            int not null AUTO_INCREMENT,
    formas_descripcion   varchar(50),
    primary key (formas_id)
+);
+
+/*==============================================================*/
+/* Table: pastel                                                */
+/*==============================================================*/
+create table pastel
+(
+   pastel_id            int not null AUTO_INCREMENT,
+   tamanos_formas_id    int,
+   tipo_id              int,
+   relleno_id           int,
+   cobertura_id         int,
+   sabores_id           int,
+   cantidad             int,
+   precio               decimal,
+   img                  varchar(300),
+   especificacion_adicional                varchar(100),
+   categoria_id         int,
+   dedicatoria          varchar(300),
+   primary key (pastel_id)
 );
 
 /*==============================================================*/
@@ -232,29 +243,29 @@ alter table auditoria add constraint fk_relationship_11 foreign key (cedula_usua
 alter table comprobante_venta add constraint fk_pedido_comprobanteventa2 foreign key (pedido_id)
       references pedido (pedido_id) on delete restrict on update restrict;
 
-alter table detalles_pedido add constraint fk_cobertura_detallespedido foreign key (cobertura_id)
-      references cobertura (cobertura_id) on delete restrict on update restrict;
+alter table detalles_pedido add constraint fk_pastel_detalles_pedido foreign key (pastel_id)
+      references pastel (pastel_id) on delete restrict on update restrict;
 
 alter table detalles_pedido add constraint fk_pedido_detallespedidio foreign key (pedido_id)
       references pedido (pedido_id) on delete restrict on update restrict;
 
-alter table detalles_pedido add constraint fk_rellenos_detallespedidos foreign key (relleno_id)
-      references rellenos (relleno_id) on delete restrict on update restrict;
-
-alter table detalles_pedido add constraint fk_sabores_detallespedido foreign key (sabores_id)
-      references sabores (sabores_id) on delete restrict on update restrict;
-
-alter table detalles_pedido add constraint fk_tamanoformas_detallespedido foreign key (tamanos_formas_id)
-      references tamanos_formas (tamanos_formas_id) on delete restrict on update restrict;
-
-alter table detalles_pedido add constraint fk_tipo_detallespedido foreign key (tipo_id)
-      references tipo (tipo_id) on delete restrict on update restrict;
-
-alter table detalles_pedido add constraint fk_categoria_detallespedido foreign key (categoria_id)
-      references categoria (categoria_id) on delete restrict on update restrict;
-
 alter table detalles_pedido add constraint fk_varios_detallespedido foreign key (id_varios)
       references varios (id_varios) on delete restrict on update restrict;
+
+alter table pastel add constraint fk_cobertura_detallespedido foreign key (cobertura_id)
+      references cobertura (cobertura_id) on delete restrict on update restrict;
+
+alter table pastel add constraint fk_rellenos_detallespedidos foreign key (relleno_id)
+      references rellenos (relleno_id) on delete restrict on update restrict;
+
+alter table pastel add constraint fk_sabores_detallespedido foreign key (sabores_id)
+      references sabores (sabores_id) on delete restrict on update restrict;
+
+alter table pastel add constraint fk_tamanoformas_detallespedido foreign key (tamanos_formas_id)
+      references tamanos_formas (tamanos_formas_id) on delete restrict on update restrict;
+
+alter table pastel add constraint fk_tipo_pastel foreign key (tipo_id)
+      references tipo (tipo_id) on delete restrict on update restrict;
 
 alter table pedido add constraint fk_clientes_pedidos foreign key (cliente_id)
       references clientes (cliente_id) on delete restrict on update restrict;
@@ -340,11 +351,11 @@ INSERT INTO `cobertura` (`cobertura_descripcion`, `cobertura_precio_base_volumen
 INSERT INTO `cobertura` (`cobertura_descripcion`, `cobertura_precio_base_volumen`) VALUES ('Ninguna', '0');
 
 SET FOREIGN_KEY_CHECKS=0;
-INSERT INTO `detalles_pedido` ( `pedido_id`, `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `id_varios`, `cantidad`, `precio`, `img`, `especificacion_adicional`, `categoria_id`, `dedicatoria`) VALUES
-(NULL, 1, 1, 1, 1, 1, NULL, NULL, 20, 'https://th.bing.com/th/id/R.b042dade06440a9cf8c236b81ad2c4d8?rik=8ynKhjpIzp3%2bmA&pid=ImgRaw&r=0', NULL, 1, NULL),
-(NULL, 2, 4, 2, 2, 4, NULL, NULL, 10, 'https://th.bing.com/th/id/R.b40b59c817f0ec2c24a5097a457b2c58?rik=LSOvD1PsMJfxeA&pid=ImgRaw&r=0', NULL, 2, NULL),
-(NULL, 1, 1, 1, 1, 1, NULL, NULL, 18, 'https://sallysbakingaddiction.com/wp-content/uploads/2013/04/triple-chocolate-cake-4.jpg', NULL, 1, NULL),
-(NULL, 1, 1, 1, 1, 1, NULL, NULL, 27, 'https://th.bing.com/th/id/OIP.-vDV59NDSrLbo5SKb2jxggHaF3?pid=ImgDet&rs=1', NULL, 4, NULL),
-(NULL, 1, 1, 1, 1, 1, NULL, NULL, 68, 'https://th.bing.com/th/id/R.46fb8a09fc2f95a905b4342a428bd1fd?rik=C3KVdZ9n6YOTIw&pid=ImgRaw&r=0', NULL, 5, NULL),
-(NULL, 1, 1, 1, 1, 1, NULL, NULL, 90, 'https://www.recipetineats.com/wp-content/uploads/2020/08/My-best-Vanilla-Cake_9-SQ.jpg', NULL, 1, NULL);
+INSERT INTO `pastel` ( `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `cantidad`, `precio`, `img`, `especificacion_adicional`, `categoria_id`, `dedicatoria`) VALUES
+(1, 1, 1, 1, 1, NULL, 20, 'https://th.bing.com/th/id/R.b042dade06440a9cf8c236b81ad2c4d8?rik=8ynKhjpIzp3%2bmA&pid=ImgRaw&r=0', NULL, 1, NULL),
+(2, 4, 2, 2, 4, NULL, 10, 'https://th.bing.com/th/id/R.b40b59c817f0ec2c24a5097a457b2c58?rik=LSOvD1PsMJfxeA&pid=ImgRaw&r=0', NULL, 2, NULL),
+(1, 1, 1, 1, 1, NULL, 18, 'https://sallysbakingaddiction.com/wp-content/uploads/2013/04/triple-chocolate-cake-4.jpg', NULL, 1, NULL),
+(1, 1, 1, 1, 1, NULL, 27, 'https://th.bing.com/th/id/OIP.-vDV59NDSrLbo5SKb2jxggHaF3?pid=ImgDet&rs=1', NULL, 4, NULL),
+(1, 1, 1, 1, 1, NULL, 68, 'https://th.bing.com/th/id/R.46fb8a09fc2f95a905b4342a428bd1fd?rik=C3KVdZ9n6YOTIw&pid=ImgRaw&r=0', NULL, 5, NULL),
+(1, 1, 1, 1, 1, NULL, 90, 'https://www.recipetineats.com/wp-content/uploads/2020/08/My-best-Vanilla-Cake_9-SQ.jpg', NULL, 1, NULL);
 SET FOREIGN_KEY_CHECKS=1;
