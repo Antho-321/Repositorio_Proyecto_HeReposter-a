@@ -28,5 +28,9 @@ class Pedido extends Model
         ])->get();
         return $pedidos;
     }
-
+    public function pasteles()
+    {
+        return $this->belongsToMany(Pastel::class, 'detalles_pedido', 'pedido_id', 'pastel_id')
+                    ->withPivot('cantidad_pastel', 'dedicatoria');
+    }
 }

@@ -44,19 +44,20 @@
                     <p class="col">Precio unitario</p>
                     <p class="col">Cantidad</p>
                 </div>
-                <form class="fila" action="../php/EliminarItemCarrito.php" method="POST">
-                    @csrf
+                
                     @foreach ($pasteles as $pastel)
+                    <form class="fila" action="../php/EliminarItemCarrito.php" method="POST">
+                        @csrf
                         <div class="col" id="seccion_imagen">
                             <img src="{{$pastel->img}}" alt="Producto">
                         </div>
-                        <p class="col" name="dedicatoria">{{$pastel->dedicatoria}}</p>
+                        <p class="col" name="dedicatoria">{{$pastel->pivot->dedicatoria}}</p>
                         <p class="col" name="masa">{{$pastel->getTipoPastel()}}</p>
                         <p class="col" name="sabor">{{$pastel->getSaborPastel()}}</p>
                         <p class="col" name="relleno">{{$pastel->getRellenoPastel()}}</p>
                         <p class="col" name="cobertura">{{$pastel->getCoberturaPastel()}}</p>
                         <p class="col" name="precio">${{$pastel->precio}}</p>
-                        <p class="col" name="cantidad">{{$pastel->cantidad}}</p>
+                        <p class="col" name="cantidad">{{$pastel->pivot->cantidad_pastel}}</p>
                         <div class="col" id="seccion_eliminar">
                             <div>
                                 <input type="hidden" name="id_canasta" value="undefined">
@@ -68,8 +69,9 @@
                                         id="borrador"></button>
                             </div>
                         </div>
+                    </form>
                     @endforeach
-                </form>
+                
 
 
             </div>
@@ -119,4 +121,5 @@
         {{-- @endif --}}
 
     </div>
+    
 @endsection

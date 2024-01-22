@@ -86,6 +86,10 @@ create table detalles_pedido
    pedido_id            int,
    id_varios            int,
    pastel_id            int,
+   cantidad_pastel      int,
+   cantidad_varios      int,
+   dedicatoria          varchar(300),
+   especificacion_adicional                varchar(100),
    primary key (detalle_id)
 );
 
@@ -110,12 +114,9 @@ create table pastel
    relleno_id           int,
    cobertura_id         int,
    sabores_id           int,
-   cantidad             int,
    precio               decimal,
    img                  varchar(300),
-   especificacion_adicional                varchar(100),
    categoria_id         int,
-   dedicatoria          varchar(300),
    primary key (pastel_id)
 );
 
@@ -351,11 +352,14 @@ INSERT INTO `cobertura` (`cobertura_descripcion`, `cobertura_precio_base_volumen
 INSERT INTO `cobertura` (`cobertura_descripcion`, `cobertura_precio_base_volumen`) VALUES ('Ninguna', '0');
 
 SET FOREIGN_KEY_CHECKS=0;
-INSERT INTO `pastel` ( `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `cantidad`, `precio`, `img`, `especificacion_adicional`, `categoria_id`, `dedicatoria`) VALUES
-(1, 1, 1, 1, 1, NULL, 20, 'https://th.bing.com/th/id/R.b042dade06440a9cf8c236b81ad2c4d8?rik=8ynKhjpIzp3%2bmA&pid=ImgRaw&r=0', NULL, 1, NULL),
-(2, 4, 2, 2, 4, NULL, 10, 'https://th.bing.com/th/id/R.b40b59c817f0ec2c24a5097a457b2c58?rik=LSOvD1PsMJfxeA&pid=ImgRaw&r=0', NULL, 2, NULL),
-(1, 1, 1, 1, 1, NULL, 18, 'https://sallysbakingaddiction.com/wp-content/uploads/2013/04/triple-chocolate-cake-4.jpg', NULL, 1, NULL),
-(1, 1, 1, 1, 1, NULL, 27, 'https://th.bing.com/th/id/OIP.-vDV59NDSrLbo5SKb2jxggHaF3?pid=ImgDet&rs=1', NULL, 4, NULL),
-(1, 1, 1, 1, 1, NULL, 68, 'https://th.bing.com/th/id/R.46fb8a09fc2f95a905b4342a428bd1fd?rik=C3KVdZ9n6YOTIw&pid=ImgRaw&r=0', NULL, 5, NULL),
-(1, 1, 1, 1, 1, NULL, 90, 'https://www.recipetineats.com/wp-content/uploads/2020/08/My-best-Vanilla-Cake_9-SQ.jpg', NULL, 1, NULL);
+INSERT INTO `pastel` ( `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `precio`, `img`, `categoria_id`) VALUES
+(1, 1, 1, 1, 1, 20, 'https://th.bing.com/th/id/R.b042dade06440a9cf8c236b81ad2c4d8?rik=8ynKhjpIzp3%2bmA&pid=ImgRaw&r=0', 1),
+(2, 4, 2, 2, 4, 10, 'https://th.bing.com/th/id/R.b40b59c817f0ec2c24a5097a457b2c58?rik=LSOvD1PsMJfxeA&pid=ImgRaw&r=0', 2),
+(1, 1, 1, 1, 1, 18, 'https://sallysbakingaddiction.com/wp-content/uploads/2013/04/triple-chocolate-cake-4.jpg', 1),
+(1, 1, 1, 1, 1, 27, 'https://th.bing.com/th/id/OIP.-vDV59NDSrLbo5SKb2jxggHaF3?pid=ImgDet&rs=1', 4),
+(1, 1, 1, 1, 1, 68, 'https://th.bing.com/th/id/R.46fb8a09fc2f95a905b4342a428bd1fd?rik=C3KVdZ9n6YOTIw&pid=ImgRaw&r=0', 5),
+(1, 1, 1, 1, 1, 90, 'https://www.recipetineats.com/wp-content/uploads/2020/08/My-best-Vanilla-Cake_9-SQ.jpg', 1);
 SET FOREIGN_KEY_CHECKS=1;
+
+INSERT INTO `clientes` (`cliente_id`, `cedula`, `nombre_cliente`, `telefono`, `direccion_domicilio`, `email`, `clave`) VALUES
+(1, NULL, NULL, NULL, NULL, 'anthonyluisluna225@gmail.com', '123');

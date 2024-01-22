@@ -8,25 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Pastel extends Model
 {
     // Especificar el nombre de la clave primaria
-    protected $primaryKey = 'detalle_id';
-    protected $table = "detalles_pedido";
+    protected $primaryKey = 'pastel_id';
+    protected $table = "pastel";
     public $timestamps = false;
     use HasFactory;
     protected $fillable = [
-        'detalle_id',           
-        'pedido_id',            
+        'pastel_id',                     
         'tamanos_formas_id',    
         'tipo_id',              
         'relleno_id',           
         'cobertura_id',         
-        'sabores_id',           
-        'id_varios',            
-        'cantidad',
+        'sabores_id',                  
         'precio',               
         'img',
-        'especificacion_adicional',
-        'categoria_id',
-        'dedicatoria'         
+        'categoria_id'        
     ];
 
     // Este es el método que permite obtener un pastel por su imagen
@@ -49,10 +44,6 @@ class Pastel extends Model
         $categoria_id = $categoria_search->getCategoriaId($categoria_descripcion);
         $pasteles = Pastel::where('categoria_id', $categoria_id)->get();
         // Devuelves el pastel encontrado o null si no hay ninguno
-        return $pasteles;
-    }
-    public function getPastelesByPedidoId($pedido_id){
-        $pasteles = Pastel::where('pedido_id', $pedido_id)->get();
         return $pasteles;
     }
     // Este es el método que permite obtener el número de porciones de un pastel
@@ -94,5 +85,9 @@ class Pastel extends Model
         $relleno = Relleno::where('relleno_id', $relleno_id)->first();
         $nombre_relleno=$relleno->relleno_descripcion;
         return $nombre_relleno;
+    }
+    public function pedidos()
+    {
+        return $this->belongsToMany(Pedido::class, 'detalles_pedido', 'pastel_id', 'pedido_id');
     }
 }

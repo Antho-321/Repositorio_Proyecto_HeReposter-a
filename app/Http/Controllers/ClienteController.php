@@ -24,7 +24,7 @@ class ClienteController extends Controller
         if ($request->input('cerrar_sesion') == "true") {
             session()->forget('cliente');
         }
-        $pasteles = Pastel::orderBy('detalle_id', 'DESC')->get();
+        $pasteles = Pastel::orderBy('pastel_id', 'DESC')->get();
         Session::put('pasteles', $pasteles);
         return view('cliente.index');
     }
@@ -34,32 +34,26 @@ class ClienteController extends Controller
      * Show the form for creating a new resource.
      */
     public function create(Request $request)
-    {
-        // Debug: Log the session and input values
-        Log::info('Session random: ' . Session::get('random'));
-        Log::info('Input random: ' . $request->input('random'));
-
-        if (Session::get('random') == $request->input('random')) {
-            if (Session::get('tipo_ingreso_aux')=="registrarse") {
-                $cliente = Session::get('cliente');
-                $cliente->save();
-            }
-            
-            Session::put('codigo_correcto', true);
-
-            // Debug: Log the path taken
-            Log::info('Redirecting to cliente.index');
-
-            return view('cliente.index');
+{
+    if (Session::get('random') == $request->input('random')) {
+        $cliente = Session::get('cliente');
+        if (Session::get('tipo_ingreso_aux') == "registrarse") {
+            $cliente->save();              
         }
+        $cliente_search=new Cliente();
+        $cliente_aux= $cliente_search->getClienteByEmail($cliente->email);
+        $cliente=$cliente_aux;
+        Session::put('cliente', $cliente); // Storing the cliente object after saving
+        
+        Session::put('codigo_correcto', true);
 
-        Session::put('codigo_correcto', false);
-
-        // Debug: Log the path taken
-        Log::info('Redirecting to cliente.envio_correo_registro');
-
-        return view('cliente.envio_correo_registro', compact('cliente'));
+        // Optionally, pass the cliente_id to the view
+        return view('cliente.index');
     }
+
+    Session::put('codigo_correcto', false);
+    return view('cliente.envio_correo_registro', compact('cliente'));
+}
 
 
     /**
