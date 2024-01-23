@@ -7,6 +7,7 @@ use App\Http\Controllers\AuditorController;
 use App\Http\Controllers\VendedorController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\administradorClientes;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,7 @@ Route::get('/actualizar_seleccionado', [PastelController::class, 'show'])->name(
 Route::put('/actualizar_seleccionado/{img}', [PastelController::class, 'update'])->name('actualizar_seleccionado_put');
 Route::delete('/eliminar_seleccionado', [PastelController::class, 'destroy'])->name('eliminar_seleccionado');
 
+
 // RUTAS DE KEVIN
 
 Route::get("/vendedor_tbl_cliente",[VendedorController::class,"ver_clientes"])->name("vendedor_tbl_cliente");
@@ -75,3 +77,9 @@ Route::get("/auditor_tbl_clientes",[AuditorController::class,"ver_clientes"])->n
 Route::get("/auditor_tbl_pedido",[AuditorController::class,"ver_pedido"])->name("auditor_tbl_pedido");
 Route::get("/auditor_tbl_detalles_pedido",[AuditorController::class,"ver_detalles_pedido"])->name("auditor_tbl_detalles_pedido");
 Route::get("/auditor_tbl_comprobante_venta",[AuditorController::class,"ver_comprobante_venta"])->name("auditor_tbl_comprobante_venta");
+
+
+// Rutas Administrador
+
+Route::get('/clientesA', [administradorClientes::class,"index"])->name("crudAclientes.index");
+
