@@ -172,11 +172,14 @@ function AgregarContenido(CategoríaSeleccionada) {
     // Mostrar el contenido del array en la consola
     console.log(array);
       let div_aux = document.createElement("div");
+      div_aux.className="contenedor_imagenes";
       for (let i = 0; i < array.length; i++) {
         let div = document.createElement("div");
+        div.className="imagen";
         let imagen = document.createElement("img");
         let h3 = document.createElement("button");
         imagen.src = array[i].img;
+        imagen.style="height: 300px !important;";
         h3.innerHTML = "Mostrar más información";
         h3.className="mostrar_informacion";
         div.appendChild(h3);

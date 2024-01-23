@@ -631,3 +631,59 @@ header {
         flex-direction: column;
     }
 }
+
+.contenedor_imagenes {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    /* Centers items on the line */
+    align-items: center !important;
+    /* Centers items vertically */
+    gap: 10px !important;
+    /* Adjust as needed for space between images */
+}
+
+.imagen {
+    flex: 0 1 auto !important;
+    /* Don't grow, allow shrink, and base size on content */
+    /* min-width: 250px; You may not need this if you want the images to be centered regardless of their width */
+    /* Consider setting a specific width if you want all images to have the same width */
+    margin: 10px !important;
+    /* Adjust as needed for margin around items */
+    text-align: center !important;
+    /* Center the text (or any inline content like buttons) inside .imagen */
+    display: flex !important;
+    /* Apply flexbox to .imagen if you want to center the button as well */
+    flex-direction: column !important;
+    /* Stack items vertically inside .imagen */
+    align-items: center !important;
+    /* Center the items horizontally inside .imagen */
+    justify-content: center !important;
+    /* Center the items vertically inside .imagen */
+}
+
+.imagen {
+    /* ... your existing styles ... */
+    width: 300px !important;
+    /* Set a fixed width for the container */
+    height: 300px !important;
+    /* Set a fixed height for the container */
+    overflow: hidden !important;
+    /* Ensures no part of the image spills out of the container */
+}
+
+.categoria {
+    border-radius: 3px !important;
+    text-align: center !important;
+    font: normal normal normal 18px/1.4em Sanseriffic !important;
+    background-color: transparent !important;
+    border: .5vw solid transparent !important;
+    color: #1f1f1f !important;
+    min-width: 100px !important;
+}
+
+.categoria:hover {
+    cursor: pointer !important;
+    color: #7c7c7c41 !important;
+    transition: .4s !important;
+}

@@ -21,7 +21,7 @@
 @endsection
 @section('content')
     <div id="contenido_principal">
-        {{-- @if (!isset($cliente))
+        @if (!isset($cliente)||!isset($pasteles))
             <h1>No se ha ingresado productos</h1>
             <style>
                 #contenido_principal {
@@ -31,7 +31,7 @@
                     justify-content: center;
                 }
             </style>
-        @else --}}
+        @else
         <section id="Productos">
             <div class="tabla_info">
                 <div class="fila" id="primera_fila">
@@ -46,8 +46,9 @@
                 </div>
                 
                     @foreach ($pasteles as $pastel)
-                    <form class="fila" action="../php/EliminarItemCarrito.php" method="POST">
+                    <form class="fila" action="{{route('cliente.destroy',$pastel->pastel_id)}}" method="POST">
                         @csrf
+                        @method('DELETE')
                         <div class="col" id="seccion_imagen">
                             <img src="{{$pastel->img}}" alt="Producto">
                         </div>
@@ -118,7 +119,7 @@
                 unos pasos del coliseo de la Bola Amarilla
             </p>
         </section>
-        {{-- @endif --}}
+        @endif
 
     </div>
     
