@@ -86,5 +86,5 @@
     </footer>
     </div>
 </body>
-
+<script src="{{ asset('js/script_InteracciónPrincipal.js') }}"></script>
 </html>

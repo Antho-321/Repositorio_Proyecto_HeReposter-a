@@ -83,5 +83,5 @@
         </div>
     </div>
 </form>
-<script src="{{ asset('js/script_InteracciónPrincipal.js') }}"></script>
+
 @endsection

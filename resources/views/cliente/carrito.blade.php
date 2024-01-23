@@ -21,7 +21,7 @@
 @endsection
 @section('content')
     <div id="contenido_principal">
-        @if (!isset($cliente)||!isset($pasteles))
+        @if (!isset($pasteles))
             <h1>No se ha ingresado productos</h1>
             <style>
                 #contenido_principal {

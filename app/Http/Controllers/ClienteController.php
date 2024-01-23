@@ -23,6 +23,7 @@ class ClienteController extends Controller
     {
         if ($request->input('cerrar_sesion') == "true") {
             session()->forget('cliente');
+            session()->forget('pasteles_carrito');
         }
         $pasteles = Pastel::orderBy('pastel_id', 'DESC')->get();
         Session::put('pasteles', $pasteles);

@@ -50,6 +50,5 @@
     <h1>PRODUCTOS DESTACADOS</h1>
     <section id="seccion_productos"></section>
     <script src="{{ asset('js/script_querys.js') }}"></script>
-    <script src="{{ asset('js/script_InteracciónPrincipal.js') }}"></script>
 </div>
 @endsection

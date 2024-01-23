@@ -25,6 +25,5 @@
         <input type="hidden" name="img" id="enlace_pastel">
     </form>
     <script src="{{ asset('js/script_querys.js') }}"></script>
-    <script src="{{ asset('js/script_InteracciónPrincipal.js') }}"></script>
 </div>
 @endsection
