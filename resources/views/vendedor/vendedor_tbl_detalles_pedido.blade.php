@@ -44,49 +44,29 @@
                   <input type="number" class="form-control" id="exampleInputPassword1" name="pedido">
               </div>
               <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Tamano-formas</label>
-                  <input type="number" class="form-control" id="exampleInputPassword1" name="tamano">
-              </div>
-              <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Tipo</label>
-                  <input type="number" class="form-control" id="exampleInputPassword1" name="tipo">
-              </div>
-              <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Relleno</label>
-                  <input type="number" class="form-control" id="exampleInputPassword1" name="relleno">
-              </div>
-              
-              <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Cobertura</label>
-                  <input type="number" class="form-control" id="exampleInputPassword1" name="cobertura">
-              </div>
-              <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Sabores</label>
-                  <input type="number" class="form-control" id="exampleInputPassword1" name="sabores">
-              </div>
-              <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Varios</label>
+                  <label for="exampleInputPassword1" class="form-label">Id varios</label>
                   <input type="number" class="form-control" id="exampleInputPassword1" name="varios">
               </div>
               <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Cantidad</label>
-                  <input type="decimal" class="form-control" id="exampleInputPassword1" name="cantidad">
+                  <label for="exampleInputPassword1" class="form-label">Pastel id</label>
+                  <input type="number" class="form-control" id="exampleInputPassword1" name="pastel">
               </div>
               <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Precio</label>
-                  <input type="number class="form-control" id="exampleInputPassword1" name="precio">
+                  <label for="exampleInputPassword1" class="form-label">Cantidad de Pastel</label>
+                  <input type="number" class="form-control" id="exampleInputPassword1" name="cantidadpastel">
+              </div>
+              
+              <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Cantidad varios</label>
+                  <input type="number" class="form-control" id="exampleInputPassword1" name="cantidadvarios">
               </div>
               <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Foto</label>
-                  <input type="text" class="form-control" id="exampleInputPassword1" name="foto">
+                  <label for="exampleInputEmail1" class="form-label">Dedicatoria</label>
+                  <input type="text" class="form-control" id="exampleInputPassword1" name="dedicatoria">
               </div>
               <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Especificacion</label>
+                  <label for="exampleInputEmail1" class="form-label">Especificacion adicional</label>
                   <input type="text" class="form-control" id="exampleInputPassword1" name="especificacion">
-              </div>
-              <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Categoria</label>
-                  <input type="number" class="form-control" id="exampleInputPassword1" name="categoria">
               </div>
               
               <div class="modal-footer">
@@ -108,17 +88,13 @@
               <tr>
                 <th scope="col">Detalle id</th>
                 <th scope="col">Pedido</th>
-                <th scope="col">Forma-Tamano</th>
-                <th scope="col">Tipo</th>
-                <th scope="col">Relleno</th>
-                <th scope="col">Cobertura</th>
-                <th scope="col">Sabores</th>
-                <th scope="col">Varios</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Foto</th>
-                <th scope="col">Especificacion</th>
-                <th scope="col">Categoria</th>
+                <th scope="col">Varios id</th>
+                <th scope="col">Pastel id</th>
+                <th scope="col">Cantidad de pastel</th>
+                <th scope="col">Cantidad Varios</th>
+                <th scope="col">Dedicatoria</th>
+                <th scope="col">Especificacion Adicional</th>
+                
                 <th></th>
               </tr>
             </thead>
@@ -128,17 +104,12 @@
                
                 <th>{{$item->detalle_id}}</th>
                 <td>{{$item->pedido_id}}</td>
-                <td>{{$item->tamanos_formas_id}}</td>
-                <td>{{$item->tipo_id}}</td>
-                <td>{{$item->relleno_id}}</td>
-                <td>{{$item->cobertura_id}}</td>
-                <td>{{$item->sabores_id}}</td>
                 <td>{{$item->id_varios}}</td>
-                <td>{{$item->cantidad}}</td>
-                <td>{{$item->precio}}</td>
-                <td>{{$item->img}}</td>
+                <td>{{$item->pastel_id }}</td>
+                <td>{{$item->cantidad_pastel}}</td>
+                <td>{{$item->cantidad_varios}}</td>
+                <td>{{$item->dedicatoria}}</td>
                 <td>{{$item->especificacion_adicional}}</td>
-                <td>{{$item->categoria_id}}</td>
                 <td>
                   <a href="" data-bs-toggle="modal" data-bs-target="#modalEditar{{$item->detalle_id}}" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
                   <a href="{{route("vendedor_eliminar_detalles_pedido",$item->detalle_id)}}" onclick="return res()" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
@@ -166,50 +137,31 @@
                             <input type="number" class="form-control" id="exampleInputPassword1" name="pedido" value="{{$item->pedido_id}}" >
                           </div>
                           <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Tamano-formas</label>
-                            <input type="number" class="form-control" id="exampleInputPassword1" name="tamano" value="{{$item->tamanos_formas_id}}">                          
+                            <label for="exampleInputPassword1" class="form-label">Id Varios</label>
+                            <input type="number" class="form-control" id="exampleInputPassword1" name="varios" value="{{$item->id_varios }}">                          
                           </div>
                           <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Tipo</label>
-                            <input type="number" class="form-control" id="exampleInputPassword1" name="tipo" value="{{$item->tipo_id}}">                          
+                            <label for="exampleInputPassword1" class="form-label">Pastel Id</label>
+                            <input type="number" class="form-control" id="exampleInputPassword1" name="pastel" value="{{$item-> pastel_id }}">                          
                           </div>
                           <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Relleno</label>
-                            <input type="number" class="form-control" id="exampleInputPassword1" name="relleno" value="{{$item->relleno_id}}">                          
+                            <label for="exampleInputPassword1" class="form-label">Cantidad de pastel</label>
+                            <input type="number" class="form-control" id="exampleInputPassword1" name="cantidadpastel" value="{{$item->cantidad_pastel}}">                          
                           </div>
                           
                           <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Cobertura</label>
-                            <input type="number" class="form-control" id="exampleInputPassword1" name="cobertura" value="{{$item->cobertura_id}}">                          
+                            <label for="exampleInputEmail1" class="form-label">Cantidad Varios</label>
+                            <input type="number" class="form-control" id="exampleInputPassword1" name="cantidadvarios" value="{{$item->cantidad_varios}}">                          
                           </div>
                           <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Sabores</label>
-                            <input type="numer" class="form-control" id="exampleInputPassword1" name="sabores" value="{{$item->sabores_id}}">                          
+                            <label for="exampleInputEmail1" class="form-label">Dedicatoria</label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" name="dedicatoria" value="{{$item->dedicatoria}}">                          
                           </div>
                           <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Varios</label>
-                            <input type="number" class="form-control" id="exampleInputPassword1" name="varios" value="{{$item->id_varios}}">                          
-                          </div>
-                          <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Cantidad</label>
-                            <input type="decimal" class="form-control" id="exampleInputPassword1" name="cantidad" value="{{$item->cantidad}}">                          
-                          </div>
-                          <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Precio</label>
-                            <input type="number" class="form-control" id="exampleInputPassword1" name="precio" value="{{$item->precio}}">                          
-                          </div>
-                          <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Foto</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" name="foto" value="{{$item->img}}">                          
-                          </div>
-                          <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Especificacion</label>
+                            <label for="exampleInputEmail1" class="form-label">Especificacion Adicional</label>
                             <input type="text" class="form-control" id="exampleInputPassword1" name="especificacion" value="{{$item->especificacion_adicional}}">                          
                           </div>
-                          <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Categoria</label>
-                            <input type="number" class="form-control" id="exampleInputPassword1" name="categoria" value="{{$item->categoria_id}}">                          
-                          </div>
+                          
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Guardar Cambios</button>

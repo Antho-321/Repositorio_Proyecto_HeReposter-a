@@ -61,7 +61,7 @@
               
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Pedido confirmado</label>
-                <input type="checkbox" class="form-check-input" id="pedido_confirmado" name="pedidoConfirmado" value="1">
+                <input type="checkbox" class="form-check-input" id="exampleInputPassword1" name="pedidoConfirmado" value="1">
             </div>
             
               
@@ -146,13 +146,13 @@
                           
                           <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Pedido confirmado</label>
-                            <input type="checkbox" class="form-check-input" id="pedido_confirmado" name="pedidoConfirmado" value="{{$item->pedido_confirmado}}">
+                            <input type="checkbox" class="form-check-input" id="exampleInputPassword1" name="pedidoConfirmado" value="{{$item->pedido_confirmado}}">
                         </div>
                         
                           
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Insertar pedido</button>
+                            <button type="submit" class="btn btn-primary">Editar pedido</button>
                           </div>
                         </form>
                       </div>

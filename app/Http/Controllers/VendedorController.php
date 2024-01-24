@@ -15,7 +15,7 @@ class VendedorController extends Controller
         return view("/vendedor/vendedor_tbl_cliente")->with("datos",$datos);
     }
 
-    public function ingresar_cliente(Request $request)
+    public function ingresar_clientes(Request $request)
     {
         try {
             $sql=DB::insert("insert into clientes (cedula, nombre_cliente, telefono, direccion_domicilio, email, clave) 
@@ -38,7 +38,7 @@ class VendedorController extends Controller
     }
     }
 
-    public function editar_cliente(Request $request)
+    public function editar_clientes(Request $request)
     {
        
         try {
@@ -67,7 +67,7 @@ class VendedorController extends Controller
     }
 
 
-    public function eliminar_cliente($id){
+    public function eliminar_clientes($id){
         try {
             $sql=DB::delete("delete from clientes where cliente_id=$id");
         } catch (\Throwable $th) {
@@ -172,23 +172,19 @@ class VendedorController extends Controller
         return view("/vendedor/vendedor_tbl_detalles_pedido")->with("datos",$datos);
     }
 
+
     public function ingresar_detalles_pedido(Request $request)
     {
         try {
-            $sql=DB::insert("insert into detalles_pedido (pedido_id, tamanos_formas_id, tipo_id, relleno_id, cobertura_id, sabores_id, id_varios, cantidad, precio, img, especificacion_adicional, categoria_id) 
-        values (?,?,?,?,?,?,?,?,?,?,?,?)",[
-$request->pedido,
-$request->tamano,
-$request->tipo,
-$request->relleno,
-$request->cobertura,
-$request->sabores,
-$request->varios,
-$request->cantidad,
-$request->precio,
-$request->foto,
-$request->especificacion,
-$request->categoria
+            $sql=DB::insert("insert into detalles_pedido (pedido_id, id_varios, pastel_id, cantidad_pastel, cantidad_varios, dedicatoria, especificacion_adicional) 
+        values (?,?,?,?,?,?,?)",[
+                $request->pedido,
+                $request->varios,
+                $request->pastel,
+                $request->cantidadpastel,
+                $request->cantidadvarios,
+                $request->dedicatoria,
+                $request->especificacion,
 
             ]);          
         
@@ -196,7 +192,7 @@ $request->categoria
             $sql=0;
         }
     if ($sql==true){
-        return back()->with("correcto","Cliente registrado");
+        return back()->with("correcto","Detalle de pedido registrado");
     }else{
         return back()->with("incorrecto","ERROR AL REGISTRAR");
     }
@@ -205,21 +201,15 @@ $request->categoria
     public function editar_detalles_pedido(Request $request)
     {  
         try {
-            $sql=DB::update("update detalles_pedido set pedido_id=?, tamanos_formas_id=?, tipo_id=?, relleno_id=?, cobertura_id=?, sabores_id=?, id_varios=?, cantidad=?, precio=?, img=?, especificacion_adicional=?, categoria_id=? where detalle_id=?",[
+            $sql=DB::update("update detalles_pedido set  pedido_id=?, id_varios=?, pastel_id=?, cantidad_pastel=?, cantidad_varios=?, dedicatoria=?, especificacion_adicional=? where detalle_id=?",[
                 $request->pedido,
-                $request->tamano,
-                $request->tipo,
-                $request->relleno,
-                $request->cobertura,
-                $request->sabores,
                 $request->varios,
-                $request->cantidad,
-                $request->precio,
-                $request->foto,
+                $request->pastel,
+                $request->cantidadpastel,
+                $request->cantidadvarios,
+                $request->dedicatoria,
                 $request->especificacion,
-                $request->categoria,
                 $request->detalle_id
-            
     ]);
         if ($sql==0){
             $sql==1; 
@@ -244,7 +234,7 @@ $request->categoria
         }
 
     if ($sql==true){
-        return back()->with("correcto","Se ha eliminado el cliente");
+        return back()->with("correcto","Se ha eliminado el Detalle del Pedido");
     }else{
         return back()->with("incorrecto","ERROR AL ELIMINAR CLIENTE");
     }

@@ -20,17 +20,13 @@
               <tr>
                 <th scope="col">Detalle id</th>
                 <th scope="col">Pedido</th>
-                <th scope="col">Forma-Tamano</th>
-                <th scope="col">Tipo</th>
-                <th scope="col">Relleno</th>
-                <th scope="col">Cobertura</th>
-                <th scope="col">Sabores</th>
-                <th scope="col">Varios</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Foto</th>
-                <th scope="col">Especificacion</th>
-                <th scope="col">Categoria</th>
+                <th scope="col">Id Varios</th>
+                <th scope="col">Pastel</th>
+                <th scope="col">Cantidad de Pastel</th>
+                <th scope="col">Cantidad Varios</th>
+                <th scope="col">Dedicatoria</th>
+                <th scope="col">Especificacion adicional</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -38,18 +34,12 @@
               <tr>
                 <th>{{$item->detalle_id}}</th>
                 <td>{{$item->pedido_id}}</td>
-                <td>{{$item->tamanos_formas_id}}</td>
-                <td>{{$item->tipo_id}}</td>
-                <td>{{$item->relleno_id}}</td>
-                <td>{{$item->cobertura_id}}</td>
-                <td>{{$item->sabores_id}}</td>
                 <td>{{$item->id_varios}}</td>
-                <td>{{$item->cantidad}}</td>
-                <td>{{$item->precio}}</td>
-                <td>{{$item->img}}</td>
+                <td>{{$item->pastel_id }}</td>
+                <td>{{$item->cantidad_pastel}}</td>
+                <td>{{$item->cantidad_varios}}</td>
+                <td>{{$item->dedicatoria}}</td>
                 <td>{{$item->especificacion_adicional}}</td>
-                <td>{{$item->categoria_id}}</td>
-                
 
               </tr>
               @endforeach
