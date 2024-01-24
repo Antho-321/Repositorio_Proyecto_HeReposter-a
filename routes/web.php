@@ -24,7 +24,6 @@ use App\Http\Controllers\administradorClientes;
 Route::resource('cliente', ClienteController::class);
 
 Route::get('/cliente.ingreso_carrito/{pastel}', [PedidoController::class,'create'])->name('cliente.ingreso_carrito');
-
 Route::controller(ClienteController::class)->group(function(){
     Route::get('/', 'index')->name('home');
     Route::post('/cliente/ingreso',  'ingreso')->name('cliente.ingreso');

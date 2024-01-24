@@ -1,7 +1,19 @@
 @php
+    use App\Models\Pastel;
+    use App\Models\DetallesPedido;
+    use App\Models\Pedido;
     use Illuminate\Support\Facades\Session;
-    $pedido = Session::get('pedido');
-    $pasteles = Session::get('pasteles_carrito');
+    $cliente = Session::get('cliente');
+    if (isset($cliente)) {
+        $detalles_pedido_search = new DetallesPedido();
+        $pedido_search = new Pedido();
+        $cliente_id=$cliente->cliente_id;
+        $pedido = $pedido_search->getPedidosNoConfirmadosPorCliente($cliente_id);
+        $pedido_id=$pedido[0]->pedido_id;
+        $pasteles = $detalles_pedido_search->getPastelesByPedido($pedido_id);
+        $detalles_pedido=$detalles_pedido_search->getDetallesPedidoByPedido($pedido_id);
+        $pastel_search=new Pastel();
+    }
 @endphp
 @extends('plantilla_cliente.plantilla')
 @section('estilo')
@@ -32,95 +44,101 @@
                 }
             </style>
         @else
-        <section id="Productos">
-            <div class="tabla_info">
-                <div class="fila" id="primera_fila">
-                    <br class="col">
-                    <p class="col">Dedicatoria/s</p>
-                    <p class="col">Masa</p>
-                    <p class="col">Sabor</p>
-                    <p class="col">Relleno</p>
-                    <p class="col">Cobertura</p>
-                    <p class="col">Precio unitario</p>
-                    <p class="col">Cantidad</p>
-                </div>
-                
+
+            <section id="Productos">
+                <div class="tabla_info">
+                    <div class="fila" id="primera_fila">
+                        <br class="col">
+                        <p class="col">Dedicatoria/s</p>
+                        <p class="col">Masa</p>
+                        <p class="col">Sabor</p>
+                        <p class="col">Relleno</p>
+                        <p class="col">Cobertura</p>
+                        <p class="col">Precio unitario</p>
+                        <p class="col">Cantidad</p>
+                    </div>
+                    @php
+                        $cont=-1;
+                    @endphp
                     @foreach ($pasteles as $pastel)
-                    <form class="fila" action="{{route('cliente.destroy',$pastel->pastel_id)}}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <div class="col" id="seccion_imagen">
-                            <img src="{{$pastel->img}}" alt="Producto">
-                        </div>
-                        <p class="col" name="dedicatoria">{{$pastel->pivot->dedicatoria}}</p>
-                        <p class="col" name="masa">{{$pastel->getTipoPastel()}}</p>
-                        <p class="col" name="sabor">{{$pastel->getSaborPastel()}}</p>
-                        <p class="col" name="relleno">{{$pastel->getRellenoPastel()}}</p>
-                        <p class="col" name="cobertura">{{$pastel->getCoberturaPastel()}}</p>
-                        <p class="col" name="precio">${{$pastel->precio}}</p>
-                        <p class="col" name="cantidad">{{$pastel->pivot->cantidad_pastel}}</p>
-                        <div class="col" id="seccion_eliminar">
-                            <div>
-                                <input type="hidden" name="id_canasta" value="undefined">
-
-                                <input type="button" id="editarCarrito" class="btn_eliminar" value="✏️">
-                                <input type="hidden" value="undefined" id="test">
-                                <input type="hidden" name="adicional" id="req_Adicional" value="undefined">
-                                <button class="btn_eliminar"><img src="{{ asset('images/Borrador.png') }}"
-                                        id="borrador"></button>
+                        <form class="fila" action="{{ route('cliente.destroy', $pastel->pastel_id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            @php
+                                $cont=$cont+1;
+                            @endphp
+                            <div class="col" id="seccion_imagen">
+                                <img src="{{ $pastel_search->getPastelById($pastel->pastel_id)->img }}" alt="Producto">
                             </div>
-                        </div>
-                    </form>
+                            <p class="col" name="dedicatoria">{{ $detalles_pedido[$cont]->dedicatoria }}</p>
+                            <p class="col" name="masa">{{ $pastel_search->getPastelById($pastel->pastel_id)->getTipoPastel() }}</p>
+                            <p class="col" name="sabor">{{ $pastel_search->getPastelById($pastel->pastel_id)->getSaborPastel() }}</p>
+                            <p class="col" name="relleno">{{ $pastel_search->getPastelById($pastel->pastel_id)->getRellenoPastel() }}</p>
+                            <p class="col" name="cobertura">{{ $pastel_search->getPastelById($pastel->pastel_id)->getCoberturaPastel() }}</p>
+                            <p class="col" name="precio">${{ $pastel_search->getPastelById($pastel->pastel_id)->precio }}</p>
+                            <p class="col" name="cantidad">{{ $detalles_pedido[$cont]->cantidad_pastel }}</p>
+                            <div class="col" id="seccion_eliminar">
+                                <div>
+                                    <input type="hidden" name="id_canasta" value="undefined">
+
+                                    <input type="button" id="editarCarrito" class="btn_eliminar" value="✏️">
+                                    <input type="hidden" value="undefined" id="test">
+                                    <input type="hidden" name="adicional" id="req_Adicional" value="undefined">
+                                    <button class="btn_eliminar"><img src="{{ asset('images/Borrador.png') }}"
+                                            id="borrador"></button>
+                                </div>
+                            </div>
+                        </form>
                     @endforeach
-                
 
 
-            </div>
-        </section>
-        <section id="Info_adicional">
-            <h2>Total</h2>
-            <p class="col" id="total">
-                $15 </p>
-            <div class="tabla_info">
-                <div class="fila">
-                    <label class="col" for="fecha_entrega">Fecha de entrega:</label>
-                    <div id="entrada_fecha" class="col">
-                        <input type="date" id="fecha_entrega" name="fecha_entrega" required="">
-                        <div id="error-message" class="error">La fecha ingresada no puede ser menor o igual a la
-                            fecha actual.</div>
-                        <div id="error-message3" class="error">Fecha inválida.</div>
-                    </div>
+
                 </div>
-                <div class="fila">
-                    <label class="col" for="time">Hora:</label>
-                    <div id="entrada_tiempo" class="col">
-                        <input type="time" id="hora_entrega">
-                        <input type="hidden" name="id_comprobante" id="id_comprobante" value="1">
-                        <input type="hidden" name="id_pedido" id="id_pedido" value="2">
-                        <div id="error-message2" class="error">La entrega del pedido no puede realizarse en menos
-                            de 24 horas.</div>
+            </section>
+            <section id="Info_adicional">
+                <h2>Total</h2>
+                <p class="col" id="total">
+                    $15 </p>
+                <div class="tabla_info">
+                    <div class="fila">
+                        <label class="col" for="fecha_entrega">Fecha de entrega:</label>
+                        <div id="entrada_fecha" class="col">
+                            <input type="date" id="fecha_entrega" name="fecha_entrega" required="">
+                            <div id="error-message" class="error">La fecha ingresada no puede ser menor o igual a la
+                                fecha actual.</div>
+                            <div id="error-message3" class="error">Fecha inválida.</div>
+                        </div>
                     </div>
+                    <div class="fila">
+                        <label class="col" for="time">Hora:</label>
+                        <div id="entrada_tiempo" class="col">
+                            <input type="time" id="hora_entrega">
+                            <input type="hidden" name="id_comprobante" id="id_comprobante" value="1">
+                            <input type="hidden" name="id_pedido" id="id_pedido" value="2">
+                            <div id="error-message2" class="error">La entrega del pedido no puede realizarse en menos
+                                de 24 horas.</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="botones_carrito">
+                    <input id="fin_pedido" class="fin_pedido" type="button" value="Finalizar pedido"
+                        onclick="finalizarPedido()">
+                    <label for="check3" id="desc_comp" class="desc_fact" style="display:none">
+                        Descargar comprobante
+                    </label>
                 </div>
 
-            </div>
-            <div id="botones_carrito">
-                <input id="fin_pedido" class="fin_pedido" type="button" value="Finalizar pedido"
-                    onclick="finalizarPedido()">
-                <label for="check3" id="desc_comp" class="desc_fact" style="display:none">
-                    Descargar comprobante
-                </label>
-            </div>
-
-            <p>Nota: Pronto incorporaremos la entrega a
-                domicio. Los pedidos que realices puedes
-                retirarlos de nuestro local desde las 24h
-                transcurridas.<br>
-                Dirección: Av. Atahualpa y Tobías Mena, a
-                unos pasos del coliseo de la Bola Amarilla
-            </p>
-        </section>
+                <p>Nota: Pronto incorporaremos la entrega a
+                    domicio. Los pedidos que realices puedes
+                    retirarlos de nuestro local desde las 24h
+                    transcurridas.<br>
+                    Dirección: Av. Atahualpa y Tobías Mena, a
+                    unos pasos del coliseo de la Bola Amarilla
+                </p>
+            </section>
         @endif
 
     </div>
-    
+
 @endsection

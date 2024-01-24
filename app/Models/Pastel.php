@@ -35,6 +35,16 @@ class Pastel extends Model
         // Devuelves el pastel encontrado o null si no hay ninguno
         return $pastel;
     }
+    public function getPastelById($pastel_id)
+    {
+        // Usas el método where para filtrar los pasteles por la columna img
+        // y usas el método first para obtener el primero que cumpla la condición
+        
+        $pastel = Pastel::where('pastel_id', $pastel_id)->first();
+
+        // Devuelves el pastel encontrado o null si no hay ninguno
+        return $pastel;
+    }
     // Este es el método que permite obtener un conjunto de pasteles por su categoria
     public function getPastelesByCategoria($categoria_descripcion)
     {

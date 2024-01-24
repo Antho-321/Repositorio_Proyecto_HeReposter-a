@@ -21,4 +21,17 @@ class DetallesPedido extends Model
         'dedicatoria',
         'especificacion_adicional'        
     ];
+
+    public function getPastelesByPedido($pedido_id){
+        // Usas el método select para indicar que solo quieres la columna pastel_id
+        // Usas el método where para filtrar los detalles por el pedido_id que recibes como parámetro
+        // Usas el método get para ejecutar la consulta y obtener una colección de resultados
+        $pasteles = DetallesPedido::select('pastel_id')->where('pedido_id', $pedido_id)->get();
+        // Devuelves la colección de pasteles o null si no hay ninguno
+        return $pasteles;
+    }
+    public function getDetallesPedidoByPedido($pedido_id){
+        $detalles_pedido=DetallesPedido::where('pedido_id',$pedido_id)->get();
+        return $detalles_pedido;
+    }
 }

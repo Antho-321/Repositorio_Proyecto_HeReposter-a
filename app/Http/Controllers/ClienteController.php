@@ -92,7 +92,7 @@ class ClienteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $pastel_id)
+    public function destroy(string $pastel)
     {
         //
     }
@@ -331,7 +331,17 @@ class ClienteController extends Controller
 
         // Construct the email body with HTML content
         $subject = 'Código de verificación';
-        $encoded_subject = mb_encode_mimeheader($subject, 'UTF-8', 'B');
+        $encoding='UTF-8';
+
+// $encoding is the character set of the string, such as 'UTF-8'
+$encoded_subject = iconv_mime_encode('Subject', $subject, array(
+    'scheme' => 'B', // use base64 encoding
+    'input-charset' => $encoding, // specify the input character set
+    'output-charset' => $encoding, // specify the output character set
+    'line-length' => 76, // specify the maximum line length
+    'line-break-chars' => "\r\n" // specify the line break characters
+));
+$encoded_subject = substr($encoded_subject, 9);
         // Ensure proper formatting of the email headers
         $emailBody = "To: " . $email_receiver . "\r\n";
         $emailBody .= "Subject: " . $encoded_subject . "\r\n";
