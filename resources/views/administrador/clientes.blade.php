@@ -1,3 +1,5 @@
+@include('sidebar')
+
 <!DOCTYPE html>
 <html lang="en">
 
