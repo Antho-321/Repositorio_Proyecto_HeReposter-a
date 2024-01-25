@@ -7,7 +7,7 @@ use App\Http\Controllers\AuditorController;
 use App\Http\Controllers\VendedorController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\administradorController;
+use App\Http\Controllers\AdministradorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,5 +80,5 @@ Route::get("/auditor_tbl_comprobante_venta",[AuditorController::class,"ver_compr
 
 // Rutas Administrador
 
-Route::get('/clientesAdministrador', [administradorController::class,"ver_clientes"])->name("obtenerclientes");
+Route::get('/AdministradorClientes', [AdministradorController::class,"indexCliente"])->name("AdministradorClientes");
 
