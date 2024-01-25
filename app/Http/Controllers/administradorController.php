@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class administradorClientes extends Controller
+class administradorController extends Controller
 {
     //TABLA CLIENTES
     public function ver_clientes()
     {
         $datos=DB::select("select * from clientes");
-        return view("/vendedor/vendedor_tbl_cliente")->with("datos",$datos);
+        return view("/administrador/clientes")->with("datos",$datos);
     }
 
     public function ingresar_cliente(Request $request)

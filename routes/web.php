@@ -80,5 +80,5 @@ Route::get("/auditor_tbl_comprobante_venta",[AuditorController::class,"ver_compr
 
 // Rutas Administrador
 
-Route::get('/clientesA', [administradorClientes::class,"index"])->name("crudAclientes.index");
+Route::get('/clientesAdministrador', [administradorController::class,"ver_clientes"])->name("obtenerclientes");
 
