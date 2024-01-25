@@ -7,7 +7,7 @@ use App\Http\Controllers\AuditorController;
 use App\Http\Controllers\VendedorController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\administradorClientes;
+use App\Http\Controllers\administradorController;
 
 /*
 |--------------------------------------------------------------------------
