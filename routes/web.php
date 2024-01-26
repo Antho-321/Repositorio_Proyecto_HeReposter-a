@@ -80,5 +80,8 @@ Route::get("/auditor_tbl_comprobante_venta",[AuditorController::class,"ver_compr
 
 // Rutas Administrador
 
-Route::get('/AdministradorClientes', [AdministradorController::class,"indexCliente"])->name("AdministradorClientes");
+Route::get('/AdministradorClientesIndex', [AdministradorController::class,"indexCliente"])->name("AdministradorClientesIndex");
+Route::post('/AdministradorClientesIngresar', [AdministradorController::class,"createCliente"])->name("AdministradorClientesIngresar");
+Route::post('/AdministradorClientesActualizar', [AdministradorController::class,"updateCliente"])->name("AdministradorClientesActualizar");
+Route::get('/AdministradorClientesEliminar-{id}', [AdministradorController::class,"deleteCliente"])->name("AdministradorClientesEliminar");
 

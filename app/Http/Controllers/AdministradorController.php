@@ -47,7 +47,7 @@ class AdministradorController extends Controller
     /**
      * Actualizar Clientes
      */
-    public function updateCliente(Request $request, string $id)
+    public function updateCliente(Request $request)
     {
         try {
             $sql = DB::update("update clientes set cedula=? , nombre_cliente=? , telefono=? , direccion_domicilio=? , email=?, clave=? where cliente_id=?", [
@@ -77,7 +77,7 @@ class AdministradorController extends Controller
     /**
      * Eliminar Cliente
      */
-    public function deleteCliente(string $id)
+    public function deleteCliente($id)
     {
         try {
             $sql = DB::delete("delete from clientes where cliente_id=$id");

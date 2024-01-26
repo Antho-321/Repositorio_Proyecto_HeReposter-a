@@ -39,7 +39,7 @@
                     <div class="modal-body">
 
                         <!-- modal para ingresar -->
-                        <form action="{{ route('vendedor_registrar_cliente') }}" method="POST">
+                        <form action="{{ route('AdministradorClientesIngresar') }}" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Cedula</label>
@@ -92,8 +92,8 @@
                     <tr>
                         <th scope="col">Codigo</th>
                         <th scope="col">Cedula</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Cliente</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Telefono</th>
                         <th scope="col">Direccion</th>
                         <th scope="col">Correo</th>
                         <th scope="col">Clave</th>
@@ -115,7 +115,7 @@
                                 <a href="" data-bs-toggle="modal"
                                     data-bs-target="#modalEditar{{ $item->cliente_id }}"
                                     class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="{{ route('vendedor_eliminar_cliente', $item->cliente_id) }}"
+                                <a href="{{ route('AdministradorClientesEliminar', $item->cliente_id) }}"
                                     onclick="return res()" class="btn btn-danger btn-sm"><i
                                         class="fa-solid fa-trash"></i></a>
                             </td>
@@ -130,7 +130,8 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('vendedor_editar_cliente') }}" method="POST">
+                                            <form action="{{ route('AdministradorClientesActualizar') }}"
+                                                method="POST">
                                                 @csrf
                                                 <div class="mb-3">
                                                     <label for="exampleInputPassword1"
@@ -190,7 +191,6 @@
                                                 </div>
                                             </form>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -203,4 +203,5 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
         </script>
 </body>
+
 </html>
