@@ -7,7 +7,7 @@ use App\Http\Controllers\AuditorController;
 use App\Http\Controllers\VendedorController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\administradorClientes;
+use App\Http\Controllers\AdministradorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,5 +80,8 @@ Route::get("/auditor_tbl_comprobante_venta",[AuditorController::class,"ver_compr
 
 // Rutas Administrador
 
-Route::get('/clientesA', [administradorClientes::class,"index"])->name("crudAclientes.index");
+Route::get('/AdministradorClientesIndex', [AdministradorController::class,"indexCliente"])->name("AdministradorClientesIndex");
+Route::post('/AdministradorClientesIngresar', [AdministradorController::class,"createCliente"])->name("AdministradorClientesIngresar");
+Route::post('/AdministradorClientesActualizar', [AdministradorController::class,"updateCliente"])->name("AdministradorClientesActualizar");
+Route::get('/AdministradorClientesEliminar-{id}', [AdministradorController::class,"deleteCliente"])->name("AdministradorClientesEliminar");
 
