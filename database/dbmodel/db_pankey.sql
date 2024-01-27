@@ -262,6 +262,9 @@ alter table pastel add constraint fk_rellenos_detallespedidos foreign key (relle
 alter table pastel add constraint fk_sabores_detallespedido foreign key (sabores_id)
       references sabores (sabores_id) on delete restrict on update restrict;
 
+alter table pastel add constraint fk_categoria_detallespedido foreign key (categoria_id)
+      references categoria (categoria_id) on delete restrict on update restrict;
+
 alter table pastel add constraint fk_tamanoformas_detallespedido foreign key (tamanos_formas_id)
       references tamanos_formas (tamanos_formas_id) on delete restrict on update restrict;
 
