@@ -27,7 +27,6 @@ class VendedorController extends Controller
                 $request->txtCorreo,
                 $request->txtPassword,
             ]);
-
         } catch (\Throwable $th) {
             $sql = 0;
         }
@@ -100,7 +99,6 @@ class VendedorController extends Controller
         try {
             // Realizar la inserción en la tabla pedido
             DB::table('pedido')->insert([
-                'pedido_id' => $request->idPedido,
                 'cliente_id' => $request->idCliente,
                 'fecha_pedido' => $request->fechaPedido,
                 'fecha_entrega' => $request->fechaEntrega,
@@ -117,31 +115,34 @@ class VendedorController extends Controller
 
     public function editar_pedidos(Request $request)
     {
-
         try {
-            $sql = DB::update("update pedido set cliente_id=? , fecha_pedido=? , fecha_entrega=? , hora_entrega=? , pedido_confirmado=? where pedido_id=?", [
+            // Verificar si el cliente existe antes de realizar la actualización
+            $clienteExistente = DB::table('clientes')->where('cliente_id', $request->idCliente)->exists();
 
+            if (!$clienteExistente) {
+                return back()->with("incorrecto", "El cliente no existe");
+            }
+
+            // Realizar la actualización en la tabla pedido
+            $sql = DB::update("update pedido set cliente_id=? , fecha_pedido=? , fecha_entrega=? , hora_entrega=? , pedido_confirmado=? where pedido_id=?", [
                 $request->idCliente,
                 $request->fechaPedido,
                 $request->fechaEntrega,
                 $request->horaEntrega,
                 $request->pedidoConfirmado,
                 $request->idPedido,
-
             ]);
-            if ($sql == 0) {
-                $sql == 1;
+
+            if ($sql > 0) {
+                return back()->with("correcto", "PEDIDO modificado");
+            } else {
+                return back()->with("incorrecto", "ERROR AL MODIFICAR PEDIDO");
             }
         } catch (\Throwable $th) {
-            $sql = 0;
-        }
-
-        if ($sql == true) {
-            return back()->with("correcto", "PEDIDO modificado");
-        } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR PEDIDO");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR PEDIDO: " . $th->getMessage());
         }
     }
+
 
     public function eliminar_pedidos($id)
     {
@@ -167,7 +168,29 @@ class VendedorController extends Controller
 
     public function ingresar_detalles_pedido(Request $request)
     {
+        // Verificar si el pedido, varios y pastel existen antes de insertar el detalle del pedido
+        $pedidoExistente = DB::table('pedido')->where('pedido_id', $request->pedido)->exists();
+        $variosExistente = DB::table('varios')->where('id_varios', $request->varios)->exists();
+        $pastelExistente = DB::table('pastel')->where('pastel_id', $request->pastel)->exists();
+
+        $elementosNoExistentes = [];
+
+        if (!$pedidoExistente) {
+            $elementosNoExistentes[] = "Pedido";
+        }
+        if (!$variosExistente) {
+            $elementosNoExistentes[] = "Varios";
+        }
+        if (!$pastelExistente) {
+            $elementosNoExistentes[] = "Pastel";
+        }
+
+        if (!empty($elementosNoExistentes)) {
+            return back()->with("incorrecto", "Los siguientes elementos no existen: " . implode(', ', $elementosNoExistentes));
+        }
+
         try {
+            // Realizar la inserción en la tabla detalles_pedido
             $sql = DB::insert("insert into detalles_pedido (pedido_id, id_varios, pastel_id, cantidad_pastel, cantidad_varios, dedicatoria, especificacion_adicional)
         values (?,?,?,?,?,?,?)", [
                 $request->pedido,
@@ -177,22 +200,43 @@ class VendedorController extends Controller
                 $request->cantidadvarios,
                 $request->dedicatoria,
                 $request->especificacion,
-
             ]);
 
+            if ($sql == true) {
+                return back()->with("correcto", "Detalle de pedido registrado");
+            } else {
+                return back()->with("incorrecto", "ERROR AL REGISTRAR");
+            }
         } catch (\Throwable $th) {
-            $sql = 0;
-        }
-        if ($sql == true) {
-            return back()->with("correcto", "Detalle de pedido registrado");
-        } else {
-            return back()->with("incorrecto", "ERROR AL REGISTRAR");
+            return back()->with("incorrecto", "ERROR AL REGISTRAR: " . $th->getMessage());
         }
     }
 
     public function editar_detalles_pedido(Request $request)
     {
+        // Verificar si el pedido, varios y pastel existen antes de realizar la actualización
+        $pedidoExistente = DB::table('pedido')->where('pedido_id', $request->pedido)->exists();
+        $variosExistente = DB::table('varios')->where('id_varios', $request->varios)->exists();
+        $pastelExistente = DB::table('pastel')->where('pastel_id', $request->pastel)->exists();
+
+        $elementosNoExistentes = [];
+
+        if (!$pedidoExistente) {
+            $elementosNoExistentes[] = "Pedido";
+        }
+        if (!$variosExistente) {
+            $elementosNoExistentes[] = "Varios";
+        }
+        if (!$pastelExistente) {
+            $elementosNoExistentes[] = "Pastel";
+        }
+
+        if (!empty($elementosNoExistentes)) {
+            return back()->with("incorrecto", "Los siguientes elementos no existen: " . implode(', ', $elementosNoExistentes));
+        }
+
         try {
+            // Realizar la actualización en la tabla detalles_pedido
             $sql = DB::update("update detalles_pedido set  pedido_id=?, id_varios=?, pastel_id=?, cantidad_pastel=?, cantidad_varios=?, dedicatoria=?, especificacion_adicional=? where detalle_id=?", [
                 $request->pedido,
                 $request->varios,
@@ -203,19 +247,17 @@ class VendedorController extends Controller
                 $request->especificacion,
                 $request->detalle_id,
             ]);
-            if ($sql == 0) {
-                $sql == 1;
+
+            if ($sql > 0) {
+                return back()->with("correcto", "Detalle modificado");
+            } else {
+                return back()->with("incorrecto", "ERROR AL MODIFICAR DETALLE");
             }
         } catch (\Throwable $th) {
-            $sql = 0;
-        }
-
-        if ($sql == true) {
-            return back()->with("correcto", "Detalle modificado");
-        } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR DETALLE");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR DETALLE: " . $th->getMessage());
         }
     }
+
 
     public function eliminar_detalles_pedido($id)
     {

@@ -56,6 +56,7 @@
 
   <!-- Sidebar -->
   <div class="sidebar">
+    <img src="{{ asset('images/LOGO_PANKEY.png') }}" alt="Logo" class="img-fluid" style="width: 100%; height: auto; margin-bottom: 20px;">
     <a href="{{ route('vendedor_tbl_cliente') }}">Clientes</a>
     <a href="{{ route('vendedor_tbl_detalles_pedido') }}">Detalles Pedido</a>
     <a href="{{ route('vendedor_tbl_pedidos') }}">Pedido</a>

@@ -8,7 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/7da396f1a6.js" crossorigin="anonymous"></script>
   <style>
-     body {
+    body {
       font-family: 'Arial', sans-serif;
       background: linear-gradient(45deg, #3D89FD, #D25EFA);
       height: 100vh;
@@ -55,6 +55,7 @@
 <body>
   <!-- Sidebar -->
   <div class="sidebar">
+    <img src="{{ asset('images/LOGO_PANKEY.png') }}" alt="Logo" class="img-fluid" style="width: 100%; height: auto; margin-bottom: 20px;">
     <a href="{{ route('vendedor_tbl_cliente') }}">Clientes</a>
     <a href="{{ route('vendedor_tbl_detalles_pedido') }}">Detalles Pedido</a>
     <a href="{{ route('vendedor_tbl_pedidos') }}">Pedido</a>

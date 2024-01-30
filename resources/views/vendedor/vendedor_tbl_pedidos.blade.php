@@ -53,8 +53,10 @@
 </head>
 
 <body>
+
   <!-- Sidebar -->
   <div class="sidebar">
+    <img src="{{ asset('images/LOGO_PANKEY.png') }}" alt="Logo" class="img-fluid" style="width: 100%; height: auto; margin-bottom: 20px;">
     <a href="{{ route('vendedor_tbl_cliente') }}">Clientes</a>
     <a href="{{ route('vendedor_tbl_detalles_pedido') }}">Detalles Pedido</a>
     <a href="{{ route('vendedor_tbl_pedidos') }}">Pedido</a>
@@ -92,10 +94,6 @@
             <form action="{{route("vendedor_registrar_pedidos")}}" method="POST">
               @csrf
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Id de Pedido</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" name="idPedido">
-              </div>
-              <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Id de cliente</label>
                 <input type="number" class="form-control" id="exampleInputPassword1" name="idCliente">
               </div>
@@ -114,8 +112,10 @@
 
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Pedido confirmado</label>
+                <input type="hidden" name="pedidoConfirmado" value="0"> <!-- Valor por defecto cuando no está marcado -->
                 <input type="checkbox" class="form-check-input" id="exampleInputPassword1" name="pedidoConfirmado" value="1">
               </div>
+
 
 
               <div class="modal-footer">
@@ -153,7 +153,14 @@
             <td>{{$item->fecha_pedido}}</td>
             <td>{{$item->fecha_entrega}}</td>
             <td>{{$item->hora_entrega}}</td>
-            <td>{{$item->pedido_confirmado}}</td>
+            <td>
+              @if($item->pedido_confirmado == 1)
+              Confirmado
+              @else
+              No confirmado
+              @endif
+            </td>
+
             <td>
               <a href="" data-bs-toggle="modal" data-bs-target="#modalEditar{{$item->pedido_id}}" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
               <a href="{{route("vendedor_eliminar_pedidos",$item->pedido_id)}}" onclick="return res()" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
@@ -195,7 +202,8 @@
 
                       <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Pedido confirmado</label>
-                        <input type="checkbox" class="form-check-input" id="exampleInputPassword1" name="pedidoConfirmado" value="{{$item->pedido_confirmado}}">
+                        <input type="hidden" name="pedidoConfirmado" value="0"> <!-- Valor por defecto cuando no está marcado -->
+                        <input type="checkbox" class="form-check-input" id="exampleInputPassword1" name="pedidoConfirmado" value="1" {{ $item->pedido_confirmado == 1 ? 'checked' : '' }}>
                       </div>
 
 

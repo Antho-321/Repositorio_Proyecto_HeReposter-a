@@ -57,6 +57,7 @@
 
   <!-- Sidebar -->
   <div class="sidebar">
+    <img src="{{ asset('images/LOGO_PANKEY.png') }}" alt="Logo" class="img-fluid" style="width: 100%; height: auto; margin-bottom: 20px;">
     <a href="{{ route('auditor_tbl_auditoria') }}">Auditoria</a>
     <a href="{{ route('auditor_tbl_clientes') }}">Clientes</a>
     <a href="{{ route('auditor_tbl_comprobante_venta') }}">Comprobante de Ventas</a>
