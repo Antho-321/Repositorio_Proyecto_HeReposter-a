@@ -70,6 +70,10 @@ Route::post("/vendedor_registrar_detalles_pedido", [VendedorController::class, "
 Route::post("/vendedor_editar_detalles_pedido", [VendedorController::class, "editar_detalles_pedido"])->name("vendedor_editar_detalles_pedido");
 Route::get("/vendedor_eliminar_detalles_pedido-{id}", [VendedorController::class, "eliminar_detalles_pedido"])->name("vendedor_eliminar_detalles_pedido");
 
+Route::get("/vendedor_tbl_productos", [VendedorController::class, "ver_productos"])->name("vendedor_tbl_productos");
+
+Route::get("/vendedor_tbl_comprobante_venta", [VendedorController::class, "ver_comprobante_venta"])->name("vendedor_tbl_comprobante_venta");
+Route::post("/vendedor_registrar_comprobante_venta", [VendedorController::class, "ingresar_comprobante_venta"])->name("vendedor_registrar_comprobante_venta");
 
 Route::get("/auditor_tbl_auditoria",[AuditorController::class,"ver_auditoria"])->name("auditor_tbl_auditoria");
 Route::get("/auditor_tbl_cliente",[AuditorController::class,"ver_clientes"])->name("auditor_tbl_clientes");

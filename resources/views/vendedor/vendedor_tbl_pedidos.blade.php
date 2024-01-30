@@ -60,6 +60,8 @@
     <a href="{{ route('vendedor_tbl_cliente') }}">Clientes</a>
     <a href="{{ route('vendedor_tbl_detalles_pedido') }}">Detalles Pedido</a>
     <a href="{{ route('vendedor_tbl_pedidos') }}">Pedido</a>
+    <a href="{{ route('vendedor_tbl_productos') }}">Productos</a>
+    <a href="{{ route('vendedor_tbl_comprobante_venta') }}">Comprobantes de Venta</a>
   </div>
 
   <!-- Content -->

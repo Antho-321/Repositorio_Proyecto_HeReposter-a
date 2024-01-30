@@ -273,4 +273,68 @@ class VendedorController extends Controller
             return back()->with("incorrecto", "ERROR AL ELIMINAR CLIENTE");
         }
     }
+    public function ver_productos()
+    {
+        // Obtener datos de la tabla 'pastel'
+        $datosPastel = DB::select("select * from pastel");
+
+        // Obtener datos de la tabla 'cobertura'
+        $datosCobertura = DB::select("select * from cobertura");
+
+        // Obtener datos de la tabla 'rellenos'
+        $datosRellenos = DB::select("select * from rellenos");
+
+        // Obtener datos de la tabla 'sabores'
+        $datosSabores = DB::select("select * from sabores");
+
+        // Obtener datos de la tabla 'tipos'
+        $datosTipo = DB::select("select * from tipo");
+        // Obtener datos de la tabla 'varios'
+        $datosVarios = DB::select("select * from varios");
+
+        return view("/vendedor/vendedor_tbl_productos", [
+            "datosPastel" => $datosPastel,
+            "datosCobertura" => $datosCobertura,
+            "datosRellenos" => $datosRellenos,
+            "datosSabores" => $datosSabores,
+            "datosTipo" => $datosTipo,
+            "datosVarios" => $datosVarios,
+        ]);
+    }
+
+    //comprobante de venta
+    public function ver_comprobante_venta()
+    {
+        $datos = DB::select("select * from comprobante_venta");
+        return view("/vendedor/vendedor_tbl_comprobante_venta")->with("datos", $datos);
+    }
+
+    public function ingresar_comprobante_venta(Request $request)
+    {
+        try {
+
+            $pedidoExistente = DB::table('pedido')->where('pedido_id', $request->pedidoid)->exists();
+
+            if (!$pedidoExistente) {
+                return back()->with("incorrecto", "El PEDIDO no existe");
+            }
+            $sql = DB::insert("insert into comprobante_venta (comprobante_id, pedido_id, lugar, fecha, cantidad, concepto, cedula_vendedor)
+        values (?,?,?,?,?,?,?)", [
+                $request->comprobanteid,
+                $request->pedidoid,
+                $request->lugar,
+                $request->fecha,
+                $request->cantidad,
+                $request->concepto,
+                $request->cedulavendedor,
+            ]);
+            if ($sql == true) {
+                return back()->with("correcto", "Comprobante de venta registrado");
+            } else {
+                return back()->with("incorrecto", "ERROR AL REGISTRAR");
+            }
+        } catch (\Throwable $th) {
+            return back()->with("incorrecto", "ERROR AL MODIFICAR PEDIDO: " . $th->getMessage());
+        }
+    }
 }
