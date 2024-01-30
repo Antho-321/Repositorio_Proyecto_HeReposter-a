@@ -106,9 +106,8 @@ class AdministradorController extends Controller
     public function createCategoria(Request $request)
     {
         try {
-            $sql = DB::insert("insert into categoria (categoria_id, categoria_descripcion)
-        values (?,?)", [
-                $request->txtId,
+            $sql = DB::insert("insert into categoria (categoria_descripcion)
+        values (?)", [
                 $request->txtDescripcion,
             ]);
         } catch (\Throwable $th) {
@@ -127,8 +126,8 @@ class AdministradorController extends Controller
     public function updateCategoria(Request $request)
     {
         try {
-            $sql = DB::update("update categoria set categoria_id=? , categoria_descripcion=? where categoria_id=?", [
-                $request->txtId,
+            $sql = DB::update("update categoria set categoria_descripcion=? where categoria_id=?", [
+                $request->txtCategoriaId,
                 $request->txtDescripcion,
             ]);
             if ($sql == 0) {
@@ -179,9 +178,8 @@ class AdministradorController extends Controller
     public function createCobertura(Request $request)
     {
         try {
-            $sql = DB::insert("insert into cobertura (cobertura_id, cobertura_descripcion, cobertura_precio_base_volumen)
-        values (?,?,?)", [
-                $request->txtId,
+            $sql = DB::insert("insert into cobertura (cobertura_descripcion, cobertura_precio_base_volumen)
+        values (?,?)", [
                 $request->txtDescripcion,
                 $request->txtPrecio,
             ]);
@@ -201,8 +199,8 @@ class AdministradorController extends Controller
     public function updateCobertura(Request $request)
     {
         try {
-            $sql = DB::update("update cobertura set cobertura_id=? , cobertura_descripcion=? , cobertura_precio_base_volumen=? where cobertura_id=?", [
-                $request->txtId,
+            $sql = DB::update("update cobertura set cobertura_descripcion=? , cobertura_precio_base_volumen=? where cobertura_id=?", [
+                $request->txtCoberturaId,
                 $request->txtDescripcion,
                 $request->txtPrecio,
             ]);
@@ -254,9 +252,8 @@ class AdministradorController extends Controller
     public function createComprobanteVenta(Request $request)
     {
         try {
-            $sql = DB::insert("insert into comprobante_venta (comprobante_id, pedido_id, lugar, fecha, cantidad, concepto, cedula_vendedor)
-        values (?,?,?,?,?,?,?)", [
-                $request->txtId,
+            $sql = DB::insert("insert into comprobante_venta (pedido_id, lugar, fecha, cantidad, concepto, cedula_vendedor)
+        values (?,?,?,?,?,?)", [
                 $request->txtPedidoId,
                 $request->txtLugar,
                 $request->txtFecha,
@@ -280,8 +277,8 @@ class AdministradorController extends Controller
     public function updateComprobanteVenta(Request $request)
     {
         try {
-            $sql = DB::update("update comprobante_venta set comprobante_id=?, pedido_id=?, lugar=?, fecha=?, cantidad=?, concepto=?, cedula_vendedor=? where comprobante_id=?", [
-                $request->txtId,
+            $sql = DB::update("update comprobante_venta set pedido_id=?, lugar=?, fecha=?, cantidad=?, concepto=?, cedula_vendedor=? where comprobante_id=?", [
+                $request->txtComrobanteId,
                 $request->txtPedidoId,
                 $request->txtLugar,
                 $request->txtFecha,
@@ -337,20 +334,21 @@ class AdministradorController extends Controller
     public function createDetallePedido(Request $request)
     {
         try {
-            $sql = DB::insert("insert into detalles_pedido (cedula, nombre_cliente, telefono, direccion_domicilio, email, clave)
-        values (?,?,?,?,?,?)", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
+            $sql = DB::insert("insert into detalles_pedido (pedido_id, id_varios, pastel_id, cantidad_pastel, cantidad_varios, dedicatoria, especificacion_adicional)
+        values (?,?,?,?,?,?,?)", [
+                $request->txtPedidoId,
+                $request->txtVariosId,
+                $request->txtPastelId,
+                $request->txtCantidadPastel,
+                $request->txtCantidadVarios,
+                $request->txtDedicatoria,
+                $request->txtEspecificacionAdicional,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
         }
         if ($sql == true) {
-            return back()->with("correcto", "Cliente registrado");
+            return back()->with("correcto", "Detalles del pastel registrado");
         } else {
             return back()->with("incorrecto", "ERROR AL REGISTRAR");
         }
@@ -362,14 +360,15 @@ class AdministradorController extends Controller
     public function updateDetallePedido(Request $request)
     {
         try {
-            $sql = DB::update("update clientes set cedula=? , nombre_cliente=? , telefono=? , direccion_domicilio=? , email=?, clave=? where cliente_id=?", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
-                $request->txtCodigo,
+            $sql = DB::update("update detalles_pedido set pedido_id=?, id_varios=?, pastel_id=?, cantidad_pastel=?, cantidad_varios=?, dedicatoria=?, especificacion_adicional=? where detalle_id=?", [
+                $request->txtDetalleId,
+                $request->txtPedidoId,
+                $request->txtVariosId,
+                $request->txtPastelId,
+                $request->txtCantidadPastel,
+                $request->txtCantidadVarios,
+                $request->txtDedicatoria,
+                $request->txtEspecificacionAdicional,
 
             ]);
             if ($sql == 0) {
@@ -380,9 +379,9 @@ class AdministradorController extends Controller
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Cliente modificado");
+            return back()->with("correcto", "Detalles del pastel modificado");
         } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR DETALLES");
         }
     }
 
@@ -392,15 +391,15 @@ class AdministradorController extends Controller
     public function deleteDetallePedido($id)
     {
         try {
-            $sql = DB::delete("delete from clientes where cliente_id=$id");
+            $sql = DB::delete("delete from detalles_pedido where detalle_id=$id");
         } catch (\Throwable $th) {
             $sql = 0;
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Se ha eliminado el cliente");
+            return back()->with("correcto", "Se ha eliminado el detalle del pastel");
         } else {
-            return back()->with("incorrecto", "ERROR AL ELIMINAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL ELIMINAR DETALLES");
         }
     }
 
@@ -410,8 +409,8 @@ class AdministradorController extends Controller
      */
     public function indexFormas()
     {
-        $datos = DB::select("select * from clientes");
-        return view("/administrador/clientes")->with("datos", $datos);
+        $datos = DB::select("select * from formas");
+        return view("/administrador/formas")->with("datos", $datos);
     }
 
     /**
@@ -420,22 +419,17 @@ class AdministradorController extends Controller
     public function createFormas(Request $request)
     {
         try {
-            $sql = DB::insert("insert into clientes (cedula, nombre_cliente, telefono, direccion_domicilio, email, clave)
-        values (?,?,?,?,?,?)", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
+            $sql = DB::insert("insert into formas (formas_descripcion)
+        values (?)", [
+                $request->txtDescripcion,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
         }
         if ($sql == true) {
-            return back()->with("correcto", "Cliente registrado");
+            return back()->with("correcto", "Forma registrada");
         } else {
-            return back()->with("incorrecto", "ERROR AL REGISTRAR");
+            return back()->with("incorrecto", "ERROR AL Forma");
         }
     }
 
@@ -445,15 +439,9 @@ class AdministradorController extends Controller
     public function updateFormas(Request $request)
     {
         try {
-            $sql = DB::update("update clientes set cedula=? , nombre_cliente=? , telefono=? , direccion_domicilio=? , email=?, clave=? where cliente_id=?", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
-                $request->txtCodigo,
-
+            $sql = DB::update("update formas set formas_descripcion=? where formas_id=?", [
+                $request->txtFormasId,
+                $request->txtDescripcion,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -463,9 +451,9 @@ class AdministradorController extends Controller
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Cliente modificado");
+            return back()->with("correcto", "Forma modificado");
         } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR FORMA");
         }
     }
 
@@ -475,15 +463,15 @@ class AdministradorController extends Controller
     public function deleteFormas($id)
     {
         try {
-            $sql = DB::delete("delete from clientes where cliente_id=$id");
+            $sql = DB::delete("delete from formas where formas_id=$id");
         } catch (\Throwable $th) {
             $sql = 0;
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Se ha eliminado el cliente");
+            return back()->with("correcto", "Se ha eliminado la forma");
         } else {
-            return back()->with("incorrecto", "ERROR AL ELIMINAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL ELIMINAR FORMA");
         }
     }
 
@@ -493,8 +481,8 @@ class AdministradorController extends Controller
      */
     public function indexPastel()
     {
-        $datos = DB::select("select * from clientes");
-        return view("/administrador/clientes")->with("datos", $datos);
+        $datos = DB::select("select * from pastel");
+        return view("/administrador/pastel")->with("datos", $datos);
     }
 
     /**
@@ -503,20 +491,22 @@ class AdministradorController extends Controller
     public function createPastel(Request $request)
     {
         try {
-            $sql = DB::insert("insert into clientes (cedula, nombre_cliente, telefono, direccion_domicilio, email, clave)
-        values (?,?,?,?,?,?)", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
+            $sql = DB::insert("insert into pastel (tamanos_formas_id, tipo_id, relleno_id, cobertura_id, sabores_id, precio, img, categoria_id)
+        values (?,?,?,?,?,?,?,?)", [
+                $request->txtTamanosFormasId,
+                $request->txtTipoId,
+                $request->txtRellenoId,
+                $request->txtCoberturaId,
+                $request->txtSaboresId,
+                $request->txtPrecio,
+                $request->txtImg,
+                $request->txtCategoriaId,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
         }
         if ($sql == true) {
-            return back()->with("correcto", "Cliente registrado");
+            return back()->with("correcto", "Pastel registrado");
         } else {
             return back()->with("incorrecto", "ERROR AL REGISTRAR");
         }
@@ -528,15 +518,16 @@ class AdministradorController extends Controller
     public function updatePastel(Request $request)
     {
         try {
-            $sql = DB::update("update clientes set cedula=? , nombre_cliente=? , telefono=? , direccion_domicilio=? , email=?, clave=? where cliente_id=?", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
-                $request->txtCodigo,
-
+            $sql = DB::update("update pastel set tamanos_formas_id=?, tipo_id=?, relleno_id=?, cobertura_id=?, sabores_id=?, precio=?, img=?, categoria_id=? where pastel_id=?", [
+                $request->txtPastelId,
+                $request->txtTamanosFormasId,
+                $request->txtTipoId,
+                $request->txtRellenoId,
+                $request->txtCoberturaId,
+                $request->txtSaboresId,
+                $request->txtPrecio,
+                $request->txtImg,
+                $request->txtCategoriaId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -546,9 +537,9 @@ class AdministradorController extends Controller
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Cliente modificado");
+            return back()->with("correcto", "Pastel modificado");
         } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR PASTEL");
         }
     }
 
@@ -558,15 +549,15 @@ class AdministradorController extends Controller
     public function deletePastel($id)
     {
         try {
-            $sql = DB::delete("delete from clientes where cliente_id=$id");
+            $sql = DB::delete("delete from pastel where pastel_id=$id");
         } catch (\Throwable $th) {
             $sql = 0;
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Se ha eliminado el cliente");
+            return back()->with("correcto", "Se ha eliminado el pastel");
         } else {
-            return back()->with("incorrecto", "ERROR AL ELIMINAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL ELIMINAR PASTEL");
         }
     }
 
@@ -576,8 +567,8 @@ class AdministradorController extends Controller
      */
     public function indexPedidos()
     {
-        $datos = DB::select("select * from clientes");
-        return view("/administrador/clientes")->with("datos", $datos);
+        $datos = DB::select("select * from pedido");
+        return view("/administrador/pedidos")->with("datos", $datos);
     }
 
     /**
@@ -586,20 +577,19 @@ class AdministradorController extends Controller
     public function createPedidos(Request $request)
     {
         try {
-            $sql = DB::insert("insert into clientes (cedula, nombre_cliente, telefono, direccion_domicilio, email, clave)
-        values (?,?,?,?,?,?)", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
+            $sql = DB::insert("insert into pedido (cliente_id, fecha_pedido, fecha_entrega, hora_entrega, pedido_confirmado)
+        values (?,?,?,?,?)", [
+                $request->txtClienteId,
+                $request->txtFechaPedido,
+                $request->txtFechaEntrega,
+                $request->txtHoraEntrega,
+                $request->txtPedidoConfirmado,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
         }
         if ($sql == true) {
-            return back()->with("correcto", "Cliente registrado");
+            return back()->with("correcto", "Pedido registrado");
         } else {
             return back()->with("incorrecto", "ERROR AL REGISTRAR");
         }
@@ -611,15 +601,13 @@ class AdministradorController extends Controller
     public function updatePedidos(Request $request)
     {
         try {
-            $sql = DB::update("update clientes set cedula=? , nombre_cliente=? , telefono=? , direccion_domicilio=? , email=?, clave=? where cliente_id=?", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
-                $request->txtCodigo,
-
+            $sql = DB::update("update pedido set cliente_id=?, fecha_pedido=?, fecha_entrega=?, hora_entrega=?, pedido_confirmado=? where pedido_id=?", [
+                $request->txtPedidoId,
+                $request->txtClienteId,
+                $request->txtFechaPedido,
+                $request->txtFechaEntrega,
+                $request->txtHoraEntrega,
+                $request->txtPedidoConfirmado,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -629,9 +617,9 @@ class AdministradorController extends Controller
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Cliente modificado");
+            return back()->with("correcto", "Pedido modificado");
         } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR PEDIDO");
         }
     }
 
@@ -641,15 +629,15 @@ class AdministradorController extends Controller
     public function deletePedidos($id)
     {
         try {
-            $sql = DB::delete("delete from clientes where cliente_id=$id");
+            $sql = DB::delete("delete from pedido where pedido_id=$id");
         } catch (\Throwable $th) {
             $sql = 0;
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Se ha eliminado el cliente");
+            return back()->with("correcto", "Se ha eliminado el pedido");
         } else {
-            return back()->with("incorrecto", "ERROR AL ELIMINAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL ELIMINAR PEDIDO");
         }
     }
 
@@ -659,8 +647,8 @@ class AdministradorController extends Controller
      */
     public function indexRellenos()
     {
-        $datos = DB::select("select * from clientes");
-        return view("/administrador/clientes")->with("datos", $datos);
+        $datos = DB::select("select * from rellenos");
+        return view("/administrador/rellenos")->with("datos", $datos);
     }
 
     /**
@@ -669,20 +657,17 @@ class AdministradorController extends Controller
     public function createRellenos(Request $request)
     {
         try {
-            $sql = DB::insert("insert into clientes (cedula, nombre_cliente, telefono, direccion_domicilio, email, clave)
-        values (?,?,?,?,?,?)", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
+            $sql = DB::insert("insert into rellenos (relleno_descripcion, relleno_altura, relleno_precio_base_volumen)
+        values (?,?,?)", [
+                $request->txtRellenoDescripcion,
+                $request->txtRellenoAltura,
+                $request->txtPrecio,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
         }
         if ($sql == true) {
-            return back()->with("correcto", "Cliente registrado");
+            return back()->with("correcto", "Relleno registrado");
         } else {
             return back()->with("incorrecto", "ERROR AL REGISTRAR");
         }
@@ -694,15 +679,11 @@ class AdministradorController extends Controller
     public function updateRellenos(Request $request)
     {
         try {
-            $sql = DB::update("update clientes set cedula=? , nombre_cliente=? , telefono=? , direccion_domicilio=? , email=?, clave=? where cliente_id=?", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
-                $request->txtCodigo,
-
+            $sql = DB::update("update rellenos set relleno_descripcion=?, relleno_altura=?, relleno_precio_base_volumen=? where relleno_id=?", [
+                $request->txtRellenoId,
+                $request->txtRellenoDescripcion,
+                $request->txtRellenoAltura,
+                $request->txtPrecio,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -712,9 +693,9 @@ class AdministradorController extends Controller
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Cliente modificado");
+            return back()->with("correcto", "Relleno modificado");
         } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR Relleno");
         }
     }
 
@@ -724,15 +705,15 @@ class AdministradorController extends Controller
     public function deleteRellenos($id)
     {
         try {
-            $sql = DB::delete("delete from clientes where cliente_id=$id");
+            $sql = DB::delete("delete from rellenos where rellenos_id=$id");
         } catch (\Throwable $th) {
             $sql = 0;
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Se ha eliminado el cliente");
+            return back()->with("correcto", "Se ha eliminado el relleno");
         } else {
-            return back()->with("incorrecto", "ERROR AL ELIMINAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL ELIMINAR RELLENO");
         }
     }
 
@@ -742,8 +723,8 @@ class AdministradorController extends Controller
      */
     public function indexRoles()
     {
-        $datos = DB::select("select * from clientes");
-        return view("/administrador/clientes")->with("datos", $datos);
+        $datos = DB::select("select * from roles");
+        return view("/administrador/roles")->with("datos", $datos);
     }
 
     /**
@@ -752,20 +733,16 @@ class AdministradorController extends Controller
     public function createRoles(Request $request)
     {
         try {
-            $sql = DB::insert("insert into clientes (cedula, nombre_cliente, telefono, direccion_domicilio, email, clave)
-        values (?,?,?,?,?,?)", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
+            $sql = DB::insert("insert into roles (nombre_rol, cedula_usuario)
+        values (?,?)", [
+                $request->txtNombreRol,
+                $request->txtCedulaUsuario,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
         }
         if ($sql == true) {
-            return back()->with("correcto", "Cliente registrado");
+            return back()->with("correcto", "Rol registrado");
         } else {
             return back()->with("incorrecto", "ERROR AL REGISTRAR");
         }
@@ -777,15 +754,10 @@ class AdministradorController extends Controller
     public function updateRoles(Request $request)
     {
         try {
-            $sql = DB::update("update clientes set cedula=? , nombre_cliente=? , telefono=? , direccion_domicilio=? , email=?, clave=? where cliente_id=?", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
-                $request->txtCodigo,
-
+            $sql = DB::update("update roles set nombre_rol=?, cedula_usuario=? where id_rol=?", [
+                $request->txtIdRol,
+                $request->txtNombreRol,
+                $request->txtCedulaUsuario,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -795,9 +767,9 @@ class AdministradorController extends Controller
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Cliente modificado");
+            return back()->with("correcto", "Rol modificado");
         } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR ROL");
         }
     }
 
@@ -807,15 +779,15 @@ class AdministradorController extends Controller
     public function deleteRoles($id)
     {
         try {
-            $sql = DB::delete("delete from clientes where cliente_id=$id");
+            $sql = DB::delete("delete from roles where id_rol=$id");
         } catch (\Throwable $th) {
             $sql = 0;
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Se ha eliminado el cliente");
+            return back()->with("correcto", "Se ha eliminado el rol");
         } else {
-            return back()->with("incorrecto", "ERROR AL ELIMINAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL ELIMINAR ROL");
         }
     }
 
@@ -825,8 +797,8 @@ class AdministradorController extends Controller
      */
     public function indexSabores()
     {
-        $datos = DB::select("select * from clientes");
-        return view("/administrador/clientes")->with("datos", $datos);
+        $datos = DB::select("select * from sabores");
+        return view("/administrador/sabores")->with("datos", $datos);
     }
 
     /**
@@ -835,20 +807,16 @@ class AdministradorController extends Controller
     public function createSabores(Request $request)
     {
         try {
-            $sql = DB::insert("insert into clientes (cedula, nombre_cliente, telefono, direccion_domicilio, email, clave)
-        values (?,?,?,?,?,?)", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
+            $sql = DB::insert("insert into sabores (sabores_descripcion, sabores_precio_base_volumen)
+        values (?,?)", [
+                $request->txtSaboresDescripcion,
+                $request->txtSaboresPrecio,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
         }
         if ($sql == true) {
-            return back()->with("correcto", "Cliente registrado");
+            return back()->with("correcto", "Sabor registrado");
         } else {
             return back()->with("incorrecto", "ERROR AL REGISTRAR");
         }
@@ -860,15 +828,10 @@ class AdministradorController extends Controller
     public function updateSabores(Request $request)
     {
         try {
-            $sql = DB::update("update clientes set cedula=? , nombre_cliente=? , telefono=? , direccion_domicilio=? , email=?, clave=? where cliente_id=?", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
-                $request->txtCodigo,
-
+            $sql = DB::update("update sabores set sabores_descripcion=?, sabores_precio_base_volumen=? where sabores_id=?", [
+                $request->txtSaboresId,
+                $request->txtSaboresDescripcion,
+                $request->txtSaboresPrecio,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -878,9 +841,9 @@ class AdministradorController extends Controller
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Cliente modificado");
+            return back()->with("correcto", "Sabor modificado");
         } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR SABOR");
         }
     }
 
@@ -890,15 +853,15 @@ class AdministradorController extends Controller
     public function deleteSabores($id)
     {
         try {
-            $sql = DB::delete("delete from clientes where cliente_id=$id");
+            $sql = DB::delete("delete from sabores where sabores_id=$id");
         } catch (\Throwable $th) {
             $sql = 0;
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Se ha eliminado el cliente");
+            return back()->with("correcto", "Se ha eliminado el sabor");
         } else {
-            return back()->with("incorrecto", "ERROR AL ELIMINAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL ELIMINAR SABOR");
         }
     }
 
@@ -908,8 +871,8 @@ class AdministradorController extends Controller
      */
     public function indexTamano()
     {
-        $datos = DB::select("select * from clientes");
-        return view("/administrador/clientes")->with("datos", $datos);
+        $datos = DB::select("select * from tamano");
+        return view("/administrador/tamano")->with("datos", $datos);
     }
 
     /**
@@ -918,20 +881,15 @@ class AdministradorController extends Controller
     public function createTamano(Request $request)
     {
         try {
-            $sql = DB::insert("insert into clientes (cedula, nombre_cliente, telefono, direccion_domicilio, email, clave)
-        values (?,?,?,?,?,?)", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
+            $sql = DB::insert("insert into tamano (tamano_descripcion)
+        values (?)", [
+                $request->txtTamanoDescripcion,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
         }
         if ($sql == true) {
-            return back()->with("correcto", "Cliente registrado");
+            return back()->with("correcto", "Tamaño registrado");
         } else {
             return back()->with("incorrecto", "ERROR AL REGISTRAR");
         }
@@ -943,15 +901,9 @@ class AdministradorController extends Controller
     public function updateTamano(Request $request)
     {
         try {
-            $sql = DB::update("update clientes set cedula=? , nombre_cliente=? , telefono=? , direccion_domicilio=? , email=?, clave=? where cliente_id=?", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
-                $request->txtCodigo,
-
+            $sql = DB::update("update tamano set tamano_descripcion=? where tamano_id=?", [
+                $request->txtTamanoId,
+                $request->txtTamanoDescripcion,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -961,9 +913,9 @@ class AdministradorController extends Controller
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Cliente modificado");
+            return back()->with("correcto", "Tamaño modificado");
         } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR TAMAÑO");
         }
     }
 
@@ -973,15 +925,15 @@ class AdministradorController extends Controller
     public function deleteTamano($id)
     {
         try {
-            $sql = DB::delete("delete from clientes where cliente_id=$id");
+            $sql = DB::delete("delete from tamano where tamano_id=$id");
         } catch (\Throwable $th) {
             $sql = 0;
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Se ha eliminado el cliente");
+            return back()->with("correcto", "Se ha eliminado el tamaño");
         } else {
-            return back()->with("incorrecto", "ERROR AL ELIMINAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL ELIMINAR TAMAÑO");
         }
     }
 
@@ -991,8 +943,8 @@ class AdministradorController extends Controller
      */
     public function indexTamanosFormas()
     {
-        $datos = DB::select("select * from clientes");
-        return view("/administrador/clientes")->with("datos", $datos);
+        $datos = DB::select("select * from tamanos_formas");
+        return view("/administrador/tamanos_formas")->with("datos", $datos);
     }
 
     /**
@@ -1001,20 +953,20 @@ class AdministradorController extends Controller
     public function createTamanosFormas(Request $request)
     {
         try {
-            $sql = DB::insert("insert into clientes (cedula, nombre_cliente, telefono, direccion_domicilio, email, clave)
+            $sql = DB::insert("insert into tamanos_formas (tamano_id, formas_id, num_porciones, altura, longitud1, longitud2)
         values (?,?,?,?,?,?)", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
+                $request->txtTamanoId,
+                $request->txtFormasId,
+                $request->txtNumPorciones,
+                $request->txtAltura,
+                $request->txtLongitud1,
+                $request->txtLongitud2,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
         }
         if ($sql == true) {
-            return back()->with("correcto", "Cliente registrado");
+            return back()->with("correcto", "Tamaño, forma registrada");
         } else {
             return back()->with("incorrecto", "ERROR AL REGISTRAR");
         }
@@ -1026,15 +978,14 @@ class AdministradorController extends Controller
     public function updateTamanosFormas(Request $request)
     {
         try {
-            $sql = DB::update("update clientes set cedula=? , nombre_cliente=? , telefono=? , direccion_domicilio=? , email=?, clave=? where cliente_id=?", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
-                $request->txtCodigo,
-
+            $sql = DB::update("update tamanos_formas set tamano_id=?, formas_id=?, num_porciones=?, altura=?, longitud1=?, longitud2=? where tamanos_formas_id=?", [
+                $request->txtTamanoFormasId,
+                $request->txtTamanoId,
+                $request->txtFormasId,
+                $request->txtNumPorciones,
+                $request->txtAltura,
+                $request->txtLongitud1,
+                $request->txtLongitud2,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -1044,9 +995,9 @@ class AdministradorController extends Controller
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Cliente modificado");
+            return back()->with("correcto", "Tamaño, forma modificado");
         } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR TAMAÑO, FORMA");
         }
     }
 
@@ -1056,15 +1007,15 @@ class AdministradorController extends Controller
     public function deleteTamanosFormas($id)
     {
         try {
-            $sql = DB::delete("delete from clientes where cliente_id=$id");
+            $sql = DB::delete("delete from tamanos_formas where tamanos_formas_id=$id");
         } catch (\Throwable $th) {
             $sql = 0;
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Se ha eliminado el cliente");
+            return back()->with("correcto", "Se ha eliminado el tamaño, forma");
         } else {
-            return back()->with("incorrecto", "ERROR AL ELIMINAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL ELIMINAR TAMAÑO, FORMA");
         }
     }
 
@@ -1084,20 +1035,16 @@ class AdministradorController extends Controller
     public function createTipo(Request $request)
     {
         try {
-            $sql = DB::insert("insert into clientes (cedula, nombre_cliente, telefono, direccion_domicilio, email, clave)
-        values (?,?,?,?,?,?)", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
+            $sql = DB::insert("insert into tipo (tipo_descripcion, tipo_precio_base_volumen)
+        values (?,?)", [
+                $request->txtTipoDescripcion,
+                $request->txtTipoPrecio,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
         }
         if ($sql == true) {
-            return back()->with("correcto", "Cliente registrado");
+            return back()->with("correcto", "Tipo registrado");
         } else {
             return back()->with("incorrecto", "ERROR AL REGISTRAR");
         }
@@ -1109,15 +1056,10 @@ class AdministradorController extends Controller
     public function updateTipo(Request $request)
     {
         try {
-            $sql = DB::update("update clientes set cedula=? , nombre_cliente=? , telefono=? , direccion_domicilio=? , email=?, clave=? where cliente_id=?", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
-                $request->txtCodigo,
-
+            $sql = DB::update("update tipo set tipo_descripcion=?, tipo_precio_base_volumen=? where tipo_id=?", [
+                $request->txtTipoId,
+                $request->txtTipoDescripcion,
+                $request->txtTipoPrecio,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -1127,9 +1069,9 @@ class AdministradorController extends Controller
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Cliente modificado");
+            return back()->with("correcto", "Tipo modificado");
         } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR TIPO");
         }
     }
 
@@ -1139,15 +1081,15 @@ class AdministradorController extends Controller
     public function deleteTipo($id)
     {
         try {
-            $sql = DB::delete("delete from clientes where cliente_id=$id");
+            $sql = DB::delete("delete from tipo where tipo_id=$id");
         } catch (\Throwable $th) {
             $sql = 0;
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Se ha eliminado el cliente");
+            return back()->with("correcto", "Se ha eliminado el tipo");
         } else {
-            return back()->with("incorrecto", "ERROR AL ELIMINAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL ELIMINAR TIPO");
         }
     }
 
@@ -1157,8 +1099,8 @@ class AdministradorController extends Controller
      */
     public function indexUsuarios()
     {
-        $datos = DB::select("select * from clientes");
-        return view("/administrador/clientes")->with("datos", $datos);
+        $datos = DB::select("select * from usuarios");
+        return view("/administrador/usuarios")->with("datos", $datos);
     }
 
     /**
@@ -1167,20 +1109,18 @@ class AdministradorController extends Controller
     public function createUsuarios(Request $request)
     {
         try {
-            $sql = DB::insert("insert into clientes (cedula, nombre_cliente, telefono, direccion_domicilio, email, clave)
-        values (?,?,?,?,?,?)", [
+            $sql = DB::insert("insert into usuarios (cedula_usuario, nombre_usuario, correo, contrasena)
+        values (?,?,?,?)", [
                 $request->txtCedula,
                 $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
                 $request->txtCorreo,
-                $request->txtPassword,
+                $request->txtContrasena,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
         }
         if ($sql == true) {
-            return back()->with("correcto", "Cliente registrado");
+            return back()->with("correcto", "Usuario registrado");
         } else {
             return back()->with("incorrecto", "ERROR AL REGISTRAR");
         }
@@ -1192,15 +1132,11 @@ class AdministradorController extends Controller
     public function updateUsuarios(Request $request)
     {
         try {
-            $sql = DB::update("update clientes set cedula=? , nombre_cliente=? , telefono=? , direccion_domicilio=? , email=?, clave=? where cliente_id=?", [
+            $sql = DB::update("update usuarios set cedula_usuario=?, nombre_usuario=?, correo=?, contrasena=? where cedula_usuario=?", [
                 $request->txtCedula,
                 $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
                 $request->txtCorreo,
-                $request->txtPassword,
-                $request->txtCodigo,
-
+                $request->txtContrasena,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -1210,9 +1146,9 @@ class AdministradorController extends Controller
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Cliente modificado");
+            return back()->with("correcto", "Usuario modificado");
         } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR USUARIO");
         }
     }
 
@@ -1222,15 +1158,15 @@ class AdministradorController extends Controller
     public function deleteUsuarios($id)
     {
         try {
-            $sql = DB::delete("delete from clientes where cliente_id=$id");
+            $sql = DB::delete("delete from usuarios where cedula_usuario=$id");
         } catch (\Throwable $th) {
             $sql = 0;
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Se ha eliminado el cliente");
+            return back()->with("correcto", "Se ha eliminado el usuario");
         } else {
-            return back()->with("incorrecto", "ERROR AL ELIMINAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL ELIMINAR USUARIO");
         }
     }
 
@@ -1240,8 +1176,8 @@ class AdministradorController extends Controller
      */
     public function indexVarios()
     {
-        $datos = DB::select("select * from clientes");
-        return view("/administrador/clientes")->with("datos", $datos);
+        $datos = DB::select("select * from varios");
+        return view("/administrador/varios")->with("datos", $datos);
     }
 
     /**
@@ -1250,20 +1186,17 @@ class AdministradorController extends Controller
     public function createVarios(Request $request)
     {
         try {
-            $sql = DB::insert("insert into clientes (cedula, nombre_cliente, telefono, direccion_domicilio, email, clave)
-        values (?,?,?,?,?,?)", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
+            $sql = DB::insert("insert into varios (descripcion_varios, precio_varios, img_varios)
+        values (?,?,?)", [
+                $request->txtVariosDescripcion,
+                $request->txtVariosPrecio,
+                $request->txtVariosImg,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
         }
         if ($sql == true) {
-            return back()->with("correcto", "Cliente registrado");
+            return back()->with("correcto", "Producto vario registrado");
         } else {
             return back()->with("incorrecto", "ERROR AL REGISTRAR");
         }
@@ -1275,15 +1208,11 @@ class AdministradorController extends Controller
     public function updateVarios(Request $request)
     {
         try {
-            $sql = DB::update("update clientes set cedula=? , nombre_cliente=? , telefono=? , direccion_domicilio=? , email=?, clave=? where cliente_id=?", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtTelefono,
-                $request->txtDireccion,
-                $request->txtCorreo,
-                $request->txtPassword,
-                $request->txtCodigo,
-
+            $sql = DB::update("update varios set descripcion_varios=?, precio_varios=?, img_varios=? where id_varios=?", [
+                $request->txtVariosId,
+                $request->txtVariosDescripcion,
+                $request->txtVariosPrecio,
+                $request->txtVariosImg,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -1293,9 +1222,9 @@ class AdministradorController extends Controller
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Cliente modificado");
+            return back()->with("correcto", "Producto vario modificado");
         } else {
-            return back()->with("incorrecto", "ERROR AL MODIFICAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL MODIFICAR PRODUCTO VARIO");
         }
     }
 
@@ -1305,15 +1234,15 @@ class AdministradorController extends Controller
     public function deleteVarios($id)
     {
         try {
-            $sql = DB::delete("delete from clientes where cliente_id=$id");
+            $sql = DB::delete("delete from varios where id_varios=$id");
         } catch (\Throwable $th) {
             $sql = 0;
         }
 
         if ($sql == true) {
-            return back()->with("correcto", "Se ha eliminado el cliente");
+            return back()->with("correcto", "Se ha eliminado el producto vario");
         } else {
-            return back()->with("incorrecto", "ERROR AL ELIMINAR CLIENTE");
+            return back()->with("incorrecto", "ERROR AL ELIMINAR PRODUCTO VARIO");
         }
     }
 }
