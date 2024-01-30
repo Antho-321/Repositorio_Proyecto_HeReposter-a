@@ -72,7 +72,7 @@ Route::get("/vendedor_eliminar_detalles_pedido-{id}", [VendedorController::class
 
 
 Route::get("/auditor_tbl_auditoria",[AuditorController::class,"ver_auditoria"])->name("auditor_tbl_auditoria");
-Route::get("/auditor_tbl_clientes",[AuditorController::class,"ver_clientes"])->name("auditor_tbl_clientes");
+Route::get("/auditor_tbl_cliente",[AuditorController::class,"ver_clientes"])->name("auditor_tbl_clientes");
 Route::get("/auditor_tbl_pedido",[AuditorController::class,"ver_pedido"])->name("auditor_tbl_pedido");
 Route::get("/auditor_tbl_detalles_pedido",[AuditorController::class,"ver_detalles_pedido"])->name("auditor_tbl_detalles_pedido");
 Route::get("/auditor_tbl_comprobante_venta",[AuditorController::class,"ver_comprobante_venta"])->name("auditor_tbl_comprobante_venta");
