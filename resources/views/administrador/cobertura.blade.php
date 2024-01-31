@@ -43,11 +43,11 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Descripcion</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" name="txtDescripcion">
+                                <input type="text" class="form-control" id="exampleInputPassword1" name="txtCoberturaDescripcion">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Precio</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" name="txtPrecio">
+                                <input type="number" class="form-control" id="exampleInputPassword1" name="txtCoberturaPrecio">
                             </div>
 
                             <div class="modal-footer">
@@ -106,22 +106,22 @@
                                                 <div class="mb-3">
                                                     <label for="exampleInputPassword1"
                                                         class="form-label">Codigo</label>
-                                                    <input type="text" class="form-control"
+                                                    <input type="number" class="form-control"
                                                         id="exampleInputPassword1" name="txtCoberturaId"
                                                         value="{{ $item->cobertura_id }}" readonly>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="exampleInputPassword1"
                                                         class="form-label">Descripcion</label>
-                                                    <input type="number" class="form-control"
-                                                        id="exampleInputPassword1" name="txtDescripcion"
+                                                    <input type="text" class="form-control"
+                                                        id="exampleInputPassword1" name="txtCoberturaDescripcion"
                                                         value="{{ $item->cobertura_descripcion }}">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="exampleInputPassword1"
                                                         class="form-label">Precio</label>
                                                     <input type="text" class="form-control"
-                                                        id="exampleInputPassword1" name="txtPrecio"
+                                                        id="exampleInputPassword1" name="txtCoberturaPrecio"
                                                         value="{{ $item->cobertura_precio_base_volumen }}">
                                                 </div>
                                                 

@@ -82,7 +82,7 @@ Route::get("/auditor_tbl_detalles_pedido",[AuditorController::class,"ver_detalle
 Route::get("/auditor_tbl_comprobante_venta",[AuditorController::class,"ver_comprobante_venta"])->name("auditor_tbl_comprobante_venta");
 
 
-// Rutas Administrador
+// Rutas Administrador 
 //Cliente
 Route::get('/AdministradorClientesIndex', [AdministradorController::class, "indexCliente"])->name("AdministradorClientesIndex");
 Route::post('/AdministradorClientesIngresar', [AdministradorController::class, "createCliente"])->name("AdministradorClientesIngresar");
