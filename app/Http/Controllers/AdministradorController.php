@@ -127,8 +127,8 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update categoria set categoria_descripcion=? where categoria_id=?", [
-                $request->txtCategoriaId,
                 $request->txtCategoriaDescripcion,
+                $request->txtCategoriaId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
