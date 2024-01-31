@@ -8,7 +8,6 @@ let productos = [];
 let lupa = document.getElementById("lupa");
 let cuadro_búsqueda = document.getElementById("búsqueda");
 let contenido_categorías = document.getElementById("Menu_Catalogo");
-let catalogo = document.getElementById("Catalogo");
 let contenido_principal = document.getElementById("contenido_principal");
 let seccion_productos = document.getElementById("seccion_productos");
 let estilo = document.getElementById("estilo");
@@ -21,6 +20,7 @@ let estilo_ver_categorías = document.createElement("style");
 let divVentana = document.createElement("div");
 let salto = document.getElementById("Salto");
 let ubicación_página = window.location.href;
+let actualizar_pastel=document.getElementById("actualizar_pastel");
 divVentana.id = "VentanaForm";
 estilo_búsqueda.id = "estilo_búsqueda";
 estilo_aux_EnvíoACarrito.id = "est_EnvíoACarrito";
@@ -144,14 +144,12 @@ estilo_carritoSinProductos.innerHTML = `
     justify-content: center;
 }
 `;
-catalogo.addEventListener("mouseover", function () {
-    if (document.getElementById("est_ver_categorías") == null) {
-        document.head.appendChild(estilo_ver_categorías);
-    }
-});
 if (seccion_productos != null) {
     window.onload = AgregarContenido("");    
-    
+}
+if (actualizar_pastel!=null) {
+    cantidadInput = document.getElementById("cantidad");
+    window.onload = verificarDedicatorias(cantidadInput); 
 }
 if (ubicación_página.substring(ubicación_página.lastIndexOf("/")) == "/CarritoDeCompras.php") {
     window.onload = AgregarContenidoCarrito();
@@ -268,7 +266,7 @@ function AgregarContenido(CategoríaSeleccionada) {
             let imagen = document.createElement("img");
             let h3 = document.createElement("button");
             imagen.src = array[i].img;
-            imagen.style="height: 300px !important;";
+            imagen.style="height: 300px !important; width: 300px !important;";
             h3.innerHTML = "Mostrar más información";
             h3.className="mostrar_informacion";
             div.appendChild(h3);
@@ -367,10 +365,9 @@ function disminuirCantidadProducto() {
         colSelect.style = "display:none";
     }
 }
-function aumentarCantidadProducto() {
-    cantidadInput = document.getElementById("cantidad");
-    cantidadInput.value = parseInt(cantidadInput.value) + 1;
-    Dedicatorias(cantidadInput);
+function verificarDedicatorias(cantidadInput){
+    if (parseInt(cantidadInput.value)!=1) {
+        Dedicatorias(cantidadInput);
     document.getElementById("cuadros_dedicatoria").innerHTML = `
     <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" onclick="quitarPlaceHolder(event)">
     `;
@@ -378,6 +375,13 @@ function aumentarCantidadProducto() {
     texto_dedicatoria.innerHTML = "Cantidad de dedicatorias";
     colSelect = document.getElementById("num_dedicatorias").parentElement;
     colSelect.removeAttribute("style");
+    }
+    
+}
+function aumentarCantidadProducto() {
+    cantidadInput = document.getElementById("cantidad");
+    cantidadInput.value = parseInt(cantidadInput.value) + 1;
+    verificarDedicatorias(cantidadInput);
 }
 function Dedicatorias(cantidadInput) {
     texto_dedicatoria = document.getElementById("texto_dedicatoria");
@@ -696,7 +700,7 @@ function MostrarVentanaDeIngreso() {
                     <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
                 </div>
                 <div action="" id="Ventana">
-                    <h2>Ingresar</h2>
+                    <h2 id="txt_ingreso">Ingresar</h2>
                     <label for="correo">Correo electrónico:</label>
                     <input type="email" id="correo" name="email" class="entrada_texto">
                     <label for="contraseña">Contraseña:</label>
@@ -713,10 +717,16 @@ function MostrarVentanaDeIngreso() {
                 </div>
     `;
     salto.appendChild(divVentana);
+    divVentana.insertAdjacentHTML("beforebegin",`
+    <div class="modal-backdrop" style="display: none;"></div>`);
+    var backdrop = document.querySelector('.modal-backdrop');
+    backdrop.style.display = backdrop.style.display === 'block' ? 'none' : 'block';
+    document.querySelector(".rd-nav-link").style="z-index: 0 !important;";
 }
+  
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
 function MostrarVentanaDeRegistro() {
-    let registro=document.getElementById("registro");
+    let registro=document.querySelector(".registro");
     registro.value="true";
     // Save the CSRF token element
     let csrfToken = salto.querySelector('input[name="_token"]');
@@ -794,6 +804,7 @@ function CerrarVentana() {
     if (opera_bug != null && opera_bug != undefined) {
         opera_bug.remove();
     }
+    document.querySelector(".rd-nav-link").removeAttribute("style");
 }
 function AgregarContenidoCarrito() {
     let primera_fila = document.getElementById("primera_fila");

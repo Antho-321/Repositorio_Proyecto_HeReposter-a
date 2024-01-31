@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\DetallesPedidoController;
 use App\Http\Controllers\PastelController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\AuditorController;
@@ -22,7 +23,9 @@ use App\Http\Controllers\AdministradorController;
 
 
 Route::resource('cliente', ClienteController::class);
+Route::resource('detalles_pedido', DetallesPedidoController::class);
 
+Route::get('/detalles_pedido.update/{pastel}', [DetallesPedidoController::class, 'update'])->name('detalles_pedido.update');
 Route::get('/cliente.ingreso_carrito/{pastel}', [PedidoController::class, 'create'])->name('cliente.ingreso_carrito');
 Route::controller(ClienteController::class)->group(function () {
     Route::get('/', 'index')->name('home');

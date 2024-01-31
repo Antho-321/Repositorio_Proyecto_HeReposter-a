@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Sanseriffic";
-    src: url("../font/Sanseriffic.woff");
+    src: url("../fonts/Sanseriffic.woff");
   }
 * {
     font-family: "Sanseriffic", Arial, sans-serif;
@@ -278,7 +278,7 @@ body>a:hover {
     height: 69.9vh;
     width: 100%;
     background-color: aliceblue;
-    padding-top: 128.125px;
+    padding-top: 20px !important;
     display: flex;
 }
 /* SLIDER*/

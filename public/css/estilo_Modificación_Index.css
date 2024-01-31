@@ -1,54 +1,34 @@
 @font-face {
-    font-family: "Sanseriffic";
-    src: url(../font/Sanseriffic.woff)
+	font-family: "Sanseriffic";
+	src: url("../fonts/Sanseriffic.woff") format('woff');
 }
-
-* {
-    font-family: "Sanseriffic", Arial, sans-serif
-}
-
-:not(#Catalogo, #Catalogo *) {
-    transition: .4s
-}
-
-body,
 #Contenido_Cabecera,
 #Contenido_Cabecera div,
 #Contenido_Cabecera section,
 #DestacadoPrincipal ul,
 #seccion_productos>:first-child,
 .mostrar_informacion,
-footer,
 #Derechos {
     display: flex
 }
 
-body,
 #Contenido_Cabecera,
 #botones_iconos,
 #seccion_botones {
     justify-content: space-between
 }
 
-body,
 #Contenido_Cabecera {
     width: 100vw
 }
 
-body,
 #Catalogo,
 #Menu_Catalogo {
     flex-direction: column
 }
 
-body,
-h1,
 .mostrar_informacion {
     margin: 0
-}
-
-body {
-    overflow-x: hidden
 }
 
 #Cabecera,
@@ -67,7 +47,6 @@ body {
 #Menu_Catalogo,
 #seccion_busqueda,
 .mostrar_informacion,
-footer,
 #Derechos {
     align-items: center
 }
@@ -86,15 +65,6 @@ footer,
     display: none
 }
 
-label,
-input:hover,
-a:hover,
-h3,
-#seccion_iconos img,
-.mostrar_informacion:hover {
-    cursor: pointer
-}
-
 .mostrar_menu,
 .esconder_menu {
     font-size: 30px;
@@ -107,10 +77,6 @@ h3,
 
 #seccion_botones {
     width: 60vw
-}
-
-.Btn_Catalogo {
-    cursor: default !important
 }
 
 #Menu_Catalogo,
@@ -136,22 +102,17 @@ h3,
 
 input:hover,
 a:hover,
-h3,
 #Catalogo:hover .Btn_Catalogo {
     color: #7c7c7c41 !important;
     transition: .4s !important
 }
 
-#seccion_iconos,
-h1 {
+#seccion_iconos {
     padding: 10px
 }
 
 #seccion_busqueda,
-#Salto,
-#seccion_productos>div,
 .mostrar_informacion,
-footer,
 #Derechos {
     justify-content: center
 }
@@ -187,15 +148,13 @@ input,
 #seccion_botones a,
 button,
 #Salto,
-h1,
-footer {
+h1 {
     text-align: center
 }
 
 input,
 #seccion_botones a,
 button {
-    font: normal normal normal 18px/1.4em Sanseriffic;
     background-color: transparent;
     border: .5vw solid transparent;
     color: #1f1f1f
@@ -249,9 +208,7 @@ a {
 #contenido_principal,
 #DestacadoPrincipal li,
 #DestacadoPrincipal img,
-#seccion_productos>:first-child,
-#seccion_productos>div>*>img,
-footer {
+#seccion_productos>:first-child {
     width: 100%
 }
 
@@ -259,11 +216,6 @@ footer {
     height: 25px;
     background-color: #000;
     color: #f0f8ff
-}
-
-body>a:hover {
-    all: initial;
-    color: #000 !important
 }
 
 #contenido_principal,
@@ -326,40 +278,9 @@ body>a:hover {
     }
 }
 
-h1,
-.mostrar_informacion {
-    font: normal normal normal 1.6vw/1.4em Sanseriffic
-}
-
-h1 {
-    font-size: 24px;
-    padding-top: 70px;
-    padding-bottom: calc(70px - 2.5%)
-}
 
 #seccion_productos {
     padding: 0 15px
-}
-
-#seccion_productos>div>*,
-.mostrar_informacion {
-    width: 295px
-}
-
-#seccion_productos>div>*,
-.mostrar_informacion {
-    height: 300px;
-    width: 300px;
-}
-
-#seccion_productos>div,
-#seccion_productos>div>* {
-    display: inline-block;
-    position: relative
-}
-
-#seccion_productos>div>* {
-    padding: 2.5%
 }
 
 #seccion_productos>:first-child {
@@ -370,32 +291,25 @@ h1 {
 
 .mostrar_informacion {
     font-size: 20px;
-    opacity: 0
+    opacity: 0;
+    
 }
 
 .mostrar_informacion:hover {
-    opacity: 1
+    opacity: 1;
+    transition: 0.4s;
 }
 
 .mostrar_informacion:hover+img {
     opacity: .3;
-    transition: initial
+    transition: initial;
 }
 
-footer {
-    background: #000;
-    color: #464646
-}
 
 #Derechos {
     width: 82%;
     height: 70px;
-    font: normal normal normal 14px/1.4em Century Gothic;
     color: #adadad
-}
-
-#seccion_productos>div {
-    width: auto
 }
 
 ::-webkit-scrollbar {
@@ -416,177 +330,6 @@ footer {
     background: #555
 }
 
-@media screen and (max-width: 1054px) {
-
-    #check2:checked+header #Contenido_Cabecera,
-    #check2:checked+header #botones_iconos,
-    #check2:checked+header #seccion_botones {
-        justify-content: initial
-    }
-}
-
-@media screen and (max-width: 1013px) {
-
-    #check2:checked+header #Catalogo>input,
-    #check2:checked+header #seccion_botones>a {
-        min-width: initial
-    }
-
-    #check2:checked+header>#Contenido_Cabecera {
-        height: 103.125px
-    }
-
-    #check2:checked+header #LogoPankey {
-        padding: 1vh 4vw !important
-    }
-
-    #check2:checked+header+#Contenido {
-        padding-top: 125px
-    }
-
-    #check2:checked+header #Menu_Catalogo {
-        position: initial
-    }
-
-    #check2:checked+header .mostrar_menu,
-    #check2:checked+header #LogoPankey {
-        position: absolute
-    }
-
-    #check2:checked+header .mostrar_menu {
-        right: 5%
-    }
-
-    #check2:checked+header #LogoPankey {
-        width: 70px;
-        height: 80px
-    }
-
-    #check2:checked+header label,
-    #check2:checked+header #botones_iconos {
-        transition: .8s
-    }
-
-    #check2:checked+header label {
-        display: block
-    }
-
-    #check2:checked+header .esconder_menu {
-        margin-bottom: 24%
-    }
-
-    #check2:checked+header #botones_iconos {
-        width: 100vw;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        right: -110%;
-        justify-content: space-between
-    }
-
-    #check2:checked+header #seccion_botones {
-        justify-content: initial
-    }
-
-    #check2:checked+header #seccion_botones>* {
-        height: 50px;
-        padding: 1vw !important;
-        margin: 0 !important;
-        border: 0 !important;
-        display: flex;
-        align-items: center
-    }
-
-    #check2:checked+header #check:checked+label+#botones_iconos {
-        right: 0
-    }
-
-    #check2:checked+header #seccion_botones,
-    #check2:checked+header #seccion_iconos {
-        flex-direction: column
-    }
-}
-
-@media screen and (max-width: 930px) {
-
-    #Contenido_Cabecera,
-    #botones_iconos,
-    #seccion_botones {
-        justify-content: initial
-    }
-}
-
-@media screen and (max-width: 892px) {
-
-    #Catalogo>input,
-    #seccion_botones>a {
-        min-width: initial
-    }
-
-    #Contenido_Cabecera {
-        height: 103.125px
-    }
-
-    #Menu_Catalogo {
-        position: initial
-    }
-
-    .mostrar_menu,
-    #LogoPankey {
-        position: absolute
-    }
-
-    .mostrar_menu {
-        right: 5%
-    }
-
-    #LogoPankey {
-        width: 70px;
-        height: 80px
-    }
-
-    label {
-        transition: .8s;
-        display: block !important
-    }
-
-    .esconder_menu {
-        margin-bottom: 24%
-    }
-
-    #botones_iconos {
-        width: 100vw;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        right: -110%;
-        transition: .8s;
-        justify-content: space-between
-    }
-
-    #seccion_botones {
-        justify-content: initial
-    }
-
-    #seccion_botones>* {
-        height: 50px;
-        padding: 1vw !important;
-        margin: 0 !important;
-        border: 0 !important;
-        display: flex;
-        align-items: center
-    }
-
-    #check:checked+label+#botones_iconos {
-        right: 0
-    }
-
-    #seccion_botones,
-    #seccion_iconos {
-        flex-direction: column
-    }
-}
-
 .contenedor_imagenes {
     display: flex !important;
     flex-wrap: wrap !important;
@@ -598,39 +341,9 @@ footer {
     /* Adjust as needed for space between images */
 }
 
-.imagen {
-    flex: 0 1 auto !important;
-    /* Don't grow, allow shrink, and base size on content */
-    /* min-width: 250px; You may not need this if you want the images to be centered regardless of their width */
-    /* Consider setting a specific width if you want all images to have the same width */
-    margin: 10px !important;
-    /* Adjust as needed for margin around items */
-    text-align: center !important;
-    /* Center the text (or any inline content like buttons) inside .imagen */
-    display: flex !important;
-    /* Apply flexbox to .imagen if you want to center the button as well */
-    flex-direction: column !important;
-    /* Stack items vertically inside .imagen */
-    align-items: center !important;
-    /* Center the items horizontally inside .imagen */
-    justify-content: center !important;
-    /* Center the items vertically inside .imagen */
-}
-
-.imagen {
-    /* ... your existing styles ... */
-    width: 300px !important;
-    /* Set a fixed width for the container */
-    height: 300px !important;
-    /* Set a fixed height for the container */
-    overflow: hidden !important;
-    /* Ensures no part of the image spills out of the container */
-}
-
 .categoria {
     border-radius: 3px !important;
     text-align: center !important;
-    font: normal normal normal 18px/1.4em Sanseriffic !important;
     background-color: transparent !important;
     border: .5vw solid transparent !important;
     color: #1f1f1f !important;
@@ -638,7 +351,55 @@ footer {
 }
 
 .categoria:hover {
-    cursor: pointer !important;
     color: #7c7c7c41 !important;
     transition: .4s !important;
 }
+
+.imagen img{
+    margin: 0;
+}
+
+.imagen{
+    padding: 10px 30px;
+}
+
+.mostrar_informacion{
+    width: 300px !important;
+    height: 300px !important;
+    cursor: pointer !important;
+    font-family: "Sanseriffic", sans-serif !important;
+}
+
+h3{
+    padding-bottom: 60px;
+}
+
+#txt_ingreso {
+    text-transform: lowercase !important;
+    font-size: 50px;
+  }
+  
+  #txt_ingreso::first-letter {
+    text-transform: capitalize !important;
+  }
+  
+  /* Darkened background */
+.modal-backdrop {
+    position: fixed !important; /* Stay in place */
+    z-index: 1 !important; /* Sit on top */
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important; /* Full width */
+    height: 100% !important; /* Full height */
+    overflow: auto !important; /* Enable scroll if needed */
+    background-color: rgb(0,0,0) !important; /* Black w/ opacity */
+    background-color: rgba(0,0,0,0.4) !important; /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  #VentanaForm {
+    position: relative !important;
+    z-index: 100 !important; /* Sit on top of the background */
+    /* Rest of your styles for #VentanaForm */
+  }
+  

@@ -1,23 +1,76 @@
-@extends('plantilla_cliente.plantilla')
+@extends('plantilla_cliente.new_plantilla')
 @section('estilo')
     <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_ProductoSeleccionado.css') }}" id="estilo">
 @endsection
-@section('content_btn_ingresar')
-    @php
+@section('navegacion')
+<ul class="rd-navbar-nav">
+    <li class="rd-nav-item active">
+        <a class="rd-nav-link" href="{{ route('cliente.index') }}"><b>Inicio</b></a>
+    </li>
+    <li class="rd-nav-item">
+        <a class="rd-nav-link" href="{{ route('cliente.sobre_nosotros') }}"><b>Sobre nosotros</b></a>
+    </li>
+    <li class="rd-nav-item">
+        <div class="dropdown">
+            <a class="rd-nav-link" href="typography.html"><b>Catalogo</b></a>
+            <form class="dropdown-content" id="Menu_Catalogo" action="{{ route('cliente.categoria_seleccionada') }}" method="GET">
+                @csrf  
+                <input type="hidden" name="categoria_value"
+                    id="nombre_categoria">
+    <li>
+        <button class="categoria" value="Bodas">Bodas</button>
+    </li>
+    <li>
+        <button class="categoria" value="Bautizos">Bautizos</button>
+    </li>
+    <li>
+        <button class="categoria" value="XV años">XV años</button>
+    </li>
+    <li>
+        <button class="categoria" value="Cumpleaños">Cumpleaños</button>
+    </li>
+    <li>
+        <button class="categoria" value="Baby Shower">Baby Shower</button>
+    </li>
+    <li>
+        <button class="categoria" value="San Valentin">San Valentin</button>
+    </li>
+    <li>
+        <button class="categoria" value="Halloween">Halloween</button>
+    </li>
+    <li>
+        <button class="categoria" value="Navidad">Navidad</button>
+    </li>
+    </form>
+</div>
+
+</li>
+<li class="rd-nav-item">
+<a class="rd-nav-link" href="contacts.html"><b>Pasteles personalizados</b></a>
+</li>
+<li class="rd-nav-item" style="width: 60px;">
+<a class="rd-nav-link" href="{{ route('cliente.carrito') }}">
+    <img src="{{ asset('images/carro-de-la-carretilla.png') }}" alt=""
+        id="carretilla">
+</a>
+</li>
+<li class="rd-nav-item">
+    <a class="rd-nav-link" href="#">
+        @php
         $cliente = Session::get('cliente');
-        if (isset($cliente)) {
-            $id = $cliente->getClienteByEmail($cliente->email);
-        }
-    @endphp
-    @if (!isset($id))
-        <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
-    @else
+      @endphp
+      @if (isset($cliente))
         <form action="{{ route('cliente.index') }}" method="GET">
             @csrf
             <input type="hidden" name="cerrar_sesion" value="true">
             <button id="Salida">Salir</button>
         </form>
-    @endif
+      @else
+        <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
+      @endif
+            </a>
+</li>
+</ul>
 @endsection
 @section('content_envio_correo')
     <input type="hidden" name="pasteles" value="{{ json_encode(Session::get('pasteles')) }}" id="pasteles">

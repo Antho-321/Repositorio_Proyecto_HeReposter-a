@@ -34,4 +34,10 @@ class DetallesPedido extends Model
         $detalles_pedido=DetallesPedido::where('pedido_id',$pedido_id)->get();
         return $detalles_pedido;
     }
+    public function getDetallesPedidoById($detalle_id){
+        $detalles_pedido = DetallesPedido::where('detalle_id', $detalle_id)->first();
+
+        // Devuelves el pastel encontrado o null si no hay ninguno
+        return $detalles_pedido;
+    }
 }

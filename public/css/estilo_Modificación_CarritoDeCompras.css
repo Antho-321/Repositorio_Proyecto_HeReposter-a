@@ -1,10 +1,11 @@
 @font-face {
     font-family: "Sanseriffic";
-    src: url("../font/Sanseriffic.woff");
+    src: url("../fonts/Sanseriffic.woff");
 }
 
 * {
     font-family: "Sanseriffic", Arial, sans-serif;
+    color: black !important;
 }
 
 *:not(#Menu_Catalogo, #Menu_Catalogo *) {
@@ -282,7 +283,7 @@ h1 {
 #contenido_principal {
     width: 100%;
     background-color: aliceblue;
-    padding-top: 128.125px;
+    padding-top: 60px !important;
     padding-bottom: 15px;
     display: flex;
 }
@@ -1034,4 +1035,12 @@ footer {
     h1 {
         font-size: 30px !important;
     }
+}
+
+.btn_eliminar, .btn_eliminar>img{
+    width: 60px !important;
+}
+
+#txt_total{
+    font-size: 40px;
 }

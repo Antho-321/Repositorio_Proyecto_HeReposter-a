@@ -1,12 +1,12 @@
 @font-face {
     font-family: "Sanseriffic";
-    src: url("../font/Sanseriffic.woff");
+    src: url("../fonts/Sanseriffic.woff");
   }
 * {
     font-family: "Sanseriffic", Arial, sans-serif;
 }
 *:not(#Menu_Catalogo, #Menu_Catalogo *, #contenido_principal, #contenido_principal *) {
-    transition: 0.4s;
+    transition: 0.4s !important;
 }
 body {
     margin: 0px;
@@ -188,13 +188,16 @@ a{
     padding: 10px;
 }
 #contenido_principal{
-    position: relative;
-    display: inline-flex;
-    width: 100%;
-    background-color: aliceblue;
-    padding-top: 128.125px;
-    font: normal normal normal 21px/1.4em Sanseriffic;
-    letter-spacing: 1.4px;
+    position: relative !important;
+    display: inline-flex !important;
+    width: 100% !important;
+    background-color: rgb(255, 255, 255) !important;
+    padding-top: 60px !important;
+    font: normal normal normal 21px/1.4em Sanseriffic !important;
+    letter-spacing: 1.4px !important;
+}
+#contenido_principal *{
+    color: black !important;
 }
 
 #DestacadoPrincipal{
@@ -212,14 +215,13 @@ a{
 }
 
 #infoDetallada{
-    position: relative;
-    width: 70vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0px;
-    padding-right: calc((30vw - 300px) / 2);
+    position: relative !important;
+    width: 70vw !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding-right: calc((30vw - 96px) / 2);
 }
 
 p{
@@ -315,7 +317,7 @@ input[type='number']::-webkit-inner-spin-button {
 }
 
 .tabla_info {
-    display: table;
+    display: table !important;
 }
 
 .fila {
@@ -327,20 +329,20 @@ input[type='number']::-webkit-inner-spin-button {
     padding: 15px;
 }
 .col:not(#adicional){
-    text-align: center;
-    vertical-align: middle;
+    text-align: center !important;
+    vertical-align: middle !important;
 }
 #txtadicional{
-    padding: 3.5% 0px;
+    padding: 3.5% 0px !important;
 }
 #espAdicional{
-    position: absolute;
-    width: 55%;
-    height: 15%;
-    font-family:Sanseriffic;
-    font-size: 19px;
-    letter-spacing: 0.1vw;
-    resize: none;
+    position: absolute !important;
+    width: 400% !important;
+    height: 80% !important;
+    font-family:Sanseriffic !important;
+    font-size: 19px !important;
+    letter-spacing: 0.1vw !important;
+    resize: none !important;
 }
 
 .col:nth-child(1) {
@@ -834,4 +836,25 @@ footer {
     #seccion_iconos {
         flex-direction: column;
     }
+}
+
+.select2-container {
+    border-style: solid !important;
+    border-color: black !important;
+    min-height: 30px !important; /* Changed from height to min-height */
+    overflow: hidden !important; /* Optional: add this if you want to hide overflow */
+    border-width: 1px;
+    border-radius: 3px;
+    text-align: center !important;
+}
+
+
+.select2-result-label{
+    text-align: center !important;
+}
+
+.select2-choice {
+    padding: 0px !important;
+    line-height: 30px !important; /* Ensure the line height is equal to the height for vertical alignment */
+    height: 30px !important;
 }

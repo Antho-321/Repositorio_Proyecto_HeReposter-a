@@ -7,15 +7,17 @@
     if (isset($cliente)) {
         $detalles_pedido_search = new DetallesPedido();
         $pedido_search = new Pedido();
-        $cliente_id=$cliente->cliente_id;
+        $cliente_id = $cliente->cliente_id;
         $pedido = $pedido_search->getPedidosNoConfirmadosPorCliente($cliente_id);
-        $pedido_id=$pedido[0]->pedido_id;
-        $pasteles = $detalles_pedido_search->getPastelesByPedido($pedido_id);
-        $detalles_pedido=$detalles_pedido_search->getDetallesPedidoByPedido($pedido_id);
-        $pastel_search=new Pastel();
+        if (!empty($pedido[0])) {
+            $pedido_id = $pedido[0]->pedido_id;
+            $pasteles = $detalles_pedido_search->getPastelesByPedido($pedido_id);
+            $detalles_pedido = $detalles_pedido_search->getDetallesPedidoByPedido($pedido_id);
+            $pastel_search = new Pastel();
+        }
     }
 @endphp
-@extends('plantilla_cliente.plantilla')
+@extends('plantilla_cliente.new_plantilla')
 @section('estilo')
     <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_CarritoDeCompras.css') }}" id="estilo">
     <script
@@ -23,6 +25,75 @@
         data-uid-auto="uid_oyrfqkrdjrrbnryisejljfrdcclpzf"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script>
+@endsection
+@section('navegacion')
+    <ul class="rd-navbar-nav">
+        <li class="rd-nav-item">
+            <a class="rd-nav-link" href="{{ route('cliente.index') }}"><b>Inicio</b></a>
+        </li>
+        <li class="rd-nav-item">
+            <a class="rd-nav-link" href="{{ route('cliente.sobre_nosotros') }}"><b>Sobre nosotros</b></a>
+        </li>
+        <li class="rd-nav-item">
+            <div class="dropdown">
+                <a class="rd-nav-link" href="typography.html"><b>Catalogo</b></a>
+                <form class="dropdown-content" id="Menu_Catalogo" action="{{ route('cliente.categoria_seleccionada') }}"
+                    method="GET">
+                    @csrf
+                    <input type="hidden" name="categoria_value" id="nombre_categoria">
+        <li>
+            <button class="categoria" value="Bodas">Bodas</button>
+        </li>
+        <li>
+            <button class="categoria" value="Bautizos">Bautizos</button>
+        </li>
+        <li>
+            <button class="categoria" value="XV años">XV años</button>
+        </li>
+        <li>
+            <button class="categoria" value="Cumpleaños">Cumpleaños</button>
+        </li>
+        <li>
+            <button class="categoria" value="Baby Shower">Baby Shower</button>
+        </li>
+        <li>
+            <button class="categoria" value="San Valentin">San Valentin</button>
+        </li>
+        <li>
+            <button class="categoria" value="Halloween">Halloween</button>
+        </li>
+        <li>
+            <button class="categoria" value="Navidad">Navidad</button>
+        </li>
+        </form>
+        </div>
+
+        </li>
+        <li class="rd-nav-item">
+            <a class="rd-nav-link" href="contacts.html"><b>Pasteles personalizados</b></a>
+        </li>
+        <li class="rd-nav-item active" style="width: 60px;">
+            <a class="rd-nav-link" href="{{ route('cliente.carrito') }}">
+                <img src="{{ asset('images/carro-de-la-carretilla.png') }}" alt="" id="carretilla">
+            </a>
+        </li>
+        <li class="rd-nav-item">
+            <a class="rd-nav-link" href="#">
+                @php
+                    $cliente = Session::get('cliente');
+                @endphp
+                @if (isset($cliente))
+                    <form action="{{ route('cliente.index') }}" method="GET">
+                        @csrf
+                        <input type="hidden" name="cerrar_sesion" value="true">
+                        <button id="Salida">Salir</button>
+                    </form>
+                @else
+                    <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
+                @endif
+            </a>
+        </li>
+    </ul>
 @endsection
 @section('content_envio_correo')
     <input type="hidden" name="pasteles" value="{{ json_encode(Session::get('pasteles')) }}" id="pasteles">
@@ -44,7 +115,6 @@
                 }
             </style>
         @else
-
             <section id="Productos">
                 <div class="tabla_info">
                     <div class="fila" id="primera_fila">
@@ -58,37 +128,54 @@
                         <p class="col">Cantidad</p>
                     </div>
                     @php
-                        $cont=-1;
+                        $cont = -1;
                     @endphp
                     @foreach ($pasteles as $pastel)
-                        <form class="fila" action="{{ route('cliente.destroy', $pastel->pastel_id) }}" method="POST">
+                    
+                        <div class="fila">
+
                             @csrf
-                            @method('DELETE')
+
                             @php
-                                $cont=$cont+1;
+                                $cont = $cont + 1;
                             @endphp
                             <div class="col" id="seccion_imagen">
                                 <img src="{{ $pastel_search->getPastelById($pastel->pastel_id)->img }}" alt="Producto">
                             </div>
                             <p class="col" name="dedicatoria">{{ $detalles_pedido[$cont]->dedicatoria }}</p>
-                            <p class="col" name="masa">{{ $pastel_search->getPastelById($pastel->pastel_id)->getTipoPastel() }}</p>
-                            <p class="col" name="sabor">{{ $pastel_search->getPastelById($pastel->pastel_id)->getSaborPastel() }}</p>
-                            <p class="col" name="relleno">{{ $pastel_search->getPastelById($pastel->pastel_id)->getRellenoPastel() }}</p>
-                            <p class="col" name="cobertura">{{ $pastel_search->getPastelById($pastel->pastel_id)->getCoberturaPastel() }}</p>
-                            <p class="col" name="precio">${{ $pastel_search->getPastelById($pastel->pastel_id)->precio }}</p>
+                            <p class="col" name="masa">
+                                {{ $pastel_search->getPastelById($pastel->pastel_id)->getTipoPastel() }}</p>
+                            <p class="col" name="sabor">
+                                {{ $pastel_search->getPastelById($pastel->pastel_id)->getSaborPastel() }}</p>
+                            <p class="col" name="relleno">
+                                {{ $pastel_search->getPastelById($pastel->pastel_id)->getRellenoPastel() }}</p>
+                            <p class="col" name="cobertura">
+                                {{ $pastel_search->getPastelById($pastel->pastel_id)->getCoberturaPastel() }}</p>
+                            <p class="col" name="precio">
+                                ${{ $pastel_search->getPastelById($pastel->pastel_id)->precio }}</p>
                             <p class="col" name="cantidad">{{ $detalles_pedido[$cont]->cantidad_pastel }}</p>
                             <div class="col" id="seccion_eliminar">
                                 <div>
-                                    <input type="hidden" name="id_canasta" value="undefined">
+                                    <form action="{{ route('detalles_pedido.show', $detalles_pedido[$cont]->detalle_id) }}"
+                                        method="GET">
+                                        @csrf
+                                        <input type="hidden" name="adicional" id="req_Adicional" value="undefined">
+                                        <button id="editarCarrito" class="btn_eliminar">✏️</button>
 
-                                    <input type="button" id="editarCarrito" class="btn_eliminar" value="✏️">
-                                    <input type="hidden" value="undefined" id="test">
-                                    <input type="hidden" name="adicional" id="req_Adicional" value="undefined">
-                                    <button class="btn_eliminar"><img src="{{ asset('images/Borrador.png') }}"
-                                            id="borrador"></button>
+                                    </form>
+                                    <form action="{{ route('detalles_pedido.destroy', $detalles_pedido[$cont]->detalle_id) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn_eliminar"><img src="{{ asset('images/Borrador.png') }}"
+                                                id="borrador"></button>
+                                    </form>
                                 </div>
                             </div>
-                        </form>
+
+
+
+                        </div>
                     @endforeach
 
 
@@ -96,7 +183,7 @@
                 </div>
             </section>
             <section id="Info_adicional">
-                <h2>Total</h2>
+                <h2 id="txt_total">Total</h2>
                 <p class="col" id="total">
                     $15 </p>
                 <div class="tabla_info">
