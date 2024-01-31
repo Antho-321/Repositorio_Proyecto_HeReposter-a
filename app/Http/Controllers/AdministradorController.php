@@ -420,7 +420,7 @@ class AdministradorController extends Controller
         try {
             $sql = DB::insert("insert into formas (formas_descripcion)
         values (?)", [
-                $request->txtDescripcion,
+                $request->txtFormaDescripcion,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
@@ -439,7 +439,7 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update formas set formas_descripcion=? where formas_id=?", [
-                $request->txtDescripcion,
+                $request->txtFormaDescripcion,
                 $request->txtFormasId,
             ]);
             if ($sql == 0) {
