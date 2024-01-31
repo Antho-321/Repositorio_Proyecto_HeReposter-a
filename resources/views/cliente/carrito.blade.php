@@ -185,7 +185,7 @@
                 </div>
             </section>
             <section id="Info_adicional">
-                <h2 id="txt_total">Total</h2>
+                <h2 class="txt_total">Total</h2>
                 <p class="col" id="total">
                     ${{$total_pago}} </p>
                 <div class="tabla_info">
