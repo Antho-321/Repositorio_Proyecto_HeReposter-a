@@ -73,7 +73,7 @@ class AdministradorController extends Controller
     }
 
     /**
-     * Eliminar Cliente
+     * Eliminar Cliente 
      */
     public function deleteCliente($id)
     {
@@ -108,7 +108,7 @@ class AdministradorController extends Controller
         try {
             $sql = DB::insert("insert into categoria (categoria_descripcion)
         values (?)", [
-                $request->txtDescripcion,
+                $request->txtCategoriaDescripcion,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
@@ -127,8 +127,8 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update categoria set categoria_descripcion=? where categoria_id=?", [
+                $request->txtCategoriaDescripcion,
                 $request->txtCategoriaId,
-                $request->txtDescripcion,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -180,8 +180,8 @@ class AdministradorController extends Controller
         try {
             $sql = DB::insert("insert into cobertura (cobertura_descripcion, cobertura_precio_base_volumen)
         values (?,?)", [
-                $request->txtDescripcion,
-                $request->txtPrecio,
+                $request->txtCoberturaDescripcion,
+                $request->txtCoberturaPrecio,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
@@ -201,8 +201,8 @@ class AdministradorController extends Controller
         try {
             $sql = DB::update("update cobertura set cobertura_descripcion=? , cobertura_precio_base_volumen=? where cobertura_id=?", [
                 $request->txtCoberturaId,
-                $request->txtDescripcion,
-                $request->txtPrecio,
+                $request->txtCoberturaDescripcion,
+                $request->txtCoberturaPrecio,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -1170,7 +1170,7 @@ class AdministradorController extends Controller
         }
     }
 
-    /**
+    /** 
      * Tabla Varios
      * Visualizar Varios
      */
