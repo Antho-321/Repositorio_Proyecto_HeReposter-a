@@ -200,9 +200,9 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update cobertura set cobertura_descripcion=? , cobertura_precio_base_volumen=? where cobertura_id=?", [
-                $request->txtCoberturaId,
                 $request->txtCoberturaDescripcion,
                 $request->txtCoberturaPrecio,
+                $request->txtCoberturaId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -278,13 +278,13 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update comprobante_venta set pedido_id=?, lugar=?, fecha=?, cantidad=?, concepto=?, cedula_vendedor=? where comprobante_id=?", [
-                $request->txtComrobanteId,
                 $request->txtPedidoId,
                 $request->txtLugar,
                 $request->txtFecha,
                 $request->txtCantidad,
                 $request->txtContexto,
                 $request->txtCedulaV,
+                $request->txtComrobanteId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -361,7 +361,6 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update detalles_pedido set pedido_id=?, id_varios=?, pastel_id=?, cantidad_pastel=?, cantidad_varios=?, dedicatoria=?, especificacion_adicional=? where detalle_id=?", [
-                $request->txtDetalleId,
                 $request->txtPedidoId,
                 $request->txtVariosId,
                 $request->txtPastelId,
@@ -369,7 +368,7 @@ class AdministradorController extends Controller
                 $request->txtCantidadVarios,
                 $request->txtDedicatoria,
                 $request->txtEspecificacionAdicional,
-
+                $request->txtDetalleId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -440,8 +439,8 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update formas set formas_descripcion=? where formas_id=?", [
-                $request->txtFormasId,
                 $request->txtDescripcion,
+                $request->txtFormasId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -519,7 +518,6 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update pastel set tamanos_formas_id=?, tipo_id=?, relleno_id=?, cobertura_id=?, sabores_id=?, precio=?, img=?, categoria_id=? where pastel_id=?", [
-                $request->txtPastelId,
                 $request->txtTamanosFormasId,
                 $request->txtTipoId,
                 $request->txtRellenoId,
@@ -528,6 +526,7 @@ class AdministradorController extends Controller
                 $request->txtPrecio,
                 $request->txtImg,
                 $request->txtCategoriaId,
+                $request->txtPastelId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -602,12 +601,12 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update pedido set cliente_id=?, fecha_pedido=?, fecha_entrega=?, hora_entrega=?, pedido_confirmado=? where pedido_id=?", [
-                $request->txtPedidoId,
                 $request->txtClienteId,
                 $request->txtFechaPedido,
                 $request->txtFechaEntrega,
                 $request->txtHoraEntrega,
                 $request->txtPedidoConfirmado,
+                $request->txtPedidoId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -680,10 +679,10 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update rellenos set relleno_descripcion=?, relleno_altura=?, relleno_precio_base_volumen=? where relleno_id=?", [
-                $request->txtRellenoId,
                 $request->txtRellenoDescripcion,
                 $request->txtRellenoAltura,
                 $request->txtPrecio,
+                $request->txtRellenoId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -755,9 +754,9 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update roles set nombre_rol=?, cedula_usuario=? where id_rol=?", [
-                $request->txtIdRol,
                 $request->txtNombreRol,
                 $request->txtCedulaUsuario,
+                $request->txtIdRol,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -829,9 +828,9 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update sabores set sabores_descripcion=?, sabores_precio_base_volumen=? where sabores_id=?", [
-                $request->txtSaboresId,
                 $request->txtSaboresDescripcion,
                 $request->txtSaboresPrecio,
+                $request->txtSaboresId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -902,8 +901,8 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update tamano set tamano_descripcion=? where tamano_id=?", [
-                $request->txtTamanoId,
                 $request->txtTamanoDescripcion,
+                $request->txtTamanoId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -979,13 +978,13 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update tamanos_formas set tamano_id=?, formas_id=?, num_porciones=?, altura=?, longitud1=?, longitud2=? where tamanos_formas_id=?", [
-                $request->txtTamanoFormasId,
                 $request->txtTamanoId,
                 $request->txtFormasId,
                 $request->txtNumPorciones,
                 $request->txtAltura,
                 $request->txtLongitud1,
                 $request->txtLongitud2,
+                $request->txtTamanoFormasId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -1057,9 +1056,9 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update tipo set tipo_descripcion=?, tipo_precio_base_volumen=? where tipo_id=?", [
-                $request->txtTipoId,
                 $request->txtTipoDescripcion,
                 $request->txtTipoPrecio,
+                $request->txtTipoId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -1111,10 +1110,10 @@ class AdministradorController extends Controller
         try {
             $sql = DB::insert("insert into usuarios (cedula_usuario, nombre_usuario, correo, contrasena)
         values (?,?,?,?)", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtCorreo,
-                $request->txtContrasena,
+                $request->txtUsuarioCedula,
+                $request->txtUsuarioNombre,
+                $request->txtUsuarioCorreo,
+                $request->txtUsuarioContrasena,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
@@ -1133,10 +1132,10 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update usuarios set cedula_usuario=?, nombre_usuario=?, correo=?, contrasena=? where cedula_usuario=?", [
-                $request->txtCedula,
-                $request->txtNombre,
-                $request->txtCorreo,
-                $request->txtContrasena,
+                $request->txtUsuarioCedula,
+                $request->txtUsuarioNombre,
+                $request->txtUsuarioCorreo,
+                $request->txtUsuarioContrasena,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -1209,10 +1208,10 @@ class AdministradorController extends Controller
     {
         try {
             $sql = DB::update("update varios set descripcion_varios=?, precio_varios=?, img_varios=? where id_varios=?", [
-                $request->txtVariosId,
                 $request->txtVariosDescripcion,
                 $request->txtVariosPrecio,
                 $request->txtVariosImg,
+                $request->txtVariosId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
