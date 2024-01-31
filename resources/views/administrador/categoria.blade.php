@@ -41,7 +41,7 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Descripcion</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" name="txtDescripcion">
+                                <input type="text" class="form-control" id="exampleInputPassword1" name="txtCategoriaDescripcion">
                             </div>
 
                             <div class="modal-footer">
@@ -90,11 +90,11 @@
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="exampleInputPassword1" class="form-label">Codigo</label>
-                                                <input type="text" class="form-control" id="exampleInputPassword1" name="txtCategoriaId" value="{{ $item->categoria_id }}" readonly>
+                                                <input type="number" class="form-control" id="exampleInputPassword1" name="txtCategoriaId" value="{{ $item->categoria_id }}" readonly>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="exampleInputPassword1" class="form-label">Descripcion</label>
-                                                <input type="number" class="form-control" id="exampleInputPassword1" name="txtDescripcion" value="{{ $item->categoria_descripcion }}">
+                                                <input type="text" class="form-control" id="exampleInputPassword1" name="txtCategoriaDescripcion" value="{{ $item->categoria_descripcion }}">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
