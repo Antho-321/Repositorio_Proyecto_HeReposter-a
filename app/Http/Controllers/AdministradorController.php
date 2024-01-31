@@ -1170,7 +1170,7 @@ class AdministradorController extends Controller
         }
     }
 
-    /**
+    /** 
      * Tabla Varios
      * Visualizar Varios
      */
