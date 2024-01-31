@@ -21,6 +21,7 @@ let divVentana = document.createElement("div");
 let salto = document.getElementById("Salto");
 let ubicación_página = window.location.href;
 let actualizar_pastel=document.getElementById("actualizar_pastel");
+var currentView = document.querySelector('meta[name="current-view"]').getAttribute('content');
 divVentana.id = "VentanaForm";
 estilo_búsqueda.id = "estilo_búsqueda";
 estilo_aux_EnvíoACarrito.id = "est_EnvíoACarrito";
@@ -151,8 +152,13 @@ if (actualizar_pastel!=null) {
     cantidadInput = document.getElementById("cantidad");
     window.onload = verificarDedicatorias(cantidadInput); 
 }
-if (ubicación_página.substring(ubicación_página.lastIndexOf("/")) == "/CarritoDeCompras.php") {
-    window.onload = AgregarContenidoCarrito();
+
+// console.log(currentView);
+// console.log(currentView=="detalles_pedido.update");
+// console.log(currentView=="detalles_pedido.destroy");
+// console.log(currentView=="cliente.carrito");
+
+if (currentView=="detalles_pedido.update"||currentView=="detalles_pedido.destroy"||currentView=="cliente.carrito") {
     var btnFinPedido = document.getElementById("fin_pedido");
     var fecha_entrega = document.getElementById("fecha_entrega");
     var error_message = document.getElementById("error-message");
@@ -635,13 +641,13 @@ function finalizarPedido() {
         let contenedorBtnPaypal = document.createElement("div");
         contenedorBtnPaypal.id = "paypal-button-container";
         contenedorBtnPaypal.style.width = "25vw";
-        script.src = "../script/script_FinalizaciónDePedido.js";
+        script.src = "js/script_FinalizaciónDePedido.js";
         btnFinPedido.insertAdjacentElement("afterend", contenedorBtnPaypal);
         contenedorBtnPaypal.insertAdjacentElement("afterend", script);
         btnFinPedido.remove();
         scripts[scripts.length - 1].remove();
         tabla_info.insertAdjacentHTML("afterend", `
-    <h2>Datos para generación de comprobante:</h2>
+    <h2 class="txt_total">Datos para generación de comprobante:</h2>
     <label for="cedula">Cédula:</label>
     <input type="text" name="cedula" id="cedula" class="entrada_texto">
     <label for="nombre">Nombre:</label>
@@ -650,7 +656,7 @@ function finalizarPedido() {
     <input type="text" name="direccion" id="direccion" class="entrada_texto">
     <label for="telefono">Teléfono móvil:</label>
     <input type="tel" name="telefono" id="telefono" class="entrada_texto">
-    <h2>Información de pago:</h2>
+    <h2 class="txt_total">Información de pago:</h2>
     `);
     } else {
         alert("Datos inválidos");

@@ -3892,7 +3892,7 @@ p+.quote-classic {
 * Footers
 */
 .footer-modern {
-	background: #38393b;
+	background: black;
 }
 
 .footer-modern>*+* {
@@ -4881,7 +4881,6 @@ hr+.footer-social-list {
 .page {
 	position: relative;
 	text-align: center;
-	overflow: hidden;
 	min-height: 100vh;
 	opacity: 0;
 }
@@ -16090,6 +16089,11 @@ disabled look for disabled choices in the results dropdown
 	height: 85px;
 }
 
+#menu{
+	position: relative !important;
+	z-index: 1000;
+}
+
 .dropdown {
 	position: relative !important;
 	/* Stay in the flow of the document */
@@ -16198,7 +16202,7 @@ footer {
 	width: 100% !important;
 	box-sizing: border-box !important;
 	/* Include padding and border in the element's width */
-	z-index: 2 !important;
+	z-index: 101 !important;
 	position: fixed;
 	/* margin-top: 20px !important;
   	padding-bottom: 20px !important; */
@@ -16293,4 +16297,9 @@ html {
   
   .rd-nav-link{
     z-index: 3 !important;
+  }
+
+  #navegacion{
+	position: fixed;
+	width: 100% !important;
   }

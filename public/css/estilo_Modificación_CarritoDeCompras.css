@@ -1041,6 +1041,6 @@ footer {
     width: 60px !important;
 }
 
-#txt_total{
+.txt_total{
     font-size: 40px;
 }
