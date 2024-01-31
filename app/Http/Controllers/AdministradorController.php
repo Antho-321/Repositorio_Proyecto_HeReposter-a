@@ -258,7 +258,7 @@ class AdministradorController extends Controller
                 $request->txtLugar,
                 $request->txtFecha,
                 $request->txtCantidad,
-                $request->txtContexto,
+                $request->txtConcepto,
                 $request->txtCedulaV,
             ]);
         } catch (\Throwable $th) {
@@ -282,7 +282,7 @@ class AdministradorController extends Controller
                 $request->txtLugar,
                 $request->txtFecha,
                 $request->txtCantidad,
-                $request->txtContexto,
+                $request->txtConcepto,
                 $request->txtCedulaV,
                 $request->txtComrobanteId,
             ]);

@@ -120,7 +120,7 @@
                                                 <div class="mb-3">
                                                     <label for="exampleInputPassword1"
                                                         class="form-label">Precio</label>
-                                                    <input type="text" class="form-control"
+                                                    <input type="number" class="form-control"
                                                         id="exampleInputPassword1" name="txtCoberturaPrecio"
                                                         value="{{ $item->cobertura_precio_base_volumen }}">
                                                 </div>
