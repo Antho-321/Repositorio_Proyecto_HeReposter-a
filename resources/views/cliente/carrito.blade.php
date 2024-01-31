@@ -16,6 +16,7 @@
             $pastel_search = new Pastel();
         }
     }
+    $total_pago=0;
 @endphp
 @extends('plantilla_cliente.new_plantilla')
 @section('estilo')
@@ -131,13 +132,14 @@
                         $cont = -1;
                     @endphp
                     @foreach ($pasteles as $pastel)
-                    
+                        
                         <div class="fila">
 
                             @csrf
 
                             @php
                                 $cont = $cont + 1;
+                                $total_pago+=$detalles_pedido[$cont]->cantidad_pastel*$pastel_search->getPastelById($pastel->pastel_id)->precio;
                             @endphp
                             <div class="col" id="seccion_imagen">
                                 <img src="{{ $pastel_search->getPastelById($pastel->pastel_id)->img }}" alt="Producto">
@@ -185,7 +187,7 @@
             <section id="Info_adicional">
                 <h2 id="txt_total">Total</h2>
                 <p class="col" id="total">
-                    $15 </p>
+                    ${{$total_pago}} </p>
                 <div class="tabla_info">
                     <div class="fila">
                         <label class="col" for="fecha_entrega">Fecha de entrega:</label>
