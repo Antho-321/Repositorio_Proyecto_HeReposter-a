@@ -94,7 +94,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="exampleInputPassword1" class="form-label">Descripcion</label>
-                                                <input type="number" class="form-control" id="exampleInputPassword1" name="txtDescripcion" value="{{ $item->categoria_descripcion }}">
+                                                <input type="text" class="form-control" id="exampleInputPassword1" name="txtDescripcion" value="{{ $item->categoria_descripcion }}">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
