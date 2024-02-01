@@ -23,6 +23,7 @@
             <div class="col-md-3">
                 @include('administrador.sidebarAdministrador')
             </div>
+            <div class="col-md-9">
             <h1 class="text-center p-3">¡Bienvenido Administrador!</h1>
             <h2 class="text-center p-3">TABLA DE CLIENTES</h1>
 
