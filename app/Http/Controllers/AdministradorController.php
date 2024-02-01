@@ -567,7 +567,7 @@ class AdministradorController extends Controller
     public function indexPedidos()
     {
         $datos = DB::select("select * from pedido");
-        return view("/administrador/pedido")->with("datos", $datos);
+        return view("/administrador/pedidos")->with("datos", $datos);
     }
 
     /**
