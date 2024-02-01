@@ -50,11 +50,34 @@
     .table {
       margin-top: 20px;
     }
+
+    /* Estilos para el contenedor del gráfico */
+    .chart-container {
+      max-width: 400px;
+      margin: auto;
+    }
+
+    .btn-logout {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+
+    .btn-dark {
+      background-color: #343a40;
+      color: #ffffff;
+    }
+
+    .btn-dark:hover {
+      background-color: #1d2124;
+    }
   </style>
 </head>
 
 <body>
 
+  <button class="btn btn-dark btn-logout" onclick="">Cerrar Sesión</button>
   <!-- Sidebar -->
   <div class="sidebar">
     <img src="{{ asset('images/LOGO_PANKEY.png') }}" alt="Logo" class="img-fluid" style="width: 100%; height: auto; margin-bottom: 20px;">
