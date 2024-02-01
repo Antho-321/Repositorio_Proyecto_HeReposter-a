@@ -13,7 +13,7 @@
 
 <body>
     <h1 class="text-center p-3">¡Bienvenido Administrador!</h1>
-    <h2 class="text-center p-3">TABLA DE CLIENTES</h1>
+    <h2 class="text-center p-3">TABLA DE PEDIDOS</h1>
 
         @if (session('correcto'))
             <div class="alert alert-success">{{ session('correcto') }}</div>
