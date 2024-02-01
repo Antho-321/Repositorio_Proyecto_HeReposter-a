@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <meta name="current-view" content="{{ Route::currentRouteName() }}">
+    @yield('token_adicional')
     <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
     <!-- Stylesheets-->
     <link rel="stylesheet" type="text/css"

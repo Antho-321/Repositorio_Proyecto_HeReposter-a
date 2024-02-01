@@ -7,7 +7,7 @@ paypal.Buttons({
                 items: [
                     {
                         name: 'pastel de vísperas de santos',
-                        quantity: '4',
+                        quantity: '1',
                         unit_amount: {
                             currency_code: 'USD',
                             value: '25.00'
@@ -15,7 +15,7 @@ paypal.Buttons({
                     },
                     {
                         name: 'pastel de cumpleaños',
-                        quantity: '4',
+                        quantity: '3',
                         unit_amount: {
                             currency_code: 'USD',
                             value: '25.00'
@@ -24,11 +24,11 @@ paypal.Buttons({
                 ],
                 amount: {
                     currency_code: 'USD',
-                    value: '200.00', // También puede hacer referencia a una variable o función.
+                    value: '100.00', // También puede hacer referencia a una variable o función.
                     breakdown: {
                         item_total: {
                             currency_code: 'USD',
-                            value: '200.00'
+                            value: '100.00'
                         }
                     }
                 }
@@ -42,14 +42,16 @@ paypal.Buttons({
     onApprove: (data, actions) => {
         return actions.order.capture().then(function (orderData) {
             // ¡Captura exitosa! Para propósitos de desarrollo/demostración:
-            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+            
+            // console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+            
             const transaction = orderData.purchase_units[0].payments.captures[0];
             // Obtén el elemento antiguo
             let elementoViejo = document.getElementById("paypal-button-container");
 
             // Crea el nuevo elemento
             let elementoNuevo = document.createElement("img");
-            elementoNuevo.src="../imagenes/PagoExitoso.png";
+            elementoNuevo.src="images/PagoExitoso.png";
             elementoNuevo.id="pago_exitoso";
             // Reemplaza el elemento antiguo con el nuevo
             elementoViejo.parentNode.replaceChild(elementoNuevo, elementoViejo);
@@ -59,6 +61,8 @@ paypal.Buttons({
             let direccion=document.getElementById("direccion");
             let telefono=document.getElementById("telefono");
             
+            console.log("pedido id: "+document.getElementById("id_pedido").value);
+
             insertComprobante(document.getElementById("id_comprobante").value,document.getElementById("id_pedido").value,document.getElementById("total").innerHTML.match(/(\d+)/)[0], document.getElementById("fecha_entrega").value,document.getElementById("hora_entrega").value, cedula.value, nombre.value,direccion.value,telefono.value);
             telefono.disabled=true;
             direccion.disabled=true;
@@ -73,7 +77,7 @@ paypal.Buttons({
             // Crea el nuevo elemento
             let elementoNuevo = document.createElement("img");
             elementoNuevo.id="pago_erroneo";
-            elementoNuevo.src="../imagenes/ErrorPago.png";
+            elementoNuevo.src="images/ErrorPago.png";
 
             // Reemplaza el elemento antiguo con el nuevo
             elementoViejo.parentNode.replaceChild(elementoNuevo, elementoViejo);
@@ -81,9 +85,24 @@ paypal.Buttons({
     }
 }).render('#paypal-button-container');
 
-function insertComprobante(id_comprobante_venta, id_pedido, total_pago, fecha_entrega, hora_entrega, cedula, nombre,direccion,telefono) {
+function insertComprobante(id_comprobante_venta, id_pedido, total_pago, fecha_entrega, hora_entrega, cedula, nombre, direccion, telefono) {
     return new Promise((resolve, reject) => {
-        fetch("../php/InsertarComprobante.php?&id_comprobante_venta=" + id_comprobante_venta + "&id_pedido=" + id_pedido + "&total_pago=" + total_pago+ "&fecha_entrega=" + fecha_entrega+ "&hora_entrega=" + hora_entrega+ "&cedula=" + cedula+ "&nombre=" + nombre+ "&direccion=" + direccion+ "&telefono=" + telefono)
-            .catch(error => reject(error));
+        fetch('/comprobante/insert', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                comprobante_id: id_comprobante_venta,
+                pedido_id: id_pedido,
+                // Assuming 'lugar', 'cantidad', and 'concepto' can be derived or are not required
+                fecha: fecha_entrega,
+                // You might need to handle 'hora_entrega', 'cedula', 'nombre', 'direccion', 'telefono' appropriately
+            })
+        })
+        .then(response => response.json())
+        .then(data => resolve(data))
+        .catch(error => reject(error));
     });
 }

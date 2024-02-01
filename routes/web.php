@@ -6,6 +6,7 @@ use App\Http\Controllers\PastelController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\AuditorController;
 use App\Http\Controllers\VendedorController;
+use App\Http\Controllers\ComprobanteController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AdministradorController;
@@ -24,6 +25,8 @@ use App\Http\Controllers\AdministradorController;
 
 Route::resource('cliente', ClienteController::class);
 Route::resource('detalles_pedido', DetallesPedidoController::class);
+Route::post('/comprobante/insert', [ComprobanteController::class, 'insert']);
+Route::post('/pdf/send', [ComprobanteController::class, 'send']);
 
 Route::get('/detalles_pedido.update/{pastel}', [DetallesPedidoController::class, 'update'])->name('detalles_pedido.update');
 Route::get('/cliente.ingreso_carrito/{pastel}', [PedidoController::class, 'create'])->name('cliente.ingreso_carrito');
@@ -37,7 +40,10 @@ Route::controller(ClienteController::class)->group(function () {
     Route::get('/cliente.carrito', 'carrito')->name('cliente.carrito');
 });
 
-Route::view('/InicioAdministración', 'InicioAdministración');
+Route::get('/InicioAdministración', function () {
+    $datos = DB::select("select * from clientes");
+        return view("/administrador/clientes")->with("datos", $datos);
+});
 Route::view('/ingreso_producto', 'ingreso_producto');
 Route::get('actualizar_producto', function () {
     $pasteles = DB::select('select * from pastel');

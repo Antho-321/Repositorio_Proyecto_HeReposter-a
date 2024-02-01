@@ -80,6 +80,13 @@ class Pastel extends Model
         $nombre_cobertura=$cobertura->cobertura_descripcion;
         return $nombre_cobertura;
     }
+    public function getCategoriaPastel()
+    {      
+        $categoria_id=$this->categoria_id;
+        $categoria = Categoria::where('categoria_id', $categoria_id)->first();
+        $nombre_categoria=$categoria->categoria_descripcion;
+        return $nombre_categoria;
+    }
     // Este es el método que permite obtener el nombre del sabor de un pastel
     public function getSaborPastel()
     {      

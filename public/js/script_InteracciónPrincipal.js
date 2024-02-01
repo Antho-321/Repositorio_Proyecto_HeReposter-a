@@ -159,6 +159,7 @@ if (actualizar_pastel!=null) {
 // console.log(currentView=="cliente.carrito");
 
 if (currentView=="detalles_pedido.update"||currentView=="detalles_pedido.destroy"||currentView=="cliente.carrito") {
+    AgregarContenidoCarrito();
     var btnFinPedido = document.getElementById("fin_pedido");
     var fecha_entrega = document.getElementById("fecha_entrega");
     var error_message = document.getElementById("error-message");
@@ -166,53 +167,54 @@ if (currentView=="detalles_pedido.update"||currentView=="detalles_pedido.destroy
     var error_message3 = document.getElementById("error-message3");
     var hora_entrega = document.getElementById("hora_entrega");
     var inputTime, currentDate;
-    fecha_entrega.addEventListener('change', function (event) {
-        var dateComponents = event.target.value.split('-');
-        var year = parseInt(dateComponents[0], 10);
-        var month = parseInt(dateComponents[1], 10) - 1; // Los meses en JavaScript empiezan en 0
-        var day = parseInt(dateComponents[2], 10) + 1;
-        var inputDate = new Date(Date.UTC(year, month, day));
-        if (year < 100) {
-            inputDate.setFullYear(inputDate.getFullYear() - 1900);
-        }
-        currentDate = new Date();
-        currentDate.setHours(0, 0, 0, 0);
-        inputDate.setHours(0, 0, 0, 0);
-
-
-        // create a new timeout and store its id
-        if (inputDate <= currentDate) {
-            error_message3.style.display = "none"; // hide the error message
-            error_message.style.display = "block"; // show the error message
-            fecha_valida = false;
-            btnFinPedido.className = "fin_pedido";
-            dia_mañana = false;
-        } else {
-
-            fecha_valida = true;
-            error_message2.style.display = "none"; // hide the error message
-            error_message3.style.display = "none"; // hide the error message
-            error_message.style.display = "none"; // hide the error message
-            let aux_currentDate = new Date();
-            aux_currentDate.setHours(0, 0, 0, 0);
-            aux_currentDate.setDate(aux_currentDate.getDate() + 1);
-
-            if (inputDate.getTime() == aux_currentDate.getTime()) {
-                dia_mañana = true;
-            } else {
-                dia_mañana = false;
+    if (fecha_entrega!=null) {
+        fecha_entrega.addEventListener('change', function (event) {
+            var dateComponents = event.target.value.split('-');
+            var year = parseInt(dateComponents[0], 10);
+            var month = parseInt(dateComponents[1], 10) - 1; // Los meses en JavaScript empiezan en 0
+            var day = parseInt(dateComponents[2], 10) + 1;
+            var inputDate = new Date(Date.UTC(year, month, day));
+            if (year < 100) {
+                inputDate.setFullYear(inputDate.getFullYear() - 1900);
             }
+            currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+            inputDate.setHours(0, 0, 0, 0);
+    
+    
+            // create a new timeout and store its id
+            if (inputDate <= currentDate) {
+                error_message3.style.display = "none"; // hide the error message
+                error_message.style.display = "block"; // show the error message
+                fecha_valida = false;
+                btnFinPedido.className = "fin_pedido";
+                dia_mañana = false;
+            } else {
+    
+                fecha_valida = true;
+                error_message2.style.display = "none"; // hide the error message
+                error_message3.style.display = "none"; // hide the error message
+                error_message.style.display = "none"; // hide the error message
+                let aux_currentDate = new Date();
+                aux_currentDate.setHours(0, 0, 0, 0);
+                aux_currentDate.setDate(aux_currentDate.getDate() + 1);
+    
+                if (inputDate.getTime() == aux_currentDate.getTime()) {
+                    dia_mañana = true;
+                } else {
+                    dia_mañana = false;
+                }
+                comprobacionHora();
+            }
+        });
+        hora_entrega.addEventListener('input', function (event) {
             comprobacionHora();
-        }
-    });
-    hora_entrega.addEventListener('input', function (event) {
-        comprobacionHora();
-        setTimeout(function () {
-            hora_entrega.blur();
-        }, 1010);
-
-    });
-
+            setTimeout(function () {
+                hora_entrega.blur();
+            }, 1010);
+    
+        });
+    }
 }
 function comprobacionHora() {
     currentDate = new Date();
@@ -812,44 +814,62 @@ function CerrarVentana() {
     }
     document.querySelector(".rd-nav-link").removeAttribute("style");
 }
-function AgregarContenidoCarrito() {
-    let primera_fila = document.getElementById("primera_fila");
-    let myData = myAsyncFunction3();
-    myData.then(result => {
-        var datos_carrito_string = JSON.stringify(result);
-        localStorage.setItem('datos_carrito', datos_carrito_string)
-        if (result.usuario == "noIngresado" || result.length == 0) {
-            ProductosNoIngresados();
-        }
-        for (let i = 0; i < result.length; i++) {
-            primera_fila.insertAdjacentHTML("afterend", `
-        <form class="fila" action="../php/EliminarItemCarrito.php" method= "POST">
-                        <div class="col" id="seccion_imagen">
-                            <img src="`+ result[i].IMG + `" alt="Producto">
-                        </div>   
-                            <p class="col" name="dedicatoria">`+ result[i].DEDICATORIA + `</p>
-                            <p class="col" name="masa">`+ result[i].masa + `</p>
-                            <p class="col" name="sabor">`+ result[i].sabor + `</p>
-                            <p class="col" name="relleno">`+ result[i].relleno + `</p>
-                            <p class="col" name="cobertura">`+ result[i].cobertura + `</p>
-                            <p class="col" name="precio">$`+ result[i].precio + `</p>
-                            <p class="col" name="cantidad">`+ result[i].CANTIDAD_CLIENTE + `</p>                   
-                            <div class="col" id="seccion_eliminar">
-                                <div>
-                                    <input type="hidden" name="id_canasta" value="`+ result[i].ID_CANASTA + `">
-                                    
-                                    <input type="button" id="editarCarrito" class="btn_eliminar" value="✏️">
-                                    <input type="hidden" value="`+ result[i].IMG + `" id="test">
-                                    <input type="hidden" name="adicional" id="req_Adicional" value="`+ result[i].ESPECIFICACION_ADICIONAL + `">
-                                    <button class="btn_eliminar"><img src="../imagenes/Borrador.png" id="borrador"></button>
-                                </div>
-                            </div>      
-                    </form>
-        `);
-            document.getElementById("editarCarrito").addEventListener("click", editarInfoProductoCarrito);
-        }
+function serializeElement(element) {
+    const obj = {
+        innerHTML: element.innerHTML,
+        innerText: element.innerText,
+        attributes: {}
+    };
+    for (let attr of element.attributes) {
+        obj.attributes[attr.name] = attr.value;
+    }
+    return obj;
+}
+
+function storeElementsData(className) {
+    const elements = document.getElementsByClassName(className);
+    const dataToStore = Array.from(elements).map(element => serializeElement(element));
+    const jsonString = JSON.stringify(dataToStore);
+    localStorage.setItem("v1_datos_carrito", jsonString);
+}
+function convertDataFormat(oldData) {
+    return oldData.map(item => {
+        // Create a temporary DOM element to parse the HTML content
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = item.innerHTML;
+
+        // Extracting data using querySelector and attribute values
+        const imgSrc = tempDiv.querySelector('img')?.src || '';
+        const masa = tempDiv.querySelector('p[name="masa"]')?.textContent.trim() || '';
+        const sabor = tempDiv.querySelector('p[name="sabor"]')?.textContent.trim() || '';
+        const relleno = tempDiv.querySelector('p[name="relleno"]')?.textContent.trim() || '';
+        const cobertura = tempDiv.querySelector('p[name="cobertura"]')?.textContent.trim() || '';
+        const precio = tempDiv.querySelector('p[name="precio"]')?.textContent.trim().replace('$', '') || '';
+        const cantidad = tempDiv.querySelector('p[name="cantidad"]')?.textContent.trim() || '';
+        const categoria = tempDiv.querySelector('input[name="categoria"]')?.value.trim() || '';
+        // Constructing the new data format
+        return {
+            cantidad_cliente: cantidad,
+            // Assuming default values for missing fields
+            categoria: categoria,
+            cobertura: cobertura,
+            dedicatoria: null,
+            especificacion_adicional: null,
+            img: imgSrc,
+            masa: masa,
+            precio: precio,
+            relleno: relleno,
+            sabor: sabor
+        };
     });
 }
+
+function AgregarContenidoCarrito() {
+    storeElementsData("datos_carrito");
+    let formato_correcto=JSON.stringify(convertDataFormat(JSON.parse(localStorage.getItem('v1_datos_carrito'))));
+    localStorage.setItem("datos_carrito",formato_correcto);
+}
+
 function irAIndex() {
     window.location.href = "../vistas/Index.php";
 }

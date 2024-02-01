@@ -1,7 +1,11 @@
+@section('token_adicional')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
 @php
     use App\Models\Pastel;
     use App\Models\DetallesPedido;
     use App\Models\Pedido;
+    use App\Models\Comprobante;
     use Illuminate\Support\Facades\Session;
     $cliente = Session::get('cliente');
     if (isset($cliente)) {
@@ -16,6 +20,8 @@
             $pastel_search = new Pastel();
         }
     }
+    $comprobante_search = new Comprobante();
+    $id_comprobante = $comprobante_search->max('comprobante_id') + 1;
     $total_pago=0;
 @endphp
 @extends('plantilla_cliente.new_plantilla')
@@ -28,6 +34,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script>
 @endsection
 @section('navegacion')
+<input type="checkbox" id="check3" onchange="DescargarComprobante()" style="position: absolute; top: 1000px">
     <ul class="rd-navbar-nav">
         <li class="rd-nav-item">
             <a class="rd-nav-link" href="{{ route('cliente.index') }}"><b>Inicio</b></a>
@@ -131,9 +138,10 @@
                     @php
                         $cont = -1;
                     @endphp
+                    <input type="hidden" name="email" value="{{$cliente->email}}" id="email">
                     @foreach ($pasteles as $pastel)
                         
-                        <div class="fila">
+                        <div class="fila datos_carrito">
 
                             @csrf
 
@@ -156,6 +164,7 @@
                             <p class="col" name="precio">
                                 ${{ $pastel_search->getPastelById($pastel->pastel_id)->precio }}</p>
                             <p class="col" name="cantidad">{{ $detalles_pedido[$cont]->cantidad_pastel }}</p>
+                            <input type="hidden" name="categoria" value="{{$pastel_search->getPastelById($pastel->pastel_id)->getCategoriaPastel()}}">
                             <div class="col" id="seccion_eliminar">
                                 <div>
                                     <form action="{{ route('detalles_pedido.show', $detalles_pedido[$cont]->detalle_id) }}"
@@ -163,7 +172,7 @@
                                         @csrf
                                         <input type="hidden" name="adicional" id="req_Adicional" value="undefined">
                                         <button id="editarCarrito" class="btn_eliminar">✏️</button>
-
+                                        
                                     </form>
                                     <form action="{{ route('detalles_pedido.destroy', $detalles_pedido[$cont]->detalle_id) }}"
                                         method="POST">
@@ -202,8 +211,8 @@
                         <label class="col" for="time">Hora:</label>
                         <div id="entrada_tiempo" class="col">
                             <input type="time" id="hora_entrega">
-                            <input type="hidden" name="id_comprobante" id="id_comprobante" value="1">
-                            <input type="hidden" name="id_pedido" id="id_pedido" value="2">
+                            <input type="hidden" name="id_comprobante" id="id_comprobante" value="{{$id_comprobante}}">
+                            <input type="hidden" name="id_pedido" id="id_pedido" value="{{$pedido_id}}">
                             <div id="error-message2" class="error">La entrega del pedido no puede realizarse en menos
                                 de 24 horas.</div>
                         </div>
@@ -229,5 +238,5 @@
         @endif
 
     </div>
-
+    <script src="{{ asset('js/script_querys.js') }}"></script>
 @endsection

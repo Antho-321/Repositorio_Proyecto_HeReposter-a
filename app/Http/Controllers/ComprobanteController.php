@@ -2,149 +2,97 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pastel;
-use App\Models\Cliente;
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Session;
-
-use Google\Client;
-use Google\Service\Gmail;
+use App\Http\Controllers\Controller;
+use App\Models\Comprobante;
+use App\Models\Pedido;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Google\Service\Gmail\Message;
+use App\Models\Cliente;
+use Google\Client;
+use Illuminate\Support\Facades\Storage;
+use Google\Service\Gmail;
 
-class ClienteController extends Controller
+class ComprobanteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
+    public function insert(Request $request)
     {
-        if ($request->input('cerrar_sesion') == "true") {
-            session()->forget('cliente');
-            session()->forget('pasteles_carrito');
-        }
-        $pasteles = Pastel::orderBy('pastel_id', 'DESC')->get();
-        Session::put('pasteles', $pasteles);
-        return view('cliente.index');
+        // Create a new Comprobante using the request data
+        $comprobante = Comprobante::create($request->all());
+        $pedido_id = $comprobante->pedido_id;
+        $pedido_search = new Pedido();
+        $pedido = $pedido_search->getPedidoById($pedido_id);
+        $pedido->pedido_confirmado = true;
+        $pedido->save();
+        return response()->json($comprobante);
     }
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
+    public function send(Request $request)
     {
-        if (Session::get('random') == $request->input('random')) {
-            $cliente = Session::get('cliente');
-            if (Session::get('tipo_ingreso_aux') == "registrarse") {
-                $cliente->save();
+        try {
+            // Retrieve and decode the PDF data
+            $pdfData = $request->input('pdfData');
+            if (!$pdfData) {
+                return response()->json(['error' => 'No PDF data provided'], 400);
             }
-            $cliente_search = new Cliente();
-            $cliente_aux = $cliente_search->getClienteByEmail($cliente->email);
-            $cliente = $cliente_aux;
-            Session::put('cliente', $cliente); // Storing the cliente object after saving
+            $pdfDecoded = base64_decode($pdfData);
 
-            Session::put('codigo_correcto', true);
+            // Specify a path and file name for the PDF
+            $filePath = 'pdfs/' . uniqid() . '.pdf';
 
-            // Optionally, pass the cliente_id to the view
-            return view('cliente.index');
+            // Save the PDF to storage
+            Storage::disk('local')->put($filePath, $pdfDecoded);
+
+            // Handling client information
+            $cliente = new Cliente($request->all());
+            if (empty($cliente->email)) {
+                return response()->json(['error' => "Email address is required"], 400);
+            }
+
+            // Google Client configuration
+            $client = new Client();
+            $client->setAuthConfig(storage_path('app/google-credentials.json'));
+            $client->setScopes(['https://www.googleapis.com/auth/gmail.send']);
+
+            // Retrieve refresh token from stored JSON
+            $jsonString = Storage::disk('local')->get('google-credentials.json');
+            $jsonArray = json_decode($jsonString, true);
+            $refreshToken = $jsonArray['installed']['refresh_token'];
+            $client->refreshToken($refreshToken);
+
+            // Create the Gmail service
+            $service = new Gmail($client);
+
+            // Email content
+            $texto1 = "Comprobante de venta";
+            $texto2 = "Hemos recibido una solicitud...";
+            $texto3 = "Si no has solicitado este código...";
+
+            // Compose HTML content for the email
+            $htmlContent = $this->composeEmailHtmlContent($texto1, $texto2, $texto3);
+
+            // Email subject
+            $subject = 'Comprobante de venta';
+            $email_receiver = $cliente->email;
+
+            // Email body composition
+            $emailBody = $this->composeEmailBody($subject, $email_receiver, $htmlContent, $filePath);
+
+            // Send the email
+            $message = new Message();
+            $encodedMessage = rtrim(strtr(base64_encode($emailBody), '+/', '-_'), '=');
+            $message->setRaw($encodedMessage);
+            $service->users_messages->send('me', $message);
+
+            return response()->json(['message' => 'PDF processed and email sent']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while processing the request'], 500);
         }
-
-        Session::put('codigo_correcto', false);
-        return view('cliente.envio_correo_registro', compact('cliente'));
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    private function composeEmailHtmlContent($texto1, $texto2, $texto3)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show()
-    {
-        return view('cliente.sobre_nosotros');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $pastel)
-    {
-        //
-    }
-
-    /**
-     * Send email to client
-     */
-    public function ingreso(Request $request)
-    {
-        $cliente = new Cliente();
-        $cliente->fill($request->all());
-        // Ensure that the email field is not empty
-        if (empty($cliente->email)) {
-            Log::error("Error in ingreso: Email address is empty.");
-            return response()->json(['error' => "Email address is required"], 400);
-        }
-        $email_receiver = $cliente->email;
-        // Create a new Google Client
-        $client = new Client();
-
-        // Set the path to the JSON file with your credentials
-        $client->setAuthConfig(storage_path('app/google-credentials.json'));
-
-        // Set the required scopes
-        $client->setScopes(['https://www.googleapis.com/auth/gmail.send']);
-
-        $jsonString = Storage::disk('local')->get('google-credentials.json');
-
-        // Convertir la cadena JSON en un array
-        $jsonArray = json_decode($jsonString, true);
-
-        // Extraer el valor de refresh_token
-        $refreshToken = $jsonArray['installed']['refresh_token'];
-        $client->refreshToken($refreshToken);
-
-        // Get the new access token
-        //$accessToken = $client->getAccessToken();
-
-        // Initialize the Gmail service with the configured client
-        if ($request->input('registro') == "false") {
-            $tipo_ingreso = "ingreso";
-            $tipo_ingreso_aux = "ingresar";
-        } else {
-            $tipo_ingreso = "registro";
-            $tipo_ingreso_aux = "registrarse";
-        }
-        $service = new Gmail($client);
-        $random = rand(10000, 100000);
-        $texto1 = "Código de verificación de $tipo_ingreso en Pankey";
-        $texto2 = "Hemos recibido una solicitud de $tipo_ingreso en nuestro sitio web de pastelería utilizando tu dirección de correo electrónico. Tu código de verificación de $tipo_ingreso es:";
-        $texto3 = "Si no has solicitado este código, puede que alguien esté intentando $tipo_ingreso_aux en nuestro sitio web utilizando tu dirección de correo electrónico. No compartas este correo electrónico ni des el código a nadie. Has recibido este mensaje porque esta dirección de correo electrónico figura como dirección de contacto en la solicitud de $tipo_ingreso en nuestro sitio web. Si crees que esto es un error, por favor ignora este mensaje o ponte en contacto con nosotros para solucionarlo. Gracias por elegir nuestro sitio web de pastelería.";
-        // Ensure that your HTML content is properly formatted with UTF-8 encoding
+        // Here, build your HTML content for the email
+        // Replace this with your actual HTML content
         $htmlContent = <<<HTML
         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -263,7 +211,7 @@ class ClienteController extends Controller
                                                                                     <tbody>
                                                                                         <tr>
                                                                                             <td align="center" class="esd-block-text">
-                                                                                                <p style="font-family: Garamond, serif; font-size: 20px;"><b>$random</b></p>
+                                                                                                <p style="font-family: Garamond, serif; font-size: 20px;"><b></b></p>
                                                                                             </td>
                                                                                         </tr>
                                                                                     </tbody>
@@ -329,74 +277,36 @@ class ClienteController extends Controller
         </html>
         HTML;
 
-        // Construct the email body with HTML content
-        $subject = 'Código de verificación';
-        $encoding = 'UTF-8';
+        return $htmlContent;
+    }
 
-        // $encoding is the character set of the string, such as 'UTF-8'
-        $encoded_subject = iconv_mime_encode('Subject', $subject, array(
-            'scheme' => 'B', // use base64 encoding
-            'input-charset' => $encoding, // specify the input character set
-            'output-charset' => $encoding, // specify the output character set
-            'line-length' => 76, // specify the maximum line length
-            'line-break-chars' => "\r\n" // specify the line break characters
-        )
-        );
-        $encoded_subject = substr($encoded_subject, 9);
-        // Ensure proper formatting of the email headers
-        $emailBody = "To: " . $email_receiver . "\r\n";
-        $emailBody .= "Subject: " . $encoded_subject . "\r\n";
+    private function composeEmailBody($subject, $email_receiver, $htmlContent, $filePath)
+    {
+        // Encode subject line to comply with RFC 2047
+        $encoded_subject = '=?utf-8?B?' . base64_encode($subject) . '?=';
+
+        // Email headers
+        $emailBody = "To: {$email_receiver}\r\n";
+        $emailBody .= "Subject: {$encoded_subject}\r\n";
         $emailBody .= "MIME-Version: 1.0\r\n";
-        $emailBody .= "Content-Type: text/html; charset=UTF-8\r\n";
-        $emailBody .= "\r\n";
-        $emailBody .= $htmlContent;
+        $emailBody .= "Content-Type: multipart/mixed; boundary=\"foo_bar_baz\"\r\n\r\n";
 
-        // Encode the body to base64url
-        $encodedMessage = rtrim(strtr(base64_encode($emailBody), '+/', '-_'), '=');
+        // Email body with HTML content
+        $emailBody .= "--foo_bar_baz\r\n";
+        $emailBody .= "Content-Type: text/html; charset=UTF-8\r\n\r\n";
+        $emailBody .= $htmlContent . "\r\n\r\n";
 
-        // Prepare the message in the required format
-        $message = new Message();
-        $message->setRaw($encodedMessage);
+        // Attachment - PDF file
+        $fileData = file_get_contents($filePath);
+        $base64File = base64_encode($fileData);
+        $emailBody .= "--foo_bar_baz\r\n";
+        $emailBody .= "Content-Type: application/pdf; name=\"document.pdf\"\r\n";
+        $emailBody .= "Content-Transfer-Encoding: base64\r\n";
+        $emailBody .= "Content-Disposition: attachment; filename=\"document.pdf\"\r\n\r\n";
+        $emailBody .= chunk_split($base64File, 76, "\r\n") . "\r\n";
+        $emailBody .= "--foo_bar_baz--";
 
-        try {
-            // Send the message
-            $service->users_messages->send('me', $message);
-            Session::put('random', $random);
-            Session::put('cliente', $cliente);
-            // Return the view after sending the email
-            Session::put('tipo_ingreso_aux', $tipo_ingreso_aux);
-            return view('cliente.envio_correo');
-        } catch (\Exception $e) {
-            // Log the detailed error message
-            Log::error("Error in ingreso: " . $e->getMessage());
-            return response()->json(['error' => "An error occurred: " . $e->getMessage()], 500);
-        }
-    }
-    public function pastel_seleccionado(Request $request)
-    {
-        $img = $request->input('img');
-        $pastel_search = new Pastel();
-        $pastel = $pastel_search->getPastelByImg($img);
-        return view('cliente.pastel_seleccionado', compact('pastel'));
-    }
-
-    public function pasteles_personalizados()
-    {
-        return "ESTAMOS TESTEANDO";
-    }
-
-    public function categoria_seleccionada(Request $request)
-    {
-        $categoria = $request->input('categoria_value');
-        $pastel_search = new Pastel();
-
-        $pasteles = $pastel_search->getPastelesByCategoria($categoria);
-        $array_categoria_pasteles = array($categoria, $pasteles);
-        return view("cliente.categoria_seleccionada", compact('array_categoria_pasteles'));
-    }
-
-    public function carrito()
-    {
-        return view('cliente.carrito');
+        return $emailBody;
     }
 }
+

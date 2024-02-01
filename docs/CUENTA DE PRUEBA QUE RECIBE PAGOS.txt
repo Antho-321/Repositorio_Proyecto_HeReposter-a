@@ -1,0 +1,54 @@
+CUENTA DE PRUEBA QUE RECIBE PAGOS:
+
+Correo: luchitolondra522@gmail.com
+Contraseña: Sy2%EB{u
+Enlace para ver pagos: https://www.sandbox.paypal.com/activities/?fromDate=2023-11-13&toDate=2023-12-13
+
+ADMINISTRADOR DE LA APLICACIÓN DE PRUEBA:
+
+Correo: allunav@utn.edu.ec
+Contraseña: Unlimited132
+Enlace para gestionar cuentas y demás: https://developer.paypal.com/dashboard/accounts/edit/4835601209242954278?accountName=sb-ngjk228760468@personal.example.com
+----------------
+Datos de tarjeta 1
+----------------
+Name: John Doe
+Phone: 4085799437
+Account type: Personal
+Account ID: K9A6ZEC9CJJS8
+Status: Verified
+Country: US
+PayPal balance: USD 4,922.56
+Bank account number: 3443766621522
+Bank routing number: 325272063
+Credit card number: 4032039815555109
+Credit card type: VISA
+Expiration date: 01/2028
+(PUEDO PONER QUE ES DE ECUADOR Y USAR INFO DE ECUADOR)
+-----------------
+Datos de tarjeta 2
+-----------------
+
+Phone: 5727208841
+Account type: Personal
+Account ID: 89TRBCW3TJJQY
+Status: Verified
+Country: Colombia
+PayPal balance: USD 5,000.00
+Bank account number: 989643763
+Bank routing number: 325272063
+Credit card type: VISA
+********************
+DATOS QUE ME SIRVEN
+********************
+Credit card number: 4278075648453339
+Expiration date: 12/2028
+CSC: 123
+Nombre: Susana
+Apellido: Torio
+Linea de dirección 1: Calle 45 # 12-34
+Ciudad: Medellín
+Código postal: 050021
+Distrito capital: Boyacá
+Móvil: 476 54321
+Correo: sb-ngjk228760468@personal.example.com
