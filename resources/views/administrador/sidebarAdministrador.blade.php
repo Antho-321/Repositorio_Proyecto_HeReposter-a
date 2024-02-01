@@ -7,7 +7,7 @@
         <!-- Usuarios -->
         <li>
             <a href="{{ route('AdministradorUsuariosIndex') }}">Usuarios</a>
-            <ul>
+            <ul> 
                 <!-- Submenu de Usuarios -->
                 <li><a href="{{ route('AdministradorRolesIndex') }}">Roles</a></li>
             </ul>
