@@ -15,7 +15,17 @@
 </head>
 
 <body>
-    <h1 class="text-center p-3">¡Bienvenido Administrador!</h1>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            @include('administrador.topbar')
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                @include('administrador.sidebarAdministrador')
+            </div><h1 class="text-center p-3">¡Bienvenido Administrador!</h1>
     <h2 class="text-center p-3">TABLA DE CLIENTES</h1>
 
         @if (session('correcto'))
@@ -205,6 +215,9 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
         </script>
+            </div>
+                            </div>
+                        </div>
 </body>
 
 </html>
