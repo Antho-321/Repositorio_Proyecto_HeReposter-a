@@ -33,4 +33,10 @@ class Pedido extends Model
         return $this->belongsToMany(Pastel::class, 'detalles_pedido', 'pedido_id', 'pastel_id')
                     ->withPivot('cantidad_pastel', 'dedicatoria');
     }
+    public function getPedidoById($pedido_id){
+        $pedido = Pedido::where('pedido_id', $pedido_id)->first();
+
+        // Devuelves el pastel encontrado o null si no hay ninguno
+        return $pedido;
+    }
 }

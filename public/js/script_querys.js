@@ -3,40 +3,47 @@ function Logout() {
   window.location = "../php/Logout.php";
   window.alert("Se ha cerrado sesión");
 }
-function getReferenciaPasteles(num_pasteles){
-  if (num_pasteles>1) {
+function getReferenciaPasteles(num_pasteles) {
+  if (num_pasteles > 1) {
     return "Pasteles ";
-  }else{
+  } else {
     return "Pastel ";
   }
 }
-function getReferenciaCategoria(categoria){
-  let aux_categoria=categoria.toLowerCase();
-  if (aux_categoria=="bodas"||aux_categoria=="bautizos"){
+function getReferenciaCategoria(categoria) {
+  let aux_categoria = categoria.toLowerCase();
+  if (aux_categoria == "bodas" || aux_categoria == "bautizos") {
     return aux_categoria.slice(0, -1)
-  }else{
+  } else {
     return aux_categoria;
   }
 }
 function DescargarComprobante() {
-  id_comprobante=document.getElementById("id_comprobante").value;
-  cedula=document.getElementById("cedula").value;
-  nombre=document.getElementById("nombre").value;
-  direccion=document.getElementById("direccion").value;
-  telefono=document.getElementById("telefono").value;
-  array_carrito=JSON.parse(localStorage.getItem('datos_carrito'));
-  filas_productos="";
-  for (let i = array_carrito.length-1; i >= 0; i--) {
-    filas_productos+=`
+  id_comprobante = document.getElementById("id_comprobante").value;
+  cedula = document.getElementById("cedula").value;
+  nombre = document.getElementById("nombre").value;
+  direccion = document.getElementById("direccion").value;
+  telefono = document.getElementById("telefono").value;
+  console.log("DATOS FINALES:");
+
+  array_carrito = JSON.parse(localStorage.getItem('datos_carrito'));
+  console.log(array_carrito);
+
+  // console.log("DESPUES:");
+  // console.log(convertHtmlToData(JSON.parse(localStorage.getItem('datos_carrito'))));
+
+  filas_productos = "";
+  for (let i = array_carrito.length - 1; i >= 0; i--) {
+    filas_productos += `
     <tr>
-      <td>`+ array_carrito[i].CANTIDAD_CLIENTE + `</td>
-      <td>`+getReferenciaPasteles(array_carrito[i].CANTIDAD_CLIENTE)+` de `+getReferenciaCategoria(array_carrito[i].CATEGORIA)+` con sabor a `+array_carrito[i].SABOR.toLowerCase()+` y relleno de `+array_carrito[i].RELLENO.toLowerCase()+`</td>
-      <td>$`+array_carrito[i].PRECIO+`</td>
-      <td>$`+(array_carrito[i].PRECIO*array_carrito[i].CANTIDAD_CLIENTE)+`</td>
+      <td>`+ array_carrito[i].cantidad_cliente + `</td>
+      <td>`+ getReferenciaPasteles(array_carrito[i].cantidad_cliente) + ` de ` + getReferenciaCategoria(array_carrito[i].categoria) + ` con sabor a ` + array_carrito[i].sabor.toLowerCase() + ` y relleno de ` + array_carrito[i].relleno.toLowerCase() + `</td>
+      <td>$`+ array_carrito[i].precio + `</td>
+      <td>$`+ (array_carrito[i].precio * array_carrito[i].cantidad_cliente) + `</td>
     </tr>
   `;
   }
-  
+
   htmlString = `
   <!DOCTYPE html>
 <html lang="en">
@@ -282,26 +289,26 @@ function DescargarComprobante() {
   <div class="nota-venta-container">
     <img alt="pastedImage" src="https://dipruu.stripocdn.email/content/guids/CABINET_72533ce9143499f857c068a4234fc687515b70207d6550b554554b0a5086e5df/images/pastedimage0bs81000w.png" class="nota-venta-imagenespasteles" />
     <img alt="pastedImage" src="https://dipruu.stripocdn.email/content/guids/CABINET_72533ce9143499f857c068a4234fc687515b70207d6550b554554b0a5086e5df/images/pastedimagek6uo200w.png" class="nota-venta-logopankey" />
-    <span class="nota-venta-notaventa"><b>Nota de venta Nro. `+id_comprobante+`</b>&nbsp;</span>
+    <span class="nota-venta-notaventa"><b>Nota de venta Nro. `+ id_comprobante + `</b>&nbsp;</span>
     <div class="nota-venta-container1">
       <div class="nota-venta-container2">
         <table>
           <tbody>
             <tr>
               <th>Cédula / RUC:</th>
-              <td id="cedula_ruc">`+cedula+`</td>
+              <td id="cedula_ruc">`+ cedula + `</td>
             </tr>
             <tr>
               <th>Nombre:</th>
-              <td id="nombre">`+nombre+`</td>
+              <td id="nombre">`+ nombre + `</td>
             </tr>
             <tr>
               <th>Dirección domiciliaria:</th>
-              <td id="direccion">`+direccion+`</td>
+              <td id="direccion">`+ direccion + `</td>
             </tr>
             <tr>
               <th>Teléfono:</th>
-              <td id="telefono">`+telefono+`</td>
+              <td id="telefono">`+ telefono + `</td>
             </tr>
           </tbody>
         </table>
@@ -317,10 +324,10 @@ function DescargarComprobante() {
               <th>Precio unitario</th>
               <th>Subtotal</th>
             </tr>
-            `+filas_productos+`
+            `+ filas_productos + `
             <tr>
               <td colspan="3">Total</td>
-              <td>`+document.getElementById("total").innerHTML+`</td>
+              <td>`+ document.getElementById("total").innerHTML + `</td>
             </tr>
           </tbody>
         </table>
@@ -343,7 +350,7 @@ function DescargarComprobante() {
 
   `;
 
-  document.documentElement.innerHTML = "";
+  // document.documentElement.innerHTML = "";
   temporalDiv = document.createElement('div');
   temporalDiv.innerHTML = htmlString;
   temporalDiv.style.visibility = 'hidden'; // Ocultar el contenido temporal
@@ -370,10 +377,50 @@ function DescargarComprobante() {
 
     // Agregar la imagen al PDF
     doc.addImage(imgData, 'PNG', 0, 0, canvasWidth * scale, canvasHeight * scale);
-    doc.save('nota-venta.pdf');
+    var pdfData = doc.output('datauristring');
+
+    // call the savePdf function and handle the result
+    savePdf(pdfData)
+      .then(data => {
+        var fileName = data.fileName;
+        var fileUrl = data.fileUrl;
+        alert('The PDF file was saved as ' + fileName);
+        window.open(fileUrl, '_blank');
+      })
+      .catch(error => {
+        console.error(error);
+        alert('An error occurred: ' + error);
+      });
     document.body.removeChild(temporalDiv); // Eliminar el elemento temporal
-    location.reload();
+    // location.reload();
   });
-  
-  console.log(array_carrito);
+}
+
+function savePdf(pdfData) {
+  // Retrieve the email value from the input field
+  const email = document.getElementById('email').value;
+
+  // Include the email in the body of the request
+  fetch('/pdf/send', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    },
+    body: JSON.stringify({ pdfData, email })  // Include email here
+  })
+  .then(response => {
+    if (!response.ok) {
+      return response.text().then(text => {
+        throw new Error(`Network response was not ok, status: ${response.status}, body: ${text}`);
+      });
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('PDF sent successfully:', data);
+  })
+  .catch(error => {
+    console.error('Error sending PDF:', error);
+  });
 }
