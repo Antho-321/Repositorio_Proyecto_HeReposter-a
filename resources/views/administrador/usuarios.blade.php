@@ -26,7 +26,7 @@
             </div>
             <div class="col-md-9">
             <h1 class="text-center p-3">¡Bienvenido Administrador!</h1>
-            <h2 class="text-center p-3">TABLA DE CLIENTES</h1>
+            <h2 class="text-center p-3">TABLA DE USUARIOS</h1>
 
                 @if (session('correcto'))
                 <div class="alert alert-success">{{ session('correcto') }}</div>
@@ -51,32 +51,23 @@
                             <div class="modal-body">
 
                                 <!-- modal para ingresar -->
-                                <form action="{{ route('AdministradorClientesIngresar') }}" method="POST">
+                                <form action="{{ route('AdministradorUsuariosIngresar') }}" method="POST">
                                     @csrf
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">Cedula</label>
-                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtCedula">
+                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtUsuarioCedula">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtNombre">
+                                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtUsuarioNombre">
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">Telefono</label>
-                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtTelefono">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">Direccion</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtDireccion">
-                                    </div>
-
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Correo</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtCorreo">
+                                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtUsuarioCorreo">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1" name="txtPassword">
+                                        <input type="password" class="form-control" id="exampleInputPassword1" name="txtUsuarioContrasena">
                                     </div>
 
                                     <div class="modal-footer">
@@ -98,11 +89,8 @@
                     <table class="table table-striped table-bordered table-hover">
                         <thead class="bg-primary text-white">
                             <tr>
-                                <th scope="col">Codigo</th>
                                 <th scope="col">Cedula</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Telefono</th>
-                                <th scope="col">Direccion</th>
                                 <th scope="col">Correo</th>
                                 <th scope="col">Clave</th>
                                 <th></th>
@@ -112,19 +100,16 @@
                             @foreach ($datos as $item)
                             <tr>
 
-                                <th>{{ $item->cliente_id }}</th>
-                                <td>{{ $item->cedula }}</td>
-                                <td>{{ $item->nombre_cliente }}</td>
-                                <td>{{ $item->telefono }}</td>
-                                <td>{{ $item->direccion_domicilio }}</td>
-                                <td>{{ $item->email }}</td>
-                                <td>{{ $item->clave }}</td>
+                                <th>{{ $item->cedula_usuario }}</th>
+                                <td>{{ $item->nombre_usuario }}</td>
+                                <td>{{ $item->correo}}</td>
+                                <td>{{ $item->contrasena }}</td>
                                 <td>
-                                    <a href="" data-bs-toggle="modal" data-bs-target="#modalEditar{{ $item->cliente_id }}" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
-                                    <a href="{{ route('AdministradorClientesEliminar', $item->cliente_id) }}" onclick="return res()" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                                    <a href="" data-bs-toggle="modal" data-bs-target="#modalEditar{{ $item->cedula_usuario }}" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="{{ route('AdministradorUsuariosEliminar', $item->cedula_usuario) }}" onclick="return res()" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
                                 </td>
                                 <!-- Modal  PARA EDITAR-->
-                                <div class="modal fade" id="modalEditar{{ $item->cliente_id }}" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+                                <div class="modal fade" id="modalEditar{{ $item->cedula_usuario }}" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -132,36 +117,25 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="{{ route('AdministradorClientesActualizar') }}" method="POST">
+                                                <form action="{{ route('AdministradorUsuariosActualizar') }}" method="POST">
                                                     @csrf
-                                                    <div class="mb-3">
-                                                        <label for="exampleInputPassword1" class="form-label">Codigo</label>
-                                                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtCodigo" value="{{ $item->cliente_id }}" readonly>
-                                                    </div>
+                                                   
                                                     <div class="mb-3">
                                                         <label for="exampleInputPassword1" class="form-label">Cedula</label>
-                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtCedula" value="{{ $item->cedula }}">
+                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtUsuarioCedula" value="{{ $item->cedula_usuario }}">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputPassword1" class="form-label">Nombre</label>
-                                                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtNombre" value="{{ $item->nombre_cliente }}">
+                                                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtUsuarioNombre" value="{{ $item->nombre_usuario }}">
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label for="exampleInputPassword1" class="form-label">Telefono</label>
-                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtTelefono" value="{{ $item->telefono }}">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="exampleInputPassword1" class="form-label">Direccion</label>
-                                                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtDireccion" value="{{ $item->direccion_domicilio }}">
-                                                    </div>
-
+                                                
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Correo</label>
-                                                        <input type="email" class="form-control" id="exampleInputPassword1" name="txtCorreo" value="{{ $item->email }}">
+                                                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtUsuarioCorreo" value="{{ $item->correo }}">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Password</label>
-                                                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtPassword" value="{{ $item->clave }}">
+                                                        <input type="password" class="form-control" id="exampleInputPassword1" name="txtUsuarioContrasena" value="{{ $item->contrasena }}">
                                                     </div>
 
                                                     <div class="modal-footer">
