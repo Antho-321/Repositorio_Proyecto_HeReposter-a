@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/7da396f1a6.js" crossorigin="anonymous"></script>
+  <title>CRUD VENDEDOR</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -48,11 +46,28 @@
     .table {
       margin-top: 20px;
     }
+
+    .btn-logout {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+
+    .btn-dark {
+      background-color: #343a40;
+      color: #ffffff;
+    }
+
+    .btn-dark:hover {
+      background-color: #1d2124;
+    }
   </style>
-  <title>CRUD VENDEDOR</title>
 </head>
 
 <body>
+
+  <button class="btn btn-dark btn-logout" onclick="">Cerrar Sesión</button>
   <!-- Sidebar -->
   <div class="sidebar">
     <img src="{{ asset('images/LOGO_PANKEY.png') }}" alt="Logo" class="img-fluid" style="width: 100%; height: auto; margin-bottom: 20px;">
@@ -91,32 +106,32 @@
 
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Id Comprobante</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" name="comprobanteid">
+                <input type="number" class="form-control" id="exampleInputPassword1" name="comprobanteid" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Id Pedido</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" name="pedidoid">
+                <input type="number" class="form-control" id="exampleInputPassword1" name="pedidoid" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Lugar</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" name="lugar">
+                <input type="text" class="form-control" id="exampleInputPassword1" name="lugar" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="exampleInputPassword1" name="fecha">
+                <input type="date" class="form-control" id="exampleInputPassword1" name="fecha" required>
               </div>
 
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Cantidad</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" name="cantidad">
+                <input type="number" class="form-control" id="exampleInputPassword1" name="cantidad" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Concepto</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" name="concepto">
+                <input type="text" class="form-control" id="exampleInputPassword1" name="concepto" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Cedula Vendedor</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" name="cedulavendedor">
+                <input type="text" class="form-control" id="exampleInputPassword1" name="cedulavendedor" required>
               </div>
 
               <div class="modal-footer">

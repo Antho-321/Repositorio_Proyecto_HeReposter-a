@@ -1,0 +1,127 @@
+body {
+    background-color: #f2f2f2; /* Fondo general gris claro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: "Sanseriffic", Arial, sans-serif;
+    margin: 0;
+}
+
+#contenido_principal {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    width: 400px; /* Ajustable según necesidad */
+    padding: 40px;
+}
+
+#VentanaDeIngreso h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#VentanaDeIngreso label {
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.entrada_texto {
+    width: calc(100% - 20px); /* Ajuste para padding */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#VentanaDeIngreso .ub1, #VentanaDeIngreso .btnHaciaDerecha {
+    text-align: left; /* Alineación a la izquierda para uniformidad */
+    margin-bottom: 20px;
+    padding-left: 10px; /* Alineación con campos de entrada */
+}
+
+#VentanaDeIngreso button {
+    width: calc(100% - 20px); /* Ajuste para padding */
+    padding: 10px;
+    border: none;
+    background-color: #5c6bc0;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+#VentanaDeIngreso button:hover {
+    background-color: #3949ab;
+}
+
+#VentanaDeIngreso #contraseña_olvidada, #VentanaDeIngreso #sin_cuenta {
+    color: #5c6bc0;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    display: block;
+    margin: 10px 0;
+    text-align: center;
+}
+
+#VentanaDeIngreso #contraseña_olvidada:hover, #VentanaDeIngreso #sin_cuenta:hover {
+    text-decoration: none;
+}
+
+footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    background-color: #fff;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #333;
+    border-top: 1px solid #ccc;
+}
+
+/* Estilos adicionales para los botones e inputs */
+#VentanaDeIngreso .btnHaciaDerecha a, #VentanaDeIngreso .btnHaciaDerecha button {
+    background: none;
+    border: none;
+    color: #5c6bc0;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#VentanaDeIngreso .btnHaciaDerecha a:hover, #VentanaDeIngreso .btnHaciaDerecha button:hover {
+    text-decoration: none;
+    color: #3949ab;
+}
+
+/* Ajustes para el checkbox de mostrar contraseña */
+#VentanaDeIngreso input[type=checkbox] {
+    margin-right: 5px;
+}
+
+/* Alineación y estilo del footer */
+footer #Derechos {
+    color: #333;
+    font-size: 0.8em;
+    text-align: center;
+}
+.campo-contrasena {
+    text-align: left; /* Alinea el texto a la izquierda */
+    margin-bottom: 20px; /* Espacio debajo de cada campo */
+}
+
+.centrado {
+    text-align: center; /* Centra los elementos */
+    margin-bottom: 20px; /* Espacio debajo de cada sección centrada */
+}
+
+#VentanaDeIngreso button {
+    /* Otros estilos de botón ... */
+    display: block; /* Hace que el botón sea un bloque */
+    margin: 20px auto; /* Centra el botón */
+}

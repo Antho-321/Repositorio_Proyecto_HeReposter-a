@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/7da396f1a6.js" crossorigin="anonymous"></script>
+  <title>CRUD VENDEDOR</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -48,11 +49,28 @@
     .table {
       margin-top: 20px;
     }
+
+    .btn-logout {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+
+    .btn-dark {
+      background-color: #343a40;
+      color: #ffffff;
+    }
+
+    .btn-dark:hover {
+      background-color: #1d2124;
+    }
   </style>
-  <title>CRUD VENDEDOR</title>
 </head>
 
 <body>
+
+  <button class="btn btn-dark btn-logout" onclick="">Cerrar Sesión</button>
 
   <!-- Sidebar -->
   <div class="sidebar">
@@ -97,19 +115,19 @@
               @csrf
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Id de cliente</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" name="idCliente">
+                <input type="number" class="form-control" id="exampleInputPassword1" name="idCliente" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Fecha del pedido</label>
-                <input type="date" class="form-control" id="exampleInputPassword1" name="fechaPedido">
+                <input type="date" class="form-control" id="exampleInputPassword1" name="fechaPedido" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Fecha de entrega</label>
-                <input type="date" class="form-control" id="exampleInputPassword1" name="fechaEntrega">
+                <input type="date" class="form-control" id="exampleInputPassword1" name="fechaEntrega" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Hora de entrega</label>
-                <input type="time" class="form-control" id="exampleInputPassword1" name="horaEntrega">
+                <input type="time" class="form-control" id="exampleInputPassword1" name="horaEntrega" required>
               </div>
 
               <div class="mb-3">
@@ -183,23 +201,23 @@
                       @csrf
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Id de Pedido</label>
-                        <input type="number" class="form-control" id="exampleInputPassword1" name="idPedido" value="{{$item->pedido_id}}" readonly>
+                        <input type="number" class="form-control" id="exampleInputPassword1" name="idPedido" value="{{$item->pedido_id}}" readonly required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Id de cliente</label>
-                        <input type="number" class="form-control" id="exampleInputPassword1" name="idCliente" value="{{$item->cliente_id}}">
+                        <input type="number" class="form-control" id="exampleInputPassword1" name="idCliente" value="{{$item->cliente_id}}" required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Fecha del pedido</label>
-                        <input type="date" class="form-control" id="exampleInputPassword1" name="fechaPedido" value="{{$item->fecha_pedido }}">
+                        <input type="date" class="form-control" id="exampleInputPassword1" name="fechaPedido" value="{{$item->fecha_pedido }}" required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Fecha de entrega</label>
-                        <input type="date" class="form-control" id="exampleInputPassword1" name="fechaEntrega" value="{{$item->fecha_entrega}}">
+                        <input type="date" class="form-control" id="exampleInputPassword1" name="fechaEntrega" value="{{$item->fecha_entrega}}" required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Hora de entrega</label>
-                        <input type="time" class="form-control" id="exampleInputPassword1" name="horaEntrega" value="{{$item->hora_entrega}}">
+                        <input type="time" class="form-control" id="exampleInputPassword1" name="horaEntrega" value="{{$item->hora_entrega}}" required>
                       </div>
 
                       <div class="mb-3">

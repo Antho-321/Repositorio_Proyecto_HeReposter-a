@@ -1,0 +1,38 @@
+/* Estilos para el Sidebar */
+.sidebar-menu {
+    width: 250px;
+    background-color: #333;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.sidebar-menu ul li a {
+    color: #ddd;
+    text-decoration: none;
+}
+
+.sidebar-menu ul li ul {
+    padding-left: 20px;
+}
+
+.sidebar-menu ul li ul li {
+    border-bottom: none;
+}
+
+/* Opcional: Estilos para hover en los enlaces */
+.sidebar-menu ul li a:hover {
+    color: #007bff;
+    text-decoration: underline;
+}

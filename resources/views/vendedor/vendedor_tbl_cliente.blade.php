@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/7da396f1a6.js" crossorigin="anonymous"></script>
+  <title>CRUD VENDEDOR</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -48,11 +49,28 @@
     .table {
       margin-top: 20px;
     }
+
+    .btn-logout {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+
+    .btn-dark {
+      background-color: #343a40;
+      color: #ffffff;
+    }
+
+    .btn-dark:hover {
+      background-color: #1d2124;
+    }
   </style>
-  <title>CRUD VENDEDOR</title>
 </head>
 
 <body>
+
+  <button class="btn btn-dark btn-logout" onclick="">Cerrar Sesión</button>
 
   <!-- Sidebar -->
   <div class="sidebar">
@@ -94,32 +112,32 @@
           <div class="modal-body">
 
             <!-- modal para ingresar -->
-            <form action="{{route("vendedor_registrar_cliente")}}" method="POST">
+            <form action="{{ route("vendedor_registrar_cliente") }}" method="POST" onsubmit="return validarFormulario()">
               @csrf
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Cedula</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" name="txtCedula">
+                <input type="number" class="form-control" id="exampleInputPassword1" name="txtCedula" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" name="txtNombre">
+                <input type="text" class="form-control" id="exampleInputPassword1" name="txtNombre" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Telefono</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" name="txtTelefono">
+                <input type="number" class="form-control" id="exampleInputPassword1" name="txtTelefono" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Direccion</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" name="txtDireccion">
+                <input type="text" class="form-control" id="exampleInputPassword1" name="txtDireccion" required>
               </div>
 
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Correo</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" name="txtCorreo">
+                <input type="text" class="form-control" id="exampleInputPassword1" name="txtCorreo" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" name="txtPassword">
+                <input type="password" class="form-control" id="exampleInputPassword1" name="txtPassword" required>
               </div>
 
               <div class="modal-footer">
@@ -180,32 +198,32 @@
                       @csrf
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Codigo</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtCodigo" value="{{$item->cliente_id}}" readonly>
+                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtCodigo" value="{{$item->cliente_id}}" readonly required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Cedula</label>
-                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtCedula" value="{{$item->cedula}}">
+                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtCedula" value="{{$item->cedula}}" required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtNombre" value="{{$item->nombre_cliente}}">
+                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtNombre" value="{{$item->nombre_cliente}}" required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Telefono</label>
-                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtTelefono" value="{{$item->telefono}}">
+                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtTelefono" value="{{$item->telefono}}" required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Direccion</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtDireccion" value="{{$item->direccion_domicilio}}">
+                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtDireccion" value="{{$item->direccion_domicilio}}" required>
                       </div>
 
                       <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Correo</label>
-                        <input type="email" class="form-control" id="exampleInputPassword1" name="txtCorreo" value="{{$item->email}}">
+                        <input type="email" class="form-control" id="exampleInputPassword1" name="txtCorreo" value="{{$item->email}}" required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Password</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtPassword" value="{{$item->clave}}">
+                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtPassword" value="{{$item->clave}}" required>
                       </div>
 
                       <div class="modal-footer">
@@ -224,7 +242,7 @@
       </table>
     </div>
   </div>
-
+ 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 
