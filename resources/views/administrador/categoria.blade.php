@@ -15,7 +15,7 @@
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            @include('administrador.topbar')
+            @include('administrador.topbar') 
         </div>
     </nav>
     <div class="container-fluid">
@@ -24,6 +24,7 @@
             <div class="col-md-3">
                 @include('administrador.sidebarAdministrador')
             </div>
+            <div class="col-md-9">
             <h1 class="text-center p-3">¡Bienvenido Administrador!</h1>
             <h2 class="text-center p-3">TABLA DE CATEGORIA</h1>
 
