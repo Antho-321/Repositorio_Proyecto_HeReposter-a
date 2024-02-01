@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <!-- Logo o Inicio de la barra -->
     <a class="navbar-brand" href="#">
-      <img src="/path-to-your-logo.png" alt="Logo" style="height: 40px;"> <!-- Cambia la ruta al logo de tu proyecto -->
+      <img src="{{ asset('images/LOGO_PANKEY1.png') }}" alt="Logo" style="height: 40px;"> <!-- Cambia la ruta al logo de tu proyecto -->
     </a>
 
     <!-- Botón para dispositivos móviles -->
