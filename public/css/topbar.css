@@ -1,0 +1,28 @@
+.navbar {
+  background-color: rgb(2, 2, 29); /* Color de fondo */
+  color: white; /* Color del texto */
+}
+
+.navbar-brand,
+.navbar-nav .nav-link {
+  color: white; /* Color de los enlaces */
+}
+
+.navbar-toggler {
+  border-color: white; /* Color del botón del menú en dispositivos móviles */
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml, ..."); /* Asegúrate de usar un icono que combine con el fondo */
+}
+
+.dropdown-menu {
+  right: 0; /* Para alinear el menú desplegable a la derecha */
+}
+
+/* Estilos personalizados para el menú desplegable del perfil */
+.nav-item .dropdown-toggle::after {
+  color: white; /* Color del icono de despliegue */
+}
+
+
