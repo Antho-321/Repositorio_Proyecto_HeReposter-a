@@ -70,10 +70,28 @@
       margin-right: 5px;
       /* Ajusta según sea necesario para crear espacio entre los botones */
     }
+
+    .btn-logout {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+
+    .btn-dark {
+      background-color: #343a40;
+      color: #ffffff;
+    }
+
+    .btn-dark:hover {
+      background-color: #1d2124;
+    }
   </style>
 </head>
 
 <body>
+
+  <button class="btn btn-dark btn-logout" onclick="">Cerrar Sesión</button>
 
   <!-- Sidebar -->
   <div class="sidebar">

@@ -11,8 +11,25 @@ class AuditorController extends Controller
     //TABLA CLIENTES
     public function ver_auditoria()
     {
-        $datos=DB::select("select * from auditoria");
-        return view("/auditor/auditor_tbl_auditoria")->with("datos",$datos);
+        // Obtener datos de auditoria
+        $datos = DB::select("select * from auditoria");
+
+        // Calcular datos para el gráfico de pastel
+        $operacionesRealizadasData = [];
+        foreach ($datos as $item) {
+            $operacion = $item->operacion_realizada;
+
+            if (isset($operacionesRealizadasData[$operacion])) {
+                $operacionesRealizadasData[$operacion]++;
+            } else {
+                $operacionesRealizadasData[$operacion] = 1;
+            }
+        }
+
+        // Pasar datos a la vista
+        return view("/auditor/auditor_tbl_auditoria")
+            ->with("datos", $datos)
+            ->with("operacionesRealizadasData", $operacionesRealizadasData);
     }
     public function ver_clientes()
     {

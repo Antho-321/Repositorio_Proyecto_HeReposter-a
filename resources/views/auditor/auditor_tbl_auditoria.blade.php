@@ -50,10 +50,34 @@
     .table {
       margin-top: 20px;
     }
+
+    /* Estilos para el contenedor del gráfico */
+    .chart-container {
+      max-width: 400px;
+      margin: auto;
+    }
+
+    .btn-logout {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+
+    .btn-dark {
+      background-color: #343a40;
+      color: #ffffff;
+    }
+
+    .btn-dark:hover {
+      background-color: #1d2124;
+    }
   </style>
 </head>
 
 <body>
+
+  <button class="btn btn-dark btn-logout" onclick="">Cerrar Sesión</button>
 
   <!-- Sidebar -->
   <div class="sidebar">
@@ -68,42 +92,87 @@
   <!-- Content -->
   <div class="content">
     <h1 class="text-center p-3">¡Bienvenido AUDITOR!</h1>
-    <h2 class="text-center p-3">TABLA DE AUDITORIA</h1>
+    <h2 class="text-center p-3">TABLA DE AUDITORIA</h2>
 
+    <!-- Gráfico de Pastel -->
+    <div class="p-5">
+      <h2 class="text-center p-3">Gráfico de Operaciones Realizadas</h2>
 
-      <div class="p-5 table-responsive">
-
-        <table class="table table-striped table-bordered table-hover">
-          <thead class="bg-primary text-white">
-            <tr>
-              <th scope="col">Codigo Auditoria</th>
-              <th scope="col">Cedula de usuario</th>
-              <th scope="col">Fecha</th>
-              <th scope="col">Hora</th>
-              <th scope="col">Tabla Afectada</th>
-              <th scope="col">Operacion realizada</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach ($datos as $item)
-            <tr>
-
-              <th>{{$item->id_auditoria }}</th>
-              <td>{{$item->cedula_usuario}}</td>
-              <td>{{$item->fecha}}</td>
-              <td>{{$item->hora}}</td>
-              <td>{{$item->tabla_afectada}}</td>
-              <td>{{$item->operacion_realizada}}</td>
-
-
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
+      <!-- Contenedor del gráfico con dimensiones controladas -->
+      <div class="chart-container">
+        <!-- Canvas para el gráfico -->
+        <canvas id="operacionesRealizadasChart" width="400" height="400"></canvas>
       </div>
+    </div>
+
+    <div class="p-5 table-responsive">
+      <table class="table table-striped table-bordered table-hover">
+        <thead class="bg-primary text-white">
+          <tr>
+            <th scope="col">Codigo Auditoria</th>
+            <th scope="col">Cedula de usuario</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Tabla Afectada</th>
+            <th scope="col">Operacion realizada</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($datos as $item)
+          <tr>
+            <th>{{$item->id_auditoria }}</th>
+            <td>{{$item->cedula_usuario}}</td>
+            <td>{{$item->fecha}}</td>
+            <td>{{$item->hora}}</td>
+            <td>{{$item->tabla_afectada}}</td>
+            <td>{{$item->operacion_realizada}}</td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
   </div>
 
+  <!-- Script para configurar el gráfico -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var operacionesRealizadasData = <?php echo json_encode($operacionesRealizadasData); ?>;
+
+      var ctx = document.getElementById('operacionesRealizadasChart').getContext('2d');
+      var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(operacionesRealizadasData),
+          datasets: [{
+            data: Object.values(operacionesRealizadasData),
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.8)',
+              'rgba(54, 162, 235, 0.8)',
+              'rgba(255, 206, 86, 0.8)',
+              'rgba(75, 192, 192, 0.8)',
+              'rgba(153, 102, 255, 0.8)',
+              'rgba(255, 159, 64, 0.8)'
+            ],
+          }]
+        },
+        options: {
+          responsive: false, // Desactiva la responsividad
+          maintainAspectRatio: true, // Mantén la proporción del aspecto
+          title: {
+            display: true,
+            text: 'Operaciones Realizadas'
+          }
+        },
+        // Ajusta las dimensiones directamente
+        width: 300,
+        height: 300
+      });
+    });
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
 </body>
 
 </html>

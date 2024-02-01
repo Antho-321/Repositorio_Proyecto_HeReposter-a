@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/7da396f1a6.js" crossorigin="anonymous"></script>
+  <title>CRUD VENDEDOR</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -48,11 +46,28 @@
     .table {
       margin-top: 20px;
     }
+
+    .btn-logout {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+
+    .btn-dark {
+      background-color: #343a40;
+      color: #ffffff;
+    }
+
+    .btn-dark:hover {
+      background-color: #1d2124;
+    }
   </style>
-  <title>CRUD VENDEDOR</title>
 </head>
 
 <body>
+
+  <button class="btn btn-dark btn-logout" onclick="">Cerrar Sesión</button>
   <!-- Sidebar -->
   <div class="sidebar">
     <img src="{{ asset('images/LOGO_PANKEY.png') }}" alt="Logo" class="img-fluid" style="width: 100%; height: auto; margin-bottom: 20px;">
@@ -97,32 +112,32 @@
 
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Pedido</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" name="pedido">
+                <input type="number" class="form-control" id="exampleInputPassword1" name="pedido" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Id varios</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" name="varios">
+                <input type="number" class="form-control" id="exampleInputPassword1" name="varios" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Pastel id</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" name="pastel">
+                <input type="number" class="form-control" id="exampleInputPassword1" name="pastel" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Cantidad de Pastel</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" name="cantidadpastel">
+                <input type="number" class="form-control" id="exampleInputPassword1" name="cantidadpastel" required>
               </div>
 
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Cantidad varios</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" name="cantidadvarios">
+                <input type="number" class="form-control" id="exampleInputPassword1" name="cantidadvarios" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Dedicatoria</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" name="dedicatoria">
+                <input type="text" class="form-control" id="exampleInputPassword1" name="dedicatoria" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Especificacion adicional</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" name="especificacion">
+                <input type="text" class="form-control" id="exampleInputPassword1" name="especificacion" required>
               </div>
 
               <div class="modal-footer">
@@ -186,36 +201,36 @@
                       @csrf
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Codigo detalle</label>
-                        <input type="number" class="form-control" id="exampleInputPassword1" name="detalle" value="{{$item->detalle_id}}" readonly>
+                        <input type="number" class="form-control" id="exampleInputPassword1" name="detalle" value="{{$item->detalle_id}}" readonly required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pedido</label>
-                        <input type="number" class="form-control" id="exampleInputPassword1" name="pedido" value="{{$item->pedido_id}}">
+                        <input type="number" class="form-control" id="exampleInputPassword1" name="pedido" value="{{$item->pedido_id}}" required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Id Varios</label>
-                        <input type="number" class="form-control" id="exampleInputPassword1" name="varios" value="{{$item->id_varios }}">
+                        <input type="number" class="form-control" id="exampleInputPassword1" name="varios" value="{{$item->id_varios }}" required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pastel Id</label>
-                        <input type="number" class="form-control" id="exampleInputPassword1" name="pastel" value="{{$item-> pastel_id }}">
+                        <input type="number" class="form-control" id="exampleInputPassword1" name="pastel" value="{{$item-> pastel_id }}" required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Cantidad de pastel</label>
-                        <input type="number" class="form-control" id="exampleInputPassword1" name="cantidadpastel" value="{{$item->cantidad_pastel}}">
+                        <input type="number" class="form-control" id="exampleInputPassword1" name="cantidadpastel" value="{{$item->cantidad_pastel}}" required>
                       </div>
 
                       <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Cantidad Varios</label>
-                        <input type="number" class="form-control" id="exampleInputPassword1" name="cantidadvarios" value="{{$item->cantidad_varios}}">
+                        <input type="number" class="form-control" id="exampleInputPassword1" name="cantidadvarios" value="{{$item->cantidad_varios}}" required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Dedicatoria</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" name="dedicatoria" value="{{$item->dedicatoria}}">
+                        <input type="text" class="form-control" id="exampleInputPassword1" name="dedicatoria" value="{{$item->dedicatoria}}"  required>
                       </div>
                       <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Especificacion Adicional</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" name="especificacion" value="{{$item->especificacion_adicional}}">
+                        <input type="text" class="form-control" id="exampleInputPassword1" name="especificacion" value="{{$item->especificacion_adicional}}"  required>
                       </div>
 
                       <div class="modal-footer">
