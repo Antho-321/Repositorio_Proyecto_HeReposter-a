@@ -45,7 +45,7 @@
 
     </li>
     <li class="rd-nav-item">
-        <a class="rd-nav-link" href="contacts.html"><b>Pasteles personalizados</b></a>
+        <a class="rd-nav-link" href="{{ route('cliente.pasteles_personalizados') }}"><b>Pasteles personalizados</b></a>
     </li>
     <li class="rd-nav-item" style="width: 60px;">
         <a class="rd-nav-link" href="{{ route('cliente.carrito') }}">
@@ -64,7 +64,7 @@
                 <button id="Salida">Salir</button>
             </form>
             @else
-            <input type="button" value="Ingresar" id="Ingreso" onclick="MostrarVentanaDeIngreso()">
+            <input type="button" value="Ingresar" id="Ingreso">
             @endif
         </a>
     </li>

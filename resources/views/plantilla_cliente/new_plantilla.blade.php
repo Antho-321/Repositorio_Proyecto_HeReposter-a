@@ -332,10 +332,11 @@
     <!-- Global Mailform Output-->
     <div class="snackbars" id="form-output-global"></div>
     <!-- Javascript-->
-    <script src="{{ asset('js/script_InteracciónPrincipal.js') }}"></script>
+    <script type="module" src="{{ asset('js/script_InteracciónPrincipal.js') }}"></script>
     <script src="{{ asset('js/core.min.js') }}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
-
+    <script type="module" src="{{ asset('js/funciones_reutilizables.js') }}"></script>
+    @yield('script')
     <!-- coded by Himic-->
 </body>
 

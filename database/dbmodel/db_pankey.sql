@@ -1,8 +1,31 @@
-/*==============================================================*/
-/* DBMS name:      MySQL 5.0                                    */
-/* Created on:     10/1/2024 12:57:55                           */
-/*==============================================================*/
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 23-02-2024 a las 01:09:18
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.0.30
 
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `db_pankey`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `auditoria`
+--
 
 DROP TABLE IF EXISTS detalles_pedido;
 DROP TABLE IF EXISTS pastel;
@@ -15,6 +38,7 @@ DROP TABLE IF EXISTS clientes;
 DROP TABLE IF EXISTS usuarios;
 DROP TABLE IF EXISTS formas;
 DROP TABLE IF EXISTS tamano;
+DROP TABLE IF EXISTS tipo_relleno_sabor;
 DROP TABLE IF EXISTS tipo;
 DROP TABLE IF EXISTS categoria;
 DROP TABLE IF EXISTS rellenos;
@@ -22,347 +46,666 @@ DROP TABLE IF EXISTS cobertura;
 DROP TABLE IF EXISTS sabores;
 DROP TABLE IF EXISTS varios;
 
-/*==============================================================*/
-/* Table: auditoria                                             */
-/*==============================================================*/
-create table auditoria
-(
-   id_auditoria         int not null,
-   cedula_usuario       int,
-   fecha                date,
-   hora                 time,
-   tabla_afectada       varchar(20),
-   operacion_realizada  varchar(20),
-   primary key (id_auditoria)
-);
+CREATE TABLE `auditoria` (
+  `id_auditoria` int(11) NOT NULL,
+  `cedula_usuario` int(11) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `hora` time DEFAULT NULL,
+  `tabla_afectada` varchar(20) DEFAULT NULL,
+  `operacion_realizada` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*==============================================================*/
-/* Table: clientes                                              */
-/*==============================================================*/
-create table clientes
-(
-   cliente_id           int not null AUTO_INCREMENT,
-   cedula               varchar(10),
-   nombre_cliente       varchar(50),
-   telefono             numeric(10,0),
-   direccion_domicilio  varchar(50),
-   email                varchar(40),
-   clave                varchar(10),
-   primary key (cliente_id)
-);
+-- --------------------------------------------------------
 
-/*==============================================================*/
-/* Table: cobertura                                             */
-/*==============================================================*/
-create table cobertura
-(
-   cobertura_id         int not null AUTO_INCREMENT,
-   cobertura_descripcion varchar(100),
-   cobertura_precio_base_volumen decimal(10, 9),
-   primary key (cobertura_id)
-);
+--
+-- Estructura de tabla para la tabla `categoria`
+--
 
-/*==============================================================*/
-/* Table: comprobante_venta                                     */
-/*==============================================================*/
-create table comprobante_venta
-(
-   comprobante_id       int not null,
-   pedido_id            int not null,
-   lugar                varchar(100),
-   fecha                date,
-   cantidad             decimal,
-   concepto             varchar(50),
-   cedula_vendedor      varchar(10),
-   primary key (comprobante_id)
-);
+CREATE TABLE `categoria` (
+  `categoria_id` int(11) NOT NULL,
+  `categoria_descripcion` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*==============================================================*/
-/* Table: detalles_pedido                                       */
-/*==============================================================*/
-create table detalles_pedido
-(
-   detalle_id           int not null AUTO_INCREMENT,
-   pedido_id            int,
-   id_varios            int,
-   pastel_id            int,
-   cantidad_pastel      int,
-   cantidad_varios      int,
-   dedicatoria          varchar(300),
-   especificacion_adicional                varchar(100),
-   primary key (detalle_id)
-);
+--
+-- Volcado de datos para la tabla `categoria`
+--
 
-/*==============================================================*/
-/* Table: formas                                                */
-/*==============================================================*/
-create table formas
-(
-   formas_id            int not null AUTO_INCREMENT,
-   formas_descripcion   varchar(50),
-   primary key (formas_id)
-);
+INSERT INTO `categoria` (`categoria_id`, `categoria_descripcion`) VALUES
+(1, 'Bodas'),
+(2, 'Bautizos'),
+(3, 'XV años'),
+(4, 'Cumpleaños'),
+(5, 'Baby Shower'),
+(6, 'San Valentin'),
+(7, 'Halloween'),
+(8, 'Navidad');
 
-/*==============================================================*/
-/* Table: pastel                                                */
-/*==============================================================*/
-create table pastel
-(
-   pastel_id            int not null AUTO_INCREMENT,
-   tamanos_formas_id    int,
-   tipo_id              int,
-   relleno_id           int,
-   cobertura_id         int,
-   sabores_id           int,
-   precio               decimal,
-   img                  varchar(300),
-   categoria_id         int,
-   primary key (pastel_id)
-);
+-- --------------------------------------------------------
 
-/*==============================================================*/
-/* Table: pedido                                                */
-/*==============================================================*/
-create table pedido
-(
-   pedido_id            int not null AUTO_INCREMENT,
-   cliente_id           int,
-   fecha_pedido         date DEFAULT NOW(),
-   fecha_entrega        date,
-   hora_entrega         time,
-   pedido_confirmado    boolean DEFAULT false,
-   primary key (pedido_id)
-);
+--
+-- Estructura de tabla para la tabla `clientes`
+--
 
-/*==============================================================*/
-/* Table: rellenos                                              */
-/*==============================================================*/
-CREATE TABLE rellenos
-(
-   relleno_id int NOT NULL AUTO_INCREMENT,
-   relleno_descripcion varchar(50),
-   relleno_altura decimal(10, 2), -- Example with 2 decimal places
-   relleno_precio_base_volumen decimal(10, 9), -- Example with 9 decimal places
-   PRIMARY KEY (relleno_id)
-);
+CREATE TABLE `clientes` (
+  `cliente_id` int(11) NOT NULL,
+  `cedula` varchar(10) DEFAULT NULL,
+  `nombre_cliente` varchar(50) DEFAULT NULL,
+  `telefono` decimal(10,0) DEFAULT NULL,
+  `direccion_domicilio` varchar(50) DEFAULT NULL,
+  `email` varchar(40) DEFAULT NULL,
+  `clave` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*==============================================================*/
-/* Table: roles                                                 */
-/*==============================================================*/
-create table roles
-(
-   id_rol               int not null,
-   nombre_rol           varchar(20),
-   cedula_usuario       int,
-   primary key (id_rol)
-);
-
-/*==============================================================*/
-/* Table: sabores                                               */
-/*==============================================================*/
-create table sabores
-(
-   sabores_id           int not null AUTO_INCREMENT,
-   sabores_descripcion  varchar(100),
-   sabores_precio_base_volumen decimal(10, 9),
-   primary key (sabores_id)
-);
-
-/*==============================================================*/
-/* Table: tamano                                                */
-/*==============================================================*/
-create table tamano
-(
-   tamano_id            int not null AUTO_INCREMENT,
-   tamano_descripcion   varchar(50),
-   primary key (tamano_id)
-);
-
-/*==============================================================*/
-/* Table: tipo                                                */
-/*==============================================================*/
-create table tipo
-(
-   tipo_id            int not null AUTO_INCREMENT,
-   tipo_descripcion   varchar(50),
-   tipo_precio_base_volumen decimal(10, 9),
-   primary key (tipo_id)
-);
-
-/*==============================================================*/
-/* Table: categoria                                                */
-/*==============================================================*/
-create table categoria
-(
-   categoria_id            int not null AUTO_INCREMENT,
-   categoria_descripcion   varchar(50),
-   primary key (categoria_id)
-);
-
-/*==============================================================*/
-/* Table: tamanos_formas                                        */
-/*==============================================================*/
-create table tamanos_formas
-(
-   tamanos_formas_id    int not null AUTO_INCREMENT,
-   tamano_id            int,
-   formas_id            int,
-   num_porciones        varchar(8),
-   altura               decimal(10, 9),
-   longitud1            decimal(10, 8),
-   longitud2            decimal(10, 8),
-   primary key (tamanos_formas_id)
-);
-
-/*==============================================================*/
-/* Table: usuarios                                              */
-/*==============================================================*/
-create table usuarios
-(
-   cedula_usuario       int not null,
-   nombre_usuario       varchar(50),
-   correo               varchar(50),
-   contrasena           varchar(10),
-   primary key (cedula_usuario)
-);
-
-/*==============================================================*/
-/* Table: varios                                                */
-/*==============================================================*/
-create table varios
-(
-   id_varios            int not null,
-   descripcion_varios   varchar(1000),
-   precio_varios        decimal(10),
-   img_varios           varchar(300),
-   primary key (id_varios)
-);
-
-alter table auditoria add constraint fk_relationship_11 foreign key (cedula_usuario)
-      references usuarios (cedula_usuario) on delete restrict on update restrict;
-
-alter table comprobante_venta add constraint fk_pedido_comprobanteventa2 foreign key (pedido_id)
-      references pedido (pedido_id) on delete restrict on update restrict;
-
-alter table detalles_pedido add constraint fk_pastel_detalles_pedido foreign key (pastel_id)
-      references pastel (pastel_id) on delete restrict on update restrict;
-
-alter table detalles_pedido add constraint fk_pedido_detallespedidio foreign key (pedido_id)
-      references pedido (pedido_id) on delete restrict on update restrict;
-
-alter table detalles_pedido add constraint fk_varios_detallespedido foreign key (id_varios)
-      references varios (id_varios) on delete restrict on update restrict;
-
-alter table pastel add constraint fk_cobertura_detallespedido foreign key (cobertura_id)
-      references cobertura (cobertura_id) on delete restrict on update restrict;
-
-alter table pastel add constraint fk_rellenos_detallespedidos foreign key (relleno_id)
-      references rellenos (relleno_id) on delete restrict on update restrict;
-
-alter table pastel add constraint fk_sabores_detallespedido foreign key (sabores_id)
-      references sabores (sabores_id) on delete restrict on update restrict;
-
-alter table pastel add constraint fk_categoria_detallespedido foreign key (categoria_id)
-      references categoria (categoria_id) on delete restrict on update restrict;
-
-alter table pastel add constraint fk_tamanoformas_detallespedido foreign key (tamanos_formas_id)
-      references tamanos_formas (tamanos_formas_id) on delete restrict on update restrict;
-
-alter table pastel add constraint fk_tipo_pastel foreign key (tipo_id)
-      references tipo (tipo_id) on delete restrict on update restrict;
-
-alter table pedido add constraint fk_clientes_pedidos foreign key (cliente_id)
-      references clientes (cliente_id) on delete restrict on update restrict;
-
-alter table roles add constraint fk_relationship_12 foreign key (cedula_usuario)
-      references usuarios (cedula_usuario) on delete restrict on update restrict;
-
-alter table tamanos_formas add constraint fk_formas_tamanosformas foreign key (formas_id)
-      references formas (formas_id) on delete restrict on update restrict;
-
-alter table tamanos_formas add constraint fk_tamano_tamanosformas foreign key (tamano_id)
-      references tamano (tamano_id) on delete restrict on update restrict;
-
-/*==============================================================*/
-/* INSERCIONES                                             */
-/*==============================================================*/
-
-INSERT INTO `tamano`(`tamano_descripcion`) VALUES
-('Extra grande'),
-('Grande'),
-('Mediana'),
-('Pequeña'),
-('Mini');
-
-INSERT INTO `formas`(`formas_descripcion`) VALUES 
-('Redonda'),
-('Personalizada'),
-('Cuadrada'),
-('Rectangular');
-
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('1','1','70','8.90625','18.06408604',null);
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('2','1','30','8.4375','15.19929707',null);
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('3','1','16','6.09375','12.09577567',null);
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('4','1','10-12','5.15625','10.10633889',null);
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('5','1','5-6','4.6875','8.116902098',null);
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('1','2','66-68','8.90625','18.06408604',null);
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('2','2','26-28','8.4375','15.19929707',null);
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('3','2','12-14','6.09375','12.09577567',null);
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('4','2','8-10','5.15625','10.10633889',null);
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('5','2','2-4','4.6875','8.116902098',null);
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('2','3','50','5.9','40.45','40.05');
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('3','3','35-40','5.9','35.25','34.9');
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('4','3','20-25','5.7','24.5','24.25');
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('1','4','100','4.5','64.75','45.35');
-INSERT INTO `tamanos_formas`(`tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`) VALUES ('3','4','35-40','6','39.9','25');
-
-INSERT INTO `rellenos` (`relleno_descripcion`, `relleno_altura`, `relleno_precio_base_volumen`) VALUES ('Mermelada', NULL, NULL);
-INSERT INTO `rellenos` (`relleno_descripcion`, `relleno_altura`, `relleno_precio_base_volumen`) VALUES ('Glass de frutilla con crema', 0.75, 0.009185692);
-INSERT INTO `rellenos` (`relleno_descripcion`, `relleno_altura`, `relleno_precio_base_volumen`) VALUES ('Crema napolitana', 0.75, 0.01102283);
-INSERT INTO `rellenos` (`relleno_descripcion`, `relleno_altura`, `relleno_precio_base_volumen`) VALUES ('Durazno con crema', 0.75, 0.01102283);
-INSERT INTO `rellenos` (`relleno_descripcion`, `relleno_altura`, `relleno_precio_base_volumen`) VALUES ('Ninguno', 0, 0);
-
-INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Naranja', 0.002061381);
-INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Naranja y chocolate (Marmoleada)', 0.002061381);
-INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Vainilla', 0.002061381);
-INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Chocolate', 0.003607416);
-INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Maracuyá', 0.004122762);
-INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Fresa', 0.009276214);
-INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Limón', 0.009276214);
-INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Uva', 0.009276214);
-INSERT INTO `sabores` (`sabores_descripcion`, `sabores_precio_base_volumen`) VALUES ('Manzana', 0.009276214);
-
-INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Normal (Con receta propia)', 0.002061381);
-INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Normal (Con premezcla)', 0.002983874);
-INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Especial (Con frutos secos)', 0.007214833);
-INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Bizcochuelo', 0.002061381);
-INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Milhojas', 0.002061381);
-INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Cheesecake', 0.009276214);
-INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Mousse', 0.006069417);
-INSERT INTO `tipo` (`tipo_descripcion`, `tipo_precio_base_volumen`) VALUES ('Tres leches', 0.003570245);
-
-INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Bodas');
-INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Bautizos');
-INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('XV años');
-INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Cumpleaños');
-INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Baby Shower');
-INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('San Valentin');
-INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Halloween');
-INSERT INTO `categoria` (`categoria_descripcion`) VALUES ('Navidad');
-
-INSERT INTO `cobertura` (`cobertura_descripcion`, `cobertura_precio_base_volumen`) VALUES ('Crema', '0.008338684');
-INSERT INTO `cobertura` (`cobertura_descripcion`, `cobertura_precio_base_volumen`) VALUES ('Fondant', '0.050032103');
-INSERT INTO `cobertura` (`cobertura_descripcion`, `cobertura_precio_base_volumen`) VALUES ('Ninguna', '0');
-
-SET FOREIGN_KEY_CHECKS=0;
-INSERT INTO `pastel` ( `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `precio`, `img`, `categoria_id`) VALUES
-(1, 1, 1, 1, 1, 20, 'https://th.bing.com/th/id/R.b042dade06440a9cf8c236b81ad2c4d8?rik=8ynKhjpIzp3%2bmA&pid=ImgRaw&r=0', 1),
-(2, 4, 2, 2, 4, 10, 'https://th.bing.com/th/id/R.b40b59c817f0ec2c24a5097a457b2c58?rik=LSOvD1PsMJfxeA&pid=ImgRaw&r=0', 2),
-(1, 1, 1, 1, 1, 18, 'https://sallysbakingaddiction.com/wp-content/uploads/2013/04/triple-chocolate-cake-4.jpg', 1),
-(1, 1, 1, 1, 1, 27, 'https://th.bing.com/th/id/OIP.-vDV59NDSrLbo5SKb2jxggHaF3?pid=ImgDet&rs=1', 4),
-(1, 1, 1, 1, 1, 68, 'https://th.bing.com/th/id/R.46fb8a09fc2f95a905b4342a428bd1fd?rik=C3KVdZ9n6YOTIw&pid=ImgRaw&r=0', 5),
-(1, 1, 1, 1, 1, 90, 'https://www.recipetineats.com/wp-content/uploads/2020/08/My-best-Vanilla-Cake_9-SQ.jpg', 1);
-SET FOREIGN_KEY_CHECKS=1;
+--
+-- Volcado de datos para la tabla `clientes`
+--
 
 INSERT INTO `clientes` (`cliente_id`, `cedula`, `nombre_cliente`, `telefono`, `direccion_domicilio`, `email`, `clave`) VALUES
 (1, NULL, NULL, NULL, NULL, 'anthonyluisluna225@gmail.com', '123');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cobertura`
+--
+
+CREATE TABLE `cobertura` (
+  `cobertura_id` int(11) NOT NULL,
+  `cobertura_descripcion` varchar(100) DEFAULT NULL,
+  `cobertura_precio_base_volumen` decimal(10,9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `cobertura`
+--
+
+INSERT INTO `cobertura` (`cobertura_id`, `cobertura_descripcion`, `cobertura_precio_base_volumen`) VALUES
+(1, 'Crema', 0.008338684),
+(2, 'Fondant', 0.050032103),
+(3, 'Ninguna', 0.000000000);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comprobante_venta`
+--
+
+CREATE TABLE `comprobante_venta` (
+  `comprobante_id` int(11) NOT NULL,
+  `pedido_id` int(11) NOT NULL,
+  `fecha` date DEFAULT NULL,
+  `cantidad` decimal(10,0) DEFAULT NULL,
+  `concepto` varchar(50) DEFAULT NULL,
+  `cedula_vendedor` varchar(10) DEFAULT NULL,
+  `total_pago` decimal(10,0) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalles_pedido`
+--
+
+CREATE TABLE `detalles_pedido` (
+  `detalle_id` int(11) NOT NULL,
+  `pedido_id` int(11) DEFAULT NULL,
+  `id_varios` int(11) DEFAULT NULL,
+  `pastel_id` int(11) DEFAULT NULL,
+  `cantidad_pastel` int(11) DEFAULT NULL,
+  `cantidad_varios` int(11) DEFAULT NULL,
+  `dedicatoria` varchar(300) DEFAULT NULL,
+  `especificacion_adicional` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `formas`
+--
+
+CREATE TABLE `formas` (
+  `formas_id` int(11) NOT NULL,
+  `formas_descripcion` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `formas`
+--
+
+INSERT INTO `formas` (`formas_id`, `formas_descripcion`) VALUES
+(1, 'Redonda'),
+(2, 'Personalizada'),
+(3, 'Cuadrada'),
+(4, 'Rectangular');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pastel`
+--
+
+CREATE TABLE `pastel` (
+  `pastel_id` int(11) NOT NULL,
+  `tamanos_formas_id` int(11) DEFAULT NULL,
+  `tipo_id` int(11) DEFAULT NULL,
+  `relleno_id` int(11) DEFAULT NULL,
+  `cobertura_id` int(11) DEFAULT NULL,
+  `sabores_id` int(11) DEFAULT NULL,
+  `precio` decimal(10,0) DEFAULT NULL,
+  `img` varchar(300) DEFAULT NULL,
+  `categoria_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pastel`
+--
+
+INSERT INTO `pastel` (`pastel_id`, `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `precio`, `img`, `categoria_id`) VALUES
+(1, 1, 1, 1, 1, 1, 20, 'https://th.bing.com/th/id/R.b042dade06440a9cf8c236b81ad2c4d8?rik=8ynKhjpIzp3%2bmA&pid=ImgRaw&r=0', 1),
+(2, 2, 4, 2, 2, 4, 10, 'https://th.bing.com/th/id/R.b40b59c817f0ec2c24a5097a457b2c58?rik=LSOvD1PsMJfxeA&pid=ImgRaw&r=0', 2),
+(3, 1, 1, 1, 1, 1, 18, 'https://sallysbakingaddiction.com/wp-content/uploads/2013/04/triple-chocolate-cake-4.jpg', 1),
+(4, 1, 1, 1, 1, 1, 27, 'https://th.bing.com/th/id/OIP.-vDV59NDSrLbo5SKb2jxggHaF3?pid=ImgDet&rs=1', 4),
+(5, 1, 1, 1, 1, 1, 68, 'https://th.bing.com/th/id/R.46fb8a09fc2f95a905b4342a428bd1fd?rik=C3KVdZ9n6YOTIw&pid=ImgRaw&r=0', 5),
+(6, 1, 1, 1, 1, 1, 90, 'https://www.recipetineats.com/wp-content/uploads/2020/08/My-best-Vanilla-Cake_9-SQ.jpg', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pedido`
+--
+
+CREATE TABLE `pedido` (
+  `pedido_id` int(11) NOT NULL,
+  `cliente_id` int(11) DEFAULT NULL,
+  `fecha_pedido` date DEFAULT current_timestamp(),
+  `fecha_entrega` date DEFAULT NULL,
+  `hora_entrega` time DEFAULT NULL,
+  `pedido_confirmado` tinyint(1) DEFAULT 0,
+  `lugar` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rellenos`
+--
+
+CREATE TABLE `rellenos` (
+  `relleno_id` int(11) NOT NULL,
+  `relleno_descripcion` varchar(50) DEFAULT NULL,
+  `relleno_altura` decimal(10,2) DEFAULT NULL,
+  `relleno_precio_base_volumen` decimal(10,9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `rellenos`
+--
+
+INSERT INTO `rellenos` (`relleno_id`, `relleno_descripcion`, `relleno_altura`, `relleno_precio_base_volumen`) VALUES
+(1, 'Mermelada', NULL, NULL),
+(2, 'Glass de frutilla con crema', 0.75, 0.009185692),
+(3, 'Crema napolitana', 0.75, 0.011022830),
+(4, 'Durazno con crema', 0.75, 0.011022830),
+(5, 'Ninguno', 0.00, 0.000000000);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `roles`
+--
+
+CREATE TABLE `roles` (
+  `id_rol` int(11) NOT NULL,
+  `nombre_rol` varchar(20) DEFAULT NULL,
+  `cedula_usuario` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sabores`
+--
+
+CREATE TABLE `sabores` (
+  `sabores_id` int(11) DEFAULT NULL,
+  `sabores_descripcion` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`sabores_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `sabores`
+--
+
+INSERT INTO `sabores` (`sabores_id`, `sabores_descripcion`) VALUES
+(1, 'Fresa'),
+(2, 'Limón'),
+(3, 'Uva'),
+(4, 'Manzana'),
+(5, 'Naranja'),
+(6, 'Vainilla'),
+(7, 'Chocolate'),
+(8, 'Maracuyá'),
+(9, 'Naranja y chocolate (Marmoleada)');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tamano`
+--
+
+CREATE TABLE `tamano` (
+  `tamano_id` int(11) NOT NULL,
+  `tamano_descripcion` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tamano`
+--
+
+INSERT INTO `tamano` (`tamano_id`, `tamano_descripcion`) VALUES
+(1, 'Extra grande'),
+(2, 'Grande'),
+(3, 'Mediana'),
+(4, 'Pequeña'),
+(5, 'Mini');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tamanos_formas`
+--
+
+CREATE TABLE `tamanos_formas` (
+  `tamanos_formas_id` int(11) NOT NULL,
+  `tamano_id` int(11) DEFAULT NULL,
+  `formas_id` int(11) DEFAULT NULL,
+  `num_porciones` varchar(8) DEFAULT NULL,
+  `altura` decimal(10,9) DEFAULT NULL,
+  `longitud1` decimal(10,8) DEFAULT NULL,
+  `longitud2` decimal(10,8) DEFAULT NULL,
+  `naranja_chocolate` decimal(4,2) DEFAULT NULL,
+  `naranja_maracuya` decimal(4,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+
+--
+-- Volcado de datos para la tabla `tamanos_formas`
+--
+
+INSERT INTO `tamanos_formas` (`tamanos_formas_id`, `tamano_id`, `formas_id`, `num_porciones`, `altura`, `longitud1`, `longitud2`,`naranja_chocolate`,`naranja_maracuya`) VALUES
+(1, 5, 1, '5-6', 4.687500000, 8.11690210, NULL, 1.5, 2),
+(2, 4, 1, '10-12', 5.156250000, 10.10633889, NULL, 2.56, 3.41),
+(3, 3, 1, '16', 6.093750000, 12.09577567, NULL, 4.33, 5.77),
+(4, 2, 1, '30', 8.437500000, 15.19929707, NULL, 9.47, 12.62),
+(5, 1, 1, '70', 8.906250000, 18.06408604, NULL, 14.12, 18.82),
+(6, 5, 2, '2-4', 4.687500000, 8.11690210, NULL, 1.5, 2),
+(7, 4, 2, '8-10', 5.156250000, 10.10633889, NULL, 2.56, 3.41),
+(8, 3, 2, '12-14', 6.093750000, 12.09577567, NULL, 4.33, 5.77),
+(9, 2, 2, '26-28', 8.437500000, 15.19929707, NULL, 9.47, 12.62),
+(10, 1, 2, '66-68', 8.906250000, 18.06408604, NULL, 14.12, 18.82),
+(11, 4, 3, '20-25', 5.700000000, 24.50000000, 24.25000000, 5.24, 6.98),
+(12, 3, 3, '35-40', 5.900000000, 35.25000000, 34.90000000, 11.22, 14.96),
+(13, 2, 3, '50', 5.900000000, 40.45000000, 40.05000000, 14.78, 19.7),
+(14, 3, 4, '35-40', 6.000000000, 39.90000000, 25.00000000, 9.25, 12.34),
+(15, 1, 4, '100', 4.500000000, 64.75000000, 45.35000000, 20.43, 27.24);
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo`
+--
+
+CREATE TABLE `tipo` (
+  `tipo_id` int(11) NOT NULL,
+  `tipo_descripcion` varchar(50) DEFAULT NULL,
+  `precio_base_volumen` decimal(10,9) DEFAULT NULL,
+  PRIMARY KEY (`tipo_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tipo`
+--
+
+INSERT INTO tipo (tipo_id, tipo_descripcion, precio_base_volumen) VALUES ('1', 'Normal (Con receta propia)', '0.002061381');
+INSERT INTO tipo (tipo_id, tipo_descripcion, precio_base_volumen) VALUES ('2', 'Normal (Con premezcla)', '0.002983874');
+INSERT INTO tipo (tipo_id, tipo_descripcion, precio_base_volumen) VALUES ('3', 'Especial (Con frutos secos)', '0.008245523');
+INSERT INTO tipo (tipo_id, tipo_descripcion, precio_base_volumen) VALUES ('4', 'Bizcochuelo', '0.002061381');
+INSERT INTO tipo (tipo_id, tipo_descripcion, precio_base_volumen) VALUES ('5', 'Milhojas', '0.002061381');
+INSERT INTO tipo (tipo_id, tipo_descripcion, precio_base_volumen) VALUES ('6', 'Cheesecake', '0.009276214');
+INSERT INTO tipo (tipo_id, tipo_descripcion, precio_base_volumen) VALUES ('7', 'Mousse', '0.006069417');
+INSERT INTO tipo (tipo_id, tipo_descripcion, precio_base_volumen) VALUES ('8', 'Tres leches', '0.003570245');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_relleno_sabor`
+--
+
+CREATE TABLE `tipo_relleno_sabor` (
+  `tipo_relleno_sabor_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `tipo_id` int(11) NOT NULL,
+  `rellenos` boolean,
+  `sabores_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`tipo_relleno_sabor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Filtros para la tabla `tipo_relleno_sabor`
+--
+alter table tipo_relleno_sabor add constraint tipo_relleno_sabor_ibfk_1 foreign key (sabores_id)
+      references sabores (sabores_id) on delete restrict on update restrict;
+
+alter table tipo_relleno_sabor add constraint tipo_relleno_sabor_ibfk_2 foreign key (tipo_id)
+      references tipo (tipo_id) on delete restrict on update restrict;
+
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('1', true, '5');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('1', true, '6');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('1', true, '7');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('1', true, '8');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('1', true, '9');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('2', true, '5');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('2', true, '6');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('2', true, '7');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('3', false, '5');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('3', false, '6');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('3', false, '7');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('3', false, '8');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('3', false, '9');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('4', true, '6');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('4', true, '7');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('5', true, NULL);
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('6', false, '1');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('6', false, '2');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('6', false, '3');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('6', false, '4');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('6', false, '5');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('6', false, '6');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('6', false, '7');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('6', false, '8');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('7', false, '1');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('7', false, '2');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('7', false, '3');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('7', false, '4');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('7', false, '5');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('7', false, '6');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('7', false, '7');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('7', false, '8');
+INSERT INTO tipo_relleno_sabor (tipo_id, rellenos, sabores_id) VALUES ('8', false, NULL);
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `cedula_usuario` int(11) NOT NULL,
+  `nombre_usuario` varchar(50) DEFAULT NULL,
+  `correo` varchar(50) DEFAULT NULL,
+  `contrasena` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `varios`
+--
+
+CREATE TABLE `varios` (
+  `id_varios` int(11) NOT NULL,
+  `descripcion_varios` varchar(1000) DEFAULT NULL,
+  `precio_varios` decimal(10,0) DEFAULT NULL,
+  `img_varios` varchar(300) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `auditoria`
+--
+ALTER TABLE `auditoria`
+  ADD PRIMARY KEY (`id_auditoria`),
+  ADD KEY `fk_relationship_11` (`cedula_usuario`);
+
+--
+-- Indices de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  ADD PRIMARY KEY (`categoria_id`);
+
+--
+-- Indices de la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  ADD PRIMARY KEY (`cliente_id`);
+
+--
+-- Indices de la tabla `cobertura`
+--
+ALTER TABLE `cobertura`
+  ADD PRIMARY KEY (`cobertura_id`);
+
+--
+-- Indices de la tabla `comprobante_venta`
+--
+ALTER TABLE `comprobante_venta`
+  ADD PRIMARY KEY (`comprobante_id`),
+  ADD KEY `fk_pedido_comprobanteventa2` (`pedido_id`);
+
+--
+-- Indices de la tabla `detalles_pedido`
+--
+ALTER TABLE `detalles_pedido`
+  ADD PRIMARY KEY (`detalle_id`),
+  ADD KEY `fk_pastel_detalles_pedido` (`pastel_id`),
+  ADD KEY `fk_pedido_detallespedidio` (`pedido_id`),
+  ADD KEY `fk_varios_detallespedido` (`id_varios`);
+
+--
+-- Indices de la tabla `formas`
+--
+ALTER TABLE `formas`
+  ADD PRIMARY KEY (`formas_id`);
+
+--
+-- Indices de la tabla `pastel`
+--
+ALTER TABLE `pastel`
+  ADD PRIMARY KEY (`pastel_id`),
+  ADD KEY `fk_cobertura_detallespedido` (`cobertura_id`),
+  ADD KEY `fk_rellenos_detallespedidos` (`relleno_id`),
+  ADD KEY `fk_sabores_detallespedido` (`sabores_id`),
+  ADD KEY `fk_categoria_detallespedido` (`categoria_id`),
+  ADD KEY `fk_tamanoformas_detallespedido` (`tamanos_formas_id`),
+  ADD KEY `fk_tipo_pastel` (`tipo_id`);
+
+--
+-- Indices de la tabla `pedido`
+--
+ALTER TABLE `pedido`
+  ADD PRIMARY KEY (`pedido_id`),
+  ADD KEY `fk_clientes_pedidos` (`cliente_id`);
+
+--
+-- Indices de la tabla `rellenos`
+--
+ALTER TABLE `rellenos`
+  ADD PRIMARY KEY (`relleno_id`);
+
+--
+-- Indices de la tabla `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id_rol`),
+  ADD KEY `fk_relationship_12` (`cedula_usuario`);
+
+--
+-- Indices de la tabla `tamano`
+--
+ALTER TABLE `tamano`
+  ADD PRIMARY KEY (`tamano_id`);
+
+--
+-- Indices de la tabla `tamanos_formas`
+--
+ALTER TABLE `tamanos_formas`
+  ADD PRIMARY KEY (`tamanos_formas_id`),
+  ADD KEY `fk_formas_tamanosformas` (`formas_id`),
+  ADD KEY `fk_tamano_tamanosformas` (`tamano_id`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`cedula_usuario`);
+
+--
+-- Indices de la tabla `varios`
+--
+ALTER TABLE `varios`
+  ADD PRIMARY KEY (`id_varios`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  MODIFY `categoria_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  MODIFY `cliente_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `cobertura`
+--
+ALTER TABLE `cobertura`
+  MODIFY `cobertura_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `detalles_pedido`
+--
+ALTER TABLE `detalles_pedido`
+  MODIFY `detalle_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `formas`
+--
+ALTER TABLE `formas`
+  MODIFY `formas_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `pastel`
+--
+ALTER TABLE `pastel`
+  MODIFY `pastel_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `pedido`
+--
+ALTER TABLE `pedido`
+  MODIFY `pedido_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `rellenos`
+--
+ALTER TABLE `rellenos`
+  MODIFY `relleno_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `sabores`
+--
+ALTER TABLE `sabores`
+  MODIFY `sabores_id` int(11) DEFAULT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de la tabla `tamano`
+--
+ALTER TABLE `tamano`
+  MODIFY `tamano_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `tamanos_formas`
+--
+ALTER TABLE `tamanos_formas`
+  MODIFY `tamanos_formas_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo`
+--
+ALTER TABLE `tipo`
+  MODIFY `tipo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_relleno_sabor`
+--
+ALTER TABLE `tipo_relleno_sabor`
+  MODIFY `tipo_relleno_sabor_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `auditoria`
+--
+ALTER TABLE `auditoria`
+  ADD CONSTRAINT `fk_relationship_11` FOREIGN KEY (`cedula_usuario`) REFERENCES `usuarios` (`cedula_usuario`);
+
+--
+-- Filtros para la tabla `comprobante_venta`
+--
+ALTER TABLE `comprobante_venta`
+  ADD CONSTRAINT `fk_pedido_comprobanteventa2` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`pedido_id`);
+
+--
+-- Filtros para la tabla `detalles_pedido`
+--
+ALTER TABLE `detalles_pedido`
+  ADD CONSTRAINT `fk_pastel_detalles_pedido` FOREIGN KEY (`pastel_id`) REFERENCES `pastel` (`pastel_id`),
+  ADD CONSTRAINT `fk_pedido_detallespedidio` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`pedido_id`),
+  ADD CONSTRAINT `fk_varios_detallespedido` FOREIGN KEY (`id_varios`) REFERENCES `varios` (`id_varios`);
+
+--
+-- Filtros para la tabla `pastel`
+--
+ALTER TABLE `pastel`
+  ADD CONSTRAINT `fk_categoria_detallespedido` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`categoria_id`),
+  ADD CONSTRAINT `fk_cobertura_detallespedido` FOREIGN KEY (`cobertura_id`) REFERENCES `cobertura` (`cobertura_id`),
+  ADD CONSTRAINT `fk_rellenos_detallespedidos` FOREIGN KEY (`relleno_id`) REFERENCES `rellenos` (`relleno_id`),
+  ADD CONSTRAINT `fk_sabores_detallespedido` FOREIGN KEY (`sabores_id`) REFERENCES `sabores` (`sabores_id`),
+  ADD CONSTRAINT `fk_tamanoformas_detallespedido` FOREIGN KEY (`tamanos_formas_id`) REFERENCES `tamanos_formas` (`tamanos_formas_id`),
+  ADD CONSTRAINT `fk_tipo_pastel` FOREIGN KEY (`tipo_id`) REFERENCES `tipo` (`tipo_id`);
+
+--
+-- Filtros para la tabla `pedido`
+--
+ALTER TABLE `pedido`
+  ADD CONSTRAINT `fk_clientes_pedidos` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`cliente_id`);
+
+--
+-- Filtros para la tabla `roles`
+--
+ALTER TABLE `roles`
+  ADD CONSTRAINT `fk_relationship_12` FOREIGN KEY (`cedula_usuario`) REFERENCES `usuarios` (`cedula_usuario`);
+
+--
+-- Filtros para la tabla `tamanos_formas`
+--
+ALTER TABLE `tamanos_formas`
+  ADD CONSTRAINT `fk_formas_tamanosformas` FOREIGN KEY (`formas_id`) REFERENCES `formas` (`formas_id`),
+  ADD CONSTRAINT `fk_tamano_tamanosformas` FOREIGN KEY (`tamano_id`) REFERENCES `tamano` (`tamano_id`);
+
+
+
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

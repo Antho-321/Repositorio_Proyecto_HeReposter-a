@@ -14,10 +14,10 @@ class Comprobante extends Model
     protected $fillable = [
         'comprobante_id',        
         'pedido_id',
-        'lugar',
         'fecha',
         'cantidad',
         'concepto',
-        'cedula_vendedor'       
+        'cedula_vendedor',       
+        'total_pago'       
     ];
 }

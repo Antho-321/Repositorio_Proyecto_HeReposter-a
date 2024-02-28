@@ -1,7 +1,7 @@
 let num_productos, cantidad_producto_carr, img, id_imagen, direccion_producto,
     dedicatoria, cuadros_dedicatoria, opciones, id_producto, precio_producto,
     descripción_adicional, porciones, masa, cobertura, sabor, relleno, reqAdicional,
-    fecha_valida, dia_mañana, hora_valida;
+    fecha_valida, dia_mañana, hora_valida, add_carrito;
 let html_aux1 = "";
 let html_aux2 = "";
 let productos = [];
@@ -11,18 +11,18 @@ let contenido_categorías = document.getElementById("Menu_Catalogo");
 let contenido_principal = document.getElementById("contenido_principal");
 let seccion_productos = document.getElementById("seccion_productos");
 let estilo = document.getElementById("estilo");
-let estilo_Ingreso_Registro = document.createElement("style");
 let estilo_aux_CategoríaSel = document.createElement("style");
 let estilo_búsqueda = document.createElement("style");
 let estilo_aux_EnvíoACarrito = document.createElement("style");
 let estilo_carritoSinProductos = document.createElement("style");
 let estilo_ver_categorías = document.createElement("style");
-let divVentana = document.createElement("div");
-let salto = document.getElementById("Salto");
+let btn_ingreso=document.getElementById("Ingreso");
+
 let ubicación_página = window.location.href;
 let actualizar_pastel=document.getElementById("actualizar_pastel");
 var currentView = document.querySelector('meta[name="current-view"]').getAttribute('content');
-divVentana.id = "VentanaForm";
+import { estilo_Ingreso_Registro, salto, divVentana, CerrarVentana } from './funciones_reutilizables.js';
+
 estilo_búsqueda.id = "estilo_búsqueda";
 estilo_aux_EnvíoACarrito.id = "est_EnvíoACarrito";
 estilo_ver_categorías.id = "est_ver_categorías";
@@ -48,95 +48,6 @@ estilo_aux_CategoríaSel.innerHTML = `
     padding-bottom: calc(70px - 2.5%);
 }
 `;
-estilo_Ingreso_Registro.innerHTML = `
-  #Contenido_Cabecera, #contenido_principal, footer{
-    opacity: 0.5;
-  }
-  #Salto{
-    background: #0000007a;
-    font-family:Sanseriffic;
-    letter-spacing: 1.4px;
-    transition: initial;
-  }
-#VentanaForm{
-    width: 98.3vw;
-    display: flex;
-    justify-content: center;
-    height: 75vh;
-    align-items: center;
-}
-#VentanaForm *{
-    color: black;
-}
-#Ventana, .Ventana{
-    background-color: aliceblue !important;  
-    width: 550px;
-    height: 75vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    border-radius: 40px;
-    z-index: 1;
-}
-.Mensaje{
-    height: auto !important;
-}
-.Recuperación{
-    height: 58vh !important;
-}
-#Ventana>*, .Ventana>*{
-    background-color: transparent !important; 
-}
-label{
-    padding: 0px 10px;
-}
-#SinCuenta{
-    display: flex;
-    align-items: center;
-}
-#ingresar, #sin_cuenta{
-    padding: 10px;
-}
-.btnHaciaDerecha{
-    display: flex;
-    width: 100%;
-    justify-content: flex-end;
-}
-#Ventana>input, .Ventana>input, #SinCuenta>input, .btnHaciaDerecha>input, #Ventana>button, .Ventana>button {
-    border: 1px solid;
-    border-color: black;   
-    width: auto;
-}
-#contraseña_olvidada{
-    border-color: transparent;
-    text-decoration: underline;
-}
-.entrada_texto{
-    width: 20vw !important;
-    cursor: auto !important;
-}
-#btn_salir{
-    border-color: transparent;
-    font-size: 30px;
-    padding: 0px;
-}
-h3{
-    visibility: hidden;
-}
-.Mensaje p{
-    margin: 0px;
-    padding: 22px 0px;
-}
-.Mensaje h2{
-    margin: 0px;
-    padding: 10px 0px;
-}
-.Recuperación h2{
-    margin: 0px;
-}
-`;
 estilo_carritoSinProductos.innerHTML = `
 #contenido_principal {
     height: 69.9%;
@@ -145,6 +56,11 @@ estilo_carritoSinProductos.innerHTML = `
     justify-content: center;
 }
 `;
+estilo_carritoSinProductos.id="aux_cont_principal";
+add_carrito=document.getElementById("add_carrito");
+if (btn_ingreso!=null) {
+    btn_ingreso.addEventListener('click',MostrarVentanaDeIngreso);
+}
 if (seccion_productos != null) {
     window.onload = AgregarContenido("");    
 }
@@ -152,12 +68,9 @@ if (actualizar_pastel!=null) {
     cantidadInput = document.getElementById("cantidad");
     window.onload = verificarDedicatorias(cantidadInput); 
 }
-
-// console.log(currentView);
-// console.log(currentView=="detalles_pedido.update");
-// console.log(currentView=="detalles_pedido.destroy");
-// console.log(currentView=="cliente.carrito");
-
+if (add_carrito!=null) {
+    add_carrito.addEventListener('click',MostrarMensajev2);
+}
 if (currentView=="detalles_pedido.update"||currentView=="detalles_pedido.destroy"||currentView=="cliente.carrito") {
     AgregarContenidoCarrito();
     var btnFinPedido = document.getElementById("fin_pedido");
@@ -214,6 +127,9 @@ if (currentView=="detalles_pedido.update"||currentView=="detalles_pedido.destroy
             }, 1010);
     
         });
+    }
+    if (btnFinPedido!=null) {
+        btnFinPedido.addEventListener('click',finalizarPedido);
     }
 }
 function comprobacionHora() {
@@ -705,7 +621,7 @@ function MostrarVentanaDeIngreso() {
     divVentana.innerHTML = `
     <div class="Formulario_Ingreso Ventana" id="Ventana">
                 <div class="btnHaciaDerecha">
-                    <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
+                    <input type="button" value="✕" id="btn_salir">
                 </div>
                 <div action="" id="Ventana">
                     <h2 id="txt_ingreso">Ingresar</h2>
@@ -719,7 +635,7 @@ function MostrarVentanaDeIngreso() {
                     <button>Ingresar</button>
                     <div id="SinCuenta">
                         <label for="contraseña">¿No tienes una cuenta?</label>
-                        <input type="button" id="sin_cuenta" value="Registrarse" onclick="MostrarVentanaDeRegistro()">
+                        <input type="button" id="sin_cuenta" value="Registrarse">
                     </div>
                 </div>
                 </div>
@@ -730,11 +646,13 @@ function MostrarVentanaDeIngreso() {
     var backdrop = document.querySelector('.modal-backdrop');
     backdrop.style.display = backdrop.style.display === 'block' ? 'none' : 'block';
     document.querySelector(".rd-nav-link").style="z-index: 0 !important;";
+    document.getElementById("sin_cuenta").addEventListener('click',MostrarVentanaDeRegistro);
+    document.getElementById("btn_salir").addEventListener('click',CerrarVentana);
 }
   
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
 function MostrarVentanaDeRegistro() {
-    let registro=document.querySelector(".registro");
+    let registro=document.getElementById("registro");
     registro.value="true";
     // Save the CSRF token element
     let csrfToken = salto.querySelector('input[name="_token"]');
@@ -786,34 +704,24 @@ function MostrarVentanaRecuperación_Correo() {
     `;
     salto.appendChild(divVentana);
 }
-function MostrarMensaje(mensaje) {
+
+function MostrarMensajev2() {
+    let mensaje=document.getElementById("mensaje").value;
     document.head.appendChild(estilo_Ingreso_Registro);
     salto.innerHTML = "";
     divVentana.innerHTML = `
     <form class="Mensaje" id="Ventana">
         <div class="btnHaciaDerecha">
-            <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
+            <input type="button" value="✕" id="btn_salir">
         </div>  
         <h2>Estimado usuario</h2>
         <p>`+ mensaje + `</p>
     </form>
     `;
     salto.appendChild(divVentana);
+    document.getElementById("btn_salir").addEventListener('click',CerrarVentana);
 }
-function CerrarVentana() {
-    let estilo_aux = document.getElementsByTagName("style")[1];
-    salto.innerHTML = "";
-    if (estilo_aux != null || estilo_aux != undefined) {
-        estilo_aux.remove();
-    } else {
-        document.getElementsByTagName("style")[0].remove();
-    }
-    let opera_bug = document.getElementById("operaUserStyle");
-    if (opera_bug != null && opera_bug != undefined) {
-        opera_bug.remove();
-    }
-    document.querySelector(".rd-nav-link").removeAttribute("style");
-}
+
 function serializeElement(element) {
     const obj = {
         innerHTML: element.innerHTML,

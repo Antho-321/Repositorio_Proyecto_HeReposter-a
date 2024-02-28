@@ -60,12 +60,8 @@ class PedidoController extends Controller
                 ]);
             }
         });
-
-        return view('cliente.carrito');
+        return redirect()->route('cliente.carrito');
     }
-
-
-
 
     /**
      * Store a newly created resource in storage.

@@ -17,4 +17,8 @@ class Sabor extends Model
         'sabores_descripcion',
         'sabores_precio_base_volumen'        
     ];
+    public static function getSaboresDescripcion()
+    {
+        return self::select('sabores_descripcion')->get();
+    }
 }

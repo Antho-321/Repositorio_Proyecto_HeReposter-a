@@ -12,6 +12,7 @@ use App\Models\Cliente;
 use Google\Client;
 use Illuminate\Support\Facades\Storage;
 use Google\Service\Gmail;
+use Illuminate\Support\Facades\Log;
 
 class ComprobanteController extends Controller
 {
@@ -27,67 +28,72 @@ class ComprobanteController extends Controller
         return response()->json($comprobante);
     }
     public function send(Request $request)
-    {
-        try {
-            // Retrieve and decode the PDF data
-            $pdfData = $request->input('pdfData');
-            if (!$pdfData) {
-                return response()->json(['error' => 'No PDF data provided'], 400);
-            }
-            $pdfDecoded = base64_decode($pdfData);
-
-            // Specify a path and file name for the PDF
-            $filePath = 'pdfs/' . uniqid() . '.pdf';
-
-            // Save the PDF to storage
-            Storage::disk('local')->put($filePath, $pdfDecoded);
-
-            // Handling client information
-            $cliente = new Cliente($request->all());
-            if (empty($cliente->email)) {
-                return response()->json(['error' => "Email address is required"], 400);
-            }
-
-            // Google Client configuration
-            $client = new Client();
-            $client->setAuthConfig(storage_path('app/google-credentials.json'));
-            $client->setScopes(['https://www.googleapis.com/auth/gmail.send']);
-
-            // Retrieve refresh token from stored JSON
-            $jsonString = Storage::disk('local')->get('google-credentials.json');
-            $jsonArray = json_decode($jsonString, true);
-            $refreshToken = $jsonArray['installed']['refresh_token'];
-            $client->refreshToken($refreshToken);
-
-            // Create the Gmail service
-            $service = new Gmail($client);
-
-            // Email content
-            $texto1 = "Comprobante de venta";
-            $texto2 = "Hemos recibido una solicitud...";
-            $texto3 = "Si no has solicitado este código...";
-
-            // Compose HTML content for the email
-            $htmlContent = $this->composeEmailHtmlContent($texto1, $texto2, $texto3);
-
-            // Email subject
-            $subject = 'Comprobante de venta';
-            $email_receiver = $cliente->email;
-
-            // Email body composition
-            $emailBody = $this->composeEmailBody($subject, $email_receiver, $htmlContent, $filePath);
-
-            // Send the email
-            $message = new Message();
-            $encodedMessage = rtrim(strtr(base64_encode($emailBody), '+/', '-_'), '=');
-            $message->setRaw($encodedMessage);
-            $service->users_messages->send('me', $message);
-
-            return response()->json(['message' => 'PDF processed and email sent']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred while processing the request'], 500);
+{
+    try {
+        $pdfData = $request->input('pdfData');
+        if (!$pdfData) {
+            return response()->json(['error' => 'No PDF data provided'], 400);
         }
+        $pdfDecoded = base64_decode($pdfData);
+
+        $filePath = 'pdfs/' . uniqid() . '.pdf';
+        if (!file_exists('pdfs')) {
+            mkdir('pdfs', 0777, true);
+        }
+        Storage::disk('local')->put($filePath, $pdfDecoded);
+        if (!Storage::disk('local')->exists($filePath)) {
+            // Log an error or handle the situation if the file wasn't created
+            Log::error("Failed to create PDF file: " . $filePath);
+            return response()->json(['error' => 'Failed to create PDF file'], 500);
+        }        
+        $fullPath = storage_path('app/' . $filePath);
+        $cliente = new Cliente($request->all());
+        if (empty($cliente->email)) {
+            return response()->json(['error' => "Email address is required"], 400);
+        }
+
+        $client = new Client();
+        $client->setAuthConfig(storage_path('app/google-credentials.json'));
+        $client->setScopes(['https://www.googleapis.com/auth/gmail.send']);
+
+        $jsonString = Storage::disk('local')->get('google-credentials.json');
+        $jsonArray = json_decode($jsonString, true);
+        $refreshToken = $jsonArray['installed']['refresh_token'];
+        $client->refreshToken($refreshToken);
+
+        $service = new Gmail($client);
+
+        $texto1 = "Comprobante de venta";
+        $texto2 = "Hemos recibido una solicitud...";
+        $texto3 = "Si no has solicitado este código...";
+
+        $htmlContent = $this->composeEmailHtmlContent($texto1, $texto2, $texto3);
+        $subject = 'Comprobante de venta';
+        $email_receiver = $cliente->email;
+
+        $emailBody = $this->composeEmailBody($subject, $email_receiver, $htmlContent, $fullPath);
+
+        $message = new Message();
+        $encodedMessage = rtrim(strtr(base64_encode($emailBody), '+/', '-_'), '=');
+        $message->setRaw($encodedMessage);
+        $service->users_messages->send('me', $message);
+
+        return response()->json(['message' => 'PDF processed and email sent']);
+    } catch (\Exception $e) {
+        // Log the error details for debugging
+        Log::error("Exception: " . $e->getMessage());
+        Log::error("In file: " . $e->getFile());
+        Log::error("On line: " . $e->getLine());
+        Log::error("Stack Trace: " . $e->getTraceAsString());
+    
+        // You may choose to return a more generic error message to the client
+        return response()->json([
+            'error' => 'An error occurred while processing your request. Please try again later.'
+        ], 500);
     }
+    
+}
+
 
     private function composeEmailHtmlContent($texto1, $texto2, $texto3)
     {

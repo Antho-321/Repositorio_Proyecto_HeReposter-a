@@ -17,4 +17,8 @@ class Cobertura extends Model
         'cobertura_descripcion',
         'cobertura_precio_base_volumen'        
     ];
+    public static function getCoberturasDescripcion(){
+        // Adjust the select method to include both 'tipo_descripcion' and 'precio_base_volumen'
+        return self::select('cobertura_descripcion', 'cobertura_precio_base_volumen')->get();
+    }
 }

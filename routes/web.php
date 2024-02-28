@@ -27,6 +27,12 @@ Route::resource('cliente', ClienteController::class);
 Route::resource('detalles_pedido', DetallesPedidoController::class);
 Route::post('/comprobante/insert', [ComprobanteController::class, 'insert']);
 Route::post('/pdf/send', [ComprobanteController::class, 'send']);
+// Add a POST route for the file upload
+Route::post('/consulta-pastel-personalizado', [ClienteController::class, 'uploadPastelPersonalizado'])->name('cliente.upload_pastel_personalizado');
+
+// Existing GET route for page retrieval
+Route::get('/consulta-pastel-personalizado', [ClienteController::class, 'pastelPersonalizado'])->name('cliente.consulta_pastel_personalizado');
+
 
 Route::get('/detalles_pedido.update/{pastel}', [DetallesPedidoController::class, 'update'])->name('detalles_pedido.update');
 Route::get('/cliente.ingreso_carrito/{pastel}', [PedidoController::class, 'create'])->name('cliente.ingreso_carrito');

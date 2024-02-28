@@ -18,4 +18,8 @@ class Relleno extends Model
         'relleno_altura',
         'relleno_precio_base_volumen'    
     ];
+    public static function getRellenosDescripcion()
+    {
+        return self::select('relleno_descripcion','relleno_altura','relleno_precio_base_volumen')->get();
+    }
 }

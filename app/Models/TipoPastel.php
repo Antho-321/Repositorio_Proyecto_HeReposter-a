@@ -15,6 +15,11 @@ class TipoPastel extends Model
     protected $fillable = [
         'tipo_id',     
         'tipo_descripcion',
-        'tipo_precio_base_volumen'         
+        'precio_base_volumen'         
     ];
+    public static function getTiposDescripcion()
+    {
+        // Adjust the select method to include both 'tipo_descripcion' and 'precio_base_volumen'
+        return self::select('tipo_descripcion', 'precio_base_volumen')->get();
+    }
 }

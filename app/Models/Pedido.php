@@ -18,7 +18,8 @@ class Pedido extends Model
         'fecha_pedido',
         'fecha_entrega',
         'hora_entrega',
-        'pedido_confirmado'
+        'pedido_confirmado',
+        'lugar'
     ];
     public function getPedidosNoConfirmadosPorCliente($cliente_id)
     {

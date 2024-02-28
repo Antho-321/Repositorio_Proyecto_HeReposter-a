@@ -382,7 +382,7 @@ class ClienteController extends Controller
 
     public function pasteles_personalizados()
     {
-        return "ESTAMOS TESTEANDO";
+        return view('cliente.pasteles_personalizados');
     }
 
     public function categoria_seleccionada(Request $request)
@@ -399,4 +399,11 @@ class ClienteController extends Controller
     {
         return view('cliente.carrito');
     }
+    public function pastelPersonalizado(){
+
+    }
+    public function uploadPastelPersonalizado(Request $request) {
+        // Handle the file upload logic here
+    }
+    
 }
