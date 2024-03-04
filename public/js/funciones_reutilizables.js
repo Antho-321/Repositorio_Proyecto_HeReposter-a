@@ -98,18 +98,40 @@ export function MostrarMensaje(mensaje) {
     divVentana.innerHTML = `
     <form class="Mensaje" id="Ventana">
         <div class="btnHaciaDerecha">
-            <input type="button" value="✕" id="btn_salir">
+            <input class="boton" type="button" value="✕" id="btn_salir">
         </div>  
-        <h2>Estimado usuario</h2>
+        <h2 id="titulo">Estimado usuario</h2>
         <p>`+ mensaje + `</p>
     </form>
     `;
     salto.appendChild(divVentana);
     document.getElementById("btn_salir").addEventListener('click',CerrarVentana);
+    divVentana.insertAdjacentHTML("beforebegin", `
+    <div class="modal-backdrop" style="display: none;"></div>`);
+    var backdrop = document.querySelector('.modal-backdrop');
+    backdrop.style.display = backdrop.style.display === 'block' ? 'none' : 'block';
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.id = "estilo_rd-nav-link";
+    var cssRule = `.rd-nav-link::before { opacity: 0 !important; }`; // Set your desired opacity value here
+    if (style.styleSheet) {
+        style.styleSheet.cssText = cssRule;
+    } else {
+        style.appendChild(document.createTextNode(cssRule));
+    }
+    document.head.appendChild(style);
+    document.getElementById("menu").style="z-index: 10 !important";
 }
 export function CerrarVentana() {
     let estilo_aux = document.getElementById("aux_cont_principal");
-    salto.innerHTML = "";
+    // Use Array.from to convert NodeList to Array for using filter, forEach
+    Array.from(salto.children).forEach(function(child) {
+        // Skip elements with specific IDs or names
+        if (child.id !== 'registro') {
+            salto.removeChild(child);
+        }
+    });
+
     if (estilo_aux != null || estilo_aux != undefined) {
         estilo_aux.remove();
     } else {
@@ -120,4 +142,8 @@ export function CerrarVentana() {
         opera_bug.remove();
     }
     document.querySelector(".rd-nav-link").removeAttribute("style");
+    if (document.getElementById("estilo_rd-nav-link")!=null) {
+        document.getElementById("estilo_rd-nav-link").remove();
+    }
+    document.getElementById("menu").removeAttribute("style");
 }

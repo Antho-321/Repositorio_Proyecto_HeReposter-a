@@ -6,7 +6,7 @@
     font-family: "Sanseriffic", Arial, sans-serif;
 }
 *:not(#Menu_Catalogo, #Menu_Catalogo *) {
-    transition: 0.4s;
+     transition: 0.15s;
 }
 *, #texto_dedicatoria{
     font-family:Sanseriffic;
@@ -94,11 +94,7 @@ body {
     background-color: rgb(255, 255, 255);
     z-index: 1;
 }
-input:hover:not(input[name='dedicatoria'], .cantidad), a:hover, button:hover {
-    cursor: pointer;
-    color: #7c7c7c41;
-    transition: 0.4s !important;
-}
+
 .cantidad{
     cursor: auto;
     width: 37px;
@@ -172,7 +168,7 @@ button, .btn_eliminar{
     padding: 6px 0.5vw;
     border: 0.5vw solid transparent;
     border-radius: 3px;
-    color: rgb(31, 31, 31);
+    color: rgb(0, 0, 0);
     text-align: center; 
     letter-spacing: 1.6px;
 }
@@ -507,10 +503,6 @@ footer {
     font-family: Sanseriffic;
 }
 
-*:not(#Menu_Catalogo, #Menu_Catalogo *) {
-    transition: 0.4s;
-}
-
 body,
 #Contenido_Cabecera,
 #Contenido_Cabecera div,
@@ -632,8 +624,8 @@ input:hover:not(input[name='dedicatoria'], .cantidad),
 a:hover,
 button:hover,
 #Catalogo:hover .Btn_Catalogo {
-    color: #7c7c7c41 !important;
-    transition: 0.4s !important;
+    color: rgba(0, 0, 0, 0.521) !important;
+    transition: 0.15s !important;
 }
 
 #seccion_iconos,
@@ -803,7 +795,7 @@ textarea{
     color: red;
     padding-top: 55px;
 }
-#contenedorTxt{
+.contenedorTxt{
     height: 0px;
 }
 input[name='dedicatoria']{
@@ -820,6 +812,19 @@ input[name='dedicatoria']{
 }
 #formDrop{
     background: transparent !important;
+}
+.dz-button{
+    color: black !important;
+    font: normal normal normal 15px / 1.4em Century Gothic !important;
+}
+.para_enlace{
+    margin: 10px 0px !important;
+    border: 1px solid rgba(0, 0, 0, 0.658);
+    border-radius: 10px;
+}
+.dropzone {
+    border: 1px solid rgba(0, 0, 0, 0.658) !important;
+    border-radius: 22px;
 }
 @media screen and (max-width: 1054px) {
     #check2:checked+header #Contenido_Cabecera,

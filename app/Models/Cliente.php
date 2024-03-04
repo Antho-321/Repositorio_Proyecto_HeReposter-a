@@ -30,4 +30,14 @@ class Cliente extends Model
         // Devuelves el pastel encontrado o null si no hay ninguno
         return $cliente;
     }
+    public function getClienteById($cliente_id)
+    {
+        // Usas el método where para filtrar los pasteles por la columna img
+        // y usas el método first para obtener el primero que cumpla la condición
+        
+        $pastel = Cliente::where('cliente_id', $cliente_id)->first();
+
+        // Devuelves el pastel encontrado o null si no hay ninguno
+        return $pastel;
+    }
 }

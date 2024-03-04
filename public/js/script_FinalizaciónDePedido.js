@@ -61,10 +61,8 @@ paypal.Buttons({
             let nombre=document.getElementById("nombre");
             let direccion=document.getElementById("direccion");
             let telefono=document.getElementById("telefono");
-            
-            console.log("pedido id: "+document.getElementById("id_pedido").value);
-
-            insertComprobante(document.getElementById("id_comprobante").value,document.getElementById("id_pedido").value,document.getElementById("total").innerHTML.match(/(\d+)/)[0], document.getElementById("fecha_entrega").value,document.getElementById("hora_entrega").value, cedula.value, nombre.value,direccion.value,telefono.value);
+            let id_cliente=document.getElementById("cliente_id").value;  
+            insertComprobante(document.getElementById("id_comprobante").value,document.getElementById("id_pedido").value,document.getElementById("valor_total").value, document.getElementById("fecha_entrega").value,document.getElementById("hora_entrega").value, cedula.value, nombre.value,direccion.value,telefono.value, id_cliente);
             telefono.disabled=true;
             direccion.disabled=true;
             nombre.disabled=true;
@@ -87,8 +85,8 @@ paypal.Buttons({
     }
 }).render('#paypal-button-container');
 
-function insertComprobante(id_comprobante_venta, id_pedido, total_pago, fecha_entrega, hora_entrega, cedula, nombre, direccion, telefono) {
-    return new Promise((resolve, reject) => {
+function insertComprobante(id_comprobante_venta, id_pedido, total_pago, fecha_entrega, hora_entrega, cedula, nombre, direccion, telefono, id_cliente) { 
+  return new Promise((resolve, reject) => {
         fetch('/comprobante/insert', {
             method: 'POST',
             headers: {
@@ -98,9 +96,14 @@ function insertComprobante(id_comprobante_venta, id_pedido, total_pago, fecha_en
             body: JSON.stringify({
                 comprobante_id: id_comprobante_venta,
                 pedido_id: id_pedido,
-                // Assuming 'lugar', 'cantidad', and 'concepto' can be derived or are not required
-                fecha: fecha_entrega,
-                // You might need to handle 'hora_entrega', 'cedula', 'nombre', 'direccion', 'telefono' appropriately
+                fecha_entrega: fecha_entrega,
+                hora_entrega: hora_entrega,
+                total_pago: total_pago,
+                cedula: cedula,
+                nombre_cliente: nombre,
+                telefono: telefono,
+                direccion_domicilio: direccion,
+                cliente_id: id_cliente
             })
         })
         .then(response => response.json())
@@ -129,12 +132,8 @@ function EnviarComprobanteACorreo() {
     nombre = document.getElementById("nombre").value;
     direccion = document.getElementById("direccion").value;
     telefono = document.getElementById("telefono").value;
-    console.log("DATOS FINALES:");
-  
-    array_carrito = JSON.parse(localStorage.getItem('datos_carrito'));
-    console.log(array_carrito);
-  
     filas_productos = "";
+    array_carrito = JSON.parse(localStorage.getItem('datos_carrito'));
     for (let i = array_carrito.length - 1; i >= 0; i--) {
       filas_productos += `
       <tr>
@@ -493,17 +492,7 @@ function EnviarComprobanteACorreo() {
       var pdfData = doc.output('datauristring');
   
       // call the savePdf function and handle the result
-      savePdf(pdfData, email)
-        .then(data => {
-          var fileName = data.fileName;
-          var fileUrl = data.fileUrl;
-          alert('The PDF file was saved as ' + fileName);
-          window.open(fileUrl, '_blank');
-        })
-        .catch(error => {
-          console.error(error);
-          alert('An error occurred: ' + error);
-        });
+      savePdf(pdfData, email);
       document.body.removeChild(temporalDiv); // Eliminar el elemento temporal
     });
   }
@@ -536,6 +525,6 @@ function EnviarComprobanteACorreo() {
         location.reload();
       })
       .catch(error => {
-        console.error('Error sending PDF:', error);
+        console.log(error);
       });
   }

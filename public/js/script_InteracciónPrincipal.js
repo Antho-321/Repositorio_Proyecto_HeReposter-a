@@ -1,7 +1,7 @@
 let num_productos, cantidad_producto_carr, img, id_imagen, direccion_producto,
     dedicatoria, cuadros_dedicatoria, opciones, id_producto, precio_producto,
     descripción_adicional, porciones, masa, cobertura, sabor, relleno, reqAdicional,
-    fecha_valida, dia_mañana, hora_valida, add_carrito;
+    fecha_valida, dia_mañana, hora_valida, add_carrito, registro;
 let html_aux1 = "";
 let html_aux2 = "";
 let productos = [];
@@ -16,10 +16,10 @@ let estilo_búsqueda = document.createElement("style");
 let estilo_aux_EnvíoACarrito = document.createElement("style");
 let estilo_carritoSinProductos = document.createElement("style");
 let estilo_ver_categorías = document.createElement("style");
-let btn_ingreso=document.getElementById("Ingreso");
+let btn_ingreso = document.getElementById("Ingreso");
 
 let ubicación_página = window.location.href;
-let actualizar_pastel=document.getElementById("actualizar_pastel");
+let actualizar_pastel = document.getElementById("actualizar_pastel");
 var currentView = document.querySelector('meta[name="current-view"]').getAttribute('content');
 import { estilo_Ingreso_Registro, salto, divVentana, CerrarVentana } from './funciones_reutilizables.js';
 
@@ -56,22 +56,22 @@ estilo_carritoSinProductos.innerHTML = `
     justify-content: center;
 }
 `;
-estilo_carritoSinProductos.id="aux_cont_principal";
-add_carrito=document.getElementById("add_carrito");
-if (btn_ingreso!=null) {
-    btn_ingreso.addEventListener('click',MostrarVentanaDeIngreso);
+estilo_carritoSinProductos.id = "aux_cont_principal";
+add_carrito = document.getElementById("add_carrito");
+if (btn_ingreso != null) {
+    btn_ingreso.addEventListener('click', MostrarVentanaDeIngreso);
 }
 if (seccion_productos != null) {
-    window.onload = AgregarContenido("");    
+    window.onload = AgregarContenido("");
 }
-if (actualizar_pastel!=null) {
+if (actualizar_pastel != null) {
     cantidadInput = document.getElementById("cantidad");
-    window.onload = verificarDedicatorias(cantidadInput); 
+    window.onload = verificarDedicatorias(cantidadInput);
 }
-if (add_carrito!=null) {
-    add_carrito.addEventListener('click',MostrarMensajev2);
+if (add_carrito != null) {
+    add_carrito.addEventListener('click', MostrarMensajev2);
 }
-if (currentView=="detalles_pedido.update"||currentView=="detalles_pedido.destroy"||currentView=="cliente.carrito") {
+if (currentView == "detalles_pedido.update" || currentView == "detalles_pedido.destroy" || currentView == "cliente.carrito") {
     AgregarContenidoCarrito();
     var btnFinPedido = document.getElementById("fin_pedido");
     var fecha_entrega = document.getElementById("fecha_entrega");
@@ -80,7 +80,7 @@ if (currentView=="detalles_pedido.update"||currentView=="detalles_pedido.destroy
     var error_message3 = document.getElementById("error-message3");
     var hora_entrega = document.getElementById("hora_entrega");
     var inputTime, currentDate;
-    if (fecha_entrega!=null) {
+    if (fecha_entrega != null) {
         fecha_entrega.addEventListener('change', function (event) {
             var dateComponents = event.target.value.split('-');
             var year = parseInt(dateComponents[0], 10);
@@ -93,8 +93,8 @@ if (currentView=="detalles_pedido.update"||currentView=="detalles_pedido.destroy
             currentDate = new Date();
             currentDate.setHours(0, 0, 0, 0);
             inputDate.setHours(0, 0, 0, 0);
-    
-    
+
+
             // create a new timeout and store its id
             if (inputDate <= currentDate) {
                 error_message3.style.display = "none"; // hide the error message
@@ -103,7 +103,7 @@ if (currentView=="detalles_pedido.update"||currentView=="detalles_pedido.destroy
                 btnFinPedido.className = "fin_pedido";
                 dia_mañana = false;
             } else {
-    
+
                 fecha_valida = true;
                 error_message2.style.display = "none"; // hide the error message
                 error_message3.style.display = "none"; // hide the error message
@@ -111,7 +111,7 @@ if (currentView=="detalles_pedido.update"||currentView=="detalles_pedido.destroy
                 let aux_currentDate = new Date();
                 aux_currentDate.setHours(0, 0, 0, 0);
                 aux_currentDate.setDate(aux_currentDate.getDate() + 1);
-    
+
                 if (inputDate.getTime() == aux_currentDate.getTime()) {
                     dia_mañana = true;
                 } else {
@@ -125,11 +125,11 @@ if (currentView=="detalles_pedido.update"||currentView=="detalles_pedido.destroy
             setTimeout(function () {
                 hora_entrega.blur();
             }, 1010);
-    
+
         });
     }
-    if (btnFinPedido!=null) {
-        btnFinPedido.addEventListener('click',finalizarPedido);
+    if (btnFinPedido != null) {
+        btnFinPedido.addEventListener('click', finalizarPedido);
     }
 }
 function comprobacionHora() {
@@ -173,26 +173,20 @@ if (contenido_categorías != null) {
 function AgregarContenido(CategoríaSeleccionada) {
     seccion_productos = document.getElementById("seccion_productos");
     if (CategoríaSeleccionada == "") {
-        // Seleccionar el input oculto por su nombre
         let input = document.getElementById("pasteles");
-        // Obtener el valor del input, que es una cadena JSON
         let value = input.value;
-        // Convertir la cadena JSON en un array de javascript
         let array = JSON.parse(value);
-        // Mostrar el contenido del array en la consola
-        console.log(array);
-        // Procesar el resultado como un arreglo de objetos
         let div_aux = document.createElement("div");
-        div_aux.className="contenedor_imagenes";
+        div_aux.className = "contenedor_imagenes";
         for (let i = 0; i < array.length; i++) {
             let div = document.createElement("div");
-            div.className="imagen";
+            div.className = "imagen";
             let imagen = document.createElement("img");
             let h3 = document.createElement("button");
             imagen.src = array[i].img;
-            imagen.style="height: 300px !important; width: 300px !important;";
+            imagen.style = "height: 300px !important; width: 300px !important; border-radius: 10px;";
             h3.innerHTML = "Mostrar más información";
-            h3.className="mostrar_informacion";
+            h3.className = "mostrar_informacion";
             div.appendChild(h3);
             h3.addEventListener("click", ProductoSeleccionado);
             div.appendChild(imagen);
@@ -289,18 +283,18 @@ function disminuirCantidadProducto() {
         colSelect.style = "display:none";
     }
 }
-function verificarDedicatorias(cantidadInput){
-    if (parseInt(cantidadInput.value)!=1) {
+function verificarDedicatorias(cantidadInput) {
+    if (parseInt(cantidadInput.value) != 1) {
         Dedicatorias(cantidadInput);
-    document.getElementById("cuadros_dedicatoria").innerHTML = `
+        document.getElementById("cuadros_dedicatoria").innerHTML = `
     <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" onclick="quitarPlaceHolder(event)">
     `;
-    texto_dedicatoria = document.getElementById("texto_dedicatoria");
-    texto_dedicatoria.innerHTML = "Cantidad de dedicatorias";
-    colSelect = document.getElementById("num_dedicatorias").parentElement;
-    colSelect.removeAttribute("style");
+        texto_dedicatoria = document.getElementById("texto_dedicatoria");
+        texto_dedicatoria.innerHTML = "Cantidad de dedicatorias";
+        colSelect = document.getElementById("num_dedicatorias").parentElement;
+        colSelect.removeAttribute("style");
     }
-    
+
 }
 function aumentarCantidadProducto() {
     cantidadInput = document.getElementById("cantidad");
@@ -413,10 +407,10 @@ function ProductoSeleccionado(event, imagen, carritoInfo, cantidad_productos, ar
     }
     VerificaciónCuadroDeBúsqueda();
     estilo = document.getElementById("estilo");
-    document.getElementById("enlace_pastel").value=img;
+    document.getElementById("enlace_pastel").value = img;
 
     //estilo.href = "/styles/estilo_Modificación_ProductoSeleccionado.css";
-    
+
     // myData.then(result => {
     //     id_producto = result[0].codigo_producto;
     //     precio_producto = result[0].precio;
@@ -457,7 +451,7 @@ function ProductoSeleccionado(event, imagen, carritoInfo, cantidad_productos, ar
     //                 </div>
     //             </div>
     //             <div class="tabla_info">
-                    
+
     //                 <div class="fila">
     //                     <p class="col">Porciones:</p>
     //                     <p class="col">`+ porciones + `</p>
@@ -479,7 +473,7 @@ function ProductoSeleccionado(event, imagen, carritoInfo, cantidad_productos, ar
     //                     <div class="col" id="adicional">
     //                         <textarea name="espAdicional" id="espAdicional" placeholder="(Opcional)">`+ req_Adicional + `</textarea>
     //                     </div>
-                        
+
     //                 </div>
     //             </div>
     //             </div>
@@ -503,37 +497,35 @@ function ProductoSeleccionado(event, imagen, carritoInfo, cantidad_productos, ar
     // });
 }
 function funcCategoríaSeleccionada(event) {
-    // Your custom logic
-    console.log(event.target.innerHTML); 
     document.getElementById("nombre_categoria").value = event.target.innerHTML;
 }
 // document.getElementById("est_ver_categorías").remove();
-    // VerificaciónCuadroDeBúsqueda();
-    // let título = event.target.value;
-    // let h1 = document.getElementsByTagName("h1")[0];
-    // let destacado_principal = document.getElementById("DestacadoPrincipal");
-    // seccion_productos = document.getElementById("seccion_productos");
-    // if (document.getElementById("est_CategoríaSel") == null) {
-    //     document.head.appendChild(estilo_aux_CategoríaSel);
-    // }
-    // if (destacado_principal != null) {
-    //     destacado_principal.remove();
-    // }
-    // if (seccion_productos != null) {
-    //     document.querySelector("#seccion_productos>div").remove();
-    // } else {
-    //     contenido_principal.innerHTML = `
-    //     <h1 align="center">`+ título + `</h1>
-    //     <section id="seccion_productos"></section>
-    //     `;
-    //     document.getElementById("estilo").href = "../styles/estilo_Modificación_Index.css";;
-    // }
-    // if (h1 == undefined) {
-    //     h1 = document.getElementsByTagName("h1")[0];
-    // }
-    // h1.innerHTML = título;
-    // h1.align = "center";
-    // AgregarContenido(título);
+// VerificaciónCuadroDeBúsqueda();
+// let título = event.target.value;
+// let h1 = document.getElementsByTagName("h1")[0];
+// let destacado_principal = document.getElementById("DestacadoPrincipal");
+// seccion_productos = document.getElementById("seccion_productos");
+// if (document.getElementById("est_CategoríaSel") == null) {
+//     document.head.appendChild(estilo_aux_CategoríaSel);
+// }
+// if (destacado_principal != null) {
+//     destacado_principal.remove();
+// }
+// if (seccion_productos != null) {
+//     document.querySelector("#seccion_productos>div").remove();
+// } else {
+//     contenido_principal.innerHTML = `
+//     <h1 align="center">`+ título + `</h1>
+//     <section id="seccion_productos"></section>
+//     `;
+//     document.getElementById("estilo").href = "../styles/estilo_Modificación_Index.css";;
+// }
+// if (h1 == undefined) {
+//     h1 = document.getElementsByTagName("h1")[0];
+// }
+// h1.innerHTML = título;
+// h1.align = "center";
+// AgregarContenido(título);
 
 function VerificaciónCuadroDeBúsqueda() {
     let est_búsqueda = document.getElementById("estilo_búsqueda");
@@ -548,6 +540,10 @@ function ProductosNoIngresados() {
     <h1>No se ha ingresado productos</h1>
     `;
 }
+function isPositiveNumberStartingFromZero(str) {
+    const pattern = /^(0|[1-9]\d*)$/;
+    return pattern.test(str);
+  }
 function finalizarPedido() {
     // MostrarMensaje("Por favor déjese de mamadas");
     if (fecha_valida == true && hora_valida == true) {
@@ -579,6 +575,24 @@ function finalizarPedido() {
     } else {
         alert("Datos inválidos");
     }
+    document.getElementById("telefono").addEventListener("input",function(){
+        let valor=document.getElementById("telefono").value;
+        if (!isPositiveNumberStartingFromZero(valor[valor.length-1])) {
+            document.getElementById("telefono").value=valor.substring(0,valor.length-1);
+        }
+        if (valor.length>10) {
+            document.getElementById("telefono").value=valor.substring(0,10);
+        }
+    })
+    document.getElementById("cedula").addEventListener("input",function(){
+        let valor=document.getElementById("cedula").value;
+        if (!isPositiveNumberStartingFromZero(valor[valor.length-1])) {
+            document.getElementById("cedula").value=valor.substring(0,valor.length-1);
+        }
+        if (valor.length>10) {
+            document.getElementById("cedula").value=valor.substring(0,10);
+        }
+    })
 }
 function enviarInfoACarrito(carritoInfo) {
     dedicatoria = "";
@@ -615,13 +629,20 @@ function enviarInfoACarrito(carritoInfo) {
     });
 }
 function MostrarVentanaDeIngreso() {
+    const csrfToken = document.querySelector('meta[name="csrf-token1"]').getAttribute('content');
+    const hiddenInput = document.createElement('input');
+hiddenInput.type = 'hidden';
+hiddenInput.name = '_token'; // Laravel expects the CSRF token to be sent in a "_token" POST parameter
+hiddenInput.value = csrfToken;
+salto.innerHTML = "";
+salto.appendChild(hiddenInput);
     if (event.target.id != "RegresarAIngreso") {
         document.head.appendChild(estilo_Ingreso_Registro);
     }
     divVentana.innerHTML = `
-    <div class="Formulario_Ingreso Ventana" id="Ventana">
+    <div class="Formulario_Ingreso Ventana" id="VentanaFormulario">
                 <div class="btnHaciaDerecha">
-                    <input type="button" value="✕" id="btn_salir">
+                    <input type="button" value="✕" id="btn_salir" class="boton">
                 </div>
                 <div action="" id="Ventana">
                     <h2 id="txt_ingreso">Ingresar</h2>
@@ -630,39 +651,52 @@ function MostrarVentanaDeIngreso() {
                     <label for="contraseña">Contraseña:</label>
                     <input type="password" id="contraseña" name="clave" class="entrada_texto">
                     <div class="btnHaciaDerecha">
-                        <input type="button" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?" onclick="MostrarVentanaRecuperación_Correo()">
+                        <input type="button" class="boton" id="contraseña_olvidada" value="¿Olvidaste tu contraseña?" onclick="MostrarVentanaRecuperación_Correo()">
                     </div>
-                    <button>Ingresar</button>
+                    <input type="hidden" name="registro" value="false" id="registro">
+                    <button class="boton">Ingresar</button>
                     <div id="SinCuenta">
                         <label for="contraseña">¿No tienes una cuenta?</label>
-                        <input type="button" id="sin_cuenta" value="Registrarse">
+                        <input type="button" class="boton" id="sin_cuenta" value="Registrarse">
                     </div>
                 </div>
                 </div>
     `;
     salto.appendChild(divVentana);
-    divVentana.insertAdjacentHTML("beforebegin",`
+    divVentana.insertAdjacentHTML("beforebegin", `
     <div class="modal-backdrop" style="display: none;"></div>`);
     var backdrop = document.querySelector('.modal-backdrop');
     backdrop.style.display = backdrop.style.display === 'block' ? 'none' : 'block';
-    document.querySelector(".rd-nav-link").style="z-index: 0 !important;";
-    document.getElementById("sin_cuenta").addEventListener('click',MostrarVentanaDeRegistro);
-    document.getElementById("btn_salir").addEventListener('click',CerrarVentana);
+    document.querySelector(".rd-nav-link").style = "z-index: 0 !important;";
+    document.getElementById("sin_cuenta").addEventListener('click', MostrarVentanaDeRegistro);
+    document.getElementById("btn_salir").addEventListener('click', CerrarVentana);
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.id = "estilo_rd-nav-link";
+    var cssRule = `.rd-nav-link::before { opacity: 0 !important; }`; // Set your desired opacity value here
+    if (style.styleSheet) {
+        style.styleSheet.cssText = cssRule;
+    } else {
+        style.appendChild(document.createTextNode(cssRule));
+    }
+    document.head.appendChild(style);
+    document.getElementById("menu").style="z-index: 10 !important";
 }
-  
+
 //AQUI EMPIEZA LA VENTANA DE REGISTRO
 function MostrarVentanaDeRegistro() {
-    let registro=document.getElementById("registro");
-    registro.value="true";
-    // Save the CSRF token element
-    let csrfToken = salto.querySelector('input[name="_token"]');
-
     // Clear the innerHTML of the salto element
-    salto.innerHTML = "";
+    const csrfToken = document.querySelector('meta[name="csrf-token1"]').getAttribute('content');
+    const hiddenInput = document.createElement('input');
+hiddenInput.type = 'hidden';
+hiddenInput.name = '_token'; // Laravel expects the CSRF token to be sent in a "_token" POST parameter
+hiddenInput.value = csrfToken;
+salto.innerHTML = "";
+salto.appendChild(hiddenInput);
     divVentana.innerHTML = `
     <div id="Ventana">
     <div class="btnHaciaDerecha">
-        <input type="button" value="✕" id="btn_salir" onclick="CerrarVentana()">
+        <input class="boton" type="button" value="✕" id="btn_salir">
     </div>
     <!-- Esta parte está modificada por que debía estar metido esto dentro de un form para usar un POST -->
     <div class="Formulario_Registro" id="Ventana">
@@ -674,22 +708,43 @@ function MostrarVentanaDeRegistro() {
         <label for="rep_contraseña">Repita la contraseña:</label>
         <input type="password" id="rep_contraseña" name="Rep_contraseña" class="entrada_texto">
         <!------LA FUNCIÓN runQuery está en el archivo script_Registro.js------>
-        <button id="registro">Registrarse</button>
+        <input type="hidden" name="registro" value="false" id="registro">
+        <button class="boton">Registrarse</button>
         <label for="RegresarAIngreso">¿Ya tienes una cuenta?</label>
-        <input type="button" value="Ingresar" id="RegresarAIngreso" onclick="MostrarVentanaDeIngreso()">
-        <script src="../script/script_Registro.js"></script>
+        <input class="boton" type="button" value="Ingresar" id="RegresarAIngreso" onclick="MostrarVentanaDeIngreso()">
     </div>
 </div>
     `;
     salto.appendChild(divVentana);
     // Reinsert the CSRF token back into the salto element
-    if (csrfToken) {
-        salto.appendChild(csrfToken);
+    divVentana.insertAdjacentHTML("beforebegin", `
+    <div class="modal-backdrop" style="display: none;"></div>`);
+    var backdrop = document.querySelector('.modal-backdrop');
+    backdrop.style.display = backdrop.style.display === 'block' ? 'none' : 'block';
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.id = "estilo_rd-nav-link";
+    var cssRule = `.rd-nav-link::before { opacity: 0 !important; }`; // Set your desired opacity value here
+    if (style.styleSheet) {
+        style.styleSheet.cssText = cssRule;
+    } else {
+        style.appendChild(document.createTextNode(cssRule));
     }
+    document.head.appendChild(style);
+    document.getElementById("menu").style="z-index: 10 !important";
+    document.getElementById("btn_salir").addEventListener('click', CerrarVentana);
+    registro = document.getElementById("registro");
+    registro.value = "true";
 }
 
 function MostrarVentanaRecuperación_Correo() {
-    salto.innerHTML = "";
+    const csrfToken = document.querySelector('meta[name="csrf-token1"]').getAttribute('content');
+    const hiddenInput = document.createElement('input');
+hiddenInput.type = 'hidden';
+hiddenInput.name = '_token'; // Laravel expects the CSRF token to be sent in a "_token" POST parameter
+hiddenInput.value = csrfToken;
+salto.innerHTML = "";
+salto.appendChild(hiddenInput);
     divVentana.innerHTML = `
     <form id="Ventana" action="../php/confirmacion.php" method="POST" class="Recuperación">
         <div class="btnHaciaDerecha">
@@ -706,7 +761,7 @@ function MostrarVentanaRecuperación_Correo() {
 }
 
 function MostrarMensajev2() {
-    let mensaje=document.getElementById("mensaje").value;
+    let mensaje = document.getElementById("mensaje").value;
     document.head.appendChild(estilo_Ingreso_Registro);
     salto.innerHTML = "";
     divVentana.innerHTML = `
@@ -719,7 +774,7 @@ function MostrarMensajev2() {
     </form>
     `;
     salto.appendChild(divVentana);
-    document.getElementById("btn_salir").addEventListener('click',CerrarVentana);
+    document.getElementById("btn_salir").addEventListener('click', CerrarVentana);
 }
 
 function serializeElement(element) {
@@ -774,8 +829,8 @@ function convertDataFormat(oldData) {
 
 function AgregarContenidoCarrito() {
     storeElementsData("datos_carrito");
-    let formato_correcto=JSON.stringify(convertDataFormat(JSON.parse(localStorage.getItem('v1_datos_carrito'))));
-    localStorage.setItem("datos_carrito",formato_correcto);
+    let formato_correcto = JSON.stringify(convertDataFormat(JSON.parse(localStorage.getItem('v1_datos_carrito'))));
+    localStorage.setItem("datos_carrito", formato_correcto);
 }
 
 function irAIndex() {

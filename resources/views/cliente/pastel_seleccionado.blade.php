@@ -46,7 +46,7 @@
 
 </li>
 <li class="rd-nav-item">
-<a class="rd-nav-link" href="contacts.html"><b>Pasteles personalizados</b></a>
+    <a class="rd-nav-link" href="{{ route('cliente.pasteles_personalizados') }}"><b>Pasteles personalizados</b></a>
 </li>
 <li class="rd-nav-item" style="width: 60px;">
 <a class="rd-nav-link" href="{{ route('cliente.carrito') }}">
@@ -93,7 +93,7 @@
             <input type="button" id="aumentar_cantidad" value="+" onclick="aumentarCantidadProducto()">
         </div>
         <div id="seccion_envio">
-            <button value="Añadir al carrito">Añadir al carrito</button>
+            <button id="btn_add_carrito" value="Añadir al carrito">Añadir al carrito</button>
         </div>
     </div>
     <div id="infoDetallada">

@@ -27,6 +27,8 @@ Route::resource('cliente', ClienteController::class);
 Route::resource('detalles_pedido', DetallesPedidoController::class);
 Route::post('/comprobante/insert', [ComprobanteController::class, 'insert']);
 Route::post('/pdf/send', [ComprobanteController::class, 'send']);
+Route::post('/img/send', [ClienteController::class, 'send']);
+Route::post('/img/delete', [ClienteController::class, 'delete']);
 // Add a POST route for the file upload
 Route::post('/consulta-pastel-personalizado', [ClienteController::class, 'uploadPastelPersonalizado'])->name('cliente.upload_pastel_personalizado');
 

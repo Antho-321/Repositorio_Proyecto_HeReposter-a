@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Pastel;
 use App\Models\Cliente;
+use App\Models\Dibujo_Img_Especial;
+use App\Models\Adorno_Fondant;
+use App\Models\Especificacion_Adicional;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -27,6 +30,9 @@ class ClienteController extends Controller
         }
         $pasteles = Pastel::orderBy('pastel_id', 'DESC')->get();
         Session::put('pasteles', $pasteles);
+        if ($request->input('cerrar_sesion') == "true") {
+            return redirect()->route('cliente.index');
+        }
         return view('cliente.index');
     }
 
@@ -49,11 +55,11 @@ class ClienteController extends Controller
             Session::put('codigo_correcto', true);
 
             // Optionally, pass the cliente_id to the view
-            return view('cliente.index');
+            return redirect()->route('cliente.index');
         }
 
         Session::put('codigo_correcto', false);
-        return view('cliente.envio_correo_registro', compact('cliente'));
+        return view('cliente.envio_correo', compact('cliente'));
     }
 
 
@@ -334,13 +340,16 @@ class ClienteController extends Controller
         $encoding = 'UTF-8';
 
         // $encoding is the character set of the string, such as 'UTF-8'
-        $encoded_subject = iconv_mime_encode('Subject', $subject, array(
-            'scheme' => 'B', // use base64 encoding
-            'input-charset' => $encoding, // specify the input character set
-            'output-charset' => $encoding, // specify the output character set
-            'line-length' => 76, // specify the maximum line length
-            'line-break-chars' => "\r\n" // specify the line break characters
-        )
+        $encoded_subject = iconv_mime_encode(
+            'Subject',
+            $subject,
+            array(
+                'scheme' => 'B', // use base64 encoding
+                'input-charset' => $encoding, // specify the input character set
+                'output-charset' => $encoding, // specify the output character set
+                'line-length' => 76, // specify the maximum line length
+                'line-break-chars' => "\r\n" // specify the line break characters
+            )
         );
         $encoded_subject = substr($encoded_subject, 9);
         // Ensure proper formatting of the email headers
@@ -399,11 +408,59 @@ class ClienteController extends Controller
     {
         return view('cliente.carrito');
     }
-    public function pastelPersonalizado(){
+    public function pastelPersonalizado()
+    {
 
     }
-    public function uploadPastelPersonalizado(Request $request) {
+    public function uploadPastelPersonalizado(Request $request)
+    {
         // Handle the file upload logic here
     }
-    
+    public function send(Request $request)
+    {
+        try {
+            // Get the file from the request
+            $file = $request->file('image');
+
+            $imagenAdicional = $request->input('imagenAdicional');
+            $numAdicional = $request->input('numAdicional');
+            // Define the path where the file should be stored within the 'public' disk
+            $destinationPath = 'images/Productos';
+            switch ($imagenAdicional) {
+                case "DibujoImgEspecial":
+                    $id = Dibujo_Img_Especial::getLastId() + 1;
+                    break;
+                case "Adorno":
+                    $id = Adorno_Fondant::getLastId() + 1;
+                    break;
+                case "Adicional":
+                    $id = Especificacion_Adicional::getLastId() + $numAdicional;
+                    break;
+                default:
+                    $id = Pastel::getLastId() + 1;
+                    break;
+            }
+            $customName = $imagenAdicional . "_" . $id; // This should be dynamically generated or passed via the request as needed.
+            $fileExtension = $file->getClientOriginalExtension(); // Extract the original file extension
+            $fileName = $customName . '.' . $fileExtension; // Concatenate custom name with the original file extension
+
+            // Move the file to the public directory with the new name
+            $file->move(public_path($destinationPath), $fileName);
+
+            return response()->json(['success' => 'File uploaded successfully', 'path' => $destinationPath . '/' . $fileName, 'imagenAdicional' => $imagenAdicional]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+    }
+    public function delete(Request $request)
+    {
+        $file_path = $request->input('ruta');
+        try {
+            unlink($file_path);
+            return response()->json(['success' => 'File deleted successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e, 'ruta' => $file_path], 400);
+        }
+    }
+
 }

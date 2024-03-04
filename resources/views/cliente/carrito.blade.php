@@ -78,7 +78,7 @@
 
         </li>
         <li class="rd-nav-item">
-            <a class="rd-nav-link" href="contacts.html"><b>Pasteles personalizados</b></a>
+            <a class="rd-nav-link" href="{{ route('cliente.pasteles_personalizados') }}"><b>Pasteles personalizados</b></a>
         </li>
         <li class="rd-nav-item active" style="width: 60px;">
             <a class="rd-nav-link" href="{{ route('cliente.carrito') }}">
@@ -111,6 +111,7 @@
     </form>
 @endsection
 @section('content')
+<input type="hidden" name="cliente_id" id="cliente_id" value="{{$cliente_id}}">
     <div id="contenido_principal">
         @if (!isset($pasteles))
             <h1>No se ha ingresado productos</h1>
@@ -210,6 +211,7 @@
                     <h2 class="txt_total">Total</h2>
                     <p class="col" id="total">
                         ${{ $total_pago }} </p>
+                    <input type="hidden" name="valor_total" id="valor_total" value="{{$total_pago}}">
                     <div class="tabla_info">
                         <div class="fila">
                             <label class="col" for="fecha_entrega">Fecha de entrega:</label>

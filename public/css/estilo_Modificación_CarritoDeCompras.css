@@ -1044,3 +1044,9 @@ footer {
 .txt_total{
     font-size: 40px;
 }
+
+#fin_pedido:hover{
+    cursor: pointer !important;
+    color: rgba(0, 0, 0, 0.521) !important;
+    transition: 0.4s !important;
+}

@@ -18,13 +18,18 @@ class ComprobanteController extends Controller
 {
     public function insert(Request $request)
     {
+        $updateFields = $request->all();
         // Create a new Comprobante using the request data
-        $comprobante = Comprobante::create($request->all());
+        $comprobante = Comprobante::create($updateFields);
         $pedido_id = $comprobante->pedido_id;
         $pedido_search = new Pedido();
         $pedido = $pedido_search->getPedidoById($pedido_id);
         $pedido->pedido_confirmado = true;
         $pedido->save();
+
+        $cliente_search = new Cliente();
+        $cliente = $cliente_search->getClienteById($request->cliente_id);
+        $cliente->update($updateFields);
         return response()->json($comprobante);
     }
     public function send(Request $request)
@@ -42,7 +47,6 @@ class ComprobanteController extends Controller
         }
         Storage::disk('local')->put($filePath, $pdfDecoded);
         if (!Storage::disk('local')->exists($filePath)) {
-            // Log an error or handle the situation if the file wasn't created
             Log::error("Failed to create PDF file: " . $filePath);
             return response()->json(['error' => 'Failed to create PDF file'], 500);
         }        
@@ -56,17 +60,25 @@ class ComprobanteController extends Controller
         $client->setAuthConfig(storage_path('app/google-credentials.json'));
         $client->setScopes(['https://www.googleapis.com/auth/gmail.send']);
 
-        $jsonString = Storage::disk('local')->get('google-credentials.json');
-        $jsonArray = json_decode($jsonString, true);
-        $refreshToken = $jsonArray['installed']['refresh_token'];
-        $client->refreshToken($refreshToken);
+        try {
+            $jsonString = Storage::disk('local')->get('google-credentials.json');
+            $jsonArray = json_decode($jsonString, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception("Invalid JSON format in credentials.");
+            }
+            $refreshToken = $jsonArray['installed']['refresh_token'];
+            $client->refreshToken($refreshToken);
+        } catch (\Exception $e) {
+            Log::error("JSON Parsing Exception: " . $e->getMessage());
+            return response()->json(['error' => 'Invalid JSON format in credentials.'], 500);
+        }
 
         $service = new Gmail($client);
 
+        // Email content setup
         $texto1 = "Comprobante de venta";
-        $texto2 = "Hemos recibido una solicitud...";
-        $texto3 = "Si no has solicitado este código...";
-
+        $texto2 = "¡Gracias por elegir Pastelería Pankey para endulzar tus momentos especiales! Nos complace confirmar que tu compra ha sido procesada exitosamente. Apreciamos tu preferencia y estamos emocionados de ser parte de tus celebraciones.";
+        $texto3 = "Adjunto a este correo, encontrarás el comprobante de venta generado por tu reciente compra en nuestra página web. Por favor, revisa el adjunto para ver todos los detalles de tu transacción. Si tienes alguna pregunta o necesitas asistencia adicional, no dudes en contactarnos al 0988363503 o enviarnos un correo electrónico a pankey.ibarra@gmail.com. Estamos aquí para asegurarnos de que tu experiencia con Pastelería Pankey sea lo más placentera posible. Esperamos que disfrutes de tus pasteles tanto como nosotros disfrutamos preparándolos para ti. ¡Gracias por confiar en nosotros!";
         $htmlContent = $this->composeEmailHtmlContent($texto1, $texto2, $texto3);
         $subject = 'Comprobante de venta';
         $email_receiver = $cliente->email;
@@ -88,7 +100,8 @@ class ComprobanteController extends Controller
     
         // You may choose to return a more generic error message to the client
         return response()->json([
-            'error' => 'An error occurred while processing your request. Please try again later.'
+            'error' => 'An error occurred while processing your request. Please try again later.',
+            'details' => $e->getMessage()
         ], 500);
     }
     

@@ -13,23 +13,32 @@ class Pastel extends Model
     public $timestamps = false;
     use HasFactory;
     protected $fillable = [
-        'pastel_id',                     
-        'tamanos_formas_id',    
-        'tipo_id',              
-        'relleno_id',           
-        'cobertura_id',         
-        'sabores_id',                  
-        'precio',               
+        'pastel_id',
+        'tamanos_formas_id',
+        'tipo_id',
+        'relleno_id',
+        'cobertura_id',
+        'sabores_id',
+        'precio',
         'img',
-        'categoria_id'        
+        'categoria_id'
     ];
-
+    /**
+     * Get the last ID of the "pastel" table.
+     *
+     * @return int The last pastel_id.
+     */
+    public static function getLastId()
+    {
+        $lastRecord = self::orderBy('pastel_id', 'desc')->first();
+        return $lastRecord ? $lastRecord->pastel_id : 0;
+    }
     // Este es el método que permite obtener un pastel por su imagen
     public function getPastelByImg($img)
     {
         // Usas el método where para filtrar los pasteles por la columna img
         // y usas el método first para obtener el primero que cumpla la condición
-        
+
         $pastel = Pastel::where('img', $img)->first();
 
         // Devuelves el pastel encontrado o null si no hay ninguno
@@ -39,7 +48,7 @@ class Pastel extends Model
     {
         // Usas el método where para filtrar los pasteles por la columna img
         // y usas el método first para obtener el primero que cumpla la condición
-        
+
         $pastel = Pastel::where('pastel_id', $pastel_id)->first();
 
         // Devuelves el pastel encontrado o null si no hay ninguno
@@ -58,49 +67,49 @@ class Pastel extends Model
     }
     // Este es el método que permite obtener el número de porciones de un pastel
     public function getNumPorcionesPastel()
-    {      
-        $tamanos_formas_id=$this->tamanos_formas_id;
+    {
+        $tamanos_formas_id = $this->tamanos_formas_id;
         $tamano_forma = Tamano_Forma::where('tamanos_formas_id', $tamanos_formas_id)->first();
-        $num_porciones=$tamano_forma->num_porciones;
+        $num_porciones = $tamano_forma->num_porciones;
         return $num_porciones;
     }
     // Este es el método que permite obtener el nombre del tipo de un pastel
     public function getTipoPastel()
-    {      
-        $tipo_id=$this->tipo_id;
+    {
+        $tipo_id = $this->tipo_id;
         $tipo = TipoPastel::where('tipo_id', $tipo_id)->first();
-        $nombre_tipo=$tipo->tipo_descripcion;
+        $nombre_tipo = $tipo->tipo_descripcion;
         return $nombre_tipo;
     }
     // Este es el método que permite obtener el nombre de la cobertura de un pastel
     public function getCoberturaPastel()
-    {      
-        $cobertura_id=$this->cobertura_id;
+    {
+        $cobertura_id = $this->cobertura_id;
         $cobertura = Cobertura::where('cobertura_id', $cobertura_id)->first();
-        $nombre_cobertura=$cobertura->cobertura_descripcion;
+        $nombre_cobertura = $cobertura->cobertura_descripcion;
         return $nombre_cobertura;
     }
     public function getCategoriaPastel()
-    {      
-        $categoria_id=$this->categoria_id;
+    {
+        $categoria_id = $this->categoria_id;
         $categoria = Categoria::where('categoria_id', $categoria_id)->first();
-        $nombre_categoria=$categoria->categoria_descripcion;
+        $nombre_categoria = $categoria->categoria_descripcion;
         return $nombre_categoria;
     }
     // Este es el método que permite obtener el nombre del sabor de un pastel
     public function getSaborPastel()
-    {      
-        $sabores_id=$this->sabores_id;
+    {
+        $sabores_id = $this->sabores_id;
         $sabores = Sabor::where('sabores_id', $sabores_id)->first();
-        $nombre_sabor=$sabores->sabores_descripcion;
+        $nombre_sabor = $sabores->sabores_descripcion;
         return $nombre_sabor;
     }
     // Este es el método que permite obtener el nombre del sabor de un pastel
     public function getRellenoPastel()
-    {      
-        $relleno_id=$this->relleno_id;
+    {
+        $relleno_id = $this->relleno_id;
         $relleno = Relleno::where('relleno_id', $relleno_id)->first();
-        $nombre_relleno=$relleno->relleno_descripcion;
+        $nombre_relleno = $relleno->relleno_descripcion;
         return $nombre_relleno;
     }
     public function pedidos()

@@ -61,7 +61,7 @@
             <form action="{{ route('cliente.index') }}" method="GET">
                 @csrf
                 <input type="hidden" name="cerrar_sesion" value="true">
-                <button id="Salida">Salir</button>
+                <button class="boton" id="Salida">Salir</button>
             </form>
             @else
             <input type="button" value="Ingresar" id="Ingreso">
@@ -74,7 +74,6 @@
 <input type="hidden" name="pasteles" value="{{ json_encode(Session::get('pasteles')) }}" id="pasteles">
 <form action="{{ route('cliente.ingreso') }}" method="POST" id="Salto">
     @csrf
-    <input type="hidden" name="registro" value="false" id="registro">
 </form>
 @endsection
 @section('content')

@@ -1,0 +1,10 @@
+imagenAdicional: null
+
+imagenAdicional: 'DibujoImgEspecial'
+
+imagenAdicional: 'Adorno'
+
+Imagenes adicionales que van en especificacion_adicional:
+imagenAdicional: "Adicional"
+------------------------------
+php artisan make:model Especificacion_Adicional

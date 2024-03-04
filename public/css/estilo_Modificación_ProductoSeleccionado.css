@@ -249,10 +249,6 @@ p{
 #aumentar_cantidad {
     font-size: 25px;
 }
-button {
-    padding: 6px 0.5vw;
-    letter-spacing: 1.6px;
-}
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -389,7 +385,6 @@ input, #seccion_botones a, button {
 }
 input:hover:not(input[name='dedicatoria']),
 a:hover,
-button:hover,
 #Catalogo:hover .Btn_Catalogo {
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
@@ -397,10 +392,19 @@ button:hover,
 label,
 input:hover,
 a:hover,
-button:hover,
 #seccion_iconos img,
 h3:hover {
     cursor: pointer;
+}
+button:hover{
+    cursor: pointer;
+    color: #7c7c7c41 !important;
+    transition: 0.4s !important;
+}
+#btn_add_carrito:hover{
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.521) !important;
+    transition: 0.4s !important;
 }
 /*--------------------AGREGO---------------------*/
 
@@ -482,7 +486,6 @@ footer,
 label,
 input:hover,
 a:hover,
-button:hover,
 #seccion_iconos img,
 h3:hover {
     cursor: pointer;
@@ -531,7 +534,6 @@ h3 {
 
 input:hover:not(input[name='dedicatoria'], #cantidad),
 a:hover,
-button:hover,
 #Catalogo:hover .Btn_Catalogo {
     color: #7c7c7c41 !important;
     transition: 0.4s !important;

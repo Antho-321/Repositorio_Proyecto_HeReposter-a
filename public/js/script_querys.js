@@ -8,7 +8,7 @@ function Logout() {
 if (comprobante_enviado!=undefined&&comprobante_enviado!=null) {
   console.log(typeof comprobante_enviado);
   if (comprobante_enviado=="true") {
-    MostrarMensaje("Su comprobante de venta ha sido enviado a su correo, en caso de no encontrarlo puede solicitarlo poniéndose en contacto con nosotros.");
+    MostrarMensaje("Su comprobante de venta ha sido enviado a su correo electrónico, en caso de no encontrarlo puede solicitarlo poniéndose en contacto con nosotros.");
     localStorage.removeItem("comprobante_enviado");
   }
 }

@@ -1,6 +1,7 @@
 @extends('plantilla_cliente.new_plantilla')
 @section('token_adicional')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token1" content="{{ csrf_token() }}">
+    <meta name="csrf-token2" content="{{ csrf_token() }}">
 @endsection
 @section('estilo')
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
@@ -185,7 +186,7 @@
                 </tr>
                 <tr>
                     <td class="seccion_formDrop" colspan="2">       
-                        <div class="dropzone" id="formDrop">
+                        <div class="dropzone" id="formDrop1">
                             <input type="url" placeholder="Ingresar enlace" name="ingreso_enlace" class="para_enlace" id="enlace1"
                             onclick="quitarPlaceHolder(event)">
                             <input type="hidden" name="enlace" class="aux_IngresarEnlace">
