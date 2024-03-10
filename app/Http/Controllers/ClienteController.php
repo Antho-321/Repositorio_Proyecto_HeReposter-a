@@ -7,6 +7,7 @@ use App\Models\Cliente;
 use App\Models\Dibujo_Img_Especial;
 use App\Models\Adorno_Fondant;
 use App\Models\Especificacion_Adicional;
+use Nesk\Puphpeteer\Puppeteer;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -418,40 +419,27 @@ class ClienteController extends Controller
     }
     public function send(Request $request)
     {
+        ini_set('max_execution_time', '200');
         try {
-            // Get the file from the request
-            $file = $request->file('image');
+            // Execute the command and capture the output
+            $command = 'npm run cypress:run';
 
-            $imagenAdicional = $request->input('imagenAdicional');
-            $numAdicional = $request->input('numAdicional');
-            // Define the path where the file should be stored within the 'public' disk
-            $destinationPath = 'images/Productos';
-            switch ($imagenAdicional) {
-                case "DibujoImgEspecial":
-                    $id = Dibujo_Img_Especial::getLastId() + 1;
-                    break;
-                case "Adorno":
-                    $id = Adorno_Fondant::getLastId() + 1;
-                    break;
-                case "Adicional":
-                    $id = Especificacion_Adicional::getLastId() + $numAdicional;
-                    break;
-                default:
-                    $id = Pastel::getLastId() + 1;
-                    break;
-            }
-            $customName = $imagenAdicional . "_" . $id; // This should be dynamically generated or passed via the request as needed.
-            $fileExtension = $file->getClientOriginalExtension(); // Extract the original file extension
-            $fileName = $customName . '.' . $fileExtension; // Concatenate custom name with the original file extension
+            // Execute the command and capture the output
+            exec($command, $output, $return_var);
 
-            // Move the file to the public directory with the new name
-            $file->move(public_path($destinationPath), $fileName);
-
-            return response()->json(['success' => 'File uploaded successfully', 'path' => $destinationPath . '/' . $fileName, 'imagenAdicional' => $imagenAdicional]);
+            // Check if the command was successful
+            if ($return_var === 0) {
+                // The command was successful, process the output
+                $imageUrl = $output[0]; // Assuming the image URL is the first line of output
+                return response()->json(['url_encontrada' => $imageUrl]);
+            } 
+            return response()->json(['error' => $output]);
+            
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
+
     public function delete(Request $request)
     {
         $file_path = $request->input('ruta');

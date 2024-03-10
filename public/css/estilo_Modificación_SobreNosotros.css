@@ -530,6 +530,9 @@ footer {
     justify-content: initial;
 }
 }
+#DestacadoPrincipal>img{
+    border-radius: 10px !important;
+}
 @media screen and (max-width: 1013px) {
     #check2:checked+header #Catalogo>input, #check2:checked+header #seccion_botones>a {
         min-width: initial;

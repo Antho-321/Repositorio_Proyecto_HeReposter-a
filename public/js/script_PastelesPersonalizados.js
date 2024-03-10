@@ -1,23 +1,22 @@
 let formDrop1, formDrop2, formDrop4,
     dropzone1, dropzone2, dropzone4,
     ingreso_enlace1, ingreso_enlace2, ingreso_enlace4,
-    dzSize, dzProgress, previsualizacion, estilo_txtImgNoValida, estilo_noMasImg, elem_estImgNoValido, contenedor_preImg,
-    personalizacion, cantidadInput, cantidadInput2, texto_dedicatoria, cantidad_pasteles, seleccionables, div_elem,
-    contenido_opciones_tamaño, img_figura, img_adorno, inputs_radio, precio, contenedor_select, suma_formas, array_tipoPasteles, elems_masa,
-    tamaño1, tamaño2, tamaño3, tamaño4, tamaño5,
-    seccion_sabor, seccion_relleno, seccion_forma,
-    pregunta_mismo_tipo, pregunta_mismo_tamaño, pregunta_mismo_sabor, pregunta_mismo_relleno, pregunta_misma_cobertura, pregunta_imagenEspecífica,
-    diferente_tamaño, diferente_forma, diferente_tipo,
-    misma_forma, mismo_tamaño, misma_cobertura,
+    dzSize, dzProgress, previsualizacion, contenedor_preImg,
+    estilo_txtImgNoValida, estilo_noMasImg, elem_estImgNoValido, 
+    personalizacion, cantidadInput, cantidadInput2, texto_dedicatoria, seleccionables, div_elem, img_figura, img_adorno, isChromium,
     select_sabor, select_relleno, select_tamaño,
-    txtespAdicional, espAdicional3,
-    numImgEspAdd, tdEspAdd, childrenAdd,
-    mismo_relleno, forma, tamaño, tipo_pastel, contador, tipo_relleno_sabor, formas, sabores, posSaboresRellenos,
+    txtespAdicional, espAdicional3, tdEspAdd,
+    forma, tamaño, tipo_pastel, tipo_relleno_sabor, formas, sabores, posSaboresRellenos,
     ids_sabores, ids_rellenos, rellenos, formas_tamanos, sabor, cobertura, relleno, dibujo_imagen_especial, figura_fondant, adorno_fondant,
-    volumen, pos_relleno, tipos, precio_base_procesado, coberturas, volumen_con_cobertura, precio_cobertura, precio_relleno, aumento_precio_sabor,
+    volumen, pos_relleno, tipos, 
+    precio, precio_base_procesado, coberturas, volumen_con_cobertura, precio_cobertura, precio_relleno, aumento_precio_sabor,
     volumen_relleno, forma_tamano, precio_final, posicion_tipo, posicion_sabor, tamanos, posicion_tamano, precio_dibujo, precio_adornos_fondant,
     precio_element, enlace_img_principal, enlace_img_adorno_fondant, enlace_img_dibujo, enlaces_img_adicionales, numImgEspAdic, numAdicional, arr_paths,
-    especificacion_adicional;
+    especificacion_adicional, archivos_aceptados,
+    contenedor_select, suma_formas, seccion_forma, elems_masa,
+    misma_forma, mismo_tamaño, misma_cobertura, mismo_relleno, diferente_forma, diferente_tamaño, diferente_tipo,
+    pregunta_mismo_tipo, pregunta_mismo_tamaño, pregunta_mismo_sabor, pregunta_mismo_relleno, pregunta_misma_cobertura, pregunta_imagenEspecífica,
+    comparacion1, comparacion2;
 formas_tamanos = JSON.parse(document.getElementById("formas_tamanos").value);
 tipos = JSON.parse(document.getElementById("tipos").value)
 sabores = JSON.parse(document.getElementById("sabores").value);
@@ -26,12 +25,13 @@ coberturas = JSON.parse(document.getElementById("coberturas").value);
 formas = JSON.parse(document.getElementById("formas").value);
 tamanos = JSON.parse(document.getElementById("tamanos").value);
 tipo_relleno_sabor = JSON.parse(document.getElementById("tipo_relleno_sabor").value);
+isChromium = !!window.chrome;
 numImgEspAdic = 4;
-contador = 0;
 aumento_precio_sabor = 0;
 precio_dibujo = 0;
 precio_adornos_fondant = 0;
 numAdicional = 0;
+archivos_aceptados=0;
 volumen = 970.2234539;
 forma = "Redonda";
 tamaño = "Mini";
@@ -42,7 +42,7 @@ relleno = "Mermelada";
 dibujo_imagen_especial = null;
 figura_fondant = null;
 adorno_fondant = null;
-array_tipoPasteles = [];
+texto_dedicatoria=null;
 arr_paths = [];
 personalizacion = document.getElementById("personalizacion");
 ingreso_enlace1 = document.getElementById("enlace1");
@@ -85,7 +85,9 @@ document.addEventListener('DOMContentLoaded', function () { resetearDivElem(); r
 Dropzone.autoDiscover = false;
 formDrop1 = configurarDropZone(ingreso_enlace1, "");
 dropzone1 = new Dropzone("div#formDrop1", formDrop1);
-setupDropzoneEventHandling(dropzone1);
+if (!isChromium) {
+    setupDropzoneEventHandling(dropzone1);
+}
 ingreso_enlace1.addEventListener('input', () => {
     validaciónIngresoEnlace(ingreso_enlace1, dropzone1);
 });
@@ -392,7 +394,9 @@ function opcionSel(event) {
             ingreso_enlace2 = document.getElementById("enlace2");
             formDrop2 = configurarDropZone(ingreso_enlace2, "DibujoImgEspecial");
             dropzone2 = new Dropzone("div#formDrop2", formDrop2);
-            setupDropzoneEventHandling(dropzone2);
+            if (!isChromium) {
+                setupDropzoneEventHandling(dropzone2);
+            }
             ingreso_enlace2.addEventListener('input', () => {
                 validaciónIngresoEnlace(ingreso_enlace2, dropzone2, "DibujoImgEspecial");
             });
@@ -506,7 +510,9 @@ function seccionAdorno(event) {
     ingreso_enlace4 = document.getElementById("enlace4");
     formDrop4 = configurarDropZone(ingreso_enlace4, "Adorno");
     dropzone4 = new Dropzone("div#formDrop4", formDrop4);
-    setupDropzoneEventHandling(dropzone4);
+    if (!isChromium) {
+        setupDropzoneEventHandling(dropzone4);
+    }
     ingreso_enlace4.addEventListener('input', () => {
         validaciónIngresoEnlace(ingreso_enlace4, dropzone4, "Adorno");
     });
@@ -673,11 +679,9 @@ function roundTo(num, decimals) {
     return Math.round(num * factor) / factor;
 }
 function roundToNearestHalf(num) {
-    // Calculate the whole number part and the decimal part of the input
     const wholePart = Math.floor(num);
     const decimalPart = num - wholePart;
 
-    // Determine the rounding based on the decimal part
     if (decimalPart < 0.5) {
         return decimalPart < 0.04 ? wholePart : wholePart + 0.5;
     } else {
@@ -705,21 +709,22 @@ function calcularCambiarPrecio() {
         posicion_relleno = 4;
     }
 
-    console.log("Forma: " + forma);
-    console.log("Tamaño: " + tamaño);
-    console.log("Tipo de pastel: " + tipo_pastel);
-    console.log("Sabor: " + sabor);
-    console.log("Cobertura: " + cobertura);
-    console.log("Relleno: " + relleno);
-    console.log("Figura en fondant: " + figura_fondant);
-    console.log("Adorno en fondant: " + adorno_fondant);
-    console.log("Dibujo / Imagen especial: " + dibujo_imagen_especial);
-    console.log("Enlace de la imagen principal: " + enlace_img_principal);
-    console.log("Enlace de dibujo: " + enlace_img_dibujo);
-    console.log("Enlace de adorno en fondant: " + enlace_img_adorno_fondant);
-    console.log("Enlaces de las imagenes de la especificación adicional: " + arr_paths);
-    console.log("Especificación adicional: "+especificacion_adicional);
-    console.log("");
+    // console.log("Forma: " + forma);
+    // console.log("Tamaño: " + tamaño);
+    // console.log("Tipo de pastel: " + tipo_pastel);
+    // console.log("Sabor: " + sabor);
+    // console.log("Cobertura: " + cobertura);
+    // console.log("Relleno: " + relleno);
+    // console.log("Figura en fondant: " + figura_fondant);
+    // console.log("Adorno en fondant: " + adorno_fondant);
+    // console.log("Dibujo / Imagen especial: " + dibujo_imagen_especial);
+    // console.log("Enlace de la imagen principal: " + enlace_img_principal);
+    // console.log("Enlace de dibujo: " + enlace_img_dibujo);
+    // console.log("Enlace de adorno en fondant: " + enlace_img_adorno_fondant);
+    // console.log("Enlaces de las imagenes de la especificación adicional: " + arr_paths);
+    // console.log("Especificación adicional: "+especificacion_adicional);
+    // console.log("Dedicatoria: "+texto_dedicatoria);
+    // console.log("");
 
     if (formas_tamanos[forma_tamano].longitud2 == null) {
         volumen = Math.PI * parseFloat(formas_tamanos[forma_tamano].longitud1) * parseFloat(formas_tamanos[forma_tamano].longitud1) * parseFloat(formas_tamanos[forma_tamano].altura);
@@ -874,8 +879,11 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
                 }
                 document.head.appendChild(estilo_noMasImg);
             });
+            this.on("success", function (_file, _response) {
+                archivos_aceptados++;
+                ingreso_enlace.style = "display: none";
+            });
             this.on("addedfile", function (file) {
-                contador++;
                 let dz_images = document.getElementsByClassName("dz-image");
                 contenedor_preImg = file.previewElement.getElementsByClassName("dz-image")[0];
                 dzSize = file.previewElement.getElementsByClassName("dz-size")[0];
@@ -889,10 +897,8 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
                 dzProgress.style = "display: none;";
                 dzSize.style = "display: none;";
                 dzSize.parentElement.style = "z-index: 1;";
-                if (imagenAdicional == "" && contador == 1) {
-                    if (this.options.maxFiles == 1) {
-                        AgregarMásContenido();
-                    }
+                if (imagenAdicional == "" && archivos_aceptados==0) {
+                    AgregarMásContenido();
                 }
                 if (file.enlace != undefined) {
                     if (!file.enlace.includes("http")) {
@@ -909,10 +915,8 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
                     }
                 }
             });
-            this.on("success", function (_file, _response) {
-                ingreso_enlace.style = "display: none";
-            });
             this.on("complete", function (file) {
+                comparacion1=previsualizacion.src;
                 uploadBase64Image(previsualizacion.src, imagenAdicional, numAdicional);
                 if (previsualizacion.src.includes("http") || previsualizacion.src.includes("data:image")) {
                     this.options.maxFiles = 0;
@@ -922,7 +926,16 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
                         document.getElementsByClassName("aux_IngresarEnlace")[0].value = file.name;
                     }
                 }
-            });
+            }); 
+            this.on("error", function(file, response) {
+                if (response!="You can not upload any more files.") {
+                    this.removeFile(file);
+                    alert("Archivo no válido");
+                    if (archivos_aceptados==0) {
+                        RemoverContenidoAgregado();
+                    }
+                }
+            });            
         },
         renameFile: function (file) {
             let str1 = file.name;
@@ -931,8 +944,10 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
         }
     }
 }
-function base64ToBlob(base64, mimeType) {
-    let byteString = atob(base64.split(',')[1]);
+function base64ToBlob(base64) {
+    let parts = base64.split(',');
+    let mimeType = parts[0].split(':')[1].split(';')[0];
+    let byteString = atob(parts[1]);
     let arrayBuffer = new ArrayBuffer(byteString.length);
     let uint8Array = new Uint8Array(arrayBuffer);
     for (let i = 0; i < byteString.length; i++) {
@@ -941,14 +956,35 @@ function base64ToBlob(base64, mimeType) {
     let blob = new Blob([arrayBuffer], { type: mimeType });
     return blob;
 }
+function getExtension(base64){
+    let parts = base64.split(',');
+    let mimeType = parts[0].split(':')[1].split(';')[0];
+
+    let mimeToExt = {
+        "image/jpeg": ".jpg",
+        "image/png": ".png",
+        "image/gif": ".gif",
+        "image/webp": ".webp",
+        "image/tiff": ".tiff",
+        "image/bmp": ".bmp",
+        "image/svg+xml": ".svg",
+        // add more mappings as needed
+    };
+
+    return mimeToExt[mimeType];
+}
 
 function uploadBase64Image(base64ImageData, imagenAdicional, numAdicional) {
     let csrfToken = document.querySelector('meta[name="csrf-token2"]').getAttribute('content');
     const uploadUrl = '/img/send';
-    let imageBlob = base64ToBlob(base64ImageData, 'image/jpeg');
+    try {
+        var imageBlob = base64ToBlob(base64ImageData);
+    } catch (error) {
+        return;
+    }
     let formData = new FormData();
 
-    formData.append('image', imageBlob, "image.jpg");
+    formData.append('image', imageBlob, "image"+getExtension(base64ImageData));
     formData.append('imagenAdicional', imagenAdicional);
     formData.append('numAdicional', numAdicional);
 
@@ -959,26 +995,18 @@ function uploadBase64Image(base64ImageData, imagenAdicional, numAdicional) {
         },
         body: formData
     })
-        .then(response => response.json())
-        .then(data => {
-            switch (data.imagenAdicional) {
-                case "Adicional":
-                    arr_paths.push(data.path);
-                    break;
-                case "DibujoImgEspecial":
-                    enlace_img_dibujo = data.path;
-                    break;
-                case "Adorno":
-                    enlace_img_adorno_fondant = data.path;
-                    break;
-                case null:
-                    enlace_img_principal = data.path;
-                    break;
-            }
-        })
-        .catch((error) => {
-            console.error('Error uploading image:', error);
-        });
+    .then(response => {
+        let responseClone = response.clone();
+        responseClone.text().then(text => console.log(text));
+        return response.json();
+    })
+    .then(data => {
+        comparacion2=data.error;
+        console.log(data);
+    })
+    .catch((error) => {
+        console.error('Error al procesar la respuesta:', error);
+    });
 }
 
 function deleteLastImage(ruta) {
@@ -1083,6 +1111,12 @@ function setupDropzoneEventHandling(dropzone) {
         dropzone.files.push(mockFile);
     }
 }
+function RemoverContenidoAgregado() {
+    let childElements=personalizacion.firstElementChild.children;
+    while (childElements[2]!=null&&childElements[2]!=undefined) {
+        childElements[2].remove();
+    }
+}
 function AgregarMásContenido() {
     personalizacion.firstElementChild.insertAdjacentHTML("beforeend", `            
                   <tr>
@@ -1114,6 +1148,13 @@ function AgregarMásContenido() {
     select_relleno = document.getElementById("opciones_relleno");
     precio_element = document.getElementById("precio");
     document.getElementById("descrAdicional").addEventListener("input", ingresoEspAdicional);
+    document.querySelector("#cuadros_dedicatoria>input").addEventListener("input",function(event){
+        if (event.target.value=="") {
+            texto_dedicatoria=null;
+        }else{
+            texto_dedicatoria=event.target.value;
+        }
+    });
 }
 function contenidoUnPastel() {
     return `
@@ -1441,11 +1482,6 @@ function imgNoValida(archivo, file, ingreso_enlace) {
         `);
         document.head.appendChild(estilo_txtImgNoValida);
     }
-    if (archivo == "archivo") {
-        let hijos = file.previewElement.parentElement.children;
-        hijos[hijos.length - 2].firstChild.lastChild.innerHTML = `<p class="txtImgNoValida">Archivo de imagen no válido</p>`;
-    }
-
 }
 function añadirDropAdd() {
     numImgEspAdic++;
@@ -1467,7 +1503,6 @@ function añadirDropAdd() {
     let enlaceAdd = document.getElementsByClassName("enlaceAdd")[enlacesAdd.length - 1];
     let dropzoneElementId = "div#formDrop" + numImgEspAdic;
 
-    // Check if Dropzone is already initialized on this element
     if (!document.querySelector(dropzoneElementId).classList.contains('dz-clickable')) {
         var formDropAddConfig = configurarDropZone(enlaceAdd, "Adicional");
         var dropzoneOptions = {
@@ -1476,7 +1511,9 @@ function añadirDropAdd() {
         };
 
         var dropzoneAdd = new Dropzone("div#formDrop" + numImgEspAdic, dropzoneOptions);
-        setupDropzoneEventHandling(dropzoneAdd);
+        if (!isChromium) {
+            setupDropzoneEventHandling(dropzoneAdd);
+        }
     }
 
     enlaceAdd.addEventListener('input', () => {

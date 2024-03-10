@@ -130,7 +130,7 @@
 <!-- What We Offer-->
 <section class="section section-md bg-default">
     <div class="container">
-        <h3 class="oh-desktop"><span class="d-inline-block wow slideInDown">Productos destacados</span></h3>
+        <h3 class="oh-desktop"><span class="d-inline-block wow slideInDown">Productos destacados</span><p id="txt_sel_img">Selecciona una imagen</p></h3>
         <form action="{{ route('cliente.pastel_seleccionado') }}" method="POST" id="seccion_productos">
             @csrf
             <input type="hidden" name="img" id="enlace_pastel">

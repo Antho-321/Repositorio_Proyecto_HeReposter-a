@@ -823,8 +823,10 @@ input[name='dedicatoria']{
     border-radius: 10px;
 }
 .dropzone {
-    border: 1px solid rgba(0, 0, 0, 0.658) !important;
+    border: 1px solid rgba(0, 0, 0, 0.568) !important;
     border-radius: 22px;
+    width: 222px; 
+    height: 200px;
 }
 @media screen and (max-width: 1054px) {
     #check2:checked+header #Contenido_Cabecera,
