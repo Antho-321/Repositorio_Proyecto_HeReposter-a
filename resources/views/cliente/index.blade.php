@@ -1,4 +1,7 @@
 @extends('plantilla_cliente.new_plantilla')
+@section('token_adicional')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
 @section('estilo')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_Index.css') }}" id="estilo">
 @endsection

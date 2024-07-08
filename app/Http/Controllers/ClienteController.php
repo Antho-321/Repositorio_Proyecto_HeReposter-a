@@ -8,6 +8,7 @@ use App\Models\Dibujo_Img_Especial;
 use App\Models\Adorno_Fondant;
 use App\Models\Especificacion_Adicional;
 use Nesk\Puphpeteer\Puppeteer;
+use Illuminate\Support\Facades\Route;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -419,25 +420,29 @@ class ClienteController extends Controller
     }
     public function send(Request $request)
     {
-        ini_set('max_execution_time', '200');
         try {
             // Execute the command and capture the output
             $command = 'npm run cypress:run';
 
-            // Execute the command and capture the output
-            exec($command, $output, $return_var);
+            // Execute the command and store the output in $output
+            exec($command, $output);
 
-            // Check if the command was successful
-            if ($return_var === 0) {
-                // The command was successful, process the output
-                $imageUrl = $output[0]; // Assuming the image URL is the first line of output
-                return response()->json(['url_encontrada' => $imageUrl]);
-            } 
-            return response()->json(['error' => $output]);
-            
+            // Convert the output array to a string
+            $output_string = implode("\n", $output);
+
+            return response()->json(['resultado' => $output_string]);
+
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
+    }
+    public function get_upload_image(Request $request)
+    {
+        // $spanText = $request->input('spanText');
+        // $pastel = new Pastel();
+        // $pastel->img = $spanText;
+        // $pastel->save();
+        return response()->json(['received' => true]);
     }
 
     public function delete(Request $request)
