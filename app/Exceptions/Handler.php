@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -26,5 +27,23 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+    public function report(Throwable $exception)
+    {
+        $context = [
+            'url' => request()->fullUrl(),
+            'method' => request()->method(),
+            'inputs' => request()->all(),
+            'user' => auth()->user() ? auth()->user()->id : 'guest',
+        ];
+
+        Log::error($exception->getMessage(), array_merge($context, [
+            'exception' => get_class($exception),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+            'trace' => $exception->getTraceAsString(),
+        ]));
+
+        parent::report($exception);
     }
 }

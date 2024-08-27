@@ -983,11 +983,11 @@ function uploadBase64Image(base64ImageData, imagenAdicional, numAdicional) {
         return;
     }
     let formData = new FormData();
-
+    
     formData.append('image', imageBlob, "image"+getExtension(base64ImageData));
     formData.append('imagenAdicional', imagenAdicional);
     formData.append('numAdicional', numAdicional);
-
+    
     fetch(uploadUrl, {
         method: 'POST',
         headers: {
@@ -998,10 +998,14 @@ function uploadBase64Image(base64ImageData, imagenAdicional, numAdicional) {
     .then(response => {
         let responseClone = response.clone();
         responseClone.text().then(text => console.log(text));
-        return response.json();
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(response.json());
+            }, 3000);  // 3000 milliseconds = 3 seconds
+        });
     })
     .then(data => {
-        comparacion2=data.error;
+        comparacion2 = data.error;
         console.log(data);
     })
     .catch((error) => {

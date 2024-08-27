@@ -19,6 +19,9 @@ use Google\Client;
 use Google\Service\Gmail;
 use Google\Service\Gmail\Message;
 
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+
 class ClienteController extends Controller
 {
     /**
@@ -412,30 +415,90 @@ class ClienteController extends Controller
     }
     public function pastelPersonalizado()
     {
-
+        
     }
     public function uploadPastelPersonalizado(Request $request)
     {
         // Handle the file upload logic here
     }
     public function send(Request $request)
-    {
-        try {
-            // Execute the command and capture the output
-            $command = 'npm run cypress:run';
+{
+    try {
+        // Create the process
+        $process = new Process(['C:\PROGRA~1\nodejs\npm.cmd', 'run', 'cypress:run']);
+        $process->setWorkingDirectory(base_path()); // Set the working directory to your project root
+        $process->setTimeout(300); // Set a timeout (in seconds)
 
-            // Execute the command and store the output in $output
-            exec($command, $output);
+        // Output debugging information
+        Log::info('Starting Cypress process');
+        Log::info('Command: ' . $process->getCommandLine());
 
-            // Convert the output array to a string
-            $output_string = implode("\n", $output);
+        // Run the process
+        $process->run(function ($type, $buffer) {
+            if (Process::ERR === $type) {
+                Log::error('Cypress Error: ' . $buffer);
+            } else {
+                Log::info('Cypress Output: ' . $buffer);
+            }
+        });
 
-            return response()->json(['resultado' => $output_string]);
-
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+        // Check if the process was successful
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
         }
+
+        Log::info('Cypress process completed successfully');
+        Log::info('Exit Code: ' . $process->getExitCode());
+        Log::info('Exit Code Text: ' . $process->getExitCodeText());
+        Log::info('Full Output: ' . $process->getOutput());
+        Log::info('Error Output: ' . $process->getErrorOutput());
+
+        // Wait for 2 seconds
+        sleep(2);
+
+        // Read the image link from the file
+        $imageLinkFile = base_path('cypress/imageLink.txt');
+        if (file_exists($imageLinkFile)) {
+            $imageLink = trim(file_get_contents($imageLinkFile));
+            // Delete the file after reading
+            unlink($imageLinkFile);
+            
+            if (empty($imageLink)) {
+                Log::warning('No image link found in file');
+                return response()->json(['error' => 'No image link found'], 400);
+            }
+            
+            Log::info('Image link retrieved successfully: ' . $imageLink);
+            return response()->json(['resultado' => $imageLink]);
+        } else {
+            Log::warning('Image link file not found');
+            return response()->json(['error' => 'Image link file not found'], 400);
+        }
+    } catch (\Exception $e) {
+        $errorDetails = [
+            'message' => $e->getMessage(),
+            'code' => $e->getCode(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => $e->getTraceAsString(),
+        ];
+
+        // If it's a Process exception, add more details
+        if ($e instanceof ProcessFailedException) {
+            $errorDetails['command'] = $e->getProcess()->getCommandLine();
+            $errorDetails['output'] = $e->getProcess()->getOutput();
+            $errorDetails['errorOutput'] = $e->getProcess()->getErrorOutput();
+        }
+
+        // Log the error
+        Log::error('Error in send method', $errorDetails);
+
+        return response()->json([
+            'error' => 'An error occurred',
+            'details' => $errorDetails
+        ], 500);
     }
+}
     public function get_upload_image(Request $request)
     {
         // $spanText = $request->input('spanText');

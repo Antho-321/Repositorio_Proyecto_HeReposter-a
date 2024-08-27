@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `db_pankey`
+-- Base de datos: `if0_37179433_db_pankey`
 --
 
 -- --------------------------------------------------------
@@ -245,7 +245,7 @@ INSERT INTO `pastel` (`pastel_id`, `tamanos_formas_id`, `tipo_id`, `relleno_id`,
 CREATE TABLE `pedido` (
   `pedido_id` int(11) NOT NULL,
   `cliente_id` int(11) DEFAULT NULL,
-  `fecha_pedido` date DEFAULT current_timestamp(),
+  `fecha_pedido` date DEFAULT (CURRENT_DATE),
   `pedido_confirmado` tinyint(1) DEFAULT 0,
   `dibujo_img_especial_id` int(11) DEFAULT NULL,
   `adorno_fondant_id` int(11) DEFAULT NULL,
