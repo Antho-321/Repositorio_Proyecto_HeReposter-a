@@ -10,6 +10,7 @@ use App\Http\Controllers\ComprobanteController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AdministradorController;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -28,7 +29,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 Route::resource('cliente', ClienteController::class);
 Route::resource('detalles_pedido', DetallesPedidoController::class);
 
-Route::post('/image_upload',[ClienteController::class, 'get_upload_image']);
+Route::post('/image_upload', [ClienteController::class, 'get_upload_image']);
 Route::post('/img/send', [ClienteController::class, 'send']);
 
 Route::post('/comprobante/insert', [ComprobanteController::class, 'insert']);
@@ -40,68 +41,11 @@ Route::post('/consulta-pastel-personalizado', [ClienteController::class, 'upload
 // Existing GET route for page retrieval
 Route::get('/consulta-pastel-personalizado', [ClienteController::class, 'pastelPersonalizado'])->name('cliente.consulta_pastel_personalizado');
 
-Route::get('/test-npm', function () {
-    set_time_limit(300);
-    Log::info("Starting npm version check");
-
-    // Log current working directory and PATH
-    Log::info("Current working directory: " . getcwd());
-    Log::info("Current PATH: " . getenv("PATH"));
-
-    // Set and log updated PATH environment variable
-    putenv("PATH=" . getenv("PATH") . ";C:\Program Files\nodejs");
-    Log::info("Updated PATH: " . getenv("PATH"));
-
-    // Use full path to npm
-    $command = ['C:\Program Files\nodejs\node.exe', '-e', "console.log(require('child_process').execSync('npm --version').toString().trim())"];
-    $process = new Process($command);
-    $process->setWorkingDirectory(base_path());
-
-    // Log process details before execution
-    Log::info("Command to be executed: " . implode(' ', $command));
-    Log::info("Working directory set to: " . $process->getWorkingDirectory());
-
-    try {
-        // Enable output streaming
-        $process->enableOutput();
-        $process->run(function ($type, $buffer) {
-            if (Process::ERR === $type) {
-                Log::error("Process Error: " . $buffer);
-            } else {
-                Log::info("Process Output: " . $buffer);
-            }
-        });
-
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
-
-        $output = $process->getOutput();
-        Log::info("npm version check completed");
-        Log::info("Output: " . $output);
-        return response($output);
-    } catch (ProcessFailedException $exception) {
-        Log::error("Failed to execute command: " . $exception->getMessage());
-        Log::error("Error Output: " . $process->getErrorOutput());
-        Log::error("Standard Output: " . $process->getOutput());
-        Log::error("Exit Code: " . $process->getExitCode());
-        Log::error("Working Directory: " . $process->getWorkingDirectory());
-
-        // Log file existence and permissions
-        $npmPath = 'C:\Program Files\nodejs\npm.cmd';
-        Log::error("npm.cmd exists: " . (file_exists($npmPath) ? 'Yes' : 'No'));
-        Log::error("npm.cmd is readable: " . (is_readable($npmPath) ? 'Yes' : 'No'));
-        Log::error("npm.cmd is executable: " . (is_executable($npmPath) ? 'Yes' : 'No'));
-
-        return response("Failed to execute npm command. Check logs for details.", 500);
-    }
-});
-
 Route::get('/detalles_pedido.update/{pastel}', [DetallesPedidoController::class, 'update'])->name('detalles_pedido.update');
 Route::get('/cliente.ingreso_carrito/{pastel}', [PedidoController::class, 'create'])->name('cliente.ingreso_carrito');
 Route::controller(ClienteController::class)->group(function () {
     Route::get('/', 'index')->name('home');
-    Route::post('/cliente/ingreso',  'ingreso')->name('cliente.ingreso');
+    Route::post('/cliente/ingreso', 'ingreso')->name('cliente.ingreso');
     Route::post('/cliente/pastel_seleccionado', 'pastel_seleccionado')->name('cliente.pastel_seleccionado');
     Route::get('/cliente.sobre_nosotros', 'show')->name('cliente.sobre_nosotros');
     Route::get('/cliente.pasteles_personalizados', 'pasteles_personalizados')->name('cliente.pasteles_personalizados');
@@ -111,7 +55,7 @@ Route::controller(ClienteController::class)->group(function () {
 
 Route::get('/InicioAdministración', function () {
     $datos = DB::select("select * from clientes");
-        return view("/administrador/clientes")->with("datos", $datos);
+    return view("/administrador/clientes")->with("datos", $datos);
 });
 Route::view('/ingreso_producto', 'ingreso_producto');
 Route::get('actualizar_producto', function () {
@@ -153,11 +97,11 @@ Route::get("/vendedor_tbl_productos", [VendedorController::class, "ver_productos
 Route::get("/vendedor_tbl_comprobante_venta", [VendedorController::class, "ver_comprobante_venta"])->name("vendedor_tbl_comprobante_venta");
 Route::post("/vendedor_registrar_comprobante_venta", [VendedorController::class, "ingresar_comprobante_venta"])->name("vendedor_registrar_comprobante_venta");
 
-Route::get("/auditor_tbl_auditoria",[AuditorController::class,"ver_auditoria"])->name("auditor_tbl_auditoria");
-Route::get("/auditor_tbl_cliente",[AuditorController::class,"ver_clientes"])->name("auditor_tbl_clientes");
-Route::get("/auditor_tbl_pedido",[AuditorController::class,"ver_pedido"])->name("auditor_tbl_pedido");
-Route::get("/auditor_tbl_detalles_pedido",[AuditorController::class,"ver_detalles_pedido"])->name("auditor_tbl_detalles_pedido");
-Route::get("/auditor_tbl_comprobante_venta",[AuditorController::class,"ver_comprobante_venta"])->name("auditor_tbl_comprobante_venta");
+Route::get("/auditor_tbl_auditoria", [AuditorController::class, "ver_auditoria"])->name("auditor_tbl_auditoria");
+Route::get("/auditor_tbl_cliente", [AuditorController::class, "ver_clientes"])->name("auditor_tbl_clientes");
+Route::get("/auditor_tbl_pedido", [AuditorController::class, "ver_pedido"])->name("auditor_tbl_pedido");
+Route::get("/auditor_tbl_detalles_pedido", [AuditorController::class, "ver_detalles_pedido"])->name("auditor_tbl_detalles_pedido");
+Route::get("/auditor_tbl_comprobante_venta", [AuditorController::class, "ver_comprobante_venta"])->name("auditor_tbl_comprobante_venta");
 
 
 // Rutas Administrador 
