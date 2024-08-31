@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Process\Process;
 
 class ServeMultiple extends Command
 {
@@ -11,25 +12,26 @@ class ServeMultiple extends Command
 
     public function handle()
     {
-        $server1Cmd = 'php artisan serve > /dev/null 2>&1 & echo $!';
-        $server2Cmd = 'php artisan serve --port=8001 > /dev/null 2>&1 & echo $!';
+        $server1Cmd = ['php', 'artisan', 'serve'];
+        $server2Cmd = ['php', '-d', 'display_errors=1', '-d', 'error_reporting=E_ALL', '-S', 'localhost:7000', base_path().'/cypress/router.php'];
 
-        exec($server1Cmd, $server1Output);
-        exec($server2Cmd, $server2Output);
+        $server1 = new Process($server1Cmd);
+        $server2 = new Process($server2Cmd);
 
-        $server1Pid = (int) $server1Output[0];
-        $server2Pid = (int) $server2Output[0];
+        $server1->start();
+        $server2->start();
 
-        $this->info('Servers started on http://localhost:8000 and http://localhost:8001');
+        $this->info('Servers started on http://localhost:8000 and http://localhost:7000');
+        // $this->info(public_path());
 
-        while (posix_getpgid($server1Pid) && posix_getpgid($server2Pid)) {
+        while ($server1->isRunning() && $server2->isRunning()) {
             sleep(1);
         }
 
         $this->error('One of the servers has stopped unexpectedly.');
 
-        // Cleanup: Kill remaining processes if they're still running
-        posix_kill($server1Pid, SIGTERM);
-        posix_kill($server2Pid, SIGTERM);
+        // Cleanup: Stop remaining processes if they're still running
+        $server1->stop();
+        $server2->stop();
     }
 }

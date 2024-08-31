@@ -1,14 +1,16 @@
+import { getTempUserIdentifier } from './funciones_reutilizables.js';
+
 let formDrop1, formDrop2, formDrop4,
     dropzone1, dropzone2, dropzone4,
     ingreso_enlace1, ingreso_enlace2, ingreso_enlace4,
     dzSize, dzProgress, previsualizacion, contenedor_preImg,
-    estilo_txtImgNoValida, estilo_noMasImg, elem_estImgNoValido, 
+    estilo_txtImgNoValida, estilo_noMasImg, elem_estImgNoValido,
     personalizacion, cantidadInput, cantidadInput2, texto_dedicatoria, seleccionables, div_elem, img_figura, img_adorno, isChromium,
     select_sabor, select_relleno, select_tamaño,
     txtespAdicional, espAdicional3, tdEspAdd,
     forma, tamaño, tipo_pastel, tipo_relleno_sabor, formas, sabores, posSaboresRellenos,
     ids_sabores, ids_rellenos, rellenos, formas_tamanos, sabor, cobertura, relleno, dibujo_imagen_especial, figura_fondant, adorno_fondant,
-    volumen, pos_relleno, tipos, 
+    volumen, pos_relleno, tipos,
     precio, precio_base_procesado, coberturas, volumen_con_cobertura, precio_cobertura, precio_relleno, aumento_precio_sabor,
     volumen_relleno, forma_tamano, precio_final, posicion_tipo, posicion_sabor, tamanos, posicion_tamano, precio_dibujo, precio_adornos_fondant,
     precio_element, enlace_img_principal, enlace_img_adorno_fondant, enlace_img_dibujo, enlaces_img_adicionales, numImgEspAdic, numAdicional, arr_paths,
@@ -16,7 +18,7 @@ let formDrop1, formDrop2, formDrop4,
     contenedor_select, suma_formas, seccion_forma, elems_masa,
     misma_forma, mismo_tamaño, misma_cobertura, mismo_relleno, diferente_forma, diferente_tamaño, diferente_tipo,
     pregunta_mismo_tipo, pregunta_mismo_tamaño, pregunta_mismo_sabor, pregunta_mismo_relleno, pregunta_misma_cobertura, pregunta_imagenEspecífica,
-    comparacion1, comparacion2;
+    comparacion1, comparacion2, idTempCliente, estilo_contenedorPreImg;
 formas_tamanos = JSON.parse(document.getElementById("formas_tamanos").value);
 tipos = JSON.parse(document.getElementById("tipos").value)
 sabores = JSON.parse(document.getElementById("sabores").value);
@@ -31,7 +33,7 @@ aumento_precio_sabor = 0;
 precio_dibujo = 0;
 precio_adornos_fondant = 0;
 numAdicional = 0;
-archivos_aceptados=0;
+archivos_aceptados = 0;
 volumen = 970.2234539;
 forma = "Redonda";
 tamaño = "Mini";
@@ -42,7 +44,7 @@ relleno = "Mermelada";
 dibujo_imagen_especial = null;
 figura_fondant = null;
 adorno_fondant = null;
-texto_dedicatoria=null;
+texto_dedicatoria = null;
 arr_paths = [];
 personalizacion = document.getElementById("personalizacion");
 ingreso_enlace1 = document.getElementById("enlace1");
@@ -53,6 +55,7 @@ select_tamaño = document.createElement("select");
 estilo_txtImgNoValida = document.createElement("style");
 estilo_noMasImg = document.createElement("style");
 estilo_contenedorPreImg = document.createElement("style");
+idTempCliente = getTempUserIdentifier();
 estilo_txtImgNoValida.id = "est_txtImgNoValida";
 estilo_contenedorPreImg.id = "est_contPreImg";
 estilo_contenedorPreImg.innerHTML = `
@@ -897,7 +900,7 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
                 dzProgress.style = "display: none;";
                 dzSize.style = "display: none;";
                 dzSize.parentElement.style = "z-index: 1;";
-                if (imagenAdicional == "" && archivos_aceptados==0) {
+                if (imagenAdicional == "" && archivos_aceptados == 0) {
                     AgregarMásContenido();
                 }
                 if (file.enlace != undefined) {
@@ -908,15 +911,15 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
                 if (imagenAdicional == "Adicional") {
                     numAdicional++;
                 }
-                let txts_enlace_invalido=document.getElementsByClassName("contenedorTxt");
-                if (txts_enlace_invalido!=null&&txts_enlace_invalido!=undefined) {
+                let txts_enlace_invalido = document.getElementsByClassName("contenedorTxt");
+                if (txts_enlace_invalido != null && txts_enlace_invalido != undefined) {
                     for (let i = 0; i < txts_enlace_invalido.length; i++) {
                         txts_enlace_invalido[i].remove();
                     }
                 }
             });
             this.on("complete", function (file) {
-                comparacion1=previsualizacion.src;
+                comparacion1 = previsualizacion.src;
                 uploadBase64Image(previsualizacion.src, imagenAdicional, numAdicional);
                 if (previsualizacion.src.includes("http") || previsualizacion.src.includes("data:image")) {
                     this.options.maxFiles = 0;
@@ -926,16 +929,16 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
                         document.getElementsByClassName("aux_IngresarEnlace")[0].value = file.name;
                     }
                 }
-            }); 
-            this.on("error", function(file, response) {
-                if (response!="You can not upload any more files.") {
+            });
+            this.on("error", function (file, response) {
+                if (response != "You can not upload any more files.") {
                     this.removeFile(file);
                     alert("Archivo no válido");
-                    if (archivos_aceptados==0) {
+                    if (archivos_aceptados == 0) {
                         RemoverContenidoAgregado();
                     }
                 }
-            });            
+            });
         },
         renameFile: function (file) {
             let str1 = file.name;
@@ -956,7 +959,7 @@ function base64ToBlob(base64) {
     let blob = new Blob([arrayBuffer], { type: mimeType });
     return blob;
 }
-function getExtension(base64){
+function getExtension(base64) {
     let parts = base64.split(',');
     let mimeType = parts[0].split(':')[1].split(';')[0];
 
@@ -983,11 +986,12 @@ function uploadBase64Image(base64ImageData, imagenAdicional, numAdicional) {
         return;
     }
     let formData = new FormData();
-    
-    formData.append('image', imageBlob, "image"+getExtension(base64ImageData));
+
+    formData.append('file', imageBlob, "image" + getExtension(base64ImageData));
     formData.append('imagenAdicional', imagenAdicional);
     formData.append('numAdicional', numAdicional);
-    
+    formData.append('idTempCliente', idTempCliente);
+
     fetch(uploadUrl, {
         method: 'POST',
         headers: {
@@ -995,22 +999,22 @@ function uploadBase64Image(base64ImageData, imagenAdicional, numAdicional) {
         },
         body: formData
     })
-    .then(response => {
-        let responseClone = response.clone();
-        responseClone.text().then(text => console.log(text));
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(response.json());
-            }, 3000);  // 3000 milliseconds = 3 seconds
+        .then(response => {
+            let responseClone = response.clone();
+            responseClone.text().then(text => console.log(text));
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(response.json());
+                }, 3000);  // 3000 milliseconds = 3 seconds
+            });
+        })
+        .then(data => {
+            comparacion2 = data.error;
+            console.log(data);
+        })
+        .catch((error) => {
+            console.error('Error al procesar la respuesta:', error);
         });
-    })
-    .then(data => {
-        comparacion2 = data.error;
-        console.log(data);
-    })
-    .catch((error) => {
-        console.error('Error al procesar la respuesta:', error);
-    });
 }
 
 function deleteLastImage(ruta) {
@@ -1116,8 +1120,8 @@ function setupDropzoneEventHandling(dropzone) {
     }
 }
 function RemoverContenidoAgregado() {
-    let childElements=personalizacion.firstElementChild.children;
-    while (childElements[2]!=null&&childElements[2]!=undefined) {
+    let childElements = personalizacion.firstElementChild.children;
+    while (childElements[2] != null && childElements[2] != undefined) {
         childElements[2].remove();
     }
 }
@@ -1152,11 +1156,11 @@ function AgregarMásContenido() {
     select_relleno = document.getElementById("opciones_relleno");
     precio_element = document.getElementById("precio");
     document.getElementById("descrAdicional").addEventListener("input", ingresoEspAdicional);
-    document.querySelector("#cuadros_dedicatoria>input").addEventListener("input",function(event){
-        if (event.target.value=="") {
-            texto_dedicatoria=null;
-        }else{
-            texto_dedicatoria=event.target.value;
+    document.querySelector("#cuadros_dedicatoria>input").addEventListener("input", function (event) {
+        if (event.target.value == "") {
+            texto_dedicatoria = null;
+        } else {
+            texto_dedicatoria = event.target.value;
         }
     });
 }
@@ -1534,7 +1538,7 @@ function quitarDropAdd() {
     }
     if (document.getElementById("cantidad").value < numAdicional) {
         numAdicional--;
-        let ultima_ruta=arr_paths[arr_paths.length - 1];
+        let ultima_ruta = arr_paths[arr_paths.length - 1];
         arr_paths.pop();
         if (!ultima_ruta.includes("http")) {
             deleteLastImage(ultima_ruta);

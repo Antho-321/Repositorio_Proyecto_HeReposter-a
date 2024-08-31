@@ -413,92 +413,72 @@ class ClienteController extends Controller
     {
         return view('cliente.carrito');
     }
-    public function pastelPersonalizado()
-    {
-        
-    }
+    public function pastelPersonalizado() {}
     public function uploadPastelPersonalizado(Request $request)
     {
         // Handle the file upload logic here
     }
     public function send(Request $request)
-{
-    try {
-        // Create the process
-        $process = new Process(['C:\PROGRA~1\nodejs\npm.cmd', 'run', 'cypress:run']);
-        $process->setWorkingDirectory(base_path()); // Set the working directory to your project root
-        $process->setTimeout(300); // Set a timeout (in seconds)
+    {
+        $response = ['success' => false, 'message' => '', 'details' => []];
 
-        // Output debugging information
-        Log::info('Starting Cypress process');
-        Log::info('Command: ' . $process->getCommandLine());
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $idTempCliente = $request->input('idTempCliente');
+            $uploadDir = base_path('cypress/cypress/fixtures');
+            $fileName = $idTempCliente . '_' . $file->getClientOriginalName();
+            $uploadFile = $uploadDir . $fileName;
 
-        // Run the process
-        $process->run(function ($type, $buffer) {
-            if (Process::ERR === $type) {
-                Log::error('Cypress Error: ' . $buffer);
-            } else {
-                Log::info('Cypress Output: ' . $buffer);
+            try {
+                if ($file->move($uploadDir, $fileName)) {
+                    $response['success'] = true;
+                    $response['message'] = 'File uploaded successfully.';
+                } else {
+                    $response['message'] = 'Failed to move uploaded file.';
+                    $response['details'] = [
+                        'error' => error_get_last(),
+                        'upload_dir' => $uploadDir,
+                        'file_name' => $fileName
+                    ];
+                }
+            } catch (\Exception $e) {
+                $response['message'] = 'Exception occurred during file upload.';
+                $response['details'] = [
+                    'exception' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine()
+                ];
             }
-        });
-
-        // Check if the process was successful
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
-
-        Log::info('Cypress process completed successfully');
-        Log::info('Exit Code: ' . $process->getExitCode());
-        Log::info('Exit Code Text: ' . $process->getExitCodeText());
-        Log::info('Full Output: ' . $process->getOutput());
-        Log::info('Error Output: ' . $process->getErrorOutput());
-
-        // Wait for 2 seconds
-        sleep(2);
-
-        // Read the image link from the file
-        $imageLinkFile = base_path('cypress/imageLink.txt');
-        if (file_exists($imageLinkFile)) {
-            $imageLink = trim(file_get_contents($imageLinkFile));
-            // Delete the file after reading
-            unlink($imageLinkFile);
-            
-            if (empty($imageLink)) {
-                Log::warning('No image link found in file');
-                return response()->json(['error' => 'No image link found'], 400);
-            }
-            
-            Log::info('Image link retrieved successfully: ' . $imageLink);
-            return response()->json(['resultado' => $imageLink]);
         } else {
-            Log::warning('Image link file not found');
-            return response()->json(['error' => 'Image link file not found'], 400);
-        }
-    } catch (\Exception $e) {
-        $errorDetails = [
-            'message' => $e->getMessage(),
-            'code' => $e->getCode(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'trace' => $e->getTraceAsString(),
-        ];
-
-        // If it's a Process exception, add more details
-        if ($e instanceof ProcessFailedException) {
-            $errorDetails['command'] = $e->getProcess()->getCommandLine();
-            $errorDetails['output'] = $e->getProcess()->getOutput();
-            $errorDetails['errorOutput'] = $e->getProcess()->getErrorOutput();
+            $response['message'] = 'No file received.';
+            $response['details'] = [
+                'FILES' => $_FILES,
+                'content_type' => $request->header('Content-Type'),
+                'content_length' => $request->header('Content-Length')
+            ];
         }
 
-        // Log the error
-        Log::error('Error in send method', $errorDetails);
+        $url = "http://localhost:7000/?idTempClient=".$idTempCliente;
 
-        return response()->json([
-            'error' => 'An error occurred',
-            'details' => $errorDetails
-        ], 500);
+        // Initialize cURL session
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $resultado = curl_exec($ch);
+
+        if ($resultado === false) {
+            $response['cURL Error'] = curl_error($ch);
+            $response['cURL Error Number'] = curl_errno($ch);
+        } else {
+            $response['Response'] = $resultado;
+            $response['HTTP Code'] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        }
+
+        curl_close($ch);
+
+        return response()->json($response);
     }
-}
     public function get_upload_image(Request $request)
     {
         // $spanText = $request->input('spanText');
@@ -518,5 +498,4 @@ class ClienteController extends Controller
             return response()->json(['error' => $e, 'ruta' => $file_path], 400);
         }
     }
-
 }

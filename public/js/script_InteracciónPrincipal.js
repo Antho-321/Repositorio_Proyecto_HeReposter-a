@@ -1,3 +1,5 @@
+import { estilo_Ingreso_Registro, salto, divVentana, CerrarVentana, getTempUserIdentifier } from './funciones_reutilizables.js';
+
 let num_productos, cantidad_producto_carr, img, id_imagen, direccion_producto,
     dedicatoria, cuadros_dedicatoria, opciones, id_producto, precio_producto,
     descripción_adicional, porciones, masa, cobertura, sabor, relleno, reqAdicional,
@@ -21,7 +23,6 @@ let btn_ingreso = document.getElementById("Ingreso");
 let ubicación_página = window.location.href;
 let actualizar_pastel = document.getElementById("actualizar_pastel");
 var currentView = document.querySelector('meta[name="current-view"]').getAttribute('content');
-import { estilo_Ingreso_Registro, salto, divVentana, CerrarVentana } from './funciones_reutilizables.js';
 
 estilo_búsqueda.id = "estilo_búsqueda";
 estilo_aux_EnvíoACarrito.id = "est_EnvíoACarrito";
@@ -58,6 +59,7 @@ estilo_carritoSinProductos.innerHTML = `
 `;
 estilo_carritoSinProductos.id = "aux_cont_principal";
 add_carrito = document.getElementById("add_carrito");
+document.addEventListener('DOMContentLoaded', function () { getTempUserIdentifier(); });
 if (btn_ingreso != null) {
     btn_ingreso.addEventListener('click', MostrarVentanaDeIngreso);
 }

@@ -200,5 +200,5 @@
 <input type="hidden" name="img_pastel_personalizado" id="img_pastel_personalizado" value="{{ route('cliente.consulta_pastel_personalizado') }}">
 @endsection
 @section('script')
-    <script src="{{ asset('js/script_PastelesPersonalizados.js') }}"></script>
+    <script type="module" src="{{ asset('js/script_PastelesPersonalizados.js') }}"></script>
 @endsection
