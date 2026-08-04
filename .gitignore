@@ -1,5 +1,5 @@
 /.phpunit.cache
-/node_modules
+node_modules/
 /public/build
 /public/hot
 /public/storage
@@ -19,3 +19,5 @@ yarn-error.log
 /.vscode
 /composer.lock
 /probando_funcionalidad
+# Artefactos de NTFS que aparecen como archivos reales al montar el repo desde WSL
+*:Zone.Identifier
