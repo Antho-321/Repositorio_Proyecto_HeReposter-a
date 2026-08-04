@@ -10,9 +10,12 @@ class TrustProxies extends Middleware
     /**
      * The trusted proxies for this application.
      *
+     * The app is served on 127.0.0.1 and is only reachable through the
+     * cloudflared tunnel, so the X-Forwarded-* headers it sets are trusted.
+     *
      * @var array<int, string>|string|null
      */
-    protected $proxies;
+    protected $proxies = '*';
 
     /**
      * The headers that should be used to detect proxies.
