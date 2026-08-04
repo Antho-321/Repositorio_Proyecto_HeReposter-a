@@ -102,8 +102,6 @@
               <th scope="col">Codigo de Pedido</th>
               <th scope="col">Cliente</th>
               <th scope="col">Fecha pedido</th>
-              <th scope="col">Fecha entrega</th>
-              <th scope="col">Hora de entrega</th>
               <th scope="col">Pedido confirmado</th>
             </tr>
           </thead>
@@ -114,8 +112,6 @@
               <th>{{$item->pedido_id}}</th>
               <td>{{$item->cliente_id}}</td>
               <td>{{$item->fecha_pedido}}</td>
-              <td>{{$item->fecha_entrega}}</td>
-              <td>{{$item->hora_entrega}}</td>
               <td>{{$item->pedido_confirmado}}</td>
 
 

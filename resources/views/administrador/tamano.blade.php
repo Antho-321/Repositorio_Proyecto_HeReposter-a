@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/7da396f1a6.js" crossorigin="anonymous"></script>
     <title>CRUD Administrador</title>
@@ -27,7 +26,7 @@
             </div>
             <div class="col-md-9">
                 <h1 class="text-center p-3">¡Bienvenido Administrador!</h1>
-                <h2 class="text-center p-3">TABLA DE CLIENTES</h1>
+                <h2 class="text-center p-3">TABLA DE TAMANO</h1>
 
                     @if (session('correcto'))
                     <div class="alert alert-success">{{ session('correcto') }}</div>
@@ -46,66 +45,39 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="modalEditarLabel">Ingresar cliente</h1>
+                                    <h1 class="modal-title fs-5" id="modalEditarLabel">Ingresar tamano</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
 
                                     <!-- modal para ingresar -->
-                                    <form action="{{ route('AdministradorClientesIngresar') }}" method="POST">
+                                    <form action="{{ route('AdministradorTamanoIngresar') }}" method="POST">
                                         @csrf
                                         <div class="mb-3">
-                                            <label for="exampleInputPassword1" class="form-label">Cedula</label>
-                                            <input type="number" class="form-control" id="exampleInputPassword1" name="txtCedula">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="exampleInputPassword1" class="form-label">Nombre</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1" name="txtNombre">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="exampleInputPassword1" class="form-label">Telefono</label>
-                                            <input type="number" class="form-control" id="exampleInputPassword1" name="txtTelefono">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="exampleInputPassword1" class="form-label">Direccion</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1" name="txtDireccion">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Correo</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1" name="txtCorreo">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Password</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1" name="txtPassword">
+                                            <label for="exampleInputPassword1" class="form-label">Descripcion</label>
+                                            <input type="text" class="form-control" id="exampleInputPassword1" name="txtTamanoDescripcion">
                                         </div>
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="submit" class="btn btn-primary">Insertar Cliente</button>
+                                            <button type="submit" class="btn btn-primary">Insertar Tamano</button>
                                         </div>
                                     </form>
                                 </div>
-
                             </div>
                         </div>
                     </div>
 
                     <div class="p-5 table-responsive">
                         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalRegistrar">Ingresar
-                            cliente</button>
+                            tamano</button>
 
 
                         <table class="table table-striped table-bordered table-hover">
                             <thead class="bg-primary text-white">
                                 <tr>
                                     <th scope="col">Codigo</th>
-                                    <th scope="col">Cedula</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Telefono</th>
-                                    <th scope="col">Direccion</th>
-                                    <th scope="col">Correo</th>
-                                    <th scope="col">Clave</th>
+                                    <th scope="col">Descripcion</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -113,58 +85,31 @@
                                 @foreach ($datos as $item)
                                 <tr>
 
-                                    <th>{{ $item->cliente_id }}</th>
-                                    <td>{{ $item->cedula }}</td>
-                                    <td>{{ $item->nombre_cliente }}</td>
-                                    <td>{{ $item->telefono }}</td>
-                                    <td>{{ $item->direccion_domicilio }}</td>
-                                    <td>{{ $item->email }}</td>
-                                    <td>{{ $item->clave }}</td>
+                                    <th>{{ $item->tamano_id }}</th>
+                                    <td>{{ $item->tamano_descripcion }}</td>
                                     <td>
-                                        <a href="" data-bs-toggle="modal" data-bs-target="#modalEditar{{ $item->cliente_id }}" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        <a href="{{ route('AdministradorClientesEliminar', $item->cliente_id) }}" onclick="return res()" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                                        <a href="" data-bs-toggle="modal" data-bs-target="#modalEditar{{ $item->tamano_id }}" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a href="{{ route('AdministradorTamanoEliminar', $item->tamano_id) }}" onclick="return res()" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                     <!-- Modal  PARA EDITAR-->
-                                    <div class="modal fade" id="modalEditar{{ $item->cliente_id }}" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+                                    <div class="modal fade" id="modalEditar{{ $item->tamano_id }}" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="modalEditarLabel">Modificar cliente</h1>
+                                                    <h1 class="modal-title fs-5" id="modalEditarLabel">Modificar tamano</h1>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="{{ route('AdministradorClientesActualizar') }}" method="POST">
+                                                    <form action="{{ route('AdministradorTamanoActualizar') }}" method="POST">
                                                         @csrf
                                                         <div class="mb-3">
                                                             <label for="exampleInputPassword1" class="form-label">Codigo</label>
-                                                            <input type="text" class="form-control" id="exampleInputPassword1" name="txtCodigo" value="{{ $item->cliente_id }}" readonly>
+                                                            <input type="number" class="form-control" id="exampleInputPassword1" name="txtTamanoId" value="{{ $item->tamano_id }}" readonly>
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="exampleInputPassword1" class="form-label">Cedula</label>
-                                                            <input type="number" class="form-control" id="exampleInputPassword1" name="txtCedula" value="{{ $item->cedula }}">
+                                                            <label for="exampleInputPassword1" class="form-label">Descripcion</label>
+                                                            <input type="text" class="form-control" id="exampleInputPassword1" name="txtTamanoDescripcion" value="{{ $item->tamano_descripcion }}">
                                                         </div>
-                                                        <div class="mb-3">
-                                                            <label for="exampleInputPassword1" class="form-label">Nombre</label>
-                                                            <input type="text" class="form-control" id="exampleInputPassword1" name="txtNombre" value="{{ $item->nombre_cliente }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="exampleInputPassword1" class="form-label">Telefono</label>
-                                                            <input type="number" class="form-control" id="exampleInputPassword1" name="txtTelefono" value="{{ $item->telefono }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="exampleInputPassword1" class="form-label">Direccion</label>
-                                                            <input type="text" class="form-control" id="exampleInputPassword1" name="txtDireccion" value="{{ $item->direccion_domicilio }}">
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <label for="exampleInputEmail1" class="form-label">Correo</label>
-                                                            <input type="email" class="form-control" id="exampleInputPassword1" name="txtCorreo" value="{{ $item->email }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="exampleInputEmail1" class="form-label">Password</label>
-                                                            <input type="text" class="form-control" id="exampleInputPassword1" name="txtPassword" value="{{ $item->clave }}">
-                                                        </div>
-
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                                             <button type="submit" class="btn btn-primary">Guardar

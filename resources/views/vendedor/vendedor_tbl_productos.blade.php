@@ -229,7 +229,6 @@
                 <tr>
                   <th scope="col">Id Sabor</th>
                   <th scope="col">Descripcion</th>
-                  <th scope="col">Precio Sabor</th>
                 </tr>
               </thead>
               <tbody>
@@ -237,7 +236,6 @@
                 <tr>
                   <th>{{$item->sabores_id}}</th>
                   <td>{{$item->sabores_descripcion}}</td>
-                  <td>{{$item->sabores_precio_base_volumen}}</td>
                 </tr>
                 @endforeach
               </tbody>
@@ -262,7 +260,7 @@
                 <tr>
                   <th>{{$item->tipo_id }}</th>
                   <td>{{$item->tipo_descripcion }}</td>
-                  <td>{{$item->tipo_precio_base_volumen}}</td>
+                  <td>{{$item->precio_base_volumen}}</td>
                 </tr>
                 @endforeach
               </tbody>

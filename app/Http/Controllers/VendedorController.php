@@ -101,8 +101,6 @@ class VendedorController extends Controller
             DB::table('pedido')->insert([
                 'cliente_id' => $request->idCliente,
                 'fecha_pedido' => $request->fechaPedido,
-                'fecha_entrega' => $request->fechaEntrega,
-                'hora_entrega' => $request->horaEntrega,
                 'pedido_confirmado' => $request->pedidoConfirmado,
             ]);
 
@@ -124,11 +122,9 @@ class VendedorController extends Controller
             }
 
             // Realizar la actualización en la tabla pedido
-            $sql = DB::update("update pedido set cliente_id=? , fecha_pedido=? , fecha_entrega=? , hora_entrega=? , pedido_confirmado=? where pedido_id=?", [
+            $sql = DB::update("update pedido set cliente_id=? , fecha_pedido=? , pedido_confirmado=? where pedido_id=?", [
                 $request->idCliente,
                 $request->fechaPedido,
-                $request->fechaEntrega,
-                $request->horaEntrega,
                 $request->pedidoConfirmado,
                 $request->idPedido,
             ]);
@@ -318,15 +314,13 @@ class VendedorController extends Controller
             if (!$pedidoExistente) {
                 return back()->with("incorrecto", "El PEDIDO no existe");
             }
-            $sql = DB::insert("insert into comprobante_venta (comprobante_id, pedido_id, lugar, fecha, cantidad, concepto, cedula_vendedor)
-        values (?,?,?,?,?,?,?)", [
+            $sql = DB::insert("insert into comprobante_venta (comprobante_id, pedido_id, fecha_entrega, hora_entrega, total_pago)
+        values (?,?,?,?,?)", [
                 $request->comprobanteid,
                 $request->pedidoid,
-                $request->lugar,
-                $request->fecha,
-                $request->cantidad,
-                $request->concepto,
-                $request->cedulavendedor,
+                $request->fechaentrega,
+                $request->horaentrega,
+                $request->totalpago,
             ]);
             if ($sql == true) {
                 return back()->with("correcto", "Comprobante de venta registrado");

@@ -151,36 +151,36 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputPassword1" class="form-label">Id Tamaños Formas</label>
-                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtTamanoFormasId" value="{{ $item->cedula }}">
+                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtTamanosFormasId" value="{{ $item->tamanos_formas_id }}">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputPassword1" class="form-label">Id Tipo</label>
-                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtTipoId" value="{{ $item->nombre_cliente }}">
+                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtTipoId" value="{{ $item->tipo_id }}">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputPassword1" class="form-label">Id Relleno</label>
-                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtRellenoId" value="{{ $item->telefono }}">
+                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtRellenoId" value="{{ $item->relleno_id }}">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputPassword1" class="form-label">Id Cobertura</label>
-                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtCoberturaId" value="{{ $item->direccion_domicilio }}">
+                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtCoberturaId" value="{{ $item->cobertura_id }}">
                                                     </div>
 
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Id Sabores</label>
-                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtSaboresId" value="{{ $item->email }}">
+                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtSaboresId" value="{{ $item->sabores_id }}">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Precio</label>
-                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtPrecio" value="{{ $item->clave }}">
+                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtPrecio" value="{{ $item->precio }}">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Imagen</label>
-                                                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtImg" value="{{ $item->clave }}">
+                                                        <input type="text" class="form-control" id="exampleInputPassword1" name="txtImg" value="{{ $item->img }}">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Id Categoria</label>
-                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtCategoriaId" value="{{ $item->clave }}">
+                                                        <input type="number" class="form-control" id="exampleInputPassword1" name="txtCategoriaId" value="{{ $item->categoria_id }}">
                                                     </div>
 
                                                     <div class="modal-footer">

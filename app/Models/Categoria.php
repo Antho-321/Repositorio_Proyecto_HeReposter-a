@@ -19,8 +19,7 @@ class Categoria extends Model
     public function getCategoriaId($categoria_descripcion)
     {        
         $categoria = Categoria::where('categoria_descripcion', $categoria_descripcion)->first();
-        // Devuelves el pastel encontrado o null si no hay ninguno
-        $id=$categoria->categoria_id;
-        return $id;
+        // Devuelves el id encontrado o null si no hay ninguna categoria
+        return $categoria?->categoria_id;
     }
 }

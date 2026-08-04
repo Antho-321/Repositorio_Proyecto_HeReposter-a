@@ -8,6 +8,9 @@
     use App\Models\Comprobante;
     use Illuminate\Support\Facades\Session;
     $cliente = Session::get('cliente');
+    // Sin sesion de cliente el carrito igual se muestra vacio, asi que $cliente_id
+    // tiene que existir siempre para el input oculto de abajo.
+    $cliente_id = null;
     if (isset($cliente)) {
         $detalles_pedido_search = new DetallesPedido();
         $pedido_search = new Pedido();

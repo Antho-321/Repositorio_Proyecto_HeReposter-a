@@ -62,15 +62,6 @@
                                         <input type="date" class="form-control" id="exampleInputPassword1" name="txtFechaPedido">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">Fecha Entrega</label>
-                                        <input type="date" class="form-control" id="exampleInputPassword1" name="txtHoraEntrega">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">Hora Entrega</label>
-                                        <input type="time" class="form-control" id="exampleInputPassword1" name="txtHoraEntrega">
-                                    </div>
-
-                                    <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Pedido Confirmado</label>
                                         <input type="number" class="form-control" id="exampleInputPassword1" name="txtPedidoConfirmado">
                                     </div>
@@ -96,8 +87,6 @@
                                 <th scope="col">Pedido Id</th>
                                 <th scope="col">Cliente Id</th>
                                 <th scope="col">Fecha Pedido</th>
-                                <th scope="col">Fecha Entrega</th>
-                                <th scope="col">Hora Entrega</th>
                                 <th scope="col">Pedido Confirmado</th>
 
                                 <th></th>
@@ -110,8 +99,6 @@
                                 <th>{{ $item->pedido_id }}</th>
                                 <td>{{ $item->cliente_id }}</td>
                                 <td>{{ $item->fecha_pedido }}</td>
-                                <td>{{ $item->fecha_entrega }}</td>
-                                <td>{{ $item->hora_entrega }}</td>
                                 <td>{{ $item->pedido_confirmado }}</td>
                                 <td>
                                     <a href="" data-bs-toggle="modal" data-bs-target="#modalEditar{{ $item->pedido_id }}" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -140,15 +127,6 @@
                                                         <label for="exampleInputPassword1" class="form-label">Fecha Pedido</label>
                                                         <input type="date" class="form-control" id="exampleInputPassword1" name="txtFechaPedido" value="{{ $item->fecha_pedido }}">
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label for="exampleInputPassword1" class="form-label">Fecha Entrega</label>
-                                                        <input type="date" class="form-control" id="exampleInputPassword1" name="txtFechaEntrega" value="{{ $item->fecha_entrega }}">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="exampleInputPassword1" class="form-label">Hora Entrega</label>
-                                                        <input type="time" class="form-control" id="exampleInputPassword1" name="txtHoraEntrega" value="{{ $item->hora_entrega }}">
-                                                    </div>
-
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Pedido Confirmado</label>
                                                         <input type="number" class="form-control" id="exampleInputPassword1" name="txtPedidoConfirmado" value="{{ $item->pedido_confirmado }}">

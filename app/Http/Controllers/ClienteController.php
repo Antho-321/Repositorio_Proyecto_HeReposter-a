@@ -47,8 +47,12 @@ class ClienteController extends Controller
      */
     public function create(Request $request)
     {
-        if (Session::get('random') == $request->input('random')) {
-            $cliente = Session::get('cliente');
+        $random = Session::get('random');
+        $cliente = Session::get('cliente');
+
+        // Sin codigo en sesion o sin cliente no hay nada que confirmar: null == null
+        // daba por valido el codigo y reventaba al leer $cliente->email.
+        if ($random !== null && $cliente !== null && $random == $request->input('random')) {
             if (Session::get('tipo_ingreso_aux') == "registrarse") {
                 $cliente->save();
             }

@@ -121,14 +121,6 @@
                 <label for="exampleInputPassword1" class="form-label">Fecha del pedido</label>
                 <input type="date" class="form-control" id="exampleInputPassword1" name="fechaPedido" required>
               </div>
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Fecha de entrega</label>
-                <input type="date" class="form-control" id="exampleInputPassword1" name="fechaEntrega" required>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Hora de entrega</label>
-                <input type="time" class="form-control" id="exampleInputPassword1" name="horaEntrega" required>
-              </div>
 
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Pedido confirmado</label>
@@ -158,8 +150,6 @@
             <th scope="col">Codigo de Pedido</th>
             <th scope="col">Cliente</th>
             <th scope="col">Fecha pedido</th>
-            <th scope="col">Fecha entrega</th>
-            <th scope="col">Hora de entrega</th>
             <th scope="col">Pedido confirmado</th>
             <th></th>
           </tr>
@@ -171,8 +161,6 @@
             <th>{{$item->pedido_id}}</th>
             <td>{{$item->cliente_id}}</td>
             <td>{{$item->fecha_pedido}}</td>
-            <td>{{$item->fecha_entrega}}</td>
-            <td>{{$item->hora_entrega}}</td>
             <td>
               @if($item->pedido_confirmado == 1)
               Confirmado
@@ -210,14 +198,6 @@
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Fecha del pedido</label>
                         <input type="date" class="form-control" id="exampleInputPassword1" name="fechaPedido" value="{{$item->fecha_pedido }}" required>
-                      </div>
-                      <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Fecha de entrega</label>
-                        <input type="date" class="form-control" id="exampleInputPassword1" name="fechaEntrega" value="{{$item->fecha_entrega}}" required>
-                      </div>
-                      <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Hora de entrega</label>
-                        <input type="time" class="form-control" id="exampleInputPassword1" name="horaEntrega" value="{{$item->hora_entrega}}" required>
                       </div>
 
                       <div class="mb-3">

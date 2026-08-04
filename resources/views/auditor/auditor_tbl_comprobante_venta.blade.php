@@ -101,11 +101,9 @@
             <tr>
               <th scope="col">Codigo de comprobante</th>
               <th scope="col">Codigo Pedido</th>
-              <th scope="col">Lugar</th>
-              <th scope="col">Fecha</th>
-              <th scope="col">Cantidad</th>
-              <th scope="col">Concepto</th>
-              <th scope="col">Cedula del vendedor</th>
+              <th scope="col">Fecha de entrega</th>
+              <th scope="col">Hora de entrega</th>
+              <th scope="col">Total pago</th>
 
             </tr>
           </thead>
@@ -114,11 +112,9 @@
             <tr>
               <th>{{$item->comprobante_id}}</th>
               <td>{{$item->pedido_id}}</td>
-              <td>{{$item->lugar}}</td>
-              <td>{{$item->fecha}}</td>
-              <td>{{$item->cantidad}}</td>
-              <td>{{$item->concepto}}</td>
-              <td>{{$item->cedula_vendedor}}</td>
+              <td>{{$item->fecha_entrega}}</td>
+              <td>{{$item->hora_entrega}}</td>
+              <td>{{$item->total_pago}}</td>
             </tr>
             @endforeach
           </tbody>

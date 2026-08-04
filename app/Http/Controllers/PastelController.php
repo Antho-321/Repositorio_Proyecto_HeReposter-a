@@ -97,7 +97,14 @@ creado satisfactoriamente');
         // Ensure the URL is decoded
         $img = urldecode($img);
 
-        return view('/actualizar_seleccionado', compact('img'));
+        // Sin un pastel que corresponda a la imagen no hay nada que actualizar,
+        // asi que se regresa al listado en vez de armar el formulario vacio.
+        $pastel = (new Pastel())->getPastelByImg($img);
+        if ($pastel === null) {
+            return redirect('/actualizar_producto');
+        }
+
+        return view('/actualizar_seleccionado', compact('img', 'pastel'));
     }
 
     /**

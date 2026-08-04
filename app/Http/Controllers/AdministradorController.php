@@ -252,14 +252,13 @@ class AdministradorController extends Controller
     public function createComprobanteVenta(Request $request)
     {
         try {
-            $sql = DB::insert("insert into comprobante_venta (pedido_id, lugar, fecha, cantidad, concepto, cedula_vendedor)
-        values (?,?,?,?,?,?)", [
+            $sql = DB::insert("insert into comprobante_venta (comprobante_id, pedido_id, fecha_entrega, hora_entrega, total_pago)
+        values (?,?,?,?,?)", [
+                $request->txtComprobanteId,
                 $request->txtPedidoId,
-                $request->txtLugar,
-                $request->txtFecha,
-                $request->txtCantidad,
-                $request->txtConcepto,
-                $request->txtCedulaV,
+                $request->txtFechaEntrega,
+                $request->txtHoraEntrega,
+                $request->txtTotalPago,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
@@ -277,14 +276,12 @@ class AdministradorController extends Controller
     public function updateComprobanteVenta(Request $request)
     {
         try {
-            $sql = DB::update("update comprobante_venta set pedido_id=?, lugar=?, fecha=?, cantidad=?, concepto=?, cedula_vendedor=? where comprobante_id=?", [
+            $sql = DB::update("update comprobante_venta set pedido_id=?, fecha_entrega=?, hora_entrega=?, total_pago=? where comprobante_id=?", [
                 $request->txtPedidoId,
-                $request->txtLugar,
-                $request->txtFecha,
-                $request->txtCantidad,
-                $request->txtConcepto,
-                $request->txtCedulaV,
-                $request->txtComrobanteId,
+                $request->txtFechaEntrega,
+                $request->txtHoraEntrega,
+                $request->txtTotalPago,
+                $request->txtComprobanteId,
             ]);
             if ($sql == 0) {
                 $sql == 1;
@@ -576,12 +573,10 @@ class AdministradorController extends Controller
     public function createPedidos(Request $request)
     {
         try {
-            $sql = DB::insert("insert into pedido (cliente_id, fecha_pedido, fecha_entrega, hora_entrega, pedido_confirmado)
-        values (?,?,?,?,?)", [
+            $sql = DB::insert("insert into pedido (cliente_id, fecha_pedido, pedido_confirmado)
+        values (?,?,?)", [
                 $request->txtClienteId,
                 $request->txtFechaPedido,
-                $request->txtFechaEntrega,
-                $request->txtHoraEntrega,
                 $request->txtPedidoConfirmado,
             ]);
         } catch (\Throwable $th) {
@@ -600,11 +595,9 @@ class AdministradorController extends Controller
     public function updatePedidos(Request $request)
     {
         try {
-            $sql = DB::update("update pedido set cliente_id=?, fecha_pedido=?, fecha_entrega=?, hora_entrega=?, pedido_confirmado=? where pedido_id=?", [
+            $sql = DB::update("update pedido set cliente_id=?, fecha_pedido=?, pedido_confirmado=? where pedido_id=?", [
                 $request->txtClienteId,
                 $request->txtFechaPedido,
-                $request->txtFechaEntrega,
-                $request->txtHoraEntrega,
                 $request->txtPedidoConfirmado,
                 $request->txtPedidoId,
             ]);
@@ -806,10 +799,9 @@ class AdministradorController extends Controller
     public function createSabores(Request $request)
     {
         try {
-            $sql = DB::insert("insert into sabores (sabores_descripcion, sabores_precio_base_volumen)
-        values (?,?)", [
+            $sql = DB::insert("insert into sabores (sabores_descripcion)
+        values (?)", [
                 $request->txtSaboresDescripcion,
-                $request->txtSaboresPrecio,
             ]);
         } catch (\Throwable $th) {
             $sql = 0;
@@ -827,9 +819,8 @@ class AdministradorController extends Controller
     public function updateSabores(Request $request)
     {
         try {
-            $sql = DB::update("update sabores set sabores_descripcion=?, sabores_precio_base_volumen=? where sabores_id=?", [
+            $sql = DB::update("update sabores set sabores_descripcion=? where sabores_id=?", [
                 $request->txtSaboresDescripcion,
-                $request->txtSaboresPrecio,
                 $request->txtSaboresId,
             ]);
             if ($sql == 0) {

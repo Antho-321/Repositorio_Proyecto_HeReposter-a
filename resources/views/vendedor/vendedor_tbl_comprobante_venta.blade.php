@@ -113,25 +113,17 @@
                 <input type="number" class="form-control" id="exampleInputPassword1" name="pedidoid" required>
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Lugar</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" name="lugar" required>
+                <label for="exampleInputPassword1" class="form-label">Fecha de entrega</label>
+                <input type="date" class="form-control" id="exampleInputPassword1" name="fechaentrega" required>
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="exampleInputPassword1" name="fecha" required>
+                <label for="exampleInputPassword1" class="form-label">Hora de entrega</label>
+                <input type="time" class="form-control" id="exampleInputPassword1" name="horaentrega" required>
               </div>
 
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Cantidad</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" name="cantidad" required>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Concepto</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" name="concepto" required>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Cedula Vendedor</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" name="cedulavendedor" required>
+                <label for="exampleInputEmail1" class="form-label">Total pago</label>
+                <input type="number" step="any" class="form-control" id="exampleInputPassword1" name="totalpago" required>
               </div>
 
               <div class="modal-footer">
@@ -153,11 +145,9 @@
           <tr>
             <th scope="col">Id Comprobate</th>
             <th scope="col">Id Pedido</th>
-            <th scope="col">Lugar</th>
-            <th scope="col">Fecha</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Concepto</th>
-            <th scope="col">Cedula de vendedor</th>
+            <th scope="col">Fecha de entrega</th>
+            <th scope="col">Hora de entrega</th>
+            <th scope="col">Total pago</th>
           </tr>
         </thead>
         <tbody>
@@ -165,11 +155,9 @@
           <tr>
             <th>{{$item->comprobante_id}}</th>
             <td>{{$item->pedido_id}}</td>
-            <td>{{$item->lugar}}</td>
-            <td>{{$item->fecha}}</td>
-            <td>{{$item->cantidad}}</td>
-            <td>{{$item->concepto}}</td>
-            <td>{{$item->cedula_vendedor }}</td>
+            <td>{{$item->fecha_entrega}}</td>
+            <td>{{$item->hora_entrega}}</td>
+            <td>{{$item->total_pago}}</td>
           </tr>
           @endforeach
         </tbody>
