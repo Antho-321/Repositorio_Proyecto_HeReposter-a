@@ -1,11 +1,10 @@
-import { getTempUserIdentifier } from './funciones_reutilizables.js';
-
-let formDrop1, formDrop2, formDrop4,
-    dropzone1, dropzone2, dropzone4,
-    ingreso_enlace1, ingreso_enlace2, ingreso_enlace4,
-    dzSize, dzProgress, previsualizacion, contenedor_preImg,
-    estilo_txtImgNoValida, estilo_noMasImg, elem_estImgNoValido,
-    personalizacion, cantidadInput, cantidadInput2, texto_dedicatoria, seleccionables, div_elem, img_figura, img_adorno, isChromium,
+let configuracionZonaRecepcionModeloPastel, configuracionZonaRecepcionImagenEspecial, configuracionZonaRecepcionAdorno,
+    zonaRecepcionModeloPastel, zonaRecepcionImagenEspecial, zonaRecepcionAdorno,
+    ingresoEnlaceModeloPastel, ingresoEnlaceImagenEspecial, ingresoEnlaceAdorno,
+    descripcionTamanoImagen, barraProgresoImagen, previsualizacionImagen, contenedorPrevisualizacionImagen,
+    estiloTextoImagenNoValida, estiloNoMasImagenes, elementoEstiloTextoImagenNoValida,
+    tablaPersonalizacion, cantidadPasteles, cantidadImagenesEspecificacionAdicional, textoDedicatoria, seleccionables, 
+    elementoDiv, img_figura, img_adorno, isChromium,
     select_sabor, select_relleno, select_tamaño,
     txtespAdicional, espAdicional3, tdEspAdd,
     forma, tamaño, tipo_pastel, tipo_relleno_sabor, formas, sabores, posSaboresRellenos,
@@ -18,7 +17,7 @@ let formDrop1, formDrop2, formDrop4,
     contenedor_select, suma_formas, seccion_forma, elems_masa,
     misma_forma, mismo_tamaño, misma_cobertura, mismo_relleno, diferente_forma, diferente_tamaño, diferente_tipo,
     pregunta_mismo_tipo, pregunta_mismo_tamaño, pregunta_mismo_sabor, pregunta_mismo_relleno, pregunta_misma_cobertura, pregunta_imagenEspecífica,
-    comparacion1, comparacion2, idTempCliente, estilo_contenedorPreImg;
+    estilo_contenedorPreImg, enlace_modelo;
 formas_tamanos = JSON.parse(document.getElementById("formas_tamanos").value);
 tipos = JSON.parse(document.getElementById("tipos").value)
 sabores = JSON.parse(document.getElementById("sabores").value);
@@ -44,57 +43,191 @@ relleno = "Mermelada";
 dibujo_imagen_especial = null;
 figura_fondant = null;
 adorno_fondant = null;
-texto_dedicatoria = null;
+textoDedicatoria = null;
 arr_paths = [];
-personalizacion = document.getElementById("personalizacion");
-ingreso_enlace1 = document.getElementById("enlace1");
-div_elem = document.createElement("div");
+tablaPersonalizacion = document.getElementById("personalizacion");
+ingresoEnlaceModeloPastel = document.getElementById("enlace1");
+elementoDiv = document.createElement("div");
 select_sabor = document.createElement("select");
 select_relleno = document.createElement("select");
 select_tamaño = document.createElement("select");
-estilo_txtImgNoValida = document.createElement("style");
-estilo_noMasImg = document.createElement("style");
+estiloTextoImagenNoValida = document.createElement("style");
+estiloNoMasImagenes = document.createElement("style");
 estilo_contenedorPreImg = document.createElement("style");
-idTempCliente = getTempUserIdentifier();
-estilo_txtImgNoValida.id = "est_txtImgNoValida";
+estiloTextoImagenNoValida.id = "est_txtImgNoValida";
 estilo_contenedorPreImg.id = "est_contPreImg";
 estilo_contenedorPreImg.innerHTML = `
 .dropzone{
   border: 0px;
 }
 `;
-estilo_txtImgNoValida.innerHTML = `
+estiloTextoImagenNoValida.innerHTML = `
 .txtImgNoValida{
   visibility: visible;
 }
 `;
-estilo_noMasImg.innerHTML = `
-#txtDrop, #input2, .contenedorTxt{
-  z-index: -1; 
-  position: absolute; 
-  color: white;
+estiloNoMasImagenes.innerHTML = `
+.seccion_formDrop, .seccion_formDrop * {
+    cursor: default !important;
 }
 `;
 if (localStorage.getItem("ruta_ultima_img") != null || localStorage.getItem("ruta_ultima_img") != undefined) {
     localStorage.removeItem("ruta_ultima_img");
 }
-select_sabor.onchange = opcionSel;
-select_relleno.onchange = opcionSel;
-select_tamaño.onchange = opcionSel;
-select_sabor.name = "sabor";
-select_relleno.name = "relleno";
-select_tamaño.name = "tamaño";
-document.addEventListener('DOMContentLoaded', function () { resetearDivElem(); resetearSelectSabor(tipo_pastel); resetearSelectRelleno(tipo_pastel); resetearSelectTamaño(); });
-Dropzone.autoDiscover = false;
-formDrop1 = configurarDropZone(ingreso_enlace1, "");
-dropzone1 = new Dropzone("div#formDrop1", formDrop1);
-if (!isChromium) {
-    setupDropzoneEventHandling(dropzone1);
-}
-ingreso_enlace1.addEventListener('input', () => {
-    validaciónIngresoEnlace(ingreso_enlace1, dropzone1);
-});
-function opcionSel(event) {
+window.DedicatoriasP = function(cantidadInput) {
+    opciones = document.getElementById("num_dedicatorias");
+    html_aux1 = "";
+    if (opciones != null && opciones != undefined) {
+      opciones.remove();
+    }
+    for (let i = 0; i < cantidadInput.value; i++) {
+      html_aux1 += '<option value="' + (i + 1) + '">' + (i + 1) + '</option>';
+    }
+    contenedor_select.innerHTML = `
+    <select id="num_dedicatorias" onchange="AgregarHermanosSelect()">
+  `+ html_aux1 + `
+  </select>`;
+  }
+window.aumentarCantidadP = function() {
+    let str = "";
+    seccion_forma = document.getElementById("seccion_forma");
+    seleccionables = document.getElementsByName("forma");
+    cantidadInput.value = parseInt(cantidadInput.value) + 1;
+    DedicatoriasP(cantidadInput);
+    document.getElementById("cuadros_dedicatoria").innerHTML = `
+    <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" onclick="quitarPlaceHolder(event)">
+    `;
+    opcionSel(event);
+    texto_dedicatoria = document.getElementById("texto_dedicatoria");
+    texto_dedicatoria.innerHTML = "<b>Cantidad de dedicatorias:</b>";
+    if (cantidadInput.value == "2") {
+      if (seccion_forma != null) {
+        let elem = seccion_forma.nextElementSibling;
+        while (elem != null) {
+          elem.previousElementSibling.remove();
+          if (elem.nextElementSibling == null) {
+            elem.remove();
+            break;
+          } else {
+            elem = elem.nextElementSibling;
+          }
+        }
+      }
+  
+      personalizacion.firstElementChild.insertAdjacentHTML("beforeend", `
+                    <tr id="pregunta_misma_forma">
+                      <th>¿Todos los pasteles son de la misma forma?</th>
+                      <td colspan="1">
+                        <input type="radio" id="misma_forma" onchange="opcionSel(event)" value="Sí" name="misma_forma" class="left">
+                        <label for="misma_forma" class="right">Sí</label>          
+                        <input type="radio" id="diferente_forma" onchange="opcionSel(event)" value="No" name="misma_forma" class="left">
+                        <label for="diferente_forma" class="right">No</label>
+                      </td>
+                    </tr>
+                    `+ contenido_seccion_forma() + `
+                    </tr>
+                    <tr id="pregunta_mismo_tamaño">
+                      <th>¿Todos los pasteles son del mismo tamaño?</th>
+                      <td colspan="1">
+                        <input type="radio" id="mismo_tamaño" onchange="opcionSel(event)" value="Sí" name="mismo_tamaño" class="left">
+                        <label for="mismo_tamaño" class="right">Sí</label>          
+                        <input type="radio" id="diferente_tamaño" onchange="opcionSel(event)" value="No" name="mismo_tamaño" class="left">
+                        <label for="diferente_tamaño" class="right">No</label>
+                      </td>
+                    </tr>`+ contenido_seccion_tamaño() + `
+                    <tr id="pregunta_mismo_tipo">
+                      <th>¿Desea que todos los pasteles sean del mismo tipo?</th>
+                      <td colspan="1">
+                        <input type="radio" id="mismo_tipo" onchange="opcionSel(event)" value="Sí" name="mismo_tipo" class="left">
+                        <label for="mismo_tipo" class="right">Sí</label>          
+                        <input type="radio" id="diferente_tipo" onchange="opcionSel(event)" value="No" name="mismo_tipo" class="left">
+                        <label for="diferente_tipo" class="right">No</label>
+                      </td>
+                    </tr>`+ contenido_seccion_tipoPastel(false, true, 0, false, false, false, false, false, false) + `
+                    <tr id="pregunta_mismo_sabor">
+                    <th>¿Desea que todos los pasteles tengan el mismo sabor?</th>
+                      <td colspan="1">
+                        <input type="radio" id="mismo_sabor" onchange="opcionSel(event)" value="Sí" name="mismo_sabor" class="left">
+                        <label for="mismo_sabor" class="right">Sí</label>          
+                        <input type="radio" id="diferente_sabor" onchange="opcionSel(event)" value="No" name="mismo_sabor" class="left">
+                        <label for="diferente_sabor" class="right">No</label>
+                      </td>
+                    </tr>`+ contenido_seccion_sabor() + `
+                    <tr id="pregunta_misma_cobertura">
+                    <th>¿Desea que todos los pasteles tengan el mismo tipo de cobertura?</th>
+                      <td colspan="1">
+                        <input type="radio" id="misma_cobertura" onchange="opcionSel(event)" value="Sí" name="misma_cobertura" class="left">
+                        <label for="misma_cobertura" class="right">Sí</label>          
+                        <input type="radio" id="diferente_cobertura" onchange="opcionSel(event)" value="No" name="misma_cobertura" class="left">
+                        <label for="diferente_cobertura" class="right">No</label>
+                      </td>
+                    </tr>`+ contenido_seccion_cobertura() + `
+                    <tr id="pregunta_mismo_relleno">
+                    <th>¿Desea que todos los pasteles tengan el mismo relleno?</th>
+                      <td colspan="1">
+                        <input type="radio" id="mismo_relleno" onchange="opcionSel(event)" value="Sí" name="mismo_relleno" class="left">
+                        <label for="mismo_relleno" class="right">Sí</label>          
+                        <input type="radio" id="diferente_relleno" onchange="opcionSel(event)" value="No" name="mismo_relleno" class="left">
+                        <label for="diferente_relleno" class="right">No</label>
+                      </td>
+                    </tr>`+ contenido_seccion_relleno() + `
+                    `+ contenido_pregunta_imagenEspecífica(2) + `
+                    `+ contenido_pregunta_fig_adorno() + `
+                    `+ contenido_adicional(1) + `
+      `);
+      elems_masa = document.getElementsByName("masa");
+      elems_masa[0].onchange = function () { tipoPasteles(event, true, 0, true, true, true, false, false); };
+      inputs_radio = document.querySelectorAll("input[type='radio']");
+      for (let i = 0; i < inputs_radio.length; i += 2) {
+        if (i + 2 >= inputs_radio.length) {
+          inputs_radio[i + 1].checked = true;
+        } else {
+          inputs_radio[i].checked = true;
+        }
+      }
+      seccion_forma = document.getElementById("seccion_forma");
+      mismo_tamaño = document.getElementById("mismo_tamaño");
+      misma_forma = document.getElementById("misma_forma");
+      misma_cobertura = document.getElementById("misma_cobertura");
+      mismo_relleno = document.getElementById("mismo_relleno");
+      diferente_tamaño = document.getElementById("diferente_tamaño");
+      diferente_forma = document.getElementById("diferente_forma");
+      diferente_tipo = document.getElementById("diferente_tipo");
+      pregunta_mismo_tamaño = document.getElementById("pregunta_mismo_tamaño");
+      pregunta_mismo_tipo = document.getElementById("pregunta_mismo_tipo");
+      pregunta_mismo_sabor = document.getElementById("pregunta_mismo_sabor");
+      pregunta_mismo_relleno = document.getElementById("pregunta_mismo_relleno");
+      pregunta_misma_cobertura = document.getElementById("pregunta_misma_cobertura");
+      pregunta_imagenEspecífica = document.getElementById("pregunta_imagenEspecífica");
+    }
+    precio = document.getElementById("precio");
+    contenedor_select.removeAttribute("style");
+  
+    if (diferente_forma.checked) {
+      for (let i = 0; i <= cantidadInput.value; i++) {
+        str += '<option value="' + i + '">' + i + '</option>';
+      }
+      for (let j = 0; j < seleccionables.length; j++) {
+        seleccionables[j].innerHTML = str;
+      }
+    }
+    if (diferente_tamaño.checked) {
+      if (misma_forma.checked) {
+        div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.value = cantidadInput.value;
+        div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.innerHTML = cantidadInput.value;
+        diferenteTamaño(false, div_elem.children);
+        resetearDivElem();
+      } else {
+        diferenteTamaño(false, seleccionables);
+      }
+    } else {
+      if (diferente_forma.checked) {
+        diferenteTamaño(true, seleccionables);
+      }
+    }
+    actualizarDesdeTipo();
+  }
+window.opcionSel = function(event) {
     switch (event.target.id) {
         case "misma_forma":
             while (event.target.parentElement.parentElement.nextElementSibling.id != "pregunta_mismo_tamaño") {
@@ -109,9 +242,11 @@ function opcionSel(event) {
                 pregunta_mismo_tamaño.insertAdjacentHTML("afterend", contenido_seccion_tamaño(forma));
             } else {
                 seccion_forma = document.getElementById("seccion_forma");
-                div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.value = cantidadInput.value;
-                div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.innerHTML = cantidadInput.value;
-                diferenteTamaño(false, div_elem.children);
+                elementoDiv.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.value = cantidadPasteles.value;
+                elementoDiv.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.innerHTML = cantidadPasteles.value;
+                diferenteTamaño(false, elementoDiv.children);
+                console.log("VERIFICANDO VALOR DE elementoDiv");
+                console.log(elementoDiv);
                 resetearDivElem();
             }
             seccion_forma = document.getElementById("seccion_forma");
@@ -139,7 +274,7 @@ function opcionSel(event) {
             while (pregunta_mismo_tamaño.nextElementSibling.id != "pregunta_mismo_tipo") {
                 pregunta_mismo_tamaño.nextElementSibling.remove();
             }
-            for (let i = 0; i <= cantidadInput.value; i++) {
+            for (let i = 0; i <= cantidadPasteles.value; i++) {
                 str += '<option value="' + i + '">' + i + '</option>';
             }
             event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
@@ -214,9 +349,9 @@ function opcionSel(event) {
             break;
         case "diferente_tamaño":
             if (misma_forma.checked) {
-                div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.value = cantidadInput.value;
-                div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.innerHTML = cantidadInput.value;
-                diferenteTamaño(false, div_elem.children);
+                elementoDiv.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.value = cantidadPasteles.value;
+                elementoDiv.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.innerHTML = cantidadPasteles.value;
+                diferenteTamaño(false, elementoDiv.children);
                 resetearDivElem();
             } else {
                 diferenteTamaño(false, seleccionables);
@@ -384,7 +519,7 @@ function opcionSel(event) {
                     </td>
                   </tr>          
                   <tr class="seccion_imgEspecífica">
-                    <th>Previsualización de dibujo/imagen:</th>
+                    <th>Previsualización de imagen especial:</th>
                     <td class="seccion_formDrop">
                       <div class="dropzone" id="formDrop2">
                         <input type="url" placeholder="Ingresar enlace" name="ingreso_enlace" class="para_enlace"  id="enlace2"
@@ -394,14 +529,14 @@ function opcionSel(event) {
                     </td>
                   </tr>
           `);
-            ingreso_enlace2 = document.getElementById("enlace2");
-            formDrop2 = configurarDropZone(ingreso_enlace2, "DibujoImgEspecial");
-            dropzone2 = new Dropzone("div#formDrop2", formDrop2);
+            ingresoEnlaceImagenEspecial = document.getElementById("enlace2");
+            configuracionZonaRecepcionImagenEspecial = configurarDropZone(ingresoEnlaceImagenEspecial, "DibujoImgEspecial");
+            zonaRecepcionImagenEspecial = new Dropzone("div#formDrop2", configuracionZonaRecepcionImagenEspecial);
             if (!isChromium) {
-                setupDropzoneEventHandling(dropzone2);
+                setupDropzoneEventHandling(zonaRecepcionImagenEspecial);
             }
-            ingreso_enlace2.addEventListener('input', () => {
-                validaciónIngresoEnlace(ingreso_enlace2, dropzone2, "DibujoImgEspecial");
+            ingresoEnlaceImagenEspecial.addEventListener('input', () => {
+                validaciónIngresoEnlace(ingresoEnlaceImagenEspecial, zonaRecepcionImagenEspecial, "DibujoImgEspecial");
             });
             break;
         case "sin_imgEspecífica":
@@ -497,27 +632,43 @@ function opcionSel(event) {
             calcularCambiarPrecio();
             break;
     }
+};
+select_sabor.onchange = opcionSel;
+select_relleno.onchange = opcionSel;
+select_tamaño.onchange = opcionSel;
+select_sabor.name = "sabor";
+select_relleno.name = "relleno";
+select_tamaño.name = "tamaño";
+document.addEventListener('DOMContentLoaded', function () { resetearDivElem(); resetearSelectSabor(tipo_pastel); resetearSelectRelleno(tipo_pastel); resetearSelectTamaño(); });
+Dropzone.autoDiscover = false;
+configuracionZonaRecepcionModeloPastel = configurarDropZone(ingresoEnlaceModeloPastel, "");
+zonaRecepcionModeloPastel = new Dropzone("div#formDrop1", configuracionZonaRecepcionModeloPastel);
+if (!isChromium) {
+    setupDropzoneEventHandling(zonaRecepcionModeloPastel);
 }
+ingresoEnlaceModeloPastel.addEventListener('input', () => {
+    validaciónIngresoEnlace(ingresoEnlaceModeloPastel, zonaRecepcionModeloPastel);
+});
 function seccionAdorno(event) {
     event.target.parentElement.parentElement.insertAdjacentHTML("afterend", `
                     <tr id="img_adorno">
                       <th>Previsualización de adorno:</th>
                       <td class="seccion_formDrop">
-                        <div class="dropzone" id="formDrop4">
+                        <div class="dropzone" id="formDrop3">
                           <input type="url" placeholder="Ingresar enlace" name="ingreso_enlace" class="para_enlace" id="enlace4" onclick="quitarPlaceHolder(event)">
                           <input type="hidden" name="enlace" class="aux_IngresarEnlace">
                         </div>
                       </td>
                     </tr>
     `);
-    ingreso_enlace4 = document.getElementById("enlace4");
-    formDrop4 = configurarDropZone(ingreso_enlace4, "Adorno");
-    dropzone4 = new Dropzone("div#formDrop4", formDrop4);
+    ingresoEnlaceAdorno = document.getElementById("enlace4");
+    configuracionZonaRecepcionAdorno = configurarDropZone(ingresoEnlaceAdorno, "Adorno");
+    zonaRecepcionAdorno = new Dropzone("div#formDrop3", configuracionZonaRecepcionAdorno);
     if (!isChromium) {
-        setupDropzoneEventHandling(dropzone4);
+        setupDropzoneEventHandling(zonaRecepcionAdorno);
     }
-    ingreso_enlace4.addEventListener('input', () => {
-        validaciónIngresoEnlace(ingreso_enlace4, dropzone4, "Adorno");
+    ingresoEnlaceAdorno.addEventListener('input', () => {
+        validaciónIngresoEnlace(ingresoEnlaceAdorno, zonaRecepcionAdorno, "Adorno");
     });
 }
 function removerDropsAdicionales() {
@@ -543,7 +694,7 @@ function seccionFigura(event) {
   `);
 }
 function resetearDivElem() {
-    div_elem.innerHTML = `
+    elementoDiv.innerHTML = `
     <select><option value="0">0</option></select>
     <select><option value="0">0</option></select>
     <select><option value="0">0</option></select>
@@ -877,10 +1028,10 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
             this.on("maxfilesexceeded", function (file) {
                 this.removeFile(file);
                 alert("¡Solo se puede subir un archivo!");
-                if (imagenAdicional == "") {
-                    document.getElementsByClassName("dz-default dz-message")[0].style = "display:none";
-                }
-                document.head.appendChild(estilo_noMasImg);
+                // if (imagenAdicional == "") {
+                //     document.getElementsByClassName("dz-default dz-message")[0].style = "display:none";
+                // }
+                
             });
             this.on("success", function (_file, _response) {
                 archivos_aceptados++;
@@ -888,18 +1039,19 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
             });
             this.on("addedfile", function (file) {
                 let dz_images = document.getElementsByClassName("dz-image");
-                contenedor_preImg = file.previewElement.getElementsByClassName("dz-image")[0];
-                dzSize = file.previewElement.getElementsByClassName("dz-size")[0];
-                dzProgress = file.previewElement.getElementsByClassName("dz-progress")[0];
-                previsualizacion = file.previewElement.getElementsByTagName("img")[0];
-                contenedor_preImg.style = "width: 222px; height: 200px; z-index: 1;";
-                contenedor_preImg.parentNode.style = "width: 222px; height: 200px; margin: 0px !important; z-index: 1; background: transparent !important;";
-                contenedor_preImg.children[0].style = "width: 222px; height: 200px";
+                contenedorPrevisualizacionImagen = file.previewElement.getElementsByClassName("dz-image")[0];
+                descripcionTamanoImagen = file.previewElement.getElementsByClassName("dz-size")[0];
+                barraProgresoImagen = file.previewElement.getElementsByClassName("dz-progress")[0];
+                previsualizacionImagen = file.previewElement.getElementsByTagName("img")[0];
+                contenedorPrevisualizacionImagen.style = "width: 222px; height: 200px; z-index: 1;";
+                contenedorPrevisualizacionImagen.parentNode.style = "width: 222px; height: 200px; margin: 0px !important; z-index: 1; background: transparent !important;";
+                contenedorPrevisualizacionImagen.children[0].style = "width: 222px; height: 200px";
                 document.head.appendChild(estilo_contenedorPreImg);
-                previsualizacion.style = "width: 100%; height: 100%;";
-                dzProgress.style = "display: none;";
-                dzSize.style = "display: none;";
-                dzSize.parentElement.style = "z-index: 1;";
+                document.head.appendChild(estiloNoMasImagenes);
+                previsualizacionImagen.style = "width: 100%; height: 100%;";
+                barraProgresoImagen.style = "display: none;";
+                descripcionTamanoImagen.style = "display: none;";
+                descripcionTamanoImagen.parentElement.style = "z-index: 1;";
                 if (imagenAdicional == "" && archivos_aceptados == 0) {
                     AgregarMásContenido();
                 }
@@ -917,11 +1069,14 @@ function configurarDropZone(ingreso_enlace, imagenAdicional) {
                         txts_enlace_invalido[i].remove();
                     }
                 }
+                this.element.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                }, true);     
             });
             this.on("complete", function (file) {
-                comparacion1 = previsualizacion.src;
-                uploadBase64Image(previsualizacion.src, imagenAdicional, numAdicional);
-                if (previsualizacion.src.includes("http") || previsualizacion.src.includes("data:image")) {
+                uploadBase64Image(previsualizacionImagen.src, imagenAdicional, numAdicional);
+                if (previsualizacionImagen.src.includes("http") || previsualizacionImagen.src.includes("data:image")) {
                     this.options.maxFiles = 0;
                     if (imagenAdicional != "") {
                         document.getElementsByClassName("aux_IngresarEnlace")[1].value = file.name;
@@ -978,6 +1133,7 @@ function getExtension(base64) {
 }
 
 function uploadBase64Image(base64ImageData, imagenAdicional, numAdicional) {
+    let resultado_cypress;
     let csrfToken = document.querySelector('meta[name="csrf-token2"]').getAttribute('content');
     const uploadUrl = '/img/send';
     try {
@@ -990,7 +1146,6 @@ function uploadBase64Image(base64ImageData, imagenAdicional, numAdicional) {
     formData.append('file', imageBlob, "image" + getExtension(base64ImageData));
     formData.append('imagenAdicional', imagenAdicional);
     formData.append('numAdicional', numAdicional);
-    formData.append('idTempCliente', idTempCliente);
 
     fetch(uploadUrl, {
         method: 'POST',
@@ -999,22 +1154,29 @@ function uploadBase64Image(base64ImageData, imagenAdicional, numAdicional) {
         },
         body: formData
     })
-        .then(response => {
-            let responseClone = response.clone();
-            responseClone.text().then(text => console.log(text));
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    resolve(response.json());
-                }, 3000);  // 3000 milliseconds = 3 seconds
+    .then(response => {
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            return response.json();
+        } else {
+            return response.text().then(text => {
+                console.log("Received non-JSON response:", text);
+                throw new Error("Received non-JSON response");
             });
-        })
-        .then(data => {
-            comparacion2 = data.error;
-            console.log(data);
-        })
-        .catch((error) => {
-            console.error('Error al procesar la respuesta:', error);
-        });
+        }
+    })
+    .then(data => {
+        if (data.direct_url==null) {
+            resultado_cypress = JSON.parse(data.cypress_output);
+            enlace_modelo = resultado_cypress.enlace_modelo;
+        }else{
+            enlace_modelo = data.direct_url;
+        }
+        console.log(enlace_modelo);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }
 
 function deleteLastImage(ruta) {
@@ -1120,13 +1282,152 @@ function setupDropzoneEventHandling(dropzone) {
     }
 }
 function RemoverContenidoAgregado() {
-    let childElements = personalizacion.firstElementChild.children;
+    let childElements = tablaPersonalizacion.firstElementChild.children;
     while (childElements[2] != null && childElements[2] != undefined) {
         childElements[2].remove();
     }
 }
+function aumentarCantidadP() {
+  let str = "";
+  seccion_forma = document.getElementById("seccion_forma");
+  seleccionables = document.getElementsByName("forma");
+  cantidadInput.value = parseInt(cantidadInput.value) + 1;
+  DedicatoriasP(cantidadInput);
+  document.getElementById("cuadros_dedicatoria").innerHTML = `
+  <input type="text" placeholder="Feliz Cumpleaños..." name="dedicatoria" onclick="quitarPlaceHolder(event)">
+  `;
+  opcionSel(event);
+  texto_dedicatoria = document.getElementById("texto_dedicatoria");
+  texto_dedicatoria.innerHTML = "<b>Cantidad de dedicatorias:</b>";
+  if (cantidadInput.value == "2") {
+    if (seccion_forma != null) {
+      let elem = seccion_forma.nextElementSibling;
+      while (elem != null) {
+        elem.previousElementSibling.remove();
+        if (elem.nextElementSibling == null) {
+          elem.remove();
+          break;
+        } else {
+          elem = elem.nextElementSibling;
+        }
+      }
+    }
+
+    personalizacion.firstElementChild.insertAdjacentHTML("beforeend", `
+                  <tr id="pregunta_misma_forma">
+                    <th>¿Todos los pasteles son de la misma forma?</th>
+                    <td colspan="1">
+                      <input type="radio" id="misma_forma" onchange="opcionSel(event)" value="Sí" name="misma_forma" class="left">
+                      <label for="misma_forma" class="right">Sí</label>          
+                      <input type="radio" id="diferente_forma" onchange="opcionSel(event)" value="No" name="misma_forma" class="left">
+                      <label for="diferente_forma" class="right">No</label>
+                    </td>
+                  </tr>
+                  `+ contenido_seccion_forma() + `
+                  </tr>
+                  <tr id="pregunta_mismo_tamaño">
+                    <th>¿Todos los pasteles son del mismo tamaño?</th>
+                    <td colspan="1">
+                      <input type="radio" id="mismo_tamaño" onchange="opcionSel(event)" value="Sí" name="mismo_tamaño" class="left">
+                      <label for="mismo_tamaño" class="right">Sí</label>          
+                      <input type="radio" id="diferente_tamaño" onchange="opcionSel(event)" value="No" name="mismo_tamaño" class="left">
+                      <label for="diferente_tamaño" class="right">No</label>
+                    </td>
+                  </tr>`+ contenido_seccion_tamaño() + `
+                  <tr id="pregunta_mismo_tipo">
+                    <th>¿Desea que todos los pasteles sean del mismo tipo?</th>
+                    <td colspan="1">
+                      <input type="radio" id="mismo_tipo" onchange="opcionSel(event)" value="Sí" name="mismo_tipo" class="left">
+                      <label for="mismo_tipo" class="right">Sí</label>          
+                      <input type="radio" id="diferente_tipo" onchange="opcionSel(event)" value="No" name="mismo_tipo" class="left">
+                      <label for="diferente_tipo" class="right">No</label>
+                    </td>
+                  </tr>`+ contenido_seccion_tipoPastel(false, true, 0, false, false, false, false, false, false) + `
+                  <tr id="pregunta_mismo_sabor">
+                  <th>¿Desea que todos los pasteles tengan el mismo sabor?</th>
+                    <td colspan="1">
+                      <input type="radio" id="mismo_sabor" onchange="opcionSel(event)" value="Sí" name="mismo_sabor" class="left">
+                      <label for="mismo_sabor" class="right">Sí</label>          
+                      <input type="radio" id="diferente_sabor" onchange="opcionSel(event)" value="No" name="mismo_sabor" class="left">
+                      <label for="diferente_sabor" class="right">No</label>
+                    </td>
+                  </tr>`+ contenido_seccion_sabor() + `
+                  <tr id="pregunta_misma_cobertura">
+                  <th>¿Desea que todos los pasteles tengan el mismo tipo de cobertura?</th>
+                    <td colspan="1">
+                      <input type="radio" id="misma_cobertura" onchange="opcionSel(event)" value="Sí" name="misma_cobertura" class="left">
+                      <label for="misma_cobertura" class="right">Sí</label>          
+                      <input type="radio" id="diferente_cobertura" onchange="opcionSel(event)" value="No" name="misma_cobertura" class="left">
+                      <label for="diferente_cobertura" class="right">No</label>
+                    </td>
+                  </tr>`+ contenido_seccion_cobertura() + `
+                  <tr id="pregunta_mismo_relleno">
+                  <th>¿Desea que todos los pasteles tengan el mismo relleno?</th>
+                    <td colspan="1">
+                      <input type="radio" id="mismo_relleno" onchange="opcionSel(event)" value="Sí" name="mismo_relleno" class="left">
+                      <label for="mismo_relleno" class="right">Sí</label>          
+                      <input type="radio" id="diferente_relleno" onchange="opcionSel(event)" value="No" name="mismo_relleno" class="left">
+                      <label for="diferente_relleno" class="right">No</label>
+                    </td>
+                  </tr>`+ contenido_seccion_relleno() + `
+                  `+ contenido_pregunta_imagenEspecífica(2) + `
+                  `+ contenido_pregunta_fig_adorno() + `
+                  `+ contenido_adicional(1) + `
+    `);
+    elems_masa = document.getElementsByName("masa");
+    elems_masa[0].onchange = function () { tipoPasteles(event, true, 0, true, true, true, false, false); };
+    inputs_radio = document.querySelectorAll("input[type='radio']");
+    for (let i = 0; i < inputs_radio.length; i += 2) {
+      if (i + 2 >= inputs_radio.length) {
+        inputs_radio[i + 1].checked = true;
+      } else {
+        inputs_radio[i].checked = true;
+      }
+    }
+    seccion_forma = document.getElementById("seccion_forma");
+    mismo_tamaño = document.getElementById("mismo_tamaño");
+    misma_forma = document.getElementById("misma_forma");
+    misma_cobertura = document.getElementById("misma_cobertura");
+    mismo_relleno = document.getElementById("mismo_relleno");
+    diferente_tamaño = document.getElementById("diferente_tamaño");
+    diferente_forma = document.getElementById("diferente_forma");
+    diferente_tipo = document.getElementById("diferente_tipo");
+    pregunta_mismo_tamaño = document.getElementById("pregunta_mismo_tamaño");
+    pregunta_mismo_tipo = document.getElementById("pregunta_mismo_tipo");
+    pregunta_mismo_sabor = document.getElementById("pregunta_mismo_sabor");
+    pregunta_mismo_relleno = document.getElementById("pregunta_mismo_relleno");
+    pregunta_misma_cobertura = document.getElementById("pregunta_misma_cobertura");
+    pregunta_imagenEspecífica = document.getElementById("pregunta_imagenEspecífica");
+  }
+  precio = document.getElementById("precio");
+  contenedor_select.removeAttribute("style");
+
+  if (diferente_forma.checked) {
+    for (let i = 0; i <= cantidadInput.value; i++) {
+      str += '<option value="' + i + '">' + i + '</option>';
+    }
+    for (let j = 0; j < seleccionables.length; j++) {
+      seleccionables[j].innerHTML = str;
+    }
+  }
+  if (diferente_tamaño.checked) {
+    if (misma_forma.checked) {
+      div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.value = cantidadInput.value;
+      div_elem.children[formaANúmero(seccion_forma.children[1].firstElementChild.value)].firstElementChild.innerHTML = cantidadInput.value;
+      diferenteTamaño(false, div_elem.children);
+      resetearDivElem();
+    } else {
+      diferenteTamaño(false, seleccionables);
+    }
+  } else {
+    if (diferente_forma.checked) {
+      diferenteTamaño(true, seleccionables);
+    }
+  }
+  actualizarDesdeTipo();
+}
 function AgregarMásContenido() {
-    personalizacion.firstElementChild.insertAdjacentHTML("beforeend", `            
+    tablaPersonalizacion.firstElementChild.insertAdjacentHTML("beforeend", `            
                   <tr>
                       <th>Ingrese el número de pasteles que se encuentra en el modelo:</th>
                       <td colspan="1">
@@ -1149,7 +1450,7 @@ function AgregarMásContenido() {
                   `+ contenidoUnPastel() + `
     `);
     document.getElementById("sin_imgEspecífica").checked = true;
-    cantidadInput = document.getElementsByClassName("cantidad")[0];
+    cantidadPasteles = document.getElementsByClassName("cantidad")[0];
     contenedor_select = document.getElementById("contenedor_select");
     select_tamaño = document.getElementById("opciones_tamaño");
     select_sabor = document.getElementById("opciones_sabor");
@@ -1158,9 +1459,9 @@ function AgregarMásContenido() {
     document.getElementById("descrAdicional").addEventListener("input", ingresoEspAdicional);
     document.querySelector("#cuadros_dedicatoria>input").addEventListener("input", function (event) {
         if (event.target.value == "") {
-            texto_dedicatoria = null;
+            textoDedicatoria = null;
         } else {
-            texto_dedicatoria = event.target.value;
+            textoDedicatoria = event.target.value;
         }
     });
 }
@@ -1284,7 +1585,7 @@ function contenido_pregunta_imagenEspecífica(num_col) {
     }
     return `
   <tr id="pregunta_imagenEspecífica">
-    <th><p><b>¿Desea un dibujo/imagen especial en `+ str_aux + ` pastel?</b></p></th>
+    <th><p><b>¿Desea una imagen especial en `+ str_aux + ` pastel?</b></p></th>
     <td>
       <input type="radio" id="con_imgEspecífica" onchange="opcionSel(event)" value="Sí" name="imgEspecífica" class="left">
       <label for="con_imgEspecífica" class="right">Sí</label>
@@ -1406,9 +1707,9 @@ function validaciónIngresoEnlace(ingreso_enlace, dropzone, imagenAdicional) {
             }
         }
     } else {
-        elem_estImgNoValido = document.getElementById("est_txtImgNoValida");
-        if (elem_estImgNoValido != undefined) {
-            elem_estImgNoValido.remove();
+        elementoEstiloTextoImagenNoValida = document.getElementById("est_txtImgNoValida");
+        if (elementoEstiloTextoImagenNoValida != undefined) {
+            elementoEstiloTextoImagenNoValida.remove();
         }
     }
 }
@@ -1417,9 +1718,9 @@ function enlaceImgVálido(enlace, dropzone, imagenAdicional, ingreso_enlace) {
     dropzone.emit("addedfile", mockFile);
     dropzone.emit("thumbnail", mockFile, enlace);
     dropzone.files.push(mockFile);
-    elem_estImgNoValido = document.getElementById("est_txtImgNoValida");
-    if (elem_estImgNoValido != undefined) {
-        elem_estImgNoValido.remove();
+    elementoEstiloTextoImagenNoValida = document.getElementById("est_txtImgNoValida");
+    if (elementoEstiloTextoImagenNoValida != undefined) {
+        elementoEstiloTextoImagenNoValida.remove();
     }
     switch (imagenAdicional) {
         case "Adicional":
@@ -1488,13 +1789,13 @@ function imgNoValida(archivo, file, ingreso_enlace) {
           <p class="txtImgNoValida">Enlace no válido</p>
         <div>
         `);
-        document.head.appendChild(estilo_txtImgNoValida);
+        document.head.appendChild(estiloTextoImagenNoValida);
     }
 }
 function añadirDropAdd() {
     numImgEspAdic++;
-    cantidadInput2 = document.getElementsByClassName("cantidad")[1];
-    cantidadInput2.value = parseInt(cantidadInput2.value) + 1;
+    cantidadImagenesEspecificacionAdicional = document.getElementsByClassName("cantidad")[1];
+    cantidadImagenesEspecificacionAdicional.value = parseInt(cantidadImagenesEspecificacionAdicional.value) + 1;
     txtespAdicional = document.querySelector("#espAdicional>th");
     espAdicional3 = document.getElementById("espAdicional3");
     txtespAdicional.setAttribute("rowspan", 3);
@@ -1530,10 +1831,10 @@ function añadirDropAdd() {
 }
 
 function quitarDropAdd() {
-    cantidadInput2 = document.getElementsByClassName("cantidad")[1];
-    if (parseInt(cantidadInput2.value) > 0) {
+    cantidadImagenesEspecificacionAdicional = document.getElementsByClassName("cantidad")[1];
+    if (parseInt(cantidadImagenesEspecificacionAdicional.value) > 0) {
         numImgEspAdic--;
-        cantidadInput2.value = parseInt(cantidadInput2.value) - 1;
+        cantidadImagenesEspecificacionAdicional.value = parseInt(cantidadImagenesEspecificacionAdicional.value) - 1;
         tdEspAdd.lastElementChild.remove();
     }
     if (document.getElementById("cantidad").value < numAdicional) {

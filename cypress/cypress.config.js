@@ -1,13 +1,17 @@
 const { defineConfig } = require('cypress');
+const path = require('path');
+
+// Define base_path function
+const base_path = (relativePath) => path.join(__dirname, relativePath);
 
 module.exports = defineConfig({
   chromeWebSecurity: false,
   retries: 2,
   defaultCommandTimeout: 5000,
   watchForFileChanges: false,
-  videosFolder: './cypress/cypress/videos',
-  screenshotsFolder: './cypress/cypress/screenshots',
-  fixturesFolder: './cypress/cypress/fixtures',
+  videosFolder: base_path('cypress/videos'),
+  screenshotsFolder: base_path('cypress/screenshots'),
+  fixturesFolder: base_path('cypress/fixtures'),
   headless: true,
   video: false,
   screenshotOnRunFailure: false,
@@ -23,9 +27,8 @@ module.exports = defineConfig({
         },
       })
     },
-    baseUrl: 'http://localhost:7000',
-    specPattern: './cypress/cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
-    supportFile: './cypress/cypress/support/e2e.js',
+    specPattern: base_path('cypress/e2e/**/*.cy.{js,jsx,ts,tsx}'),
+    supportFile: base_path('cypress/support/e2e.js'),
     reporter: 'dot',
     video: false,
     screenshotOnRunFailure: false,

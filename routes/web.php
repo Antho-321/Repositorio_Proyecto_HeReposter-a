@@ -200,4 +200,3 @@ Route::get('/AdministradorVariosIndex', [AdministradorController::class, "indexV
 Route::post('/AdministradorVariosIngresar', [AdministradorController::class, "createVarios"])->name("AdministradorVariosIngresar");
 Route::post('/AdministradorVariosActualizar', [AdministradorController::class, "updateVarios"])->name("AdministradorVariosActualizar");
 Route::get('/AdministradorVariosEliminar-{id}', [AdministradorController::class, "deleteVarios"])->name("AdministradorVariosEliminar");
-

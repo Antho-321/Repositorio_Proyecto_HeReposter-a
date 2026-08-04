@@ -418,66 +418,212 @@ class ClienteController extends Controller
     {
         // Handle the file upload logic here
     }
-    public function send(Request $request)
+    public function get_direct_image_url($initial_url)
     {
-        $response = ['success' => false, 'message' => '', 'details' => []];
-
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $idTempCliente = $request->input('idTempCliente');
-            $uploadDir = base_path('cypress/cypress/fixtures');
-            $fileName = $idTempCliente . '_' . $file->getClientOriginalName();
-            $uploadFile = $uploadDir . $fileName;
-
-            try {
-                if ($file->move($uploadDir, $fileName)) {
-                    $response['success'] = true;
-                    $response['message'] = 'File uploaded successfully.';
-                } else {
-                    $response['message'] = 'Failed to move uploaded file.';
-                    $response['details'] = [
-                        'error' => error_get_last(),
-                        'upload_dir' => $uploadDir,
-                        'file_name' => $fileName
-                    ];
-                }
-            } catch (\Exception $e) {
-                $response['message'] = 'Exception occurred during file upload.';
-                $response['details'] = [
-                    'exception' => $e->getMessage(),
-                    'file' => $e->getFile(),
-                    'line' => $e->getLine()
-                ];
-            }
-        } else {
-            $response['message'] = 'No file received.';
-            $response['details'] = [
-                'FILES' => $_FILES,
-                'content_type' => $request->header('Content-Type'),
-                'content_length' => $request->header('Content-Length')
-            ];
-        }
-
-        $url = "http://localhost:7000/?idTempClient=".$idTempCliente;
-
-        // Initialize cURL session
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_URL, $initial_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
-        $resultado = curl_exec($ch);
-
-        if ($resultado === false) {
-            $response['cURL Error'] = curl_error($ch);
-            $response['cURL Error Number'] = curl_errno($ch);
-        } else {
-            $response['Response'] = $resultado;
-            $response['HTTP Code'] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        }
+        $html = curl_exec($ch);
 
         curl_close($ch);
 
-        return response()->json($response);
+        if ($html === false || $html === '') {
+            throw new \Exception('No HTML received from ' . $initial_url);
+        }
+
+        $dom = new \DOMDocument();
+        @$dom->loadHTML($html);
+        $input = $dom->getElementById('code_direct');
+
+        if ($input === null) {
+            throw new \Exception('Element #code_direct not found in ' . $initial_url);
+        }
+
+        return $input->getAttribute('value');
+    }
+    public function upload_image($api_url, $token, $image_path, $upload_session)
+    {
+
+        $data = [
+            'token' => $token,
+            'upload_session' => $upload_session,
+            'numfiles' => '1',
+            'upload_referer' => 'https://www.phpbb.com',
+            'file' => new \CURLFile($image_path)
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $api_url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+        $response = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $headers = curl_getinfo($ch);
+
+        curl_close($ch);
+
+        return [
+            'status_code' => $http_code,
+            'headers' => $headers,
+            'content' => $response
+        ];
+    }
+    public function deleteFile($filePath) {
+        if (file_exists($filePath)) {
+            if (unlink($filePath)) {
+                return "File deleted successfully.";
+            } else {
+                return "Error deleting the file.";
+            }
+        } else {
+            return "File not found.";
+        }
+    }
+    public function send(Request $request)
+    {
+        $directUrl = null;
+        $errorDetails = null;
+        $cypressOutput = null;
+        $image_path = null;
+
+        try {
+            if (!$request->hasFile('file')) {
+                throw new \Exception('No file received.');
+            }
+
+            $file = $request->file('file');
+            $uploadDir = base_path('cypress/cypress/fixtures');
+            $fileName = $file->getClientOriginalName();
+
+            if (!$file->move($uploadDir, $fileName)) {
+                throw new \Exception('Failed to move uploaded file.');
+            }
+
+            $image_path = $uploadDir . '/' . $fileName;
+
+            $api_url = "https://postimg.cc/json?q=a";
+            $token = "61aa06d6116f7331ad7b2ba9c7fb707ec9b182e8";
+            $upload_session = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
+            $api_response = $this->upload_image($api_url, $token, $image_path, $upload_session);
+
+            if (!isset($api_response['content'])) {
+                throw new \Exception('No content received from API');
+            }
+
+            $json_response = json_decode($api_response['content'], true);
+            $initial_url = $json_response['url'] ?? null;
+
+            if (!$initial_url) {
+                throw new \Exception('No URL received from API');
+            }
+            
+            $directUrl = $this->get_direct_image_url($initial_url);
+        } catch (\Exception $e) {
+            $errorDetails = [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ];
+            $cypressOutput = json_encode($this->convertTextToObject($this->runCypressTest()), JSON_PRETTY_PRINT);
+        }
+
+        if ($image_path !== null) {
+            $this->deleteFile($image_path);
+        }
+
+        return response()->json([
+            'direct_url' => $directUrl,
+            'cypress_output' => $cypressOutput,
+            'error_details' => $errorDetails
+        ]);
+    }
+    function convertTextToObject($text)
+    {
+        // Remove newlines and extra spaces
+        $text = preg_replace('/\s+/', ' ', $text);
+
+        // Extract the JSON-like part
+        if (preg_match('/({.*})/', $text, $matches)) {
+            $jsonLike = $matches[1];
+        } else {
+            return new \stdClass(); // Return empty object if no match
+        }
+
+        // Replace single quotes with double quotes
+        $jsonLike = str_replace("'", '"', $jsonLike);
+
+        // Decode the JSON string
+        $object = json_decode($jsonLike);
+
+        // If json_decode fails, fallback to manual parsing
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $object = new \stdClass();
+
+            // Remove curly braces
+            $jsonLike = trim($jsonLike, '{}');
+
+            // Split into key-value pairs
+            $pairs = explode(',', $jsonLike);
+
+            foreach ($pairs as $pair) {
+                list($key, $value) = explode(':', $pair, 2);
+                $key = trim($key, ' "');
+                $value = trim($value, ' "');
+                $object->$key = $value;
+            }
+        }
+
+        return $object;
+    }
+
+    private function runCypressTest()
+    {
+        set_time_limit(300);
+        $command = sprintf(
+            'npx cypress run --spec "%s" --config-file "%s" --quiet',
+            base_path('cypress/cypress/e2e/get_image_link.cy.js'),
+            base_path('cypress/cypress.config.js')
+        );
+
+        exec($command, $output, $return_var);
+        $cypressOutput = implode("\n", $output);
+
+        if ($return_var !== 0) {
+            $cypressOutput = "Error occurred. Error code: $return_var\n";
+            $cypressOutput .= $this->checkCypressSetup();
+        }
+
+        return $cypressOutput;
+    }
+
+    private function checkCypressSetup()
+    {
+        $checks = [
+            'npm' => 'npm -v',
+            'node' => 'node -v',
+            'npx' => 'npx -v',
+            'cypress' => 'npx cypress -v'
+        ];
+
+        $results = [];
+        foreach ($checks as $name => $command) {
+            exec($command . ' 2>&1', $output, $returnVar);
+            $results[$name] = [
+                'installed' => $returnVar === 0,
+                'version' => $returnVar === 0 ? implode("\n", $output) : 'Not installed or not accessible'
+            ];
+        }
+
+        return json_encode($results, JSON_PRETTY_PRINT) . "\n";
     }
     public function get_upload_image(Request $request)
     {

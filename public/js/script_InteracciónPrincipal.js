@@ -1,4 +1,4 @@
-import { estilo_Ingreso_Registro, salto, divVentana, CerrarVentana, getTempUserIdentifier } from './funciones_reutilizables.js';
+import { estilo_Ingreso_Registro, salto, divVentana, CerrarVentana } from './funciones_reutilizables.js';
 
 let num_productos, cantidad_producto_carr, img, id_imagen, direccion_producto,
     dedicatoria, cuadros_dedicatoria, opciones, id_producto, precio_producto,
@@ -59,7 +59,6 @@ estilo_carritoSinProductos.innerHTML = `
 `;
 estilo_carritoSinProductos.id = "aux_cont_principal";
 add_carrito = document.getElementById("add_carrito");
-document.addEventListener('DOMContentLoaded', function () { getTempUserIdentifier(); });
 if (btn_ingreso != null) {
     btn_ingreso.addEventListener('click', MostrarVentanaDeIngreso);
 }
