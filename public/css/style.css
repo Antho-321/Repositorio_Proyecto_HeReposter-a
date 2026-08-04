@@ -16104,6 +16104,18 @@ disabled look for disabled choices in the results dropdown
 	height: 85px;
 }
 
+/* En escritorio (rd-navbar-static, >=992px) la barra mide 110px, así que la
+   reserva de espacio debe coincidir; con 85px el hero se metía por debajo del
+   nav y el subrayado amarillo quedaba fuera de la banda blanca. Por debajo de
+   992px manda el layout rd-navbar-fixed y se conserva el valor anterior. */
+@media (min-width: 992px) {
+
+	#menu,
+	.rd-navbar-wrap {
+		height: 110px;
+	}
+}
+
 #menu {
 	position: relative !important;
 	z-index: 102;
@@ -16229,6 +16241,21 @@ footer {
 	height: 85px !important;
 }
 
+/* Misma altura que .rd-navbar-inner (110px) en escritorio: con 85px el
+   contenido del nav se desbordaba 25px por debajo de la banda blanca. */
+@media (min-width: 992px) {
+	.rd-navbar-inner-outer {
+		height: 110px !important;
+	}
+}
+
+/* El panel del logo ocupa toda la altura de la barra para que el fondo blanco
+   sesgado (::before) la cubra entera y el logo quede centrado verticalmente:
+   110px - 30px de padding = 80px, justo el alto del logo. */
+.rd-navbar-modern.rd-navbar-static .rd-navbar-panel {
+	margin-bottom: 0 !important;
+}
+
 .container {
 	width: 100vw !important;
 	/* Adjust the width here */
@@ -16264,8 +16291,9 @@ body,
 .rd-nav-item {
 	position: relative;
 	/* This makes sure that the pseudo-element is positioned relative to the menu item */
-	padding-bottom: 10px;
-	/* Adjust as needed to add space for the line */
+	padding: 5px 0;
+	/* Simétrico arriba/abajo: 100px del enlace + 5 + 5 = los 110px de la barra,
+	   así el texto queda centrado y el subrayado amarillo cabe dentro. */
 }
 
 .rd-nav-link {
