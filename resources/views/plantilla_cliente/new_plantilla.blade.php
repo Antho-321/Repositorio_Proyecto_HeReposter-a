@@ -84,7 +84,7 @@
                                     data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
                                 <!-- RD Navbar Brand-->
                                 <div class="rd-navbar-brand"><a class="brand" href="index.html">
-                                        <img class="brand-logo-dark" src="{{ asset('images/logo-198x66.png') }}"
+                                        <img class="brand-logo-dark" src="{{ asset('images/LOGO_PANKEY.png') }}"
                                             alt="" width="80" height="80" style="height: 80px;" /></a>
                                 </div>
                             </div>

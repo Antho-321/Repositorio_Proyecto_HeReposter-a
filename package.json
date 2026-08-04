@@ -10,6 +10,7 @@
         "axios": "^1.6.1",
         "cypress-file-upload": "^5.0.8",
         "laravel-vite-plugin": "^1.0.0",
+        "playwright": "^1.62.1",
         "vite": "^5.0.0"
     },
     "dependencies": {
