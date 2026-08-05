@@ -7466,6 +7466,44 @@ html.tablet .ui-to-top {
 	letter-spacing: .1em;
 }
 
+/* ─── Grosor de las barras del botón hamburguesa ────────────────────────────
+   Ajusta SOLO --hamburguesa-grosor-reduccion. Es el porcentaje que se le resta
+   al grosor del diseño (con el ancho actual de 35px, ese grosor son 5px):
+       0   = grosor del diseño (5px)
+       25  = 3.75px
+       50  = la mitad          (2.5px)
+       100 = barras invisibles (0px)
+   El grosor final se recalcula solo a partir de ese valor, así que no hay que
+   tocar --hamburguesa-grosor.
+
+   El grosor base sale de medir el ícono de referencia (PNG de 225px): barras de
+   197 × 28 px con los centros cada 56.5 px, que normalizado a un viewBox de 24
+   es la retícula limpia de 21 × 3 con centros en y = 6, 12, 18. De ahí salen
+   las dos proporciones que definen el dibujo:
+
+       grosor              = ancho / 7      (3 / 21)
+       separación centros  = grosor × 2     (6 / 3)
+
+   Ojo con la separación: cuelga del grosor BASE, no del reducido. Así el
+   porcentaje adelgaza las líneas sin encoger el ícono — el alto total y la
+   posición de las tres barras se quedan donde están, solo se afinan —. Y como
+   sigue atada al base, subir --hamburguesa-barra-ancho separa las barras en
+   proporción en vez de fundirlas en un bloque. */
+:root {
+	--hamburguesa-barra-ancho: 35px;
+	/* Largo de cada barra */
+
+	--hamburguesa-grosor-base: calc(var(--hamburguesa-barra-ancho) / 7);
+	/* Grosor del diseño de referencia */
+
+	--hamburguesa-grosor-reduccion: 30;
+	/* ← PORCENTAJE DE REDUCCIÓN (sin el signo %) */
+
+	/* Derivados: no editar. */
+	--hamburguesa-grosor: calc(var(--hamburguesa-grosor-base) * (100 - var(--hamburguesa-grosor-reduccion)) / 100);
+	--hamburguesa-separacion: calc(var(--hamburguesa-grosor-base) * 2);
+}
+
 .rd-navbar-toggle {
 	display: inline-block;
 	position: relative;
@@ -7491,12 +7529,12 @@ html.tablet .ui-to-top {
 	content: "";
 	position: absolute;
 	left: 0;
-	top: -10px;
+	top: calc(-1 * var(--hamburguesa-separacion));
 	transition: .3s all ease;
 }
 
 .rd-navbar-toggle span:after {
-	top: 10px;
+	top: var(--hamburguesa-separacion);
 }
 
 /* Las tres barras del botón hamburguesa. Los extremos van redondeados en forma
@@ -7505,15 +7543,15 @@ html.tablet .ui-to-top {
    (barras de 21 × 3 en un viewBox de 24 → rx = 1.5).
 
    Se declara 999px a propósito: CSS recorta el radio al máximo que cabe en la
-   caja, así que sobre una barra de 30 × 2 queda exactamente en 1px = alto / 2.
-   Escribirlo así evita tener que reajustar el número si algún día cambia el
-   grosor de las barras: siempre serán semicírculos completos, nunca esquinas
-   apenas suavizadas. */
+   caja, así que siempre queda en alto / 2 sea cual sea el grosor. Por eso
+   --hamburguesa-grosor se puede mover libremente sin tener que reajustar aquí
+   nada: las tapas siguen siendo semicírculos completos, nunca esquinas apenas
+   suavizadas. */
 .rd-navbar-toggle span:after,
 .rd-navbar-toggle span:before,
 .rd-navbar-toggle span {
-	width: 30px;
-	height: 2px;
+	width: var(--hamburguesa-barra-ancho);
+	height: var(--hamburguesa-grosor);
 	background-color: #151515;
 	backface-visibility: hidden;
 	border-radius: 999px;
