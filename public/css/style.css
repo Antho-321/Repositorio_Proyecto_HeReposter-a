@@ -16170,6 +16170,23 @@ disabled look for disabled choices in the results dropdown
 	}
 }
 
+/* ─── Móvil (rd-navbar-fixed): sin reserva de espacio ────────────────────────
+   En este layout lo único que se ve de la barra es el panel de 56px, que va
+   `position: fixed` y ya lo compensa el tema con
+   `html.rd-navbar-fixed-linked .page { padding-top: 56px }`. Los 85px de arriba
+   no los ocupaba nada: dejaban una franja vacía entre el panel y el contenido,
+   pintada de gris por el fondo #f5f5f5 de .rd-navbar-modern.
+
+   Se acota con :has() y no con `@media (max-width: 991px)` por el mismo motivo
+   que el resto del archivo: en tablets táctiles de 992px o más el tema sigue
+   usando rd-navbar-fixed (data-lg-device-layout).
+   El !important es necesario porque el plugin escribe la altura en el atributo
+   `style` de .rd-navbar-wrap. */
+#menu:has(.rd-navbar-fixed),
+.rd-navbar-wrap:has(.rd-navbar-fixed) {
+	height: 0 !important;
+}
+
 #menu {
 	position: relative !important;
 	z-index: 102;
@@ -16326,6 +16343,13 @@ footer {
 	.rd-navbar-inner-outer {
 		height: var(--navbar-height) !important;
 	}
+}
+
+/* En móvil, en cambio, este contenedor no envuelve nada con altura propia: el
+   panel y el menú desplegable van los dos `position: fixed`. Con los 85px fijos
+   era la caja que pintaba la franja gris debajo del panel. */
+.rd-navbar-fixed .rd-navbar-inner-outer {
+	height: auto !important;
 }
 
 /* Aquí es donde se define el espacio en blanco de arriba y de abajo del logo:
