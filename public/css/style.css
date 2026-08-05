@@ -16120,6 +16120,21 @@ disabled look for disabled choices in the results dropdown
 	--navbar-nav-item-space: 5px;
 	/* Holgura arriba/abajo de cada enlace del menú */
 	--navbar-height: calc(var(--navbar-logo-height) + 2 * var(--navbar-logo-space));
+
+	/* Separación horizontal ÚNICA entre los elementos del menú (Inicio, Sobre
+	   nosotros, Catalogo, Pasteles personalizados, carrito e Ingresar). Un solo
+	   valor para todos los huecos; sube o baja este número para abrir o cerrar
+	   el menú entero. Valor para pantallas de 992px a 1199px. */
+	--navbar-nav-gap: 52px;
+}
+
+/* A partir de 1200px el tema da más aire al menú, así que el hueco crece.
+   52px y 64px son los que dejan el menú con el mismo ancho total que tenía
+   antes de repartir el espacio a partes iguales. */
+@media (min-width: 1200px) {
+	:root {
+		--navbar-nav-gap: 64px;
+	}
 }
 
 #menu,
@@ -16306,12 +16321,36 @@ body,
 	/* adjust the margin as needed */
 }
 
-/* This assumes that 'Carrito' is the last item in your navigation.
-	 If it's not, you'll need to add a specific class or ID to target it directly. */
+/* OJO: estas dos reglas de margen ya sólo actúan por debajo de 992px (el menú
+   desplegable del móvil). En escritorio manda el bloque de más abajo.
+   El comentario original daba por hecho que 'Carrito' era el último elemento
+   del menú, pero el último es 'Ingresar': el carrito es el penúltimo. */
 .rd-navbar-nav .rd-nav-item:last-child {
 	margin-right: 0 !important;
 	margin-left: auto !important;
-	/* This pushes the 'Carrito' to the far right */
+}
+
+/* ─── Separación horizontal uniforme del menú (escritorio) ───────────────────
+   Antes cada hueco eran dos márgenes sumados: 20px de `margin-right` del
+   elemento anterior + 55px de `margin-left` del siguiente (regla del tema
+   `.rd-navbar-modern.rd-navbar-static .rd-nav-item + .rd-nav-item`) = 75px.
+   Pero al último elemento ('Ingresar') la regla de arriba le cambiaba esos
+   55px por `margin-left: auto`, y como el menú no tiene espacio libre que
+   repartir, ese `auto` se resolvía a 0: el hueco entre el carrito e 'Ingresar'
+   quedaba en 20px en vez de 75px.
+
+   Solución: anular todos los márgenes laterales y separar con `column-gap`,
+   que aplica exactamente la misma distancia a todos los huecos por igual. */
+@media (min-width: 992px) {
+	.rd-navbar-nav {
+		column-gap: var(--navbar-nav-gap);
+	}
+
+	.rd-navbar-nav .rd-nav-item,
+	.rd-navbar-nav .rd-nav-item:last-child {
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+	}
 }
 
 
