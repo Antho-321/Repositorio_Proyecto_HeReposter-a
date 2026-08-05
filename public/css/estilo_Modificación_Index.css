@@ -19,7 +19,9 @@
 .titulo-hobo span,
 .titulo-hobo p {
     font-family: "Hobo", cursive !important;
-    letter-spacing: .04em;
+    /* tracking a 0: el .1em global abre demasiado la palabra en caja mixta y
+       negrita, y rompe la unidad visual del titular */
+    letter-spacing: 0;
     text-transform: none;
 }
 
