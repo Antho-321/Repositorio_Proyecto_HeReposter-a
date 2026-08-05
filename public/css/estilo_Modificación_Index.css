@@ -13,11 +13,14 @@
     font-display: swap;
 }
 
+/* text-transform: none anula el uppercase global de h1..h6 (style.css); Hobo se
+   lee mejor en caja mixta y asi el titular respeta el texto tal cual se escribe */
 .titulo-hobo,
 .titulo-hobo span,
 .titulo-hobo p {
     font-family: "Hobo", cursive !important;
     letter-spacing: .04em;
+    text-transform: none;
 }
 
 #Contenido_Cabecera,

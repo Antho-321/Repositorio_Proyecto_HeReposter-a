@@ -1,6 +1,7 @@
 @extends('plantilla_cliente.new_plantilla')
 @section('estilo')
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_Index.css') }}" id="estilo">
+    {{-- ?v=filemtime: mismo motivo que en style.css, evita servir el CSS viejo tras un cambio --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_Index.css') }}?v={{ filemtime(public_path('css/estilo_Modificación_Index.css')) }}" id="estilo">
 @endsection
 @section('navegacion')
 <style>
@@ -89,7 +90,7 @@ h1{
 @endsection
 @section('content')
 <div id="contenido_principal">
-    <h1>{{$array_categoria_pasteles[0]}}</h1>
+    <h1 class="titulo-hobo">{{$array_categoria_pasteles[0]}}</h1>
     <form action="{{ route('cliente.pastel_seleccionado') }}" method="POST" id="seccion_productos">
         @csrf
         <input type="hidden" name="img" id="enlace_pastel">
