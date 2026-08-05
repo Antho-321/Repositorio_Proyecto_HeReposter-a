@@ -16099,20 +16099,43 @@ disabled look for disabled choices in the results dropdown
 }
 
 
+/* ─── Espacio en blanco alrededor del logo del navbar (escritorio) ───────────
+   Ajusta SOLO --navbar-space-reduction. Es el porcentaje que se le resta al
+   espacio original de 15px que hay encima y debajo del logo:
+       0   = espacio original (15px arriba y abajo, barra de 110px)
+       50  = la mitad         (7.5px arriba y abajo, barra de 95px)
+       100 = sin espacio      (0px arriba y abajo, barra de 80px)
+   El resto de medidas (alto de la barra y de los enlaces del menú) se
+   recalculan solas a partir de este valor, así que no hay que tocarlas. */
+:root {
+	--navbar-logo-height: 80px;
+	/* Alto del logo, fijado en la plantilla */
+	--navbar-logo-space-base: 15px;
+	/* Espacio original arriba/abajo del logo */
+	--navbar-space-reduction: 50;
+	/* ← PORCENTAJE DE REDUCCIÓN (sin el signo %) */
+
+	/* Derivados: no editar. */
+	--navbar-logo-space: calc(var(--navbar-logo-space-base) * (100 - var(--navbar-space-reduction)) / 100);
+	--navbar-nav-item-space: 5px;
+	/* Holgura arriba/abajo de cada enlace del menú */
+	--navbar-height: calc(var(--navbar-logo-height) + 2 * var(--navbar-logo-space));
+}
+
 #menu,
 .rd-navbar-wrap {
 	height: 85px;
 }
 
-/* En escritorio (rd-navbar-static, >=992px) la barra mide 110px, así que la
-   reserva de espacio debe coincidir; con 85px el hero se metía por debajo del
-   nav y el subrayado amarillo quedaba fuera de la banda blanca. Por debajo de
-   992px manda el layout rd-navbar-fixed y se conserva el valor anterior. */
+/* En escritorio (rd-navbar-static, >=992px) la reserva de espacio debe
+   coincidir con el alto real de la barra; con 85px el hero se metía por debajo
+   del nav y el subrayado amarillo quedaba fuera de la banda blanca. Por debajo
+   de 992px manda el layout rd-navbar-fixed y se conserva el valor anterior. */
 @media (min-width: 992px) {
 
 	#menu,
 	.rd-navbar-wrap {
-		height: 110px;
+		height: var(--navbar-height);
 	}
 }
 
@@ -16241,18 +16264,22 @@ footer {
 	height: 85px !important;
 }
 
-/* Misma altura que .rd-navbar-inner (110px) en escritorio: con 85px el
-   contenido del nav se desbordaba 25px por debajo de la banda blanca. */
+/* Misma altura que la barra en escritorio: con 85px fijos el contenido del nav
+   se desbordaba por debajo de la banda blanca. */
 @media (min-width: 992px) {
 	.rd-navbar-inner-outer {
-		height: 110px !important;
+		height: var(--navbar-height) !important;
 	}
 }
 
-/* El panel del logo ocupa toda la altura de la barra para que el fondo blanco
-   sesgado (::before) la cubra entera y el logo quede centrado verticalmente:
-   110px - 30px de padding = 80px, justo el alto del logo. */
+/* Aquí es donde se define el espacio en blanco de arriba y de abajo del logo:
+   el padding vertical de este panel. El panel ocupa toda la altura de la barra
+   para que el fondo blanco sesgado (::before) la cubra entera, y el logo queda
+   centrado verticalmente entre esos dos espacios.
+   Sobrescribe el `padding: 15px 15px 15px 0` de la regla original. */
 .rd-navbar-modern.rd-navbar-static .rd-navbar-panel {
+	padding-top: var(--navbar-logo-space);
+	padding-bottom: var(--navbar-logo-space);
 	margin-bottom: 0 !important;
 }
 
@@ -16291,8 +16318,8 @@ body,
 .rd-nav-item {
 	position: relative;
 	/* This makes sure that the pseudo-element is positioned relative to the menu item */
-	padding: 5px 0;
-	/* Simétrico arriba/abajo: 100px del enlace + 5 + 5 = los 110px de la barra,
+	padding: var(--navbar-nav-item-space) 0;
+	/* Simétrico arriba/abajo: alto del enlace + 5 + 5 = el alto de la barra,
 	   así el texto queda centrado y el subrayado amarillo cabe dentro. */
 }
 
@@ -16301,6 +16328,16 @@ body,
 	display: flex !important;
 	justify-content: center !important;
 	align-items: center !important;
+}
+
+/* En escritorio el enlace mide la barra menos la holgura del item. Va después
+   de la regla anterior (misma especificidad) para poder ganarle, y así el menú
+   no estira la barra impidiendo que el espacio del logo se reduzca; el
+   subrayado amarillo (::before, pegado a bottom: 0) queda dentro de la banda. */
+@media (min-width: 992px) {
+	.rd-nav-link {
+		height: calc(var(--navbar-height) - 2 * var(--navbar-nav-item-space));
+	}
 }
 
 .rd-nav-item,
