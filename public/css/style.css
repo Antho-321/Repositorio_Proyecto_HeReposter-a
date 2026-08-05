@@ -16136,6 +16136,21 @@ disabled look for disabled choices in the results dropdown
 
 	/* Tamaño del icono del carrito en escritorio (es cuadrado). */
 	--navbar-cart-size: 41.7px;
+
+	/* ─── Tamaño del icono del carrito en el panel lateral (móvil) ───────────
+	   Ajusta SOLO --navbar-cart-mobile-reduction: es el porcentaje que se le
+	   resta al tamaño original de 60px.
+	       0  = 60px (tamaño original)
+	       25 = 45px
+	       50 = 30px
+	   El hueco vertical entre entradas del menú no depende de este valor, así
+	   que el icono se puede encoger sin descuadrar el resto del panel. */
+	--navbar-cart-mobile-base: 60px;
+	--navbar-cart-mobile-reduction: 25;
+	/* ← PORCENTAJE DE REDUCCIÓN (sin el signo %) */
+
+	/* Derivado: no editar. */
+	--navbar-cart-mobile-size: calc(var(--navbar-cart-mobile-base) * (100 - var(--navbar-cart-mobile-reduction)) / 100);
 }
 
 #menu,
@@ -16414,6 +16429,12 @@ body,
 
 #carretilla {
 	width: 60px;
+}
+
+/* En el panel lateral manda la variable de arriba (60px menos su porcentaje de
+   reducción). Gana a la regla anterior por llevar la clase del layout delante. */
+.rd-navbar-fixed #carretilla {
+	width: var(--navbar-cart-mobile-size);
 }
 
 /* En el panel lateral el <li> del carrito no puede quedarse con el
