@@ -16317,10 +16317,14 @@ footer {
 	width: 100%
 }
 
-/* ─── Alto de la franja negra que va debajo del navbar (#Salto) ──────────────
-   Es el <form id="Salto"> de las vistas de cliente: una barra `position: fixed`
-   pegada justo debajo de la barra de navegación, que en escritorio arranca a
-   95px del borde superior.
+/* ─── Alto de las franjas negras ─────────────────────────────────────────────
+   Hay dos, y las dos miden lo mismo porque leen la misma variable:
+     · #Salto        — el <form id="Salto"> de las vistas de cliente: una barra
+                       `position: fixed` pegada justo debajo de la barra de
+                       navegación, que en escritorio arranca a 95px del borde
+                       superior.
+     · .franja-negra — la banda decorativa que va debajo del carrusel de la
+                       portada. Esta sí ocupa sitio en el flujo del documento.
 
    Ajusta SOLO --franja-negra-reduccion. Es el porcentaje que se le resta a su
    altura original de 25px:
@@ -16357,6 +16361,16 @@ footer {
 	position: fixed;
 	/* margin-top: 20px !important;
   	padding-bottom: 20px !important; */
+}
+
+/* Banda decorativa bajo el carrusel de la portada. A diferencia de #Salto no va
+   `fixed`: se queda en el flujo, entre el carrusel y 'Productos destacados'.
+   El alto sale de la misma variable, así que --franja-negra-reduccion mueve las
+   dos franjas a la vez y siempre miden igual. */
+.franja-negra {
+	height: var(--franja-negra-alto);
+	background-color: #000;
+	width: 100%;
 }
 
 

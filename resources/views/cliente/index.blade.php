@@ -130,6 +130,9 @@
     </div>
 
 </section>
+{{-- Franja negra bajo el carrusel. Comparte alto con la de debajo del navbar:
+     las dos salen de --franja-negra-reduccion en css/style.css --}}
+<div class="franja-negra" aria-hidden="true"></div>
 <div id="our-menu" style="position: absolute; top: 663px;"></div>
 <!-- What We Offer-->
 <section class="section section-md bg-default">
