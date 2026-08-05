@@ -16124,17 +16124,18 @@ disabled look for disabled choices in the results dropdown
 	/* Separación horizontal ÚNICA entre los elementos del menú (Inicio, Sobre
 	   nosotros, Catalogo, Pasteles personalizados, carrito e Ingresar). Un solo
 	   valor para todos los huecos; sube o baja este número para abrir o cerrar
-	   el menú entero. Valor para pantallas de 992px a 1199px. */
+	   el menú entero. */
 	--navbar-nav-gap: 52px;
-}
 
-/* A partir de 1200px el tema da más aire al menú, así que el hueco crece.
-   52px y 64px son los que dejan el menú con el mismo ancho total que tenía
-   antes de repartir el espacio a partes iguales. */
-@media (min-width: 1200px) {
-	:root {
-		--navbar-nav-gap: 64px;
-	}
+	/* Ancho que NO se puede usar para separar: el panel del logo, las etiquetas
+	   del menú sin partir y un margen de respeto por la derecha. Sirve de tope
+	   para que en pantallas estrechas los huecos se cierren solos en lugar de
+	   que el menú se salga del borde derecho. Sólo actúa por debajo de ~1110px;
+	   más ancho que eso manda --navbar-nav-gap. */
+	--navbar-nav-reserva: 870px;
+
+	/* Tamaño del icono del carrito en escritorio (es cuadrado). */
+	--navbar-cart-size: 41.7px;
 }
 
 #menu,
@@ -16343,13 +16344,22 @@ body,
    que aplica exactamente la misma distancia a todos los huecos por igual. */
 @media (min-width: 992px) {
 	.rd-navbar-nav {
-		column-gap: var(--navbar-nav-gap);
+		column-gap: min(var(--navbar-nav-gap), (100vw - var(--navbar-nav-reserva)) / 5);
 	}
 
 	.rd-navbar-nav .rd-nav-item,
 	.rd-navbar-nav .rd-nav-item:last-child {
 		margin-left: 0 !important;
 		margin-right: 0 !important;
+	}
+
+	/* Cada etiqueta en una sola línea. Sin esto 'Sobre nosotros' se parte en dos
+	   ('Sobre' / 'nosotros'): el menú compite por el ancho con sus hermanos
+	   dentro de .rd-navbar-main y, al poder partirse, el texto cede primero.
+	   Con nowrap la anchura mínima del elemento pasa a ser la del texto entero,
+	   así que ya no se puede encoger por debajo de eso. */
+	.rd-nav-link {
+		white-space: nowrap;
 	}
 }
 
@@ -16388,6 +16398,25 @@ body,
 
 #carretilla {
 	width: 60px;
+}
+
+/* En escritorio el icono del carrito vuelve a su tamaño de siempre. Nunca llegó
+   a medir los 60px de arriba: el menú iba tan justo de ancho que lo comprimía
+   hasta 41.7px. Al dejar de partirse las etiquetas desapareció esa compresión y
+   el icono creció de golpe, así que ahora se fija el tamaño de forma explícita
+   en vez de depender de cuánto aprieta el reparto de espacio. */
+@media (min-width: 992px) {
+
+	/* El <li> del carrito trae un `style="width: 60px"` en la plantilla; hace
+	   falta !important para ganarle. Si se dejara en 60px sobraría hueco a los
+	   lados del icono y sus dos separaciones se verían mayores que las demás. */
+	.rd-navbar-nav .rd-nav-item:has(#carretilla) {
+		width: var(--navbar-cart-size) !important;
+	}
+
+	#carretilla {
+		width: var(--navbar-cart-size);
+	}
 }
 
 html {
