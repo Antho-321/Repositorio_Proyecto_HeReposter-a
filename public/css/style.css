@@ -16231,13 +16231,38 @@ disabled look for disabled choices in the results dropdown
 	/* Smooth transition for hover */
 }
 
-.dropdown:hover .dropdown-content {
+/* El hover abre el menú; un clic en «Catalogo» lo fija con .dropdown-open
+   hasta el siguiente clic. Al cerrarlo el puntero sigue encima, así que
+   .dropdown-hover-off desactiva el hover hasta que el puntero salga. */
+.dropdown:not(.dropdown-hover-off):hover .dropdown-content,
+.dropdown.dropdown-open .dropdown-content {
 	display: block !important;
 	/* Show dropdown content on hover */
 	visibility: visible !important;
 	/* Make visible */
 	opacity: 1 !important;
 	/* Fade in */
+}
+
+.dropdown-trigger {
+	cursor: pointer !important;
+}
+
+/* En el layout móvil no hay hover: «Catalogo» se abre al tocarlo. Ahí el menú
+   se despliega dentro del flujo, como un acordeón; en absoluto se salía por el
+   borde izquierdo del panel lateral y tapaba los enlaces siguientes. */
+.rd-navbar-fixed .dropdown {
+	display: block !important;
+}
+
+.rd-navbar-fixed .dropdown-content {
+	position: static !important;
+	left: auto !important;
+	transform: none !important;
+	min-width: 0 !important;
+	border: none !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
 }
 
 .dropdown-content button:hover {

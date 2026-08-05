@@ -334,7 +334,9 @@
     <!-- Global Mailform Output-->
     <div class="snackbars" id="form-output-global"></div>
     <!-- Javascript-->
-    <script type="module" src="{{ asset('js/script_InteracciónPrincipal.js') }}"></script>
+    {{-- ?v=filemtime: mismo motivo que en style.css, evita servir el JS viejo tras un cambio --}}
+    <script type="module"
+        src="{{ asset('js/script_InteracciónPrincipal.js') }}?v={{ filemtime(public_path('js/script_InteracciónPrincipal.js')) }}"></script>
     <script src="{{ asset('js/core.min.js') }}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
     <script type="module" src="{{ asset('js/funciones_reutilizables.js') }}"></script>

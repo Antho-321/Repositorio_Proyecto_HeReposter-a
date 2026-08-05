@@ -47,7 +47,7 @@
         </li>
         <li class="rd-nav-item">
             <div class="dropdown">
-                <a class="rd-nav-link" href="typography.html"><b>Catalogo</b></a>
+                <a class="rd-nav-link dropdown-trigger" href="#" aria-haspopup="true" aria-expanded="false"><b>Catalogo</b></a>
                 <form class="dropdown-content" id="Menu_Catalogo" action="{{ route('cliente.categoria_seleccionada') }}"
                     method="GET">
                     @csrf

@@ -171,6 +171,45 @@ if (contenido_categorías != null) {
         contenido_categorías.children[i].addEventListener("click", funcCategoríaSeleccionada);
     }
 }
+// Menú «Catalogo»: el hover sigue mostrando las categorías, y además un clic
+// deja el menú fijo hasta que se vuelve a hacer clic. El enlace ya no navega
+// (antes apuntaba a typography.html, una página que no existe).
+document.addEventListener("click", function (event) {
+    let disparador = event.target.closest(".dropdown-trigger");
+    if (disparador == null) {
+        return;
+    }
+    event.preventDefault();
+    let desplegable = disparador.closest(".dropdown");
+    if (desplegable == null) {
+        return;
+    }
+    let abierto = desplegable.classList.toggle("dropdown-open");
+    // Al cerrarlo el puntero sigue sobre «Catalogo»: sin esto el :hover lo
+    // reabriría al instante. La clase se retira cuando el puntero sale.
+    desplegable.classList.toggle("dropdown-hover-off", !abierto);
+    disparador.setAttribute("aria-expanded", abierto ? "true" : "false");
+});
+document.addEventListener("keydown", function (event) {
+    if (event.key != "Escape") {
+        return;
+    }
+    CerrarDesplegables();
+});
+document.querySelectorAll(".dropdown").forEach(function (desplegable) {
+    desplegable.addEventListener("mouseleave", function () {
+        desplegable.classList.remove("dropdown-hover-off");
+    });
+});
+function CerrarDesplegables() {
+    document.querySelectorAll(".dropdown.dropdown-open").forEach(function (desplegable) {
+        desplegable.classList.remove("dropdown-open");
+        let disparador = desplegable.querySelector(".dropdown-trigger");
+        if (disparador != null) {
+            disparador.setAttribute("aria-expanded", "false");
+        }
+    });
+}
 function AgregarContenido(CategoríaSeleccionada) {
     seccion_productos = document.getElementById("seccion_productos");
     if (CategoríaSeleccionada == "") {
