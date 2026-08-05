@@ -25,6 +25,35 @@
     text-transform: none;
 }
 
+/* ─── Espaciado entre letras del titular (.titulo-navbar) ───────────────────
+   Ajusta SOLO --titulo-navbar-tracking-aumento: es el porcentaje de separacion
+   EXTRA que se añade entre letra y letra, medido sobre el tamaño de la letra
+   (mismo criterio que el "letter spacing %" de Figma).
+       0  = sin separacion extra (como se veia antes de esta variable)
+       20 = .2em (por defecto)
+       10 = .1em
+   Al ir en em la separacion crece con el tamaño del titular, asi que se
+   mantiene proporcional en movil y escritorio. */
+:root {
+    --titulo-navbar-tracking-aumento: 3;
+    /* ← PORCENTAJE DE AUMENTO (sin el signo %) */
+
+    /* Derivado: no editar. */
+    --titulo-navbar-tracking: calc(var(--titulo-navbar-tracking-aumento) * 1em / 100);
+}
+
+/* titulo-navbar: misma tipografia que los enlaces del navbar (.rd-nav-link en
+   style.css), incluido el peso 349, para que el titular acompañe al menu.
+   text-transform: none anula el uppercase global de h1..h6 */
+.titulo-navbar,
+.titulo-navbar span,
+.titulo-navbar p {
+    font-family: "Sanseriffic", sans-serif !important;
+    font-weight: 349 !important;
+    letter-spacing: var(--titulo-navbar-tracking);
+    text-transform: none;
+}
+
 #Contenido_Cabecera,
 #Contenido_Cabecera div,
 #Contenido_Cabecera section,
