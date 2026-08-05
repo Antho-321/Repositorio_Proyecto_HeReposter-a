@@ -3,6 +3,23 @@
     src: url("../fonts/Sanseriffic.woff") format('woff');
 }
 
+/* Hobo: tipografia del logotipo Pankey, para titulos destacados */
+@font-face {
+    font-family: "Hobo";
+    src: url("../fonts/hobo-regular.woff2") format('woff2'),
+         url("../fonts/hobo-regular.woff") format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+.titulo-hobo,
+.titulo-hobo span,
+.titulo-hobo p {
+    font-family: "Hobo", cursive !important;
+    letter-spacing: .04em;
+}
+
 #Contenido_Cabecera,
 #Contenido_Cabecera div,
 #Contenido_Cabecera section,

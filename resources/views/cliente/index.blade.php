@@ -3,7 +3,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('estilo')
-<link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_Index.css') }}" id="estilo">
+{{-- ?v=filemtime: mismo motivo que en style.css, evita servir el CSS viejo tras un cambio --}}
+<link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_Index.css') }}?v={{ filemtime(public_path('css/estilo_Modificación_Index.css')) }}" id="estilo">
 @endsection
 @section('navegacion')
 <ul class="rd-navbar-nav">
@@ -133,7 +134,7 @@
 <!-- What We Offer-->
 <section class="section section-md bg-default">
     <div class="container">
-        <h3 class="oh-desktop"><span class="d-inline-block wow slideInDown">Productos destacados</span><p id="txt_sel_img">Selecciona una imagen</p></h3>
+        <h3 class="oh-desktop titulo-hobo"><span class="d-inline-block wow slideInDown">Productos destacados</span><p id="txt_sel_img">Selecciona una imagen</p></h3>
         <form action="{{ route('cliente.pastel_seleccionado') }}" method="POST" id="seccion_productos">
             @csrf
             <input type="hidden" name="img" id="enlace_pastel">
