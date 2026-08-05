@@ -7499,6 +7499,16 @@ html.tablet .ui-to-top {
 	top: 10px;
 }
 
+/* Las tres barras del botón hamburguesa. Los extremos van redondeados en forma
+   de "píldora" (estadio): el radio es la mitad del grosor de la barra, o sea
+   r = alto / 2, que es la proporción r/h = 0.5 medida sobre el ícono original
+   (barras de 21 × 3 en un viewBox de 24 → rx = 1.5).
+
+   Se declara 999px a propósito: CSS recorta el radio al máximo que cabe en la
+   caja, así que sobre una barra de 30 × 2 queda exactamente en 1px = alto / 2.
+   Escribirlo así evita tener que reajustar el número si algún día cambia el
+   grosor de las barras: siempre serán semicírculos completos, nunca esquinas
+   apenas suavizadas. */
 .rd-navbar-toggle span:after,
 .rd-navbar-toggle span:before,
 .rd-navbar-toggle span {
@@ -7506,7 +7516,7 @@ html.tablet .ui-to-top {
 	height: 2px;
 	background-color: #151515;
 	backface-visibility: hidden;
-	border-radius: 0;
+	border-radius: 999px;
 }
 
 .rd-navbar-toggle span:before,
