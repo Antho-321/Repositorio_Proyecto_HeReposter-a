@@ -4,9 +4,9 @@
  * Abre https://pankey.live/ con un viewport de teléfono, espera a que la
  * página termine de cargarse por completo (evento `load` + red inactiva),
  * pulsa el botón hamburguesa de la esquina superior izquierda y guarda una
- * captura antes y después de abrirlo en tests/screenshots.
+ * captura antes y después de abrirlo en tests/e2e/screenshots.
  *
- * Uso: node tests/menu-movil.spec.js
+ * Uso: node tests/e2e/menu-movil.spec.js
  */
 
 const fs = require('fs');

@@ -3,9 +3,9 @@
  *
  * Abre https://pankey.live/, espera a que la página termine de cargarse por
  * completo (evento `load` + red inactiva) y guarda una captura en
- * tests/screenshots.
+ * tests/e2e/screenshots.
  *
- * Uso: node tests/pankey.spec.js
+ * Uso: node tests/e2e/pankey.spec.js
  */
 
 const fs = require('fs');

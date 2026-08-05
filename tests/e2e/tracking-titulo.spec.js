@@ -5,12 +5,13 @@
  * un porcentaje de separacion EXTRA:
  *   - con 0  el titular queda exactamente como antes de existir la variable,
  *     es decir con `letter-spacing: 0` (mismo ancho de texto, al pixel);
- *   - con 20 (el valor por defecto) la separacion es .2em, o sea el 20% del
- *     tamaño de letra de cada elemento.
+ *   - con el valor que tenga puesto el CSS, la separacion es ese porcentaje
+ *     del tamaño de letra de cada elemento (N% => .Nem).
  *
- * Guarda ademas una captura del titular con 20% y con 0% en tests/screenshots.
+ * Guarda ademas una captura del titular con el valor por defecto y con 0% en
+ * tests/e2e/screenshots.
  *
- * Uso: node tests/tracking-titulo.spec.js
+ * Uso: node tests/e2e/tracking-titulo.spec.js
  */
 
 const fs = require('fs');
@@ -19,7 +20,7 @@ const { chromium } = require('playwright');
 
 const URL_OBJETIVO = 'https://pankey.live/';
 const DIR_CAPTURAS = path.join(__dirname, 'screenshots');
-const RUTA_20 = path.join(DIR_CAPTURAS, 'titular-tracking-20.png');
+const RUTA_DEFECTO = path.join(DIR_CAPTURAS, 'titular-tracking-defecto.png');
 const RUTA_0 = path.join(DIR_CAPTURAS, 'titular-tracking-0.png');
 const TIEMPO_MAXIMO = 60000;
 
@@ -114,20 +115,35 @@ async function main() {
         await titulo.waitFor({ state: 'visible', timeout: TIEMPO_MAXIMO });
         await titulo.scrollIntoViewIfNeeded();
 
-        // 1) Valor por defecto: 20% => .2em en cada elemento.
+        // 1) Valor por defecto: el que tenga el CSS, sea cual sea. Lo leemos de
+        //    :root en vez de fijarlo aqui, para que la prueba siga valiendo
+        //    cuando se ajuste el porcentaje.
+        const porcentajeDefecto = await pagina.evaluate(() =>
+            parseFloat(
+                getComputedStyle(document.documentElement).getPropertyValue(
+                    '--titulo-navbar-tracking-aumento'
+                )
+            )
+        );
+        comprobar(
+            Number.isFinite(porcentajeDefecto),
+            `--titulo-navbar-tracking-aumento está definida (${porcentajeDefecto}%)`
+        );
+
         const conDefecto = await medir(pagina, SELECTORES_TEXTO);
-        await titulo.screenshot({ path: RUTA_20 });
+        await titulo.screenshot({ path: RUTA_DEFECTO });
 
         for (const medida of conDefecto) {
             comprobar(medida.existe, `${medida.selector} existe en la página`);
             if (!medida.existe) continue;
 
-            const esperado = medida.fontSize * 0.2;
-            const real = parseFloat(medida.letterSpacing);
+            const esperado = (medida.fontSize * porcentajeDefecto) / 100;
+            const real = parseFloat(medida.letterSpacing) || 0;
             comprobar(
                 Math.abs(real - esperado) < TOLERANCIA_PX,
-                `${medida.selector} con 20%: letter-spacing ${medida.letterSpacing} ` +
-                    `≈ .2em (${esperado.toFixed(2)}px sobre ${medida.fontSize}px)`
+                `${medida.selector} con ${porcentajeDefecto}%: letter-spacing ` +
+                    `${medida.letterSpacing} ≈ ${porcentajeDefecto / 100}em ` +
+                    `(${esperado.toFixed(2)}px sobre ${medida.fontSize}px)`
             );
         }
 
@@ -168,18 +184,19 @@ async function main() {
             );
         });
 
-        // 4) Y 20% tiene que ser visiblemente más ancho que 0%: si no, la
-        //    variable no estaría llegando a la regla.
+        // 4) Y el valor por defecto tiene que dar un texto más ancho que 0%: si
+        //    no, la variable no estaría llegando a la regla.
         conDefecto.forEach((medida, i) => {
-            if (!medida.existe) return;
+            if (!medida.existe || porcentajeDefecto === 0) return;
             comprobar(
                 medida.anchoTexto > conCero[i].anchoTexto,
-                `${medida.selector}: 20% (${medida.anchoTexto.toFixed(2)}px) ` +
-                    `es más ancho que 0% (${conCero[i].anchoTexto.toFixed(2)}px)`
+                `${medida.selector}: ${porcentajeDefecto}% ` +
+                    `(${medida.anchoTexto.toFixed(2)}px) es más ancho que 0% ` +
+                    `(${conCero[i].anchoTexto.toFixed(2)}px)`
             );
         });
 
-        console.log(`Captura 20% : ${RUTA_20}`);
+        console.log(`Captura ${porcentajeDefecto}% : ${RUTA_DEFECTO}`);
         console.log(`Captura 0%  : ${RUTA_0}`);
     } finally {
         await contexto.close();
