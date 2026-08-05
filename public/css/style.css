@@ -16311,7 +16311,19 @@ body,
 	/* This will prevent horizontal scrolling */
 }
 
-.rd-navbar-nav {
+/* ─── Menú en horizontal: SÓLO en el layout de escritorio ────────────────────
+   El tema tiene dos layouts: `rd-navbar-static` (barra horizontal, escritorio)
+   y `rd-navbar-fixed` (panel lateral de 270px que abre la hamburguesa en móvil).
+   En el panel lateral el menú tiene que ir en vertical (`display: block`, regla
+   del tema). Sin acotar, este `display: flex !important` también se aplicaba
+   allí: los enlaces se colocaban en una fila de ~1000px dentro de un panel de
+   270px y, al estar centrados, quedaban recortados por los dos lados.
+
+   Se acota por clase de layout y no con `@media (min-width: 992px)` porque en
+   tablets táctiles de 992px o más el tema sigue usando el panel lateral
+   (data-lg-device-layout="rd-navbar-fixed"). Es además el mismo criterio que
+   usa el tema para el subrayado amarillo (.rd-navbar-static .rd-nav-link). */
+.rd-navbar-static .rd-navbar-nav {
 	display: flex !important;
 	justify-content: flex-start !important;
 	align-items: center !important;
@@ -16372,7 +16384,10 @@ body,
 	   así el texto queda centrado y el subrayado amarillo cabe dentro. */
 }
 
-.rd-nav-link {
+/* Alto y centrado del enlace: también sólo en escritorio. En el panel lateral
+   el tema da a los enlaces `display: block` con su propio padding; con los
+   100px de aquí cada entrada del menú desplegable quedaba de 110px de alto. */
+.rd-navbar-static .rd-nav-link {
 	height: 100px;
 	display: flex !important;
 	justify-content: center !important;
@@ -16384,13 +16399,14 @@ body,
    no estira la barra impidiendo que el espacio del logo se reduzca; el
    subrayado amarillo (::before, pegado a bottom: 0) queda dentro de la banda. */
 @media (min-width: 992px) {
-	.rd-nav-link {
+	.rd-navbar-static .rd-nav-link {
 		height: calc(var(--navbar-height) - 2 * var(--navbar-nav-item-space));
 	}
 }
 
-.rd-nav-item,
-.rd-navbar-nav {
+/* Ídem: en el panel lateral los <li> deben apilarse, no ponerse en fila. */
+.rd-navbar-static .rd-nav-item,
+.rd-navbar-static .rd-navbar-nav {
 	display: flex !important;
 	justify-content: center !important;
 	align-items: center !important;
@@ -16398,6 +16414,17 @@ body,
 
 #carretilla {
 	width: 60px;
+}
+
+/* En el panel lateral el <li> del carrito no puede quedarse con el
+   `style="width: 60px"` que trae la plantilla: ahí el enlace del tema lleva
+   18px + 56px de padding, así que dentro de esos 60px el hueco real para el
+   icono es 0 y, con el `max-width: 100%` general de las imágenes, el carrito
+   se quedaba en 0x0 píxeles. Se veía como un salto en blanco entre 'Pasteles
+   personalizados' e 'Ingresar'. Con el ancho automático el <li> ocupa el ancho
+   del panel y el icono recupera sus 60px. */
+.rd-navbar-fixed .rd-navbar-nav .rd-nav-item:has(#carretilla) {
+	width: auto !important;
 }
 
 /* En escritorio el icono del carrito vuelve a su tamaño de siempre. Nunca llegó
@@ -16409,8 +16436,11 @@ body,
 
 	/* El <li> del carrito trae un `style="width: 60px"` en la plantilla; hace
 	   falta !important para ganarle. Si se dejara en 60px sobraría hueco a los
-	   lados del icono y sus dos separaciones se verían mayores que las demás. */
-	.rd-navbar-nav .rd-nav-item:has(#carretilla) {
+	   lados del icono y sus dos separaciones se verían mayores que las demás.
+	   Acotado a rd-navbar-static: en tablets táctiles de 992px o más el tema
+	   sigue usando el panel lateral, donde este ancho fijo dejaría el icono
+	   otra vez sin sitio. */
+	.rd-navbar-static .rd-navbar-nav .rd-nav-item:has(#carretilla) {
 		width: var(--navbar-cart-size) !important;
 	}
 
