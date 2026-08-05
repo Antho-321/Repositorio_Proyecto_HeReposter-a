@@ -16427,6 +16427,44 @@ body,
 	width: auto !important;
 }
 
+/* ─── Mismo hueco vertical entre todas las entradas del panel lateral ────────
+   Las cajas de los <li> ya estaban igual de separadas (4px), pero lo que se ve
+   es el hueco entre los textos, y ahí cada entrada aportaba un margen interno
+   distinto. Medido antes: 46px entre las entradas de texto, 39px entre
+   'Pasteles personalizados' y el carrito, y 60px entre el carrito e 'Ingresar'.
+
+   La referencia es la entrada de texto: entre su texto y el borde de su <li>
+   hay 21px = 5px (padding del li) + 9px (padding del enlace en este layout) +
+   7px de interlineado (line-height 34px con un texto de ~20px de alto). Las dos
+   reglas de abajo le dan esos mismos 21px a las dos entradas que se salían. */
+
+/* 'Ingresar' (y 'Salir' cuando hay sesión) es un botón con 22px de padding
+   arriba y abajo, pensados para la barra de escritorio; eso era lo que abría el
+   hueco de más en el panel. Se le quitan y se le da el mismo alto de línea que
+   al resto de entradas, para que su caja caiga en el mismo ritmo. NO se toca su
+   tamaño de letra: se queda en los 19px de siempre. */
+.rd-navbar-fixed .rd-nav-link #Ingreso,
+.rd-navbar-fixed .rd-nav-link #Salida {
+	padding: 0;
+	line-height: 34px;
+	/* Es un inline-block: sin esto se apoya en la línea base y baja 1px
+	   respecto al resto de entradas. */
+	vertical-align: top;
+}
+
+/* El formulario que envuelve a 'Salir' no debe añadir su margen por defecto. */
+.rd-navbar-fixed .rd-nav-link form {
+	margin: 0;
+}
+
+/* El carrito es una imagen: no tiene interlineado que lo separe del borde de su
+   caja, así que se le suman a mano esos 7px (9px + 7px = 16px) y queda con la
+   misma holgura que las entradas de texto. */
+.rd-navbar-fixed .rd-nav-item:has(#carretilla) .rd-nav-link {
+	padding-top: 16px;
+	padding-bottom: 16px;
+}
+
 /* En escritorio el icono del carrito vuelve a su tamaño de siempre. Nunca llegó
    a medir los 60px de arriba: el menú iba tan justo de ancho que lo comprimía
    hasta 41.7px. Al dejar de partirse las etiquetas desapareció esa compresión y
