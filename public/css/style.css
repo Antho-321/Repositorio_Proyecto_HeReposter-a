@@ -16317,8 +16317,36 @@ footer {
 	width: 100%
 }
 
+/* ─── Alto de la franja negra que va debajo del navbar (#Salto) ──────────────
+   Es el <form id="Salto"> de las vistas de cliente: una barra `position: fixed`
+   pegada justo debajo de la barra de navegación, que en escritorio arranca a
+   95px del borde superior.
+
+   Ajusta SOLO --franja-negra-reduccion. Es el porcentaje que se le resta a su
+   altura original de 25px:
+       0   = altura original (25px)
+       5   = 23.75px
+       50  = la mitad        (12.5px)
+       100 = franja oculta   (0px)
+   El alto final se recalcula solo a partir de ese valor, así que no hay que
+   tocar --franja-negra-alto.
+
+   La variable vive en :root, de modo que un mismo valor rige la franja de todas
+   las vistas de cliente (índice, carrito, catálogo, etc.): la regla #Salto de
+   este archivo lleva !important y le gana a las alturas de 25px que declaran
+   las hojas de estilo de cada página. */
+:root {
+	--franja-negra-alto-base: 25px;
+	/* Alto original de la franja */
+	--franja-negra-reduccion: 25;
+	/* ← PORCENTAJE DE REDUCCIÓN (sin el signo %) */
+
+	/* Derivado: no editar. */
+	--franja-negra-alto: calc(var(--franja-negra-alto-base) * (100 - var(--franja-negra-reduccion)) / 100);
+}
+
 #Salto {
-	height: 25px !important;
+	height: var(--franja-negra-alto) !important;
 	background-color: #000 !important;
 	color: #f0f8ff !important;
 	padding: 0 !important;
