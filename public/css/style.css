@@ -7490,7 +7490,7 @@ html.tablet .ui-to-top {
    sigue atada al base, subir --hamburguesa-barra-ancho separa las barras en
    proporción en vez de fundirlas en un bloque. */
 :root {
-	--hamburguesa-barra-ancho: 32px;
+	--hamburguesa-barra-ancho: 33px;
 	/* Largo de cada barra */
 
 	--hamburguesa-grosor-base: calc(var(--hamburguesa-barra-ancho) / 7);
@@ -8209,7 +8209,7 @@ html.tablet .ui-to-top {
 	--logo-movil-alto-base: 46px;
 	/* Alto del diseño original */
 
-	--logo-movil-aumento: 10;
+	--logo-movil-aumento: 20;
 	/* ← PORCENTAJE DE AUMENTO (sin el signo %) */
 
 	--logo-movil-espacio: 5px;
