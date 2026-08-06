@@ -1,6 +1,9 @@
 @extends('plantilla_cliente.new_plantilla')
 @section('estilo')
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_SobreNosotros.css') }}" id="estilo">
+    {{-- El ?v= no es decorativo: Cloudflare cachea el CSS 4 h y cada edge lo
+         hace por su cuenta, así que sin él un cambio de estilo se ve en unos
+         sitios y en otros no (mismo patrón que style.css en new_plantilla). --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_SobreNosotros.css') }}?v={{ filemtime(public_path('css/estilo_Modificación_SobreNosotros.css')) }}" id="estilo">
 @endsection
 @section('content_envio_correo')
     <input type="hidden" name="pasteles" value="{{ json_encode(Session::get('pasteles')) }}" id="pasteles">

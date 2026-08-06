@@ -478,8 +478,13 @@ h1{
     text-align: center;
     letter-spacing: 0.15vw;
 }
+/* Misma tipografía que el menú de navegación (Sanseriffic, declarada arriba en
+   @font-face y también en style.css para .rd-nav-link). Antes este párrafo era
+   la única excepción de la página: la regla `*` de arriba ya pone Sanseriffic
+   en todo, pero el atajo `font` de aquí la pisaba con Century Gothic. Se
+   conserva el tamaño de 17px, que es propio del texto corrido. */
 p{
-   font: normal normal normal 17px/1.4em Century Gothic; 
+   font: normal normal normal 17px/1.4em "Sanseriffic", Arial, sans-serif;
     margin: 0px;
     background-color: rgb(249, 245, 239);
 }
