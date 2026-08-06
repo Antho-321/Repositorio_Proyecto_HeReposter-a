@@ -54,6 +54,34 @@
     text-transform: none;
 }
 
+/* Tamaño del titular: misma escala que h3 en style.css, para que el titular se
+   vea igual lo escriba quien lo escriba con h1 o con h3. Va aqui y no en la
+   vista porque el tracking es em: si el tamaño no coincide, la separacion entre
+   letras tampoco (55px * .03em = 1.65px, pero 65px * .03em = 1.95px).
+   No se toca .titulo-navbar p: ese es el subtitulo #txt_sel_img, con su propio
+   tamaño. */
+.titulo-navbar {
+    font-size: 30px;
+}
+
+@media (min-width: 768px) {
+    .titulo-navbar {
+        font-size: 34px;
+    }
+}
+
+@media (min-width: 992px) {
+    .titulo-navbar {
+        font-size: 40px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .titulo-navbar {
+        font-size: 55px;
+    }
+}
+
 #Contenido_Cabecera,
 #Contenido_Cabecera div,
 #Contenido_Cabecera section,

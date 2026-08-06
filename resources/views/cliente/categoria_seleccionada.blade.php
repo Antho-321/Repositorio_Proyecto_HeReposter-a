@@ -9,9 +9,6 @@
         padding-top: 40px !important;
         height: 75vh !important;
 }
-h1{
-    font-size: 65px;
-}
 </style>
     <ul class="rd-navbar-nav">
         <li class="rd-nav-item">
