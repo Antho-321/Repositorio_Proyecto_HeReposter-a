@@ -229,11 +229,11 @@ CREATE TABLE `pastel` (
 --
 
 INSERT INTO `pastel` (`pastel_id`, `tamanos_formas_id`, `tipo_id`, `relleno_id`, `cobertura_id`, `sabores_id`, `precio`, `img`, `categoria_id`) VALUES
-(1, 1, 1, 1, 1, 1, 20, 'https://th.bing.com/th/id/R.b042dade06440a9cf8c236b81ad2c4d8?rik=8ynKhjpIzp3%2bmA&pid=ImgRaw&r=0', 1),
+(1, 1, 1, 1, 1, 1, 20, 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Wedding_Cake_2_tier_w_Swiss_butter_cream_and_90_fresh_white_cream_roses_%2814574314081%29.jpg/960px-Wedding_Cake_2_tier_w_Swiss_butter_cream_and_90_fresh_white_cream_roses_%2814574314081%29.jpg', 1),
 (2, 2, 4, 2, 2, 4, 10, 'https://th.bing.com/th/id/R.b40b59c817f0ec2c24a5097a457b2c58?rik=LSOvD1PsMJfxeA&pid=ImgRaw&r=0', 2),
 (3, 1, 1, 1, 1, 1, 18, 'https://sallysbakingaddiction.com/wp-content/uploads/2013/04/triple-chocolate-cake-4.jpg', 1),
 (4, 1, 1, 1, 1, 1, 27, 'https://th.bing.com/th/id/OIP.-vDV59NDSrLbo5SKb2jxggHaF3?pid=ImgDet&rs=1', 4),
-(5, 1, 1, 1, 1, 1, 68, 'https://th.bing.com/th/id/R.46fb8a09fc2f95a905b4342a428bd1fd?rik=C3KVdZ9n6YOTIw&pid=ImgRaw&r=0', 5),
+(5, 1, 1, 1, 1, 1, 68, 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Cake_for_a_baby_shower.jpg/960px-Cake_for_a_baby_shower.jpg', 5),
 (6, 1, 1, 1, 1, 1, 90, 'https://www.recipetineats.com/wp-content/uploads/2020/08/My-best-Vanilla-Cake_9-SQ.jpg', 1);
 
 -- --------------------------------------------------------
