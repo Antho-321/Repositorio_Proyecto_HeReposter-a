@@ -16625,6 +16625,23 @@ body,
 	width: 60px;
 }
 
+/* ─── Desvanecido al pasar el ratón, igual que los enlaces de texto ──────────
+   Las entradas de texto se aclaran porque cada hoja de página lleva un
+   `a:hover { color: #7c7c7c41; transition: .4s }` (alfa 0x41 ≈ 0.25). El
+   carrito es un <img>, así que ese `color` no le afecta y era el único
+   elemento del menú que no reaccionaba. Se reproduce el mismo efecto con
+   opacidad, con el mismo valor de alfa y la misma duración.
+
+   Va aquí, en style.css, y no en las hojas de cada página, porque la barra es
+   compartida y así el carrito se comporta igual en todas ellas. */
+#carretilla {
+	transition: opacity .4s;
+}
+
+.rd-nav-link:hover #carretilla {
+	opacity: .255;
+}
+
 /* En el panel lateral manda la variable de arriba (60px menos su porcentaje de
    reducción). Gana a la regla anterior por llevar la clase del layout delante. */
 .rd-navbar-fixed #carretilla {
