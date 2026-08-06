@@ -54,25 +54,28 @@
     text-transform: none;
 }
 
-/* Tamaño del titular: misma escala que h3 en style.css, para que el titular se
-   vea igual lo escriba quien lo escriba con h1 o con h3. Va aqui y no en la
-   vista porque el tracking es em: si el tamaño no coincide, la separacion entre
-   letras tampoco (55px * .03em = 1.65px, pero 65px * .03em = 1.95px).
+/* Tamaño del titular. Va aqui, en la clase, y no en cada vista, porque el
+   tracking es em: si el tamaño no coincide entre dos titulares, la separacion
+   entre letras tampoco (55px * .03em = 1.65px, pero 65px * .03em = 1.95px).
+   Teniendolo aqui, el titular se ve igual lo marques con h1 o con h3.
+   La escala arranca en 40px en movil: los 30px que heredaba de h3 (style.css)
+   se quedaban cortos en pantalla pequeña. Los 4 escalones suben siempre, para
+   que el titular no encoja al crecer la ventana.
    No se toca .titulo-navbar p: ese es el subtitulo #txt_sel_img, con su propio
    tamaño. */
 .titulo-navbar {
-    font-size: 30px;
+    font-size: 40px;
 }
 
 @media (min-width: 768px) {
     .titulo-navbar {
-        font-size: 34px;
+        font-size: 45px;
     }
 }
 
 @media (min-width: 992px) {
     .titulo-navbar {
-        font-size: 40px;
+        font-size: 50px;
     }
 }
 
