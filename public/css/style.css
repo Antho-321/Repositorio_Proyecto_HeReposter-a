@@ -8196,10 +8196,15 @@ html.tablet .ui-to-top {
    proporción (el PNG es cuadrado: 526 × 526). El `max-width` de 180px queda de
    red de seguridad para logos apaisados y no llega a estorbar aquí.
 
-   Techo práctico: ~20. La barra fija del móvil mide 56px de alto, así que a
-   partir de ahí el logo empieza a comerse el aire de la barra y a pegarse a los
-   bordes; para pasar de ese punto habría que subir también la altura de
-   .rd-navbar-fixed .rd-navbar-panel. */
+   No hay techo: la barra blanca NO es un alto fijo, se calcula como
+   logo + 2 × --logo-movil-espacio, así que el aire de arriba y de abajo se
+   queda clavado en 5px y el logo nunca se sale ni se pega a los bordes, suba
+   lo que suba el porcentaje. Es el mismo criterio que en escritorio, donde
+   --navbar-height sale de --navbar-logo-height + 2 × --navbar-logo-space.
+
+   Del alto de la barra cuelgan además el hueco que .page reserva arriba y el
+   arranque del panel lateral que abre la hamburguesa; están más abajo, atados
+   a --barra-movil-alto, y se recolocan solos. */
 :root {
 	--logo-movil-alto-base: 46px;
 	/* Alto del diseño original */
@@ -8207,17 +8212,30 @@ html.tablet .ui-to-top {
 	--logo-movil-aumento: 10;
 	/* ← PORCENTAJE DE AUMENTO (sin el signo %) */
 
-	/* Derivado: no editar. */
+	--logo-movil-espacio: 5px;
+	/* Aire fijo arriba y abajo del logo, dentro de la barra blanca */
+
+	/* Derivados: no editar. */
 	--logo-movil-alto: calc(var(--logo-movil-alto-base) * (100 + var(--logo-movil-aumento)) / 100);
+	--barra-movil-alto: calc(var(--logo-movil-alto) + 2 * var(--logo-movil-espacio));
 }
 
 .rd-navbar-fixed .rd-navbar-brand img {
 	max-width: 180px;
-	max-height: var(--logo-movil-alto);
+	/* El alto va aquí y no en `max-height` (que es como lo traía el tema) porque
+	   la plantilla escribe `style="height: 80px"` en la propia <img> — lo usa el
+	   layout de escritorio, ver --navbar-logo-height —. Un estilo en línea gana
+	   a cualquier regla del archivo, así que sin este !important el logo se
+	   quedaba clavado en 80px al subir el porcentaje: el que crecía entonces era
+	   el aire, no el logo. El ancho en `auto` mantiene la proporción. */
+	height: var(--logo-movil-alto) !important;
 	width: auto;
-	height: auto;
 }
 
+/* El alto ya no es el 56px del tema: lo pone el logo (--barra-movil-alto), y el
+   padding vertical ES ese aire, así que el logo va centrado con --logo-movil-espacio
+   por arriba y por abajo pase lo que pase. El padding lateral sigue en los 4px
+   originales. El botón hamburguesa mide 48px y también queda centrado. */
 .rd-navbar-fixed .rd-navbar-panel {
 	position: fixed;
 	left: 0;
@@ -8226,18 +8244,23 @@ html.tablet .ui-to-top {
 	z-index: 1070;
 	display: flex;
 	align-items: center;
-	height: 56px;
-	padding: 4px;
+	height: var(--barra-movil-alto);
+	padding: var(--logo-movil-espacio) 4px;
 }
 
+/* El panel lateral se sale una barra por arriba y otra por abajo (truco del
+   tema para el rebote del scroll en móvil) y lo compensa con el doble de
+   padding arriba, de modo que el primer enlace del menú arranca justo donde
+   termina la barra blanca. Los tres valores cuelgan de --barra-movil-alto para
+   que esa relación aguante cuando el logo cambie de tamaño. */
 .rd-navbar-fixed .rd-navbar-nav-wrap {
 	position: fixed;
 	left: 0;
-	top: -56px;
-	bottom: -56px;
+	top: calc(-1 * var(--barra-movil-alto));
+	bottom: calc(-1 * var(--barra-movil-alto));
 	z-index: 1069;
 	width: 270px;
-	padding: 112px 0 81px;
+	padding: calc(2 * var(--barra-movil-alto)) 0 81px;
 	overflow-y: auto;
 	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
@@ -8411,7 +8434,7 @@ html.tablet .ui-to-top {
 .rd-navbar-fixed .rd-navbar-collapse {
 	position: fixed;
 	right: 0;
-	top: 56px;
+	top: var(--barra-movil-alto);
 	z-index: 1069;
 	transform: translate3d(100%, 0, 0);
 	padding: 30px 15px;
@@ -8475,7 +8498,7 @@ html.tablet .ui-to-top {
 	position: fixed;
 	right: 0;
 	left: 0;
-	top: 56px;
+	top: var(--barra-movil-alto);
 	z-index: 1069;
 	width: 100%;
 	opacity: 0;
@@ -8756,8 +8779,10 @@ html.tablet .ui-to-top {
 	margin-top: 20px;
 }
 
+/* Hueco que la página reserva arriba para no quedar debajo de la barra fija:
+   tiene que valer justo lo que mide la barra (ver --barra-movil-alto). */
 html.rd-navbar-fixed-linked .page {
-	padding-top: 56px;
+	padding-top: var(--barra-movil-alto);
 }
 
 /*
