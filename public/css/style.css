@@ -16254,6 +16254,31 @@ disabled look for disabled choices in the results dropdown
 
 	/* Derivado: no editar. */
 	--navbar-cart-mobile-size: calc(var(--navbar-cart-mobile-base) * (100 - var(--navbar-cart-mobile-reduction)) / 100);
+
+	/* ─── Desvanecido de las entradas del menú al pasar el ratón ─────────────
+	   Ajusta SOLO --navbar-hover-fade. Es el porcentaje que se desvanece la
+	   entrada mientras el ratón está encima:
+	       0    = no se desvanece (se queda con su color normal)
+	       50   = a medio camino
+	       74.5 = VALOR ACTUAL. Es el alfa `41` del #7c7c7c41 que traían
+	              escrito a mano las hojas de cada página (65/255 ≈ 0,255 de
+	              opacidad), así que el aspecto no cambia respecto a antes.
+	       100  = la entrada desaparece del todo
+	   Un mismo valor rige las cuatro formas de entrada del menú: el texto
+	   (Inicio, Sobre nosotros, Catalogo, Pasteles personalizados), los botones
+	   del desplegable de Catalogo, el botón de Ingresar/Salir y el icono del
+	   carrito. Los tres primeros se aclaran con --navbar-hover-color; el
+	   carrito es una imagen y no responde a `color`, así que usa directamente
+	   --navbar-hover-opacity. Las dos derivadas salen del mismo número, de
+	   modo que texto e icono se desvanecen siempre lo mismo. */
+	--navbar-hover-fade: 18;
+	/* ← PORCENTAJE DE DESVANECIMIENTO (sin el signo %) */
+	--navbar-hover-rgb: 124, 124, 124;
+	/* Gris hacia el que se aclara el texto (#7c7c7c) */
+
+	/* Derivados: no editar. */
+	--navbar-hover-opacity: calc((100 - var(--navbar-hover-fade)) / 100);
+	--navbar-hover-color: rgba(var(--navbar-hover-rgb), var(--navbar-hover-opacity));
 }
 
 #menu,
@@ -16388,7 +16413,7 @@ disabled look for disabled choices in the results dropdown
 .dropdown-content button:hover {
 	cursor: pointer !important;
 	/* Change cursor to indicate clickable */
-	color: #7c7c7c41 !important;
+	color: var(--navbar-hover-color) !important;
 }
 
 
@@ -16625,21 +16650,36 @@ body,
 	width: 60px;
 }
 
-/* ─── Desvanecido al pasar el ratón, igual que los enlaces de texto ──────────
-   Las entradas de texto se aclaran porque cada hoja de página lleva un
-   `a:hover { color: #7c7c7c41; transition: .4s }` (alfa 0x41 ≈ 0.25). El
-   carrito es un <img>, así que ese `color` no le afecta y era el único
-   elemento del menú que no reaccionaba. Se reproduce el mismo efecto con
-   opacidad, con el mismo valor de alfa y la misma duración.
+/* ─── Desvanecido de las entradas del menú al pasar el ratón ─────────────────
+   El único mando es --navbar-hover-fade (:root, arriba); aquí sólo se reparte
+   su valor entre los distintos tipos de entrada.
 
-   Va aquí, en style.css, y no en las hojas de cada página, porque la barra es
-   compartida y así el carrito se comporta igual en todas ellas. */
+   Antes no había tal mando: cada hoja de página repetía a mano
+   `a:hover { color: #7c7c7c41 }`, el carrito no se desvanecía en absoluto (es
+   un <img> y `color` no le afecta) y la página de Pasteles personalizados
+   usaba además un valor distinto del resto. Estas reglas viven en style.css,
+   que cargan todas las vistas, para que la barra —que es compartida— se
+   comporte igual en todas ellas.
+
+   Sobre la especificidad: los `a:hover` de las hojas de página llevan
+   !important, así que estas reglas también lo necesitan para ganarles. Con los
+   dos !important decide la especificidad, y `.rd-nav-link:hover` (dos clases)
+   le gana a `a:hover` (una clase y un elemento). */
+.rd-nav-link:hover,
+.rd-nav-link #Ingreso:hover,
+.rd-nav-link .boton:hover {
+	color: var(--navbar-hover-color) !important;
+}
+
+/* El carrito es una imagen: no hereda el `color` de su enlace, así que se
+   desvanece con la opacidad equivalente. La duración es la misma .4s que usan
+   las entradas de texto. */
 #carretilla {
 	transition: opacity .4s;
 }
 
 .rd-nav-link:hover #carretilla {
-	opacity: .255;
+	opacity: var(--navbar-hover-opacity);
 }
 
 /* En el panel lateral manda la variable de arriba (60px menos su porcentaje de
