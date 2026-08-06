@@ -90,7 +90,9 @@ h1{
 @endsection
 @section('content')
 <div id="contenido_principal">
-    <h1 class="titulo-hobo">{{$array_categoria_pasteles[0]}}</h1>
+    {{-- titulo-navbar: misma tipografia que "Productos destacados" del index
+         (Sanseriffic 349), definida en css/estilo_Modificación_Index.css --}}
+    <h1 class="titulo-navbar">{{$array_categoria_pasteles[0]}}</h1>
     <form action="{{ route('cliente.pastel_seleccionado') }}" method="POST" id="seccion_productos">
         @csrf
         <input type="hidden" name="img" id="enlace_pastel">
