@@ -8181,9 +8181,39 @@ html.tablet .ui-to-top {
 	line-height: 46px;
 }
 
+/* ─── Tamaño del logotipo Pankey en móvil ───────────────────────────────────
+   Solo afecta al layout `rd-navbar-fixed`, que es el que monta el navbar en
+   teléfono y tablet; en escritorio (`rd-navbar-static`) el logo tiene sus
+   propios topes más abajo y no se toca.
+
+   Ajusta SOLO --logo-movil-aumento: es el porcentaje que se le SUMA al alto de
+   la plantilla (46px, el tope que traía el tema):
+       0  = como venía (46px)
+       10 = 50.6px (por defecto)
+       20 = 55.2px
+
+   El alto manda y el ancho va en `auto`, así que la imagen crece guardando su
+   proporción (el PNG es cuadrado: 526 × 526). El `max-width` de 180px queda de
+   red de seguridad para logos apaisados y no llega a estorbar aquí.
+
+   Techo práctico: ~20. La barra fija del móvil mide 56px de alto, así que a
+   partir de ahí el logo empieza a comerse el aire de la barra y a pegarse a los
+   bordes; para pasar de ese punto habría que subir también la altura de
+   .rd-navbar-fixed .rd-navbar-panel. */
+:root {
+	--logo-movil-alto-base: 46px;
+	/* Alto del diseño original */
+
+	--logo-movil-aumento: 10;
+	/* ← PORCENTAJE DE AUMENTO (sin el signo %) */
+
+	/* Derivado: no editar. */
+	--logo-movil-alto: calc(var(--logo-movil-alto-base) * (100 + var(--logo-movil-aumento)) / 100);
+}
+
 .rd-navbar-fixed .rd-navbar-brand img {
 	max-width: 180px;
-	max-height: 46px;
+	max-height: var(--logo-movil-alto);
 	width: auto;
 	height: auto;
 }
