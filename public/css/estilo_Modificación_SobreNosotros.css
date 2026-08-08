@@ -493,7 +493,7 @@ input[type="text"], #num_tarjeta{
     --historia-texto-ancho-base: 595px;
     /* Ancho de la columna del párrafo */
 
-    --historia-texto-reduccion: 0;
+    --historia-texto-reduccion: 20;
     /* ← PORCENTAJE DE REDUCCIÓN (sin el signo %) */
 
     --historia-foto: 300px;
