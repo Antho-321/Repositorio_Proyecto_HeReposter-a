@@ -111,8 +111,24 @@ function medirPresentacion(pagina, selectores) {
             separaciones.push(medidos[i].arriba - medidos[i - 1].abajo);
         }
 
+        // Solape entre el titular y la foto: en móvil el h1 estaba fuera del
+        // flujo (position:absolute) y con el texto más largo acabó encima de
+        // la imagen. Las cajas no deben pisarse ni en vertical ni en horizontal.
+        const titulo = document.querySelector('#texto h1');
+        const foto = document.querySelector('#DestacadoPrincipal img');
+        let solape = 0;
+
+        if (titulo && foto) {
+            const a = titulo.getBoundingClientRect();
+            const b = foto.getBoundingClientRect();
+            const alto = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+            const ancho = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+            solape = alto > 0 && ancho > 0 ? alto : 0;
+        }
+
         return {
             existe: true,
+            solapeTituloFoto: solape,
             parrafos: medidos,
             separaciones,
             // La del párrafo, no la del contenedor: el titular sigue centrado
@@ -209,6 +225,12 @@ async function revisarVista(navegador, vista) {
                 `[${vista.nombre}] el último párrafo no toca el pie ` +
                     `(quedan ${(-medida.desborde).toFixed(1)}px por debajo, ` +
                     `mínimo ${COLCHON_INFERIOR_MINIMO_PX}px)`
+            );
+
+            comprobar(
+                medida.solapeTituloFoto === 0,
+                `[${vista.nombre}] el titular no se monta sobre la foto ` +
+                    `(solape: ${medida.solapeTituloFoto.toFixed(1)}px)`
             );
 
             const anchoLinea = medida.parrafos[0].ancho;

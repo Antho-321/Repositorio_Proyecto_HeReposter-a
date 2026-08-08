@@ -281,7 +281,11 @@ body>a:hover {
        alto mínimo de siempre pero crece si el contenido lo pide. */
     min-height: 69.9vh;
     width: 100%;
-    background-color: aliceblue;
+    /* El beige lo pintaban sólo los hijos (#texto y #DestacadoPrincipal), que
+       tapaban por completo el aliceblue del contenedor. En cuanto la caja tiene
+       padding propio, ese azul asoma como una franja antes del pie: el fondo
+       tiene que ser el mismo beige de la sección. */
+    background-color: rgb(249, 245, 239);
     padding-top: 20px !important;
     /* Con tres párrafos la banda ya llega justa al pie: sin este colchón, la
        última línea queda pegada al borde negro del footer. */
