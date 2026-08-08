@@ -473,11 +473,14 @@ input[type="text"], #num_tarjeta{
 #texto{
     display: flex;
     flex-direction: column;
-    /* Ancho de la banda de contenido: 300px de foto + 45 de hueco + los ~627px
-       que mide el párrafo (33em a 19px). Ajustado a eso para que no sobre sitio
-       y la columna de texto no quede flotando lejos de su imagen. Si se cambia
-       el cuerpo de letra hay que rehacer esta suma, o el párrafo se estrecha y
-       deja de cumplir la medida por la que se eligió el ancho. */
+    /* Ancho de la banda: 300px de foto + 45 de hueco + 595 de párrafo. Ojo, es
+       ESTE número el que decide el ancho del texto, no el max-width del párrafo
+       (33em = 627px, que aquí nunca llega a aplicarse porque el hueco que queda
+       es menor). Si se quiere reajustar la columna de texto, se toca aquí.
+
+       940 no es redondo por casualidad: se probaron varios midiendo la página
+       (900 y 920 disparan el segundo párrafo a 2,58× y 2,39×; 980 deja el
+       tercero en 2,33×). Con 940 los tres se quedan por debajo del límite. */
     width: min(940px, 92vw);
     /* Separación entre capítulos: más que la que hay entre párrafos, para que
        cada bloque de imagen + texto se lea como una unidad. */
