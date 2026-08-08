@@ -462,23 +462,49 @@ input[type="text"], #num_tarjeta{
 }
 
 
-#DestacadoPrincipal {
-    display: flex;
-    width: 40vw;
+/* La página pasó de "una foto a la izquierda + todo el texto a la derecha" a
+   tres capítulos, cada uno con su imagen, alternando el lado. Por eso
+   #contenido_principal ya no es una fila de dos columnas sino una pila. */
+#contenido_principal {
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-}
-#DestacadoPrincipal>img {
-    height: 300px;
-    width: 300px;
 }
 
 #texto{
     display: flex;
     flex-direction: column;
-    width: 60vw;
-    text-align: center;
-    padding-right: calc((40vw - 300px) / 2);
+    /* Ancho de la banda de contenido: 300px de foto + 45 de hueco + los ~561px
+       que mide el párrafo. Ajustado a eso para que no sobre sitio y la columna
+       de texto no quede flotando lejos de su imagen. */
+    width: min(950px, 92vw);
+    /* Separación entre capítulos: más que la que hay entre párrafos, para que
+       cada bloque de imagen + texto se lea como una unidad. */
+    gap: 55px;
+}
+
+.capitulo {
+    display: flex;
+    align-items: center;
+    gap: 45px;
+}
+
+/* La alternancia: el segundo capítulo invierte el orden visual y deja la
+   imagen a la derecha. row-reverse y no `order` en cada hijo porque así el
+   orden del marcado (imagen, texto) sigue siendo el mismo en los tres y sólo
+   cambia una propiedad. */
+.capitulo--espejo {
+    flex-direction: row-reverse;
+}
+
+.capitulo__imagen {
+    width: 300px;
+    height: 300px;
+    /* flex-shrink: 0 para que la foto no se estruje cuando el párrafo es largo;
+       object-fit: cover para que recorte en vez de deformarse, ya que las tres
+       imágenes no tienen la misma proporción de origen. */
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 10px;
 }
 h1{
     font: normal normal normal 1.6vw/1.4em Sanseriffic;
@@ -542,19 +568,17 @@ p{
        el primer ancho que cabe, se prueban todos y se elige el que minimiza el
        forzado del peor espacio. */
     max-width: 33em;
-    margin-left: auto;
-    margin-right: auto;
+    /* Sin márgenes propios: la separación con la imagen la pone el gap del
+       capítulo y la de un capítulo con otro el gap de #texto. Con márgenes
+       automáticos el párrafo se centraba en el espacio sobrante y quedaba
+       flotando lejos de su foto. */
+    margin: 0;
     /* 1.4 es interlineado de titular; el texto corrido pide algo más de aire. */
     line-height: 1.7;
 }
 
-#texto p + p {
-    /* Separación entre párrafos: antes eran 12px heredados, casi el mismo
-       hueco que hay entre dos renglones, así que los tres se leían como uno.
-       Con este aire ya se distinguen los bloques sin sangrar la primera
-       línea (hueco o sangría, las dos cosas juntas sobran). */
-    margin-top: 1.15em;
-}
+/* La separación entre párrafos ya no se pone aquí: cada uno vive en su propio
+   .capitulo, y el hueco entre capítulos lo da el `gap` de #texto. */
 
 footer {
     display: flex;
@@ -607,14 +631,23 @@ footer {
     }
     #contenido_principal {
         display: flex;
-        /* column-reverse: en el marcado la foto va antes que #texto, así que en
-           una sola columna el titular caería por debajo de la imagen. Antes se
-           resolvía sacando el h1 del flujo (position:absolute; top:100px), y
-           con el texto más largo el titular acababa montado sobre la foto.
-           Invirtiendo la columna queda el orden natural: título, historia y
-           foto al cierre, sin posicionamientos a mano. */
-        flex-direction: column-reverse;
+        flex-direction: column;
         height: auto;
+      }
+      /* En pantalla estrecha no hay sitio para poner la imagen al lado, así que
+         los tres capítulos se apilan igual: imagen arriba, texto debajo. Se
+         anula también el espejo del segundo, porque en columna invertiría el
+         orden (texto encima de su imagen) y rompería el patrón. */
+      .capitulo,
+      .capitulo--espejo {
+        flex-direction: column;
+        gap: 18px;
+      }
+      .capitulo__imagen {
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        aspect-ratio: 1;
       }
       h1{
         position: static;
@@ -624,15 +657,12 @@ footer {
         height: initial;
       }
       #texto{
-        padding-right: 0px;
         width: 100vw;
         align-items: center;
-      }
-      #DestacadoPrincipal{
-        width: 100vw;
-        /* Los 75px de antes hacían sitio al h1 en absoluto; ya no hace falta. */
-        padding-top: 0px;
-        padding-bottom: 10px;
+        /* Entre capítulos apilados hace falta más aire que en escritorio: aquí
+           imagen y texto van uno encima de otro y sin este hueco el final de un
+           capítulo y la foto del siguiente se leerían como el mismo bloque. */
+        gap: 45px;
       }
       /* En móvil el aire tiene que ir al bloque, no a cada párrafo: con tres
          párrafos, 35px de padding arriba y abajo en cada uno abría huecos de

@@ -42,6 +42,11 @@ const SELECTOR_PRELOADER = '.preloader';
 
 const PARRAFOS_ESPERADOS = 3;
 
+// El patrón pedido: izquierda, derecha, izquierda. En pantalla estrecha no hay
+// dos columnas, así que la imagen va encima de su párrafo en los tres.
+const LADOS_ESCRITORIO = ['izquierda', 'derecha', 'izquierda'];
+const LADOS_APILADOS = ['arriba', 'arriba', 'arriba'];
+
 // Aire mínimo entre párrafos. Por debajo de ~12px el ojo no separa los bloques
 // y los tres se leen como un muro.
 const SEPARACION_MINIMA_PX = 12;
@@ -238,24 +243,55 @@ function medirPresentacion(pagina, selectores) {
             separaciones.push(medidos[i].arriba - medidos[i - 1].abajo);
         }
 
-        // Solape entre el titular y la foto: en móvil el h1 estaba fuera del
-        // flujo (position:absolute) y con el texto más largo acabó encima de
-        // la imagen. Las cajas no deben pisarse ni en vertical ni en horizontal.
-        const titulo = document.querySelector('#texto h1');
-        const foto = document.querySelector('#DestacadoPrincipal img');
+        // Solape entre el titular y la primera foto: en móvil el h1 estaba
+        // fuera del flujo (position:absolute) y con el texto más largo acabó
+        // encima de la imagen. Las cajas no deben pisarse.
+        const titulo = document.querySelector('#contenido_principal h1');
+        const fotos = Array.from(document.querySelectorAll('.capitulo__imagen'));
         let solape = 0;
 
-        if (titulo && foto) {
+        if (titulo && fotos.length > 0) {
             const a = titulo.getBoundingClientRect();
-            const b = foto.getBoundingClientRect();
+            const b = fotos[0].getBoundingClientRect();
             const alto = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
             const ancho = Math.min(a.right, b.right) - Math.max(a.left, b.left);
             solape = alto > 0 && ancho > 0 ? alto : 0;
         }
 
+        // Lado de la imagen dentro de su capítulo: se compara el centro de la
+        // foto con el del párrafo que la acompaña. Es lo que de verdad ve el
+        // lector, y no depende de si la alternancia se hizo con row-reverse,
+        // con `order` o cambiando el marcado.
+        const lados = Array.from(document.querySelectorAll('.capitulo')).map((cap) => {
+            const img = cap.querySelector('.capitulo__imagen');
+            const parrafo = cap.querySelector('p');
+            if (!img || !parrafo) {
+                return 'sin-imagen';
+            }
+            const ri = img.getBoundingClientRect();
+            const rp = parrafo.getBoundingClientRect();
+            const centroImagen = ri.left + ri.width / 2;
+            const centroTexto = rp.left + rp.width / 2;
+
+            // Apilados (móvil): la imagen no está a un lado sino encima.
+            if (ri.bottom <= rp.top + 1) {
+                return 'arriba';
+            }
+            return centroImagen < centroTexto ? 'izquierda' : 'derecha';
+        });
+
+        // Cada imagen tiene que cargar de verdad: una ruta rota deja el hueco
+        // maquetado igual pero sin foto, y ninguna otra medida lo detecta.
+        const imagenesRotas = fotos.filter(
+            (img) => !img.complete || img.naturalWidth === 0
+        ).length;
+
         return {
             existe: true,
             solapeTituloFoto: solape,
+            lados,
+            imagenes: fotos.length,
+            imagenesRotas,
             parrafos: medidos,
             separaciones,
             // La del párrafo, no la del contenedor: el titular sigue centrado
@@ -362,6 +398,26 @@ async function revisarVista(navegador, vista) {
                 medida.solapeTituloFoto === 0,
                 `[${vista.nombre}] el titular no se monta sobre la foto ` +
                     `(solape: ${medida.solapeTituloFoto.toFixed(1)}px)`
+            );
+
+            comprobar(
+                medida.imagenes === PARRAFOS_ESPERADOS,
+                `[${vista.nombre}] cada párrafo lleva su imagen ` +
+                    `(${medida.imagenes} de ${PARRAFOS_ESPERADOS})`
+            );
+            comprobar(
+                medida.imagenesRotas === 0,
+                `[${vista.nombre}] todas las imágenes cargan ` +
+                    `(${medida.imagenesRotas} rota(s))`
+            );
+
+            const ladosEsperados = vista.justificado
+                ? LADOS_ESCRITORIO
+                : LADOS_APILADOS;
+            comprobar(
+                medida.lados.join(',') === ladosEsperados.join(','),
+                `[${vista.nombre}] las imágenes alternan de lado: ` +
+                    `${medida.lados.join(' · ')} (esperado: ${ladosEsperados.join(' · ')})`
             );
 
             // Caracteres por línea reales: texto entre líneas que ocupa. Antes
