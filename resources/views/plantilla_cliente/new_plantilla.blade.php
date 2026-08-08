@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html class="wide wow-animation" lang="en">
+{{-- lang="es": el sitio está en español. No es sólo semántica — el guionado
+     automático (hyphens: auto) parte las palabras según el idioma declarado, y
+     con "en" el navegador no aplica el diccionario español. También afecta a
+     lectores de pantalla y a la corrección ortográfica de los formularios. --}}
+<html class="wide wow-animation" lang="es">
 
 <head>
     <title>Inicio</title>

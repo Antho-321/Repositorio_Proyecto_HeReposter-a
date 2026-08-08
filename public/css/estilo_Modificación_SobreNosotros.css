@@ -508,9 +508,27 @@ p{
    para uno solo. Lo que cambia aquí es sólo el texto corrido de esta vista
    (#texto p), no el resto de párrafos del tema. */
 #texto p {
-    /* Centrado está bien para un titular; para tres párrafos no: cada línea
-       arranca en una sangría distinta y el ojo pierde el renglón al bajar. */
-    text-align: left;
+    /* Justificado, con las tres piezas que lo hacen legible y no un colador:
+
+       1. text-align: justify reparte el sobrante de cada línea entre sus
+          espacios. El navegador no usa Knuth-Plass (ajuste óptimo del párrafo
+          entero, el de TeX): va línea a línea, first-fit, y cuando una línea se
+          queda corta de palabras estira los espacios sin poder "devolver" una
+          palabra a la línea anterior. De ahí los ríos blancos.
+       2. hyphens: auto es lo que de verdad evita esos huecos: al poder partir
+          palabras, el sobrante que hay que repartir por línea es mucho menor.
+          Depende del lang del documento (por eso el <html lang="es">).
+       3. text-wrap: pretty pide al motor que mire el párrafo completo en vez de
+          decidir línea a línea: es lo más cerca de Knuth-Plass que se puede
+          pedir desde CSS. Donde no esté soportado, simplemente se ignora y
+          quedan los dos puntos anteriores. */
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    text-wrap: pretty;
+    /* Sin límites, el guionado deja jirones de dos letras colgando al final de
+       la línea: mínimo 6 letras para partir, y 3 a cada lado del guión. */
+    hyphenate-limit-chars: 6 3 3;
     /* Medida de lectura: por encima de ~75 caracteres por línea cuesta
        encadenar renglones. Antes la línea llegaba a ~85 en pantalla ancha. */
     max-width: 62ch;
