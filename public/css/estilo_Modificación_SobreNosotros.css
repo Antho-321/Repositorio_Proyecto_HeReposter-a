@@ -470,18 +470,47 @@ input[type="text"], #num_tarjeta{
     align-items: center;
 }
 
+/* Ancho de la columna de texto de "Nuestra historia".
+
+   Antes esto vivía en dos números sueltos que había que mantener a mano y en
+   sitios distintos: el ancho de la banda (#texto) y el max-width del párrafo.
+   Encima el segundo no llegaba a aplicarse nunca en escritorio, porque el
+   hueco que dejaba la banda ya era menor, así que retocarlo no hacía nada y el
+   ancho real salía de una resta mental (banda - foto - hueco).
+
+   Ahora manda --historia-texto-ancho-base y todo lo demás se deriva de ahí.
+
+   Mismo patrón que --franja-negra-* y --hamburguesa-* en style.css: un valor
+   base, un porcentaje de reducción y los derivados calculados.
+
+   AL TOCAR LA REDUCCIÓN, comprobar la página con
+   tests/e2e/sobre-nosotros-presentacion.spec.js: el texto va justificado y el
+   estiramiento de los espacios NO baja de forma continua con el ancho, salta
+   (a 900px de banda el segundo párrafo se va a 2,58×, a 940 se queda en 1,63×).
+   Un ancho que parece razonable puede abrir ríos blancos, y sólo se ve
+   midiendo. */
+:root {
+    --historia-texto-ancho-base: 595px;
+    /* Ancho de la columna del párrafo */
+
+    --historia-texto-reduccion: 0;
+    /* ← PORCENTAJE DE REDUCCIÓN (sin el signo %) */
+
+    --historia-foto: 300px;
+    /* Lado de la imagen de cada capítulo */
+
+    --historia-hueco: 45px;
+    /* Separación entre la imagen y su párrafo */
+
+    /* Derivados: no editar. */
+    --historia-texto-ancho: calc(var(--historia-texto-ancho-base) * (100 - var(--historia-texto-reduccion)) / 100);
+    --historia-banda: calc(var(--historia-foto) + var(--historia-hueco) + var(--historia-texto-ancho));
+}
+
 #texto{
     display: flex;
     flex-direction: column;
-    /* Ancho de la banda: 300px de foto + 45 de hueco + 595 de párrafo. Ojo, es
-       ESTE número el que decide el ancho del texto, no el max-width del párrafo
-       (33em = 627px, que aquí nunca llega a aplicarse porque el hueco que queda
-       es menor). Si se quiere reajustar la columna de texto, se toca aquí.
-
-       940 no es redondo por casualidad: se probaron varios midiendo la página
-       (900 y 920 disparan el segundo párrafo a 2,58× y 2,39×; 980 deja el
-       tercero en 2,33×). Con 940 los tres se quedan por debajo del límite. */
-    width: min(940px, 92vw);
+    width: min(var(--historia-banda), 92vw);
     /* Separación entre capítulos: más que la que hay entre párrafos, para que
        cada bloque de imagen + texto se lea como una unidad. */
     gap: 55px;
@@ -490,7 +519,7 @@ input[type="text"], #num_tarjeta{
 .capitulo {
     display: flex;
     align-items: center;
-    gap: 45px;
+    gap: var(--historia-hueco);
 }
 
 /* La alternancia: el segundo capítulo invierte el orden visual y deja la
@@ -502,8 +531,8 @@ input[type="text"], #num_tarjeta{
 }
 
 .capitulo__imagen {
-    width: 300px;
-    height: 300px;
+    width: var(--historia-foto);
+    height: var(--historia-foto);
     /* flex-shrink: 0 para que la foto no se estruje cuando el párrafo es largo;
        object-fit: cover para que recorte en vez de deformarse, ya que las tres
        imágenes no tienen la misma proporción de origen. */
@@ -540,9 +569,9 @@ p{
    (#texto p), no el resto de párrafos del tema. */
 #texto p {
     /* 19px en vez de los 17 del texto corrido del tema: es la historia de la
-       casa y se lee de un tirón, no una ficha de producto. La medida de lectura
-       no se resiente porque el ancho va en em (33em), así que crece con la
-       letra y siguen entrando los mismos ~70 caracteres por línea. */
+       casa y se lee de un tirón, no una ficha de producto. Al subir el cuerpo
+       se ensanchó la columna (--historia-texto-ancho-base) para que siguieran
+       entrando unos 65 caracteres por línea. */
     font-size: 19px;
 
     /* Justificado, con las tres piezas que lo hacen legible y no un colador:
@@ -566,25 +595,11 @@ p{
     /* Sin límites, el guionado deja jirones de dos letras colgando al final de
        la línea: mínimo 6 letras para partir, y 3 a cada lado del guión. */
     hyphenate-limit-chars: 6 3 3;
-    /* Medida de lectura: ~73 caracteres por línea (medidos sobre el texto real,
-       no estimados), dentro del rango cómodo de 45-75.
-
-       El valor no es redondo porque se eligió midiendo. Barriendo anchos de 400
-       a 580px sobre este mismo texto, el estiramiento máximo de los espacios no
-       baja de forma continua, va a saltos (7,2× a 400px, 3,0× a 420px, 5,8× a
-       480px, 2,2× a 510px, 2,0× a 560px), porque cada ancho parte las líneas
-       por sitios distintos. 33em es el valor validado midiendo la página real
-       (2,11× / 2,17× / 1,88×).
-
-       Aviso para quien lo toque: NO afines este número con un barrido teórico.
-       La badness salta de forma caótica con el ancho — 627px da 2,17× y 608px
-       da 3,39× en el tercer párrafo, 19px de diferencia. Cualquier ajuste hay
-       que comprobarlo en la página, no en una simulación, y sabiendo que el
-       ancho real cambia con la ventana. */
-       Es la idea de Knuth-Plass a escala de la columna: en vez de dar por bueno
-       el primer ancho que cabe, se prueban todos y se elige el que minimiza el
-       forzado del peor espacio. */
-    max-width: 33em;
+    /* Medida de lectura: ~65 caracteres por línea llena, dentro del rango
+       cómodo de 45-75. El tope sale de la misma variable que da el ancho de la
+       banda, así que reducir --historia-texto-ancho-base estrecha las dos cosas
+       a la vez y no pueden quedar descuadradas. */
+    max-width: var(--historia-texto-ancho);
     /* Sin márgenes propios: la separación con la imagen la pone el gap del
        capítulo y la de un capítulo con otro el gap de #texto. Con márgenes
        automáticos el párrafo se centraba en el espacio sobrante y quedaba
