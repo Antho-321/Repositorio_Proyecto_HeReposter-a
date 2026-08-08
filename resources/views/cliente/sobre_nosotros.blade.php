@@ -87,13 +87,18 @@
         </div>
         <div id="texto">
             <h1>Nuestra historia</h1>
-            <p>La pastelería "Pankey" fue fundada hace más de 30 años por los hermanos Genny y Carlos, quienes
-                aprendieron las técnicas de su padre en la panadería. Genny se quedó con la pastelería cuando los
-                hermanos decidieron separarse, y conoció a Luis en un curso de Levapan. Luis compró el horno de Carlos y
-                comenzó a trabajar en la pastelería con Genny. Luego de algunos años, se casaron y llevaron la
-                pastelería de vuelta a Azaya. Para expandirse y llegar a más clientes, abrieron una sucursal cerca del
-                terreno que había heredado Genny, lo que les permitió crear nuevos productos ajustados a las necesidades
-                y gustos de la comunidad.</p>
+            <p>Genny y Carlos crecieron entre dos oficios: el pan que horneaba su padre y los postres que su madre
+                preparaba por encargo, sin letrero ni marca; bastaba su nombre. Hace más de treinta años, los hermanos
+                decidieron reunir ambos oficios bajo un mismo letrero, <em>Panadería y Pastelería Olivita</em>: fue la
+                primera vez que el trabajo de la familia tuvo un nombre propio.</p>
+            <p>En un curso de Levapan, Genny conoció a Luis, con quien tiempo después se casó. Poco más tarde, ella y
+                Carlos decidieron seguir caminos distintos, y fue Luis quien compró el horno: esa venta selló la
+                separación. Genny se quedó con la pastelería que había aprendido de su madre, y Luis se quedó a hornear
+                junto a ella.</p>
+            <p>A través de los años, tras un periplo por diversos rincones, nuestra historia se sintetizó en un nombre
+                tan breve como memorable: Pankey. Hoy condensamos nuestra esencia en un único refugio, donde abrimos las
+                puertas a nuestros visitantes mientras llevamos nuestras creaciones directamente hasta la calidez de su
+                hogar.</p>
         </div>
     </div>
 @endsection
