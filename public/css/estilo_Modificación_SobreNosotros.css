@@ -275,10 +275,17 @@ body>a:hover {
     padding: 10px;
 }
 #contenido_principal {
-    height: 69.9vh;
+    /* min-height y no height: con altura fija, un texto más largo que 69.9vh
+       (pantalla baja, móvil apaisado, zoom del navegador) se sale de la caja y
+       se monta sobre el pie en lugar de empujarlo. Así la banda conserva su
+       alto mínimo de siempre pero crece si el contenido lo pide. */
+    min-height: 69.9vh;
     width: 100%;
     background-color: aliceblue;
     padding-top: 20px !important;
+    /* Con tres párrafos la banda ya llega justa al pie: sin este colchón, la
+       última línea queda pegada al borde negro del footer. */
+    padding-bottom: 45px;
     display: flex;
 }
 /* SLIDER*/
@@ -493,6 +500,30 @@ p{
     background-color: rgb(249, 245, 239);
 }
 
+/* La historia pasó de un párrafo a tres, y el ajuste de la página estaba hecho
+   para uno solo. Lo que cambia aquí es sólo el texto corrido de esta vista
+   (#texto p), no el resto de párrafos del tema. */
+#texto p {
+    /* Centrado está bien para un titular; para tres párrafos no: cada línea
+       arranca en una sangría distinta y el ojo pierde el renglón al bajar. */
+    text-align: left;
+    /* Medida de lectura: por encima de ~75 caracteres por línea cuesta
+       encadenar renglones. Antes la línea llegaba a ~85 en pantalla ancha. */
+    max-width: 62ch;
+    margin-left: auto;
+    margin-right: auto;
+    /* 1.4 es interlineado de titular; el texto corrido pide algo más de aire. */
+    line-height: 1.7;
+}
+
+#texto p + p {
+    /* Separación entre párrafos: antes eran 12px heredados, casi el mismo
+       hueco que hay entre dos renglones, así que los tres se leían como uno.
+       Con este aire ya se distinguen los bloques sin sangrar la primera
+       línea (hueco o sangría, las dos cosas juntas sobran). */
+    margin-top: 1.15em;
+}
+
 footer {
     display: flex;
     width: 100%;
@@ -544,15 +575,18 @@ footer {
     }
     #contenido_principal {
         display: flex;
-        /*flex-direction: column-reverse;*/
-        flex-direction: column;
+        /* column-reverse: en el marcado la foto va antes que #texto, así que en
+           una sola columna el titular caería por debajo de la imagen. Antes se
+           resolvía sacando el h1 del flujo (position:absolute; top:100px), y
+           con el texto más largo el titular acababa montado sobre la foto.
+           Invirtiendo la columna queda el orden natural: título, historia y
+           foto al cierre, sin posicionamientos a mano. */
+        flex-direction: column-reverse;
         height: auto;
       }
       h1{
-        position: absolute;
-        top: 100px;
-        /*left: calc(50% - 116.3px);*/
-
+        position: static;
+        padding: 30px 0px 20px;
       }
       #Contenido{
         height: initial;
@@ -564,10 +598,23 @@ footer {
       }
       #DestacadoPrincipal{
         width: 100vw;
-        padding-top: 75px;
+        /* Los 75px de antes hacían sitio al h1 en absoluto; ya no hace falta. */
+        padding-top: 0px;
+        padding-bottom: 10px;
       }
-      p{
-        padding: 35px 45px;
+      /* En móvil el aire tiene que ir al bloque, no a cada párrafo: con tres
+         párrafos, 35px de padding arriba y abajo en cada uno abría huecos de
+         70px entre ellos y el texto se leía a trompicones. */
+      #texto p{
+        padding: 0px;
+        margin-left: 0px;
+        margin-right: 0px;
+      }
+      #texto{
+        /* border-box porque aquí el ancho es 100vw: sin él, el padding se
+           sumaría al ancho de la ventana y el bloque quedaría recortado. */
+        box-sizing: border-box;
+        padding: 10px 28px 35px;
       }
     #check2:checked + header #LogoPankey{
         padding: 1vh 4vw !important;
