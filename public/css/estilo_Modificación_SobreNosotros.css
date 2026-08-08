@@ -529,9 +529,19 @@ p{
     /* Sin límites, el guionado deja jirones de dos letras colgando al final de
        la línea: mínimo 6 letras para partir, y 3 a cada lado del guión. */
     hyphenate-limit-chars: 6 3 3;
-    /* Medida de lectura: por encima de ~75 caracteres por línea cuesta
-       encadenar renglones. Antes la línea llegaba a ~85 en pantalla ancha. */
-    max-width: 62ch;
+    /* Medida de lectura: ~73 caracteres por línea (medidos sobre el texto real,
+       no estimados), dentro del rango cómodo de 45-75.
+
+       El valor no es redondo porque se eligió midiendo. Barriendo anchos de 400
+       a 580px sobre este mismo texto, el estiramiento máximo de los espacios no
+       baja de forma continua, va a saltos (7,2× a 400px, 3,0× a 420px, 5,8× a
+       480px, 2,2× a 510px, 2,0× a 560px), porque cada ancho parte las líneas
+       por sitios distintos. 33em (~560px) es el mínimo forzado de todos los
+       anchos que se quedan dentro de la medida de lectura.
+       Es la idea de Knuth-Plass a escala de la columna: en vez de dar por bueno
+       el primer ancho que cabe, se prueban todos y se elige el que minimiza el
+       forzado del peor espacio. */
+    max-width: 33em;
     margin-left: auto;
     margin-right: auto;
     /* 1.4 es interlineado de titular; el texto corrido pide algo más de aire. */
@@ -631,6 +641,12 @@ footer {
         padding: 0px;
         margin-left: 0px;
         margin-right: 0px;
+        /* Sin justificar en pantalla estrecha. Aquí caben ~39 caracteres por
+           línea, y con tan pocas palabras el sobrante se reparte entre cuatro
+           o cinco espacios: se abren huecos de más del triple de lo normal
+           (medido: 3,4×). El justificado necesita línea larga; en columna
+           estrecha, bandera a la derecha se lee mucho mejor. */
+        text-align: left;
       }
       #texto{
         /* border-box porque aquí el ancho es 100vw: sin él, el padding se
