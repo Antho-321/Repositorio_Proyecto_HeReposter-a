@@ -4,11 +4,13 @@
    Reconstrucción CSS del logo animado (10 s, sin JavaScript) portada
    desde ~/reconstruccion-animada-pankey para usarse como preloader.
 
-   Respecto del original sólo cambian tres cosas:
+   Respecto del original sólo cambian cuatro cosas:
      · todo lleva el prefijo `pk-` (clases y @keyframes), porque el tema
        de style.css ya define .mark y podría definir .logo o .band;
      · las rutas apuntan a ../images/pankey-loader/;
-     · la escena se acopla al .preloader del tema en vez de a <body>.
+     · la escena se acopla al .preloader del tema en vez de a <body>;
+     · la escena tiene --scale para ajustar su tamaño (el fuente siempre
+       ocupa la ventana entera).
    El resto es idéntico al fuente, para poder seguir comparándolo.
    ══════════════════════════════════════════════════════════════════════ */
 
@@ -18,8 +20,10 @@
 /* ── acople con el preloader del tema ──────────────────────────────────
    .preloader (style.css) ya es la capa fija a pantalla completa que se
    desvanece con .loaded; sólo hay que quitarle el padding para que la
-   escena 16:9 ocupe todo el hueco. */
-.preloader{ padding:0; }
+   escena 16:9 ocupe todo el hueco. Sigue centrándola (display:flex), así
+   que con --scale por debajo de 1 la escena queda centrada sobre el
+   fondo blanco; overflow evita desbordes si se sube de 1. */
+.preloader{ padding:0; overflow:hidden; }
 
 /* Durante el desvanecido se pausa la animación en lugar de anularla: con
    `animation:none` las piezas volverían a su estado inicial (opacity:0) y
@@ -30,11 +34,14 @@
 .pk-stage{
   --dur: 10.0s;                /* duración exacta del vídeo original; bajarla
                                   muestra más del montaje en cargas cortas */
+  --scale: 0.5;                  /* tamaño de la escena: 1 llena el hueco, 0.5 la
+                                  deja a la mitad. Todo lo de dentro está en %
+                                  de la escena, así que encoge en bloque */
   --bg:    #ffffff;            /* fondo de la escena, el mismo que .preloader */
   --blend: multiply;           /* cómo se apoya la calima sobre él */
 
   position:relative;
-  width:min(100vw, calc(100vh * 16 / 9));
+  width:calc(min(100vw, 100vh * 16 / 9) * var(--scale));
   aspect-ratio:16/9;
   background:var(--bg);
   overflow:hidden;
