@@ -1,0 +1,446 @@
+/* ══════════════════════════════════════════════════════════════════════
+   PANKEY · animación de carga
+   ──────────────────────────────────────────────────────────────────────
+   Reconstrucción CSS del logo animado (10 s, sin JavaScript) portada
+   desde ~/reconstruccion-animada-pankey para usarse como preloader.
+
+   Respecto del original sólo cambian tres cosas:
+     · todo lleva el prefijo `pk-` (clases y @keyframes), porque el tema
+       de style.css ya define .mark y podría definir .logo o .band;
+     · las rutas apuntan a ../images/pankey-loader/;
+     · la escena se acopla al .preloader del tema en vez de a <body>.
+   El resto es idéntico al fuente, para poder seguir comparándolo.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.pk-stage,
+.pk-stage *{ box-sizing:border-box; }
+
+/* ── acople con el preloader del tema ──────────────────────────────────
+   .preloader (style.css) ya es la capa fija a pantalla completa que se
+   desvanece con .loaded; sólo hay que quitarle el padding para que la
+   escena 16:9 ocupe todo el hueco. */
+.preloader{ padding:0; }
+
+/* Durante el desvanecido se pausa la animación en lugar de anularla: con
+   `animation:none` las piezas volverían a su estado inicial (opacity:0) y
+   el logo desaparecería de golpe antes de que la capa termine de irse. */
+.preloader.loaded .pk-stage *{ animation-play-state:paused; }
+
+/* ── stage ─────────────────────────────────────────────────────────── */
+.pk-stage{
+  --dur: 10.0s;                /* duración exacta del vídeo original; bajarla
+                                  muestra más del montaje en cargas cortas */
+  --bg:    #ffffff;            /* fondo de la escena, el mismo que .preloader */
+  --blend: multiply;           /* cómo se apoya la calima sobre él */
+
+  position:relative;
+  width:min(100vw, calc(100vh * 16 / 9));
+  aspect-ratio:16/9;
+  background:var(--bg);
+  overflow:hidden;
+  isolation:isolate;
+}
+
+.pk-stage *{ position:absolute; }
+.pk-stage .pk-logo,
+.pk-stage .pk-leaves,
+.pk-stage .pk-band{ inset:0; }
+
+/* ══ layer 0 · flash of the original artwork ═══════════════════════════
+   The video opens on 4 frames (0.167 s) of the reference image before
+   cutting to black. Reproduced as-is.                                   */
+.pk-flash{
+  inset:0;
+  background:url(../images/pankey-loader/source-flash.png) center/contain no-repeat;
+  animation:pk-flash var(--dur) steps(1,end) infinite;
+}
+@keyframes pk-flash{
+  0%           { opacity:1; }
+  1.67% { opacity:0; }
+  100%         { opacity:0; }
+}
+
+/* ══ layers 1+3 · atmosphere ═══════════════════════════════════════════
+   Mean luminance of the empty background, measured frame by frame:
+     t=0.3 s ->  3   t=1.7 s -> 56   t=2.4 s -> 50   <- first dust cloud
+     t=4.7 s -> 16   t=5.5 s -> 49   t=6.7 s -> 26   <- flour smoke
+     t=8.5 s ->  8   t=10  s ->  0.6                 <- clears completely
+   Five haze plates (lifted from the video and rebuilt by inpainting)
+   reproduce those two peaks.                                            */
+.pk-veil{
+  inset:-25%;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:cover;
+  mix-blend-mode:var(--blend);
+  opacity:0;
+  will-change:transform,opacity;
+}
+.pk-veil--haze2{ background-image:url(../images/pankey-loader/haze-2.png); animation:pk-haze2 var(--dur) linear infinite; }
+.pk-veil--haze1{ background-image:url(../images/pankey-loader/haze-1.png); animation:pk-haze1 var(--dur) linear infinite; }
+.pk-veil--smoke1{ background-image:url(../images/pankey-loader/smoke-1.png); animation:pk-smoke1 var(--dur) linear infinite; }
+.pk-veil--smoke2{ background-image:url(../images/pankey-loader/smoke-2.png); animation:pk-smoke2 var(--dur) linear infinite; }
+.pk-veil--smoke3{ background-image:url(../images/pankey-loader/smoke-3.png); animation:pk-smoke3 var(--dur) linear infinite; }
+
+@keyframes pk-haze2{
+  0%             { opacity:0;   transform:translate3d(10%,3%,0) scale(1.22); }
+  16%    { opacity:.82; }
+  25%    { opacity:.38; }
+  36%    { opacity:.10; }
+  46%,100% { opacity:0; transform:translate3d(-9%,-2%,0) scale(1.02); }
+}
+@keyframes pk-haze1{
+  0%,4% { opacity:0;   transform:translate3d(-8%,-4%,0) scale(1.06); }
+  20%    { opacity:.70; }
+  30%    { opacity:.32; }
+  42%    { opacity:.20; }
+  52%,100% { opacity:0; transform:translate3d(12%,5%,0) scale(1.26); }
+}
+@keyframes pk-smoke1{
+  0%,43% { opacity:0;   transform:translate3d(-18%,4%,0) scale(1.30); }
+  54%    { opacity:.88; }
+  61%    { opacity:.30; }
+  69%    { opacity:.08; }
+  80%,100% { opacity:0; transform:translate3d(14%,-3%,0) scale(1.04); }
+}
+@keyframes pk-smoke2{
+  0%,46% { opacity:0;   transform:translate3d(20%,-6%,0) scale(1.08) rotate(-2deg); }
+  56%    { opacity:.92; }
+  62%    { opacity:.25; }
+  70%    { opacity:.07; }
+  82%,100% { opacity:0; transform:translate3d(-14%,5%,0) scale(1.34) rotate(2deg); }
+}
+@keyframes pk-smoke3{
+  0%,51% { opacity:0;   transform:translate3d(-6%,12%,0) scale(1.24); }
+  60%    { opacity:.34; }
+  66%    { opacity:.14; }
+  74%    { opacity:.05; }
+  84%,100% { opacity:0; transform:translate3d(10%,-9%,0) scale(1.00); }
+}
+
+/* suspended dust specks */
+.pk-dust{
+  inset:-6%;
+  background:url(../images/pankey-loader/dust.png) center/108% no-repeat;
+  mix-blend-mode:var(--blend);
+  will-change:opacity,transform;
+  animation:pk-dust var(--dur) linear infinite;
+}
+@keyframes pk-dust{
+  0%,3% { opacity:0;  transform:translate3d(5%,2%,0) scale(1.12); }
+  18%    { opacity:.19; }
+  45%    { opacity:.16; }
+  66%    { opacity:.11; }
+  86%    { opacity:.04; }
+  96%,100% { opacity:0; transform:translate3d(-4%,-1%,0) scale(1); }
+}
+
+/* ══ layer 2 · THE LOGO ════════════════════════════════════════════════
+   Camera "breath", recovered by template-matching the left wheat stalk
+   against frame 240:
+     t<=3.25 s -> 1.000 · 5.50 s -> 0.900 · 8.00 s -> 0.900 · 10 s -> 1.000
+   The scaling centre lands on the frame centre (within 3 px).           */
+.pk-logo{
+  transform-origin:50% 50%;
+  animation:pk-breathe var(--dur) linear infinite;
+}
+@keyframes pk-breathe{
+  0%,32.5% { transform:scale(1); }
+  55%    { transform:scale(0.9); }
+  80%    { transform:scale(0.9); }
+  100%           { transform:scale(1); }
+}
+
+.pk-mark{
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  will-change:transform,opacity;
+}
+
+/* ── the wheat, grain by grain ──────────────────────────────────────────
+   Every grain, awn cluster, stem segment and blade is its own element,
+   cut out of ONE sprite atlas (assets/stalk-atlas.png) — 78 pieces that
+   reassemble into the original stalks pixel for pixel.
+
+   Each one flies in from off the right edge, the direction the wind blows
+   in the source footage, tumbling as it comes, and decelerates into place.
+   They land in growth order (distance from the plant's root), so the stem
+   and blades arrive first and the tip of the ear last.
+
+   The travel distance is written as a % of each piece's OWN box, which is
+   itself a % of the stage — so the whole flight scales with the layout and
+   no piece needs a wrapper element.                                      */
+.pk-wheat{ inset:0; }
+.pk-wheat > i{
+  background-image:url(../images/pankey-loader/stalk-atlas.png);
+  background-repeat:no-repeat;
+  transform-origin:50% 50%;
+  opacity:0;
+  animation-duration:var(--dur);
+  animation-timing-function:cubic-bezier(.17,.78,.31,1);
+  animation-iteration-count:infinite;
+  /* animation-name is set per piece: see the @keyframes pk-g1…g56 below */
+}
+
+@keyframes pk-g1{0%,3.8392%{opacity:0;transform:translate3d(787%,4%,0) rotate(-253deg) scale(0.72)}5.5245%{opacity:1}8.0526%{transform:translate3d(325%,6%,0) rotate(-85deg) scale(0.91)}11.5%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g2{0%,3.1709%{opacity:0;transform:translate3d(2028%,-105%,0) rotate(206deg) scale(0.80)}5.1907%{opacity:1}8.2204%{transform:translate3d(783%,18%,0) rotate(51deg) scale(0.99)}12.3519%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g3{0%,3.4394%{opacity:0;transform:translate3d(3354%,-154%,0) rotate(-324deg) scale(0.66)}5.5875%{opacity:1}8.8098%{transform:translate3d(1268%,-101%,0) rotate(-96deg) scale(0.92)}13.2037%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g4{0%,6.4089%{opacity:0;transform:translate3d(2787%,162%,0) rotate(-277deg) scale(0.94)}8.0912%{opacity:1}10.6146%{transform:translate3d(774%,6%,0) rotate(-74deg) scale(0.89)}14.0556%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g5{0%,6.6545%{opacity:0;transform:translate3d(10469%,130%,0) rotate(368deg) scale(0.71)}8.4702%{opacity:1}11.1936%{transform:translate3d(4151%,1%,0) rotate(119deg) scale(0.92)}14.9074%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g6{0%,5.9814%{opacity:0;transform:translate3d(2341%,24%,0) rotate(-465deg) scale(0.56)}8.1325%{opacity:1}11.3592%{transform:translate3d(1024%,33%,0) rotate(-117deg) scale(0.86)}15.7593%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g7{0%,7.4278%{opacity:0;transform:translate3d(6416%,606%,0) rotate(-380deg) scale(0.82)}9.4481%{opacity:1}12.4786%{transform:translate3d(1912%,241%,0) rotate(-97deg) scale(1.01)}16.6111%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g8{0%,9.4539%{opacity:0;transform:translate3d(2585%,51%,0) rotate(-540deg) scale(0.56)}11.2159%{opacity:1}13.8589%{transform:translate3d(1037%,6%,0) rotate(-209deg) scale(0.96)}17.463%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g9{0%,9.8763%{opacity:0;transform:translate3d(2196%,-322%,0) rotate(339deg) scale(0.82)}11.7328%{opacity:1}14.5175%{transform:translate3d(935%,-203%,0) rotate(87deg) scale(0.97)}18.3148%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g10{0%,11.6472%{opacity:0;transform:translate3d(7730%,-120%,0) rotate(-253deg) scale(0.92)}13.3015%{opacity:1}15.7829%{transform:translate3d(3296%,-145%,0) rotate(-91deg) scale(0.91)}19.1667%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g11{0%,11.7453%{opacity:0;transform:translate3d(2419%,74%,0) rotate(508deg) scale(0.93)}13.5654%{opacity:1}16.2956%{transform:translate3d(935%,31%,0) rotate(166deg) scale(0.87)}20.0185%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g12{0%,12.3572%{opacity:0;transform:translate3d(2090%,-407%,0) rotate(-478deg) scale(0.79)}14.2301%{opacity:1}17.0394%{transform:translate3d(833%,-287%,0) rotate(-145deg) scale(0.85)}20.8704%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g13{0%,14.327%{opacity:0;transform:translate3d(5227%,172%,0) rotate(-526deg) scale(0.86)}15.9539%{opacity:1}18.3944%{transform:translate3d(2102%,-63%,0) rotate(-194deg) scale(0.95)}21.7222%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g14{0%,13.0589%{opacity:0;transform:translate3d(1835%,-18%,0) rotate(527deg) scale(0.60)}15.1523%{opacity:1}18.2923%{transform:translate3d(531%,-76%,0) rotate(150deg) scale(0.90)}22.5741%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g15{0%,14.2854%{opacity:0;transform:translate3d(3123%,-14%,0) rotate(308deg) scale(0.78)}16.2963%{opacity:1}19.3127%{transform:translate3d(983%,34%,0) rotate(70deg) scale(0.93)}23.4259%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g16{0%,15.0036%{opacity:0;transform:translate3d(3042%,-98%,0) rotate(518deg) scale(0.59)}17.044%{opacity:1}20.1044%{transform:translate3d(891%,4%,0) rotate(202deg) scale(0.97)}24.2778%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g17{0%,16.0353%{opacity:0;transform:translate3d(2008%,-269%,0) rotate(-279deg) scale(0.67)}18.0361%{opacity:1}21.0372%{transform:translate3d(584%,-182%,0) rotate(-87deg) scale(0.91)}25.1296%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g18{0%,16.6209%{opacity:0;transform:translate3d(2531%,282%,0) rotate(-371deg) scale(0.61)}18.6803%{opacity:1}21.7692%{transform:translate3d(892%,53%,0) rotate(-114deg) scale(0.92)}25.9815%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g19{0%,17%{opacity:0;transform:translate3d(2878%,131%,0) rotate(138deg) scale(0.60)}19.1633%{opacity:1}22.4083%{transform:translate3d(1259%,75%,0) rotate(32deg) scale(0.89)}26.8333%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g20{0%,19.7106%{opacity:0;transform:translate3d(4445%,407%,0) rotate(483deg) scale(0.80)}21.465%{opacity:1}24.0966%{transform:translate3d(1443%,38%,0) rotate(190deg) scale(0.99)}27.6852%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g21{0%,20.255%{opacity:0;transform:translate3d(2192%,-337%,0) rotate(-459deg) scale(0.91)}22.077%{opacity:1}24.8101%{transform:translate3d(925%,-181%,0) rotate(-104deg) scale(1.00)}28.537%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g22{0%,21.9437%{opacity:0;transform:translate3d(3018%,-246%,0) rotate(-352deg) scale(0.63)}23.5816%{opacity:1}26.0385%{transform:translate3d(1053%,-170%,0) rotate(-99deg) scale(0.94)}29.3889%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g23{0%,21.4%{opacity:0;transform:translate3d(2308%,490%,0) rotate(486deg) scale(0.67)}23.345%{opacity:1}26.2624%{transform:translate3d(987%,177%,0) rotate(117deg) scale(0.94)}30.2407%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g24{0%,22.9381%{opacity:0;transform:translate3d(3493%,-147%,0) rotate(-389deg) scale(0.77)}24.7321%{opacity:1}27.4231%{transform:translate3d(1385%,-80%,0) rotate(-152deg) scale(0.93)}31.0926%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g25{0%,22.3666%{opacity:0;transform:translate3d(2358%,-501%,0) rotate(248deg) scale(0.62)}24.4737%{opacity:1}27.6344%{transform:translate3d(777%,-146%,0) rotate(56deg) scale(0.90)}31.9444%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g26{0%,23.7059%{opacity:0;transform:translate3d(2915%,275%,0) rotate(-281deg) scale(0.83)}25.7058%{opacity:1}28.7056%{transform:translate3d(1134%,138%,0) rotate(-103deg) scale(0.87)}32.7963%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g27{0%,25.3621%{opacity:0;transform:translate3d(1585%,-224%,0) rotate(-140deg) scale(0.68)}27.185%{opacity:1}29.9194%{transform:translate3d(500%,-111%,0) rotate(-48deg) scale(0.94)}33.6481%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g28{0%,27.1316%{opacity:0;transform:translate3d(2063%,191%,0) rotate(-208deg) scale(0.75)}28.7527%{opacity:1}31.1842%{transform:translate3d(611%,49%,0) rotate(-64deg) scale(0.97)}34.5%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g29{0%,21.1366%{opacity:0;transform:translate3d(446%,-65%,0) rotate(-225deg) scale(0.76)}22.9765%{opacity:1}25.7365%{transform:translate3d(134%,-11%,0) rotate(-72deg) scale(0.90)}29.5%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g30{0%,21.4076%{opacity:0;transform:translate3d(1146%,-206%,0) rotate(-505deg) scale(0.68)}23.3468%{opacity:1}26.2557%{transform:translate3d(426%,-19%,0) rotate(-108deg) scale(0.92)}30.2222%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g31{0%,23.7135%{opacity:0;transform:translate3d(1542%,-80%,0) rotate(365deg) scale(0.94)}25.3043%{opacity:1}27.6905%{transform:translate3d(462%,-47%,0) rotate(104deg) scale(0.99)}30.9444%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g32{0%,24.0327%{opacity:0;transform:translate3d(1530%,-185%,0) rotate(494deg) scale(0.81)}25.7122%{opacity:1}28.2314%{transform:translate3d(491%,-51%,0) rotate(193deg) scale(0.88)}31.6667%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g33{0%,23.2765%{opacity:0;transform:translate3d(3580%,272%,0) rotate(-218deg) scale(0.66)}25.2812%{opacity:1}28.2883%{transform:translate3d(1462%,165%,0) rotate(-62deg) scale(0.95)}32.3889%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g34{0%,25.7413%{opacity:0;transform:translate3d(1165%,-469%,0) rotate(-188deg) scale(0.61)}27.3626%{opacity:1}29.7947%{transform:translate3d(400%,-166%,0) rotate(-53deg) scale(0.92)}33.1111%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g35{0%,25.0227%{opacity:0;transform:translate3d(3637%,869%,0) rotate(439deg) scale(0.79)}26.961%{opacity:1}29.8685%{transform:translate3d(1237%,246%,0) rotate(156deg) scale(0.95)}33.8333%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g36{0%,26.4214%{opacity:0;transform:translate3d(1531%,-91%,0) rotate(-220deg) scale(0.85)}28.2109%{opacity:1}30.8952%{transform:translate3d(403%,-41%,0) rotate(-49deg) scale(0.88)}34.5556%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g37{0%,26.2467%{opacity:0;transform:translate3d(1111%,-52%,0) rotate(510deg) scale(0.72)}28.2336%{opacity:1}31.2138%{transform:translate3d(486%,-16%,0) rotate(121deg) scale(0.98)}35.2778%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g38{0%,27.5511%{opacity:0;transform:translate3d(3415%,-499%,0) rotate(450deg) scale(0.73)}29.4099%{opacity:1}32.198%{transform:translate3d(1104%,-181%,0) rotate(142deg) scale(0.89)}36%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g39{0%,29.7883%{opacity:0;transform:translate3d(1752%,-282%,0) rotate(456deg) scale(0.94)}31.3138%{opacity:1}33.602%{transform:translate3d(737%,-115%,0) rotate(104deg) scale(0.91)}36.7222%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g40{0%,29.4851%{opacity:0;transform:translate3d(1171%,167%,0) rotate(480deg) scale(0.66)}31.2361%{opacity:1}33.8627%{transform:translate3d(416%,68%,0) rotate(133deg) scale(0.86)}37.4444%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g41{0%,30.9749%{opacity:0;transform:translate3d(2898%,747%,0) rotate(-157deg) scale(0.70)}32.5571%{opacity:1}34.9304%{transform:translate3d(756%,240%,0) rotate(-50deg) scale(0.92)}38.1667%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g42{0%,30.3024%{opacity:0;transform:translate3d(954%,-245%,0) rotate(-452deg) scale(0.64)}32.1914%{opacity:1}35.025%{transform:translate3d(417%,-57%,0) rotate(-131deg) scale(0.87)}38.8889%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g43{0%,30.5877%{opacity:0;transform:translate3d(1800%,-178%,0) rotate(-175deg) scale(0.90)}32.5729%{opacity:1}35.5506%{transform:translate3d(510%,-53%,0) rotate(-44deg) scale(0.94)}39.6111%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g44{0%,33.4341%{opacity:0;transform:translate3d(1363%,-177%,0) rotate(-478deg) scale(0.86)}34.9519%{opacity:1}37.2287%{transform:translate3d(563%,-87%,0) rotate(-129deg) scale(1.00)}40.3333%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g45{0%,34.1418%{opacity:0;transform:translate3d(929%,-539%,0) rotate(345deg) scale(0.61)}35.6628%{opacity:1}37.9444%{transform:translate3d(290%,-160%,0) rotate(138deg) scale(0.89)}41.0556%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g46{0%,34.4216%{opacity:0;transform:translate3d(1737%,375%,0) rotate(-533deg) scale(0.86)}36.0399%{opacity:1}38.4675%{transform:translate3d(752%,86%,0) rotate(-119deg) scale(0.91)}41.7778%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g47{0%,33.964%{opacity:0;transform:translate3d(1200%,90%,0) rotate(398deg) scale(0.55)}35.8419%{opacity:1}38.6588%{transform:translate3d(432%,61%,0) rotate(112deg) scale(0.86)}42.5%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g48{0%,36.3002%{opacity:0;transform:translate3d(2504%,-237%,0) rotate(-367deg) scale(0.70)}37.8231%{opacity:1}40.1073%{transform:translate3d(807%,-83%,0) rotate(-102deg) scale(0.94)}43.2222%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g49{0%,36.1832%{opacity:0;transform:translate3d(1420%,-225%,0) rotate(-455deg) scale(0.79)}37.8907%{opacity:1}40.4519%{transform:translate3d(406%,-59%,0) rotate(-146deg) scale(0.93)}43.9444%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g50{0%,35.6264%{opacity:0;transform:translate3d(1900%,-311%,0) rotate(-182deg) scale(0.68)}37.6152%{opacity:1}40.5985%{transform:translate3d(646%,-114%,0) rotate(-52deg) scale(1.01)}44.6667%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g51{0%,37.2276%{opacity:0;transform:translate3d(1240%,406%,0) rotate(350deg) scale(0.63)}39.0231%{opacity:1}41.7163%{transform:translate3d(430%,163%,0) rotate(84deg) scale(0.98)}45.3889%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g52{0%,37.4313%{opacity:0;transform:translate3d(2130%,-18%,0) rotate(506deg) scale(0.78)}39.3408%{opacity:1}42.2052%{transform:translate3d(764%,-33%,0) rotate(109deg) scale(0.91)}46.1111%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g53{0%,38.3435%{opacity:0;transform:translate3d(1442%,36%,0) rotate(387deg) scale(0.81)}40.2113%{opacity:1}43.0129%{transform:translate3d(462%,-40%,0) rotate(127deg) scale(0.90)}46.8333%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g54{0%,40.5208%{opacity:0;transform:translate3d(2401%,-469%,0) rotate(364deg) scale(0.61)}42.0684%{opacity:1}44.3899%{transform:translate3d(902%,-182%,0) rotate(83deg) scale(0.96)}47.5556%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g55{0%,41.348%{opacity:0;transform:translate3d(1267%,450%,0) rotate(-474deg) scale(0.85)}42.8725%{opacity:1}45.1594%{transform:translate3d(346%,146%,0) rotate(-124deg) scale(0.91)}48.2778%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+@keyframes pk-g56{0%,40.645%{opacity:0;transform:translate3d(1685%,-255%,0) rotate(-377deg) scale(0.81)}42.4831%{opacity:1}45.2403%{transform:translate3d(611%,-217%,0) rotate(-92deg) scale(0.86)}49%,100%{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}}
+
+/* ── the chef hat: it falls out of the smoke and squashes on landing ───
+   Measured opacity (scale-compensated): 13% at t=4.7 s · 33% at t=5.0 s
+   64% at t=5.3 s · 84% at t=5.5 s · 100% from t~6.2 s onwards.
+
+   The hat is two elements, not one — assets/hat-crown.png is the puffy
+   top, assets/hat-band.png the pleated band it sits on, cut apart at the
+   row where the band's top curve starts (tools/logo_assets.py, split_hat).
+   One bitmap can only scale, which presses the band as hard as the crown
+   and reads as a zoom; in two pieces the crown can take the impact and
+   the band can stay stiff under it.
+
+   Both pieces span the hat's full width and are scaled about the same
+   vertical axis by the same factor, so the seam maps to one place from
+   either side; the crown is then dropped by exactly the distance the top
+   of the squashed band sinks, which keeps it shut. Every stroke that
+   crosses the cut stays joined and only changes slope.
+
+   The wrapper carries the fall, the fade and the blur; the two pieces
+   carry the squash, so neither has to know about the other.
+   Timings and the squash curve: see tools/generate.py.                  */
+.pk-mark--hat{
+  left:38.75%; top:12.0833%;
+  width:25.5469%; height:33.3333%;
+  transform-origin:50% 100%;
+  animation:pk-reveal-hat var(--dur) linear infinite;
+}
+@keyframes pk-reveal-hat{
+  0%,46.5% { opacity:0; filter:blur(7px); transform:translate3d(0,-180.694%,0) scale(1.050); }
+  47.174% { opacity:0.122; filter:blur(6.24px); transform:translate3d(0,-180.694%,0) scale(1.046); }
+  48.165% { opacity:0.301; filter:blur(5.12px); transform:translate3d(0,-180.243%,0) scale(1.040); }
+  49.156% { opacity:0.48; filter:blur(4px); transform:translate3d(0,-178.888%,0) scale(1.034); }
+  50.042% { opacity:0.64; filter:blur(3px); transform:translate3d(0,-176.913%,0) scale(1.029); }
+  51.139% { opacity:0.809; filter:blur(2.36px); transform:translate3d(0,-173.467%,0) scale(1.023); }
+  51.405% { opacity:0.85; filter:blur(2.2px); transform:translate3d(0,-172.464%,0) scale(1.021); }
+  52.13% { opacity:0.88; filter:blur(1.74px); transform:translate3d(0,-169.402%,0) scale(1.017); }
+  53.122% { opacity:0.922; filter:blur(1.12px); transform:translate3d(0,-164.430%,0) scale(1.011); }
+  54.113% { opacity:0.964; filter:blur(0.51px); transform:translate3d(0,-158.559%,0) scale(1.005); }
+  54.947% { opacity:1; filter:blur(0px); transform:translate3d(0,-152.918%,0) scale(1.000); }
+  56.096% { opacity:1; filter:blur(0px); transform:translate3d(0,-144.100%,0) scale(1.000); }
+  57.087% { opacity:1; filter:blur(0px); transform:translate3d(0,-135.520%,0) scale(1.000); }
+  58.078% { opacity:1; filter:blur(0px); transform:translate3d(0,-126.036%,0) scale(1.000); }
+  59.069% { opacity:1; filter:blur(0px); transform:translate3d(0,-115.650%,0) scale(1.000); }
+  60.061% { opacity:1; filter:blur(0px); transform:translate3d(0,-104.349%,0) scale(1.000); }
+  61.052% { opacity:1; filter:blur(0px); transform:translate3d(0,-92.156%,0) scale(1.000); }
+  62.043% { opacity:1; filter:blur(0px); transform:translate3d(0,-79.060%,0) scale(1.000); }
+  63.035% { opacity:1; filter:blur(0px); transform:translate3d(0,-65.046%,0) scale(1.000); }
+  64.026% { opacity:1; filter:blur(0px); transform:translate3d(0,-50.144%,0) scale(1.000); }
+  65.017% { opacity:1; filter:blur(0px); transform:translate3d(0,-34.338%,0) scale(1.000); }
+  66.009% { opacity:1; filter:blur(0px); transform:translate3d(0,-17.612%,0) scale(1.000); }
+  67% { opacity:1; filter:blur(0px); transform:translate3d(0,0.000%,0) scale(1.000); }
+  100%           { opacity:1; filter:blur(0); transform:translate3d(0,0,0) scale(1); }
+}
+
+.pk-mark--hat > i{
+  left:0; width:100%;
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  animation-duration:var(--dur);
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+.pk-hat-crown{
+  top:0; height:52.5%;
+  background-image:url(../images/pankey-loader/hat-crown.png);
+  transform-origin:50% 98.4127%;   /* the cut, not the box */
+  animation-name:pk-hat-crown;
+}
+.pk-hat-band{
+  top:50.8333%; height:49.1667%;
+  background-image:url(../images/pankey-loader/hat-band.png);
+  transform-origin:50% 100%;
+  animation-name:pk-hat-band;
+}
+@keyframes pk-hat-crown{
+  0%,67% { transform:translate3d(0,0.000%,0) scale(1.0000,1.0000); }
+  67.8% { transform:translate3d(0,10.633%,0) scale(1.1050,0.7016); }
+  68.6% { transform:translate3d(0,14.178%,0) scale(1.2000,0.6021); }
+  69.8% { transform:translate3d(0,17.469%,0) scale(1.1900,0.5098); }
+  71.1% { transform:translate3d(0,14.178%,0) scale(1.1900,0.6021); }
+  71.9% { transform:translate3d(0,5.823%,0) scale(1.1300,0.8366); }
+  72.7% { transform:translate3d(0,1.519%,0) scale(1.0400,0.9574); }
+  73.6% { transform:translate3d(0,-2.785%,0) scale(0.9700,1.0782); }
+  74.4% { transform:translate3d(0,-4.405%,0) scale(0.9450,1.1236); }
+  75.6% { transform:translate3d(0,-2.785%,0) scale(0.9700,1.0782); }
+  76.9% { transform:translate3d(0,-1.266%,0) scale(0.9920,1.0355); }
+  78.2% { transform:translate3d(0,0.608%,0) scale(1.0060,0.9829); }
+  80%,100% { transform:translate3d(0,0.000%,0) scale(1.0000,1.0000); }
+}
+@keyframes pk-hat-band{
+  0%,67% { transform:scale(1.0000,1.0000); }
+  67.8% { transform:scale(1.1050,0.8845); }
+  68.6% { transform:scale(1.2000,0.8460); }
+  69.8% { transform:scale(1.1900,0.8103); }
+  71.1% { transform:scale(1.1900,0.8460); }
+  71.9% { transform:scale(1.1300,0.9367); }
+  72.7% { transform:scale(1.0400,0.9835); }
+  73.6% { transform:scale(0.9700,1.0302); }
+  74.4% { transform:scale(0.9450,1.0478); }
+  75.6% { transform:scale(0.9700,1.0302); }
+  76.9% { transform:scale(0.9920,1.0137); }
+  78.2% { transform:scale(1.0060,0.9934); }
+  80%,100% { transform:scale(1.0000,1.0000); }
+}
+
+.pk-mark--word{
+  left:28.8281%; top:45.5556%;
+  width:45.9375%; height:24.8611%;
+  background-image:url(../images/pankey-loader/wordmark.png);
+  transform-origin:50% 50%;
+  animation:pk-reveal-word var(--dur) linear infinite;
+}
+@keyframes pk-reveal-word{
+  0%,47.5% { opacity:0;   filter:blur(9px); transform:scale(1.06); }
+  53%    { opacity:.72; filter:blur(3px); }
+  60%    { opacity:1;   filter:blur(0);   transform:scale(1); }
+  100%           { opacity:1;   filter:blur(0);   transform:scale(1); }
+}
+
+/* ══ layer 4 · leaves ══════════════════════════════════════════════════
+   Wind measured by tracking each leaf's centroid between frames:
+     t=1.7 s -> -545 px/s   t=2.5 s -> -547 px/s
+     t=3.3 s -> -242 px/s   t=4.2 s ->  -60 px/s   t>6 s -> ~0
+   Hence the three bands. Each band's opacity envelope reproduces the
+   leaf count read off the video:
+     6 (t=0.8 s) · 28 (t=2.1 s) · 11 (t=4.6 s) · 0 (t=10 s).             */
+.pk-leaves{ pointer-events:none; }
+.pk-band{ will-change:opacity; }
+.pk-band--gust  { animation:pk-band-gust  var(--dur) linear infinite; }
+.pk-band--drift { animation:pk-band-drift var(--dur) linear infinite; }
+.pk-band--calm  { animation:pk-band-calm  var(--dur) linear infinite; }
+
+@keyframes pk-band-gust{
+  0%,1% { opacity:0; }
+  11%    { opacity:1; }
+  34%    { opacity:1; }
+  52%,100% { opacity:0; }
+}
+@keyframes pk-band-drift{
+  0%,22% { opacity:0; }
+  33%    { opacity:1; }
+  68%    { opacity:1; }
+  82%,100% { opacity:0; }
+}
+@keyframes pk-band-calm{
+  0%,50% { opacity:0; }
+  60%    { opacity:1; }
+  84%    { opacity:1; }
+  95%,100% { opacity:0; }
+}
+
+.pk-leaf{
+  inset:0;
+  animation:pk-leaf-path var(--life) var(--ease,cubic-bezier(.25,.58,.55,.95)) var(--delay) infinite both,
+            pk-leaf-fade var(--life) linear var(--delay) infinite both;
+}
+.pk-band--gust  .pk-leaf{ --ease:cubic-bezier(.22,.62,.55,.96); }
+.pk-band--drift .pk-leaf{ --ease:cubic-bezier(.28,.55,.55,.94); }
+.pk-band--calm  .pk-leaf{ --ease:cubic-bezier(.35,.48,.55,.92); }
+
+.pk-leaf > i{
+  left:0; top:0;
+  width:var(--w); height:var(--h);
+  background-position:center;
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+  transform-origin:50% 50%;
+  animation:pk-leaf-spin var(--flip) linear infinite;
+}
+
+/* cada hoja lleva su recorte: .pk-leaf--NN se corresponde con leaf-NN.png */
+.pk-leaf--01 > i{ background-image:url(../images/pankey-loader/leaves/leaf-01.png); }
+.pk-leaf--02 > i{ background-image:url(../images/pankey-loader/leaves/leaf-02.png); }
+.pk-leaf--03 > i{ background-image:url(../images/pankey-loader/leaves/leaf-03.png); }
+.pk-leaf--04 > i{ background-image:url(../images/pankey-loader/leaves/leaf-04.png); }
+.pk-leaf--05 > i{ background-image:url(../images/pankey-loader/leaves/leaf-05.png); }
+.pk-leaf--06 > i{ background-image:url(../images/pankey-loader/leaves/leaf-06.png); }
+.pk-leaf--07 > i{ background-image:url(../images/pankey-loader/leaves/leaf-07.png); }
+.pk-leaf--08 > i{ background-image:url(../images/pankey-loader/leaves/leaf-08.png); }
+.pk-leaf--09 > i{ background-image:url(../images/pankey-loader/leaves/leaf-09.png); }
+.pk-leaf--10 > i{ background-image:url(../images/pankey-loader/leaves/leaf-10.png); }
+.pk-leaf--11 > i{ background-image:url(../images/pankey-loader/leaves/leaf-11.png); }
+.pk-leaf--12 > i{ background-image:url(../images/pankey-loader/leaves/leaf-12.png); }
+.pk-leaf--13 > i{ background-image:url(../images/pankey-loader/leaves/leaf-13.png); }
+.pk-leaf--14 > i{ background-image:url(../images/pankey-loader/leaves/leaf-14.png); }
+
+@keyframes pk-leaf-path{
+  from { transform:translate3d(var(--x0),var(--y0),0); }
+  to   { transform:translate3d(var(--x1),var(--y1),0); }
+}
+@keyframes pk-leaf-fade{
+  0%,100% { opacity:0; }
+  6%, 88% { opacity:1; }
+}
+/* flutter: spin about its own axis + 3D flip, as in the video */
+@keyframes pk-leaf-spin{
+  from { transform:rotate(var(--tilt)) rotate3d(1,.35,0,0deg); }
+  to   { transform:rotate(calc(var(--tilt) + var(--spin))) rotate3d(1,.35,0,360deg); }
+}
+
+/* ── a11y: with motion reduced, show the finished logo, no animation ── */
+@media (prefers-reduced-motion:reduce){
+  .pk-stage *{ animation:none !important; }
+  .pk-flash,.pk-veil,.pk-dust,.pk-leaves{ opacity:0 !important; }
+  .pk-wheat > i,.pk-mark,.pk-mark > i{ opacity:1 !important; transform:none !important; filter:none !important; }
+}
