@@ -155,7 +155,12 @@ function medirJustificado(pagina, selector) {
 
             const palabras = Array.from(clon.querySelectorAll('span[data-palabra]')).map((s) => {
                 const r = s.getBoundingClientRect();
-                return { izquierda: r.left, derecha: r.right, arriba: Math.round(r.top) };
+                return {
+                    izquierda: r.left,
+                    derecha: r.right,
+                    arriba: Math.round(r.top),
+                    texto: s.textContent,
+                };
             });
 
             // Agrupar por línea: misma coordenada superior redondeada.
@@ -190,10 +195,25 @@ function medirJustificado(pagina, selector) {
 
             const maximo = Math.max(...todosLosHuecos);
 
+            // Caracteres de cada línea, para medir de verdad cuánto texto entra
+            // en una línea llena. Contar el párrafo entero y dividir por líneas
+            // no vale: la última va a medias y el resultado salta de golpe (70
+            // u 84 en este mismo texto) según caiga en 5 o en 6 líneas.
+            const caracteresPorLinea = lineas.map((linea) =>
+                linea.palabras.reduce((suma, p) => suma + p.texto.length, 0) +
+                Math.max(0, linea.palabras.length - 1)
+            );
+            const llenas = caracteresPorLinea.slice(0, -1);
+            const cplLlenas =
+                llenas.length > 0
+                    ? llenas.reduce((a, b) => a + b, 0) / llenas.length
+                    : caracteresPorLinea[0];
+
             clon.remove();
 
             return {
                 lineas: lineas.length,
+                cplLlenas,
                 espacioNatural: natural,
                 espacioMaximo: maximo,
                 // La vara: cuánto se estira el espacio más forzado del párrafo.
@@ -420,12 +440,10 @@ async function revisarVista(navegador, vista) {
                     `${medida.lados.join(' · ')} (esperado: ${ladosEsperados.join(' · ')})`
             );
 
-            // Caracteres por línea reales: texto entre líneas que ocupa. Antes
-            // se estimaba como ancho / (0,5em), y en Sanseriffic esa regla se
-            // equivocaba en un 25% (daba 85 donde hay 68).
+            // Caracteres que entran en una línea llena, medidos línea a línea.
+            // Se toma el párrafo que más mete, que es el que marca el límite.
             const anchoLinea = medida.parrafos[0].ancho;
-            const caracteresPorLinea =
-                medida.parrafos[0].caracteres / justificado[0].lineas;
+            const caracteresPorLinea = Math.max(...justificado.map((p) => p.cplLlenas));
             comprobar(
                 caracteresPorLinea <= CARACTERES_POR_LINEA_MAXIMO,
                 `[${vista.nombre}] línea legible: ~${caracteresPorLinea.toFixed(0)} caracteres ` +

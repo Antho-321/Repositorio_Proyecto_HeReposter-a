@@ -105,8 +105,8 @@
                     hornear junto a ella.</p>
             </section>
             <section class="capitulo">
-                <img class="capitulo__imagen" src="{{ asset('images/Crosant.png') }}"
-                     alt="Dos croissants recién horneados">
+                <img class="capitulo__imagen" src="{{ asset('images/CupCake.png') }}"
+                     alt="Cupcake de chocolate coronado con una cereza">
                 <p>A través de los años, tras un periplo por diversos rincones, nuestra historia se sintetizó en un
                     nombre tan breve como memorable: Pankey. Hoy condensamos nuestra esencia en un único refugio, donde
                     abrimos las puertas a nuestros visitantes mientras llevamos nuestras creaciones directamente hasta

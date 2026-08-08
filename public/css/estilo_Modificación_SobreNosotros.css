@@ -473,10 +473,12 @@ input[type="text"], #num_tarjeta{
 #texto{
     display: flex;
     flex-direction: column;
-    /* Ancho de la banda de contenido: 300px de foto + 45 de hueco + los ~561px
-       que mide el párrafo. Ajustado a eso para que no sobre sitio y la columna
-       de texto no quede flotando lejos de su imagen. */
-    width: min(950px, 92vw);
+    /* Ancho de la banda de contenido: 300px de foto + 45 de hueco + los ~627px
+       que mide el párrafo (33em a 19px). Ajustado a eso para que no sobre sitio
+       y la columna de texto no quede flotando lejos de su imagen. Si se cambia
+       el cuerpo de letra hay que rehacer esta suma, o el párrafo se estrecha y
+       deja de cumplir la medida por la que se eligió el ancho. */
+    width: min(940px, 92vw);
     /* Separación entre capítulos: más que la que hay entre párrafos, para que
        cada bloque de imagen + texto se lea como una unidad. */
     gap: 55px;
@@ -534,6 +536,12 @@ p{
    para uno solo. Lo que cambia aquí es sólo el texto corrido de esta vista
    (#texto p), no el resto de párrafos del tema. */
 #texto p {
+    /* 19px en vez de los 17 del texto corrido del tema: es la historia de la
+       casa y se lee de un tirón, no una ficha de producto. La medida de lectura
+       no se resiente porque el ancho va en em (33em), así que crece con la
+       letra y siguen entrando los mismos ~70 caracteres por línea. */
+    font-size: 19px;
+
     /* Justificado, con las tres piezas que lo hacen legible y no un colador:
 
        1. text-align: justify reparte el sobrante de cada línea entre sus
@@ -562,8 +570,14 @@ p{
        a 580px sobre este mismo texto, el estiramiento máximo de los espacios no
        baja de forma continua, va a saltos (7,2× a 400px, 3,0× a 420px, 5,8× a
        480px, 2,2× a 510px, 2,0× a 560px), porque cada ancho parte las líneas
-       por sitios distintos. 33em (~560px) es el mínimo forzado de todos los
-       anchos que se quedan dentro de la medida de lectura.
+       por sitios distintos. 33em es el valor validado midiendo la página real
+       (2,11× / 2,17× / 1,88×).
+
+       Aviso para quien lo toque: NO afines este número con un barrido teórico.
+       La badness salta de forma caótica con el ancho — 627px da 2,17× y 608px
+       da 3,39× en el tercer párrafo, 19px de diferencia. Cualquier ajuste hay
+       que comprobarlo en la página, no en una simulación, y sabiendo que el
+       ancho real cambia con la ventana. */
        Es la idea de Knuth-Plass a escala de la columna: en vez de dar por bueno
        el primer ancho que cabe, se prueban todos y se elige el que minimiza el
        forzado del peor espacio. */
