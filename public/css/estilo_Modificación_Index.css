@@ -476,3 +476,27 @@ h3 {
     /* Sit on top of the background */
     /* Rest of your styles for #VentanaForm */
 }
+/* ---------------------------------------------------------------------------
+   Franja blanca a la izquierda del carrusel de portada
+   ---------------------------------------------------------------------------
+   Sintoma: en viewports anchos (a partir de ~1430 px CSS: pantallas grandes, o
+   pantallas normales con el zoom del navegador por debajo del 100 %) el heroe
+   dejaba ver una franja del fondo blanco a su izquierda, de (ancho - 1428) / 2
+   pixeles: 30 px a 1498, 82 px a 1600, 173 px a 1920.
+
+   Causa: el navegador dibuja las imagenes grandes a ~0,816 del tamano que pide
+   el CSS, asi que el `background-size: cover` del slide se queda corto y no
+   llega a cubrir la caja. Medido en Edge y en Firefox, con la maquetacion
+   intacta (la caja del slide es correcta y un color plano si la cubre entera).
+
+   Arreglo: pedir un 130 % de alto para compensar ese encogimiento
+   (1,30 x 0,816 = 1,06), solo donde el fallo se manifiesta. El !important es
+   necesario porque Swiper escribe background-size en el estilo inline.
+   --------------------------------------------------------------------------- */
+@media (min-width: 1430px) {
+    .swiper-slider .swiper-slide {
+        background-size: auto 130% !important;
+        background-position: 50% 50% !important;
+        background-repeat: no-repeat !important;
+    }
+}
