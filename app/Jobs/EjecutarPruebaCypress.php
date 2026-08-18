@@ -27,13 +27,6 @@ class EjecutarPruebaCypress implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Cola dedicada: solo la sirven los nodos que tienen Node y el binario de
-     * Cypress instalados (B1 y B2). El nodo de datos atiende 'default' y nunca
-     * recibe este trabajo, para no pelear por RAM con MariaDB.
-     */
-    public $queue = 'cypress';
-
     /** Margen por encima del timeout del proceso, para que mande Symfony y no la cola. */
     public int $timeout = 320;
 
@@ -41,6 +34,14 @@ class EjecutarPruebaCypress implements ShouldQueue
 
     public function __construct(public readonly string $idTarea)
     {
+        // Cola dedicada: solo la sirven los nodos con Node y el binario de
+        // Cypress (B1 y B2). El nodo de datos atiende 'default' y nunca recibe
+        // este trabajo, para no pelear por RAM con MariaDB.
+        //
+        // Se fija con onQueue() y NO con una propiedad $queue: el trait
+        // Queueable ya declara esa propiedad, y redeclararla con un valor por
+        // defecto distinto es un error fatal de composicion en PHP 8.3.
+        $this->onQueue('cypress');
     }
 
     public static function claveCache(string $idTarea): string
