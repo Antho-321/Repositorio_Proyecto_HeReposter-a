@@ -27,10 +27,14 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 */
 
 Route::resource('cliente', ClienteController::class);
-Route::resource('detalles_pedido', DetallesPedidoController::class);
+// update se excluye: la ruta que generaba (PUT detalles_pedido/{detalles_pedido})
+// nunca llegó a funcionar, porque el controlador liga por nombre de parámetro
+// y espera {pastel}. Se define abajo con el parámetro correcto.
+Route::resource('detalles_pedido', DetallesPedidoController::class)->except(['update']);
 
 Route::post('/image_upload', [ClienteController::class, 'get_upload_image']);
 Route::post('/img/send', [ClienteController::class, 'send']);
+Route::get('/img/tarea/{idTarea}', [ClienteController::class, 'estadoPruebaCypress']);
 
 Route::post('/comprobante/insert', [ComprobanteController::class, 'insert']);
 Route::post('/pdf/send', [ComprobanteController::class, 'send']);
@@ -41,7 +45,7 @@ Route::post('/consulta-pastel-personalizado', [ClienteController::class, 'upload
 // Existing GET route for page retrieval
 Route::get('/consulta-pastel-personalizado', [ClienteController::class, 'pastelPersonalizado'])->name('cliente.consulta_pastel_personalizado');
 
-Route::get('/detalles_pedido.update/{pastel}', [DetallesPedidoController::class, 'update'])->name('detalles_pedido.update');
+Route::put('/detalles_pedido/{pastel}', [DetallesPedidoController::class, 'update'])->name('detalles_pedido.update');
 Route::get('/cliente.ingreso_carrito/{pastel}', [PedidoController::class, 'create'])->name('cliente.ingreso_carrito');
 Route::controller(ClienteController::class)->group(function () {
     Route::get('/', 'index')->name('home');

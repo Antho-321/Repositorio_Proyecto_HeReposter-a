@@ -7,8 +7,10 @@ use App\Models\Cliente;
 use App\Models\Dibujo_Img_Especial;
 use App\Models\Adorno_Fondant;
 use App\Models\Especificacion_Adicional;
-use Nesk\Puphpeteer\Puppeteer;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
+use App\Jobs\EjecutarPruebaCypress;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -496,6 +498,7 @@ class ClienteController extends Controller
         $directUrl = null;
         $errorDetails = null;
         $cypressOutput = null;
+        $cypressTarea = null;
         $image_path = null;
 
         try {
@@ -537,7 +540,13 @@ class ClienteController extends Controller
                 'file' => $e->getFile(),
                 'line' => $e->getLine()
             ];
-            $cypressOutput = json_encode($this->convertTextToObject($this->runCypressTest()), JSON_PRETTY_PRINT);
+            // Antes aqui se llamaba a runCypressTest(), que lanzaba un navegador
+            // Electron (400 MB-1 GB, hasta 5 min) DENTRO de la peticion HTTP.
+            // En un nodo web de 1 GB eso agota la memoria y revienta PHP-FPM.
+            // Ahora se encola: lo ejecuta el worker del nodo de datos y el
+            // cliente consulta el resultado en /img/tarea/{idTarea}.
+            $cypressTarea = (string) Str::uuid();
+            EjecutarPruebaCypress::dispatch($cypressTarea);
         }
 
         if ($image_path !== null) {
@@ -547,6 +556,7 @@ class ClienteController extends Controller
         return response()->json([
             'direct_url' => $directUrl,
             'cypress_output' => $cypressOutput,
+            'cypress_tarea' => $cypressTarea,
             'error_details' => $errorDetails
         ]);
     }
@@ -587,6 +597,17 @@ class ClienteController extends Controller
         }
 
         return $object;
+    }
+
+    /**
+     * Estado del rescate con Cypress que se ejecuta en el nodo de datos.
+     * El resultado viaja por el Redis compartido, no por disco local.
+     */
+    public function estadoPruebaCypress(string $idTarea)
+    {
+        return response()->json(
+            Cache::get(EjecutarPruebaCypress::claveCache($idTarea), ['estado' => 'desconocido'])
+        );
     }
 
     private function runCypressTest()

@@ -90,8 +90,9 @@
     $pastel=$pastel_search->getPastelById($pastel_id);
 @endphp
 <input type="hidden" id="actualizar_pastel" value="true">
-<form id="contenido_principal" action="{{ route('detalles_pedido.update',$pastel) }}" method="GET">
+<form id="contenido_principal" action="{{ route('detalles_pedido.update',$pastel) }}" method="POST">
     @csrf
+    @method('PUT')
     <div id="DestacadoPrincipal">
         <img src="{{$pastel->img}}" alt="imagenes" name="img">
         <p>${{$pastel->precio}}</p>
