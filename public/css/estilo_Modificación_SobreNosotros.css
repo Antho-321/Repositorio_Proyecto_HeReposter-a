@@ -2,11 +2,26 @@
     font-family: "Sanseriffic";
     src: url("../fonts/Sanseriffic.woff");
   }
-* {
+/* El pie de página no es de esta vista: lo pone la plantilla
+   (plantilla_cliente/new_plantilla.blade.php) y lo viste style.css, igual que
+   en el resto del sitio. Esta hoja es de la vista, así que se para en su
+   borde: sin el guardián, este `*` le imponía Sanseriffic a las tres franjas
+   del pie y la página quedaba con un pie distinto al de la portada.
+
+   En la lista van también `body` y `.page`, que son los ancestros del pie:
+   la tipografía se hereda, así que basta con que `*` se la ponga al
+   envoltorio para que el pie la reciba igual aunque él quede fuera. Ninguno
+   de los dos la necesita, porque todo lo que llevan dentro (salvo el pie) lo
+   alcanza `*` por su cuenta.
+
+   `:where()` no suma especificidad, así que la regla sigue pesando 0 y el
+   orden de la cascada para el resto de la página no cambia. Mismo criterio en
+   las demás reglas de elemento de este archivo que rozaban el pie. */
+*:where(:not(body, .page, footer, footer *)) {
     font-family: "Sanseriffic", Arial, sans-serif;
 }
 
-*:not(#Menu_Catalogo, #Menu_Catalogo *) {
+*:not(#Menu_Catalogo, #Menu_Catalogo *):where(:not(footer, footer *)) {
     transition: 0.4s;
 }
 
@@ -17,7 +32,6 @@ body,
 #DestacadoPrincipal ul,
 #seccion_productos>*:first-child,
 h3,
-footer,
 #Derechos {
     display: flex;
 }
@@ -66,7 +80,6 @@ body {
 #Menu_Catalogo,
 #seccion_busqueda,
 h3,
-footer,
 #Derechos {
     align-items: center;
 }
@@ -139,7 +152,7 @@ h3 {
 
 input:hover,
 a:hover,
-button:hover,
+button:hover:where(:not(footer *)),
 #Catalogo:hover .Btn_Catalogo {
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
@@ -154,7 +167,6 @@ h1 {
 #Salto,
 #seccion_productos>div,
 h3,
-footer,
 #Derechos {
     justify-content: center;
 }
@@ -190,18 +202,26 @@ input,
 #seccion_botones a,
 button,
 #Salto,
-h1,
-footer {
+h1 {
     text-align: center;
 }
 
 input,
 #seccion_botones a,
 button {
-    font: normal normal normal 18px/1.4em Sanseriffic;
     background-color: transparent;
     border: 0.5vw solid transparent;
     color: rgb(31, 31, 31);
+}
+
+/* La tipografía va en su propia regla porque es lo único del bloque de arriba
+   que el pie no debe recibir: allí el formulario de suscripción es del tema y
+   trae la suya. El fondo, el borde y el color sí los comparten pie y página
+   (en la portada pasa lo mismo), y por eso se quedan sin guardián. */
+input:where(:not(footer *)),
+#seccion_botones a,
+button:where(:not(footer *)) {
+    font: normal normal normal 18px/1.4em Sanseriffic;
 }
 
 input,
@@ -252,8 +272,7 @@ a {
 #DestacadoPrincipal li,
 #DestacadoPrincipal img,
 #seccion_productos>*:first-child,
-#seccion_productos>div>div>img,
-footer {
+#seccion_productos>div>div>img {
     width: 100%;
 }
 
@@ -554,7 +573,7 @@ h1{
    la única excepción de la página: la regla `*` de arriba ya pone Sanseriffic
    en todo, pero el atajo `font` de aquí la pisaba con Century Gothic. Se
    conserva el tamaño de 17px, que es propio del texto corrido. */
-p{
+p:where(:not(footer *)){
    font: normal normal normal 17px/1.4em "Sanseriffic", Arial, sans-serif;
     margin: 0px;
     background-color: rgb(249, 245, 239);
@@ -612,15 +631,6 @@ p{
 /* La separación entre párrafos ya no se pone aquí: cada uno vive en su propio
    .capitulo, y el hueco entre capítulos lo da el `gap` de #texto. */
 
-footer {
-    display: flex;
-    width: 100%;
-    background: black;
-    text-align: center;
-    color: rgb(70, 70, 70);
-    align-items: center;
-    justify-content: center;
-}
 #Derechos {
     display: flex;
     width: 82%;
