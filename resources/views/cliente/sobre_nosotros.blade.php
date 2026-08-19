@@ -91,7 +91,7 @@
                 <img class="capitulo__imagen"
                      src="https://rochinae.files.wordpress.com/2016/02/panadero.jpg?w=776"
                      alt="Una pareja de panaderos sacando el pan del horno de leña">
-                <p>Genny y Carlos crecieron entre dos oficios: el pan que horneaba su padre y los postres que su madre
+                <p>Genny y Carlos Villota crecieron entre dos oficios: el pan que horneaba su padre y los postres que su madre
                     preparaba por encargo, sin letrero ni marca; bastaba su nombre. Hace más de treinta años, los
                     hermanos decidieron reunir ambos oficios bajo un mismo letrero, <em>Panadería y Pastelería
                     Olivita<b>:</b></em> fue la primera vez que el trabajo de la familia tuvo un nombre propio.</p>
