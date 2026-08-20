@@ -228,7 +228,7 @@
                         <h5 class="footer-modern-title oh-desktop"><span class="d-inline-block wow slideInLeft">Pedidos y
                                 retiro</span>
                         </h5>
-                        <p class="wow fadeInRight">Nuestros pedidos se retiran en el local: 24 horas después de hacerlo si lo necesitas pronto, o en la fecha acordada. Si prefieres entrega a domicilio, el costo del transporte no está incluido y se cancela al momento de la entrega.</p>
+                        <p class="wow fadeInRight">Nuestros pedidos se retiran en el local: 24 horas después de hacerlo si lo necesitas pronto, o en la fecha acordada. Si prefieres entrega a domicilio, el costo del transporte no está incluido y se cancela previo a la entrega.</p>
                         <p class="wow fadeInRight">Horario de atención:<br>
                             Lunes a viernes, de 07:30 a 21:30<br>
                             Sábados, de 07:30 a 19:30<br>
