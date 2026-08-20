@@ -4,13 +4,17 @@
    Reconstrucción CSS del logo animado (10 s, sin JavaScript) portada
    desde ~/reconstruccion-animada-pankey para usarse como preloader.
 
-   Respecto del original sólo cambian cuatro cosas:
+   Respecto del original cambian:
      · todo lleva el prefijo `pk-` (clases y @keyframes), porque el tema
        de style.css ya define .mark y podría definir .logo o .band;
      · las rutas apuntan a ../images/pankey-loader/;
      · la escena se acopla al .preloader del tema en vez de a <body>;
-     · la escena tiene --scale para ajustar su tamaño (el fuente siempre
-       ocupa la ventana entera).
+     · la escena no ocupa la ventana entera, sino --scale acotado entre
+       --min y --max, y todo lo que iba en px (los desenfoques) va ahora
+       en múltiplos de --u para que encoja con ella;
+     · la atmósfera y las hojas se apagan contra el borde de la escena
+       (--fade): a pantalla completa ese borde caía fuera de la ventana,
+       pero reducida dejaba a la vista el rectángulo de la escena.
    El resto es idéntico al fuente, para poder seguir comparándolo.
    ══════════════════════════════════════════════════════════════════════ */
 
@@ -34,18 +38,68 @@
 .pk-stage{
   --dur: 10.0s;                /* duración exacta del vídeo original; bajarla
                                   muestra más del montaje en cargas cortas */
-  --scale: 0.5;                  /* tamaño de la escena: 1 llena el hueco, 0.5 la
-                                  deja a la mitad. Todo lo de dentro está en %
-                                  de la escena, así que encoge en bloque */
+
+  /* Tamaño de la escena. --scale es la fracción del hueco que ocupa, pero
+     acotada entre --min y --max: a secas, un móvil de 390 px la dejaba en
+     195 px (el gorro y la palabra no se leen) y un monitor de 2560 px la
+     subía a 1280 px. --fit es la mayor escena 16:9 que cabe en el hueco, y
+     el min() exterior garantiza que --min nunca la desborde.             */
+  --scale: 0.5;
+  --min:   19rem;              /* 304 px: suelo legible                   */
+  --max:   45rem;              /* 720 px: techo para no comerse la pantalla */
+  --fit:   min(100%, calc(100vh * 16 / 9));
+  --stage: min(var(--fit), clamp(var(--min), calc(var(--fit) * var(--scale)), var(--max)));
+
+  /* 1 px del vídeo original (1280 px de ancho) medido sobre la escena
+     actual. Los desenfoques del gorro y de la palabra estaban en px
+     absolutos, así que a media escala salían al doble de intensos; ahora
+     se expresan en múltiplos de --u y encogen con todo lo demás.         */
+  --u: calc(var(--stage) / 1280);
+
+  /* Anchura (en % del lado) del degradado con el que la atmósfera y las
+     hojas se apagan contra el borde de la escena. Con la escena a pantalla
+     completa ese borde caía fuera de la ventana y no se notaba; reducida,
+     el tinte cálido de la calima terminaba en un rectángulo recortado en
+     seco sobre el blanco de .preloader.                                  */
+  --fade: 11%;
+
   --bg:    #ffffff;            /* fondo de la escena, el mismo que .preloader */
   --blend: multiply;           /* cómo se apoya la calima sobre él */
 
   position:relative;
-  width:calc(min(100vw, 100vh * 16 / 9) * var(--scale));
+  width:var(--stage);
   aspect-ratio:16/9;
   background:var(--bg);
   overflow:hidden;
   isolation:isolate;
+}
+
+/* svh en vez de vh donde exista: en móvil la barra de direcciones cambia
+   de alto y con vh la escena daba un salto al aparecer o desaparecer. */
+@supports (height: 1svh){
+  .pk-stage{ --fit: min(100%, calc(100svh * 16 / 9)); }
+}
+
+/* ── el difuminado de los bordes ───────────────────────────────────────
+   Dos degradados cruzados (uno horizontal y otro vertical) recortados con
+   mask-composite dan un marco difuminado en los cuatro lados sin vaciar
+   las esquinas, que es lo que haría un degradado radial.
+
+   Va sobre la CAJA de cada capa —que está anclada a la escena— y no sobre
+   la placa, que viaja en el ::before: una máscara se transforma con su
+   elemento, así que puesta en la placa el degradado se pasearía por dentro
+   y por fuera de la escena en vez de quedarse en el borde.               */
+.pk-veil,
+.pk-dust,
+.pk-leaves{
+  -webkit-mask-image:
+    linear-gradient(to right,  transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent),
+    linear-gradient(to bottom, transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent);
+          mask-image:
+    linear-gradient(to right,  transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent),
+    linear-gradient(to bottom, transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent);
+  -webkit-mask-composite: source-in;   /* WebKit y Chrome < 120 */
+          mask-composite: intersect;   /* estándar */
 }
 
 .pk-stage *{ position:absolute; }
@@ -75,19 +129,28 @@
    Five haze plates (lifted from the video and rebuilt by inpainting)
    reproduce those two peaks.                                            */
 .pk-veil{
-  inset:-25%;
+  inset:0;                     /* la caja, anclada a la escena, es la que
+                                  lleva la máscara del borde            */
+  mix-blend-mode:var(--blend); /* la mezcla sigue en el elemento, no en el
+                                  ::before, para que el humo siga
+                                  multiplicando sobre el logo            */
+}
+.pk-veil::before{
+  content:'';
+  position:absolute;
+  inset:-25%;                  /* la placa es mayor que la escena para que
+                                  el paralaje no descubra su borde       */
   background-repeat:no-repeat;
   background-position:center;
   background-size:cover;
-  mix-blend-mode:var(--blend);
   opacity:0;
   will-change:transform,opacity;
 }
-.pk-veil--haze2{ background-image:url(../images/pankey-loader/haze-2.png); animation:pk-haze2 var(--dur) linear infinite; }
-.pk-veil--haze1{ background-image:url(../images/pankey-loader/haze-1.png); animation:pk-haze1 var(--dur) linear infinite; }
-.pk-veil--smoke1{ background-image:url(../images/pankey-loader/smoke-1.png); animation:pk-smoke1 var(--dur) linear infinite; }
-.pk-veil--smoke2{ background-image:url(../images/pankey-loader/smoke-2.png); animation:pk-smoke2 var(--dur) linear infinite; }
-.pk-veil--smoke3{ background-image:url(../images/pankey-loader/smoke-3.png); animation:pk-smoke3 var(--dur) linear infinite; }
+.pk-veil--haze2::before{ background-image:url(../images/pankey-loader/haze-2.png); animation:pk-haze2 var(--dur) linear infinite; }
+.pk-veil--haze1::before{ background-image:url(../images/pankey-loader/haze-1.png); animation:pk-haze1 var(--dur) linear infinite; }
+.pk-veil--smoke1::before{ background-image:url(../images/pankey-loader/smoke-1.png); animation:pk-smoke1 var(--dur) linear infinite; }
+.pk-veil--smoke2::before{ background-image:url(../images/pankey-loader/smoke-2.png); animation:pk-smoke2 var(--dur) linear infinite; }
+.pk-veil--smoke3::before{ background-image:url(../images/pankey-loader/smoke-3.png); animation:pk-smoke3 var(--dur) linear infinite; }
 
 @keyframes pk-haze2{
   0%             { opacity:0;   transform:translate3d(10%,3%,0) scale(1.22); }
@@ -127,9 +190,14 @@
 
 /* suspended dust specks */
 .pk-dust{
+  inset:0;
+  mix-blend-mode:var(--blend);
+}
+.pk-dust::before{
+  content:'';
+  position:absolute;
   inset:-6%;
   background:url(../images/pankey-loader/dust.png) center/108% no-repeat;
-  mix-blend-mode:var(--blend);
   will-change:opacity,transform;
   animation:pk-dust var(--dur) linear infinite;
 }
@@ -273,29 +341,29 @@
   animation:pk-reveal-hat var(--dur) linear infinite;
 }
 @keyframes pk-reveal-hat{
-  0%,46.5% { opacity:0; filter:blur(7px); transform:translate3d(0,-180.694%,0) scale(1.050); }
-  47.174% { opacity:0.122; filter:blur(6.24px); transform:translate3d(0,-180.694%,0) scale(1.046); }
-  48.165% { opacity:0.301; filter:blur(5.12px); transform:translate3d(0,-180.243%,0) scale(1.040); }
-  49.156% { opacity:0.48; filter:blur(4px); transform:translate3d(0,-178.888%,0) scale(1.034); }
-  50.042% { opacity:0.64; filter:blur(3px); transform:translate3d(0,-176.913%,0) scale(1.029); }
-  51.139% { opacity:0.809; filter:blur(2.36px); transform:translate3d(0,-173.467%,0) scale(1.023); }
-  51.405% { opacity:0.85; filter:blur(2.2px); transform:translate3d(0,-172.464%,0) scale(1.021); }
-  52.13% { opacity:0.88; filter:blur(1.74px); transform:translate3d(0,-169.402%,0) scale(1.017); }
-  53.122% { opacity:0.922; filter:blur(1.12px); transform:translate3d(0,-164.430%,0) scale(1.011); }
-  54.113% { opacity:0.964; filter:blur(0.51px); transform:translate3d(0,-158.559%,0) scale(1.005); }
-  54.947% { opacity:1; filter:blur(0px); transform:translate3d(0,-152.918%,0) scale(1.000); }
-  56.096% { opacity:1; filter:blur(0px); transform:translate3d(0,-144.100%,0) scale(1.000); }
-  57.087% { opacity:1; filter:blur(0px); transform:translate3d(0,-135.520%,0) scale(1.000); }
-  58.078% { opacity:1; filter:blur(0px); transform:translate3d(0,-126.036%,0) scale(1.000); }
-  59.069% { opacity:1; filter:blur(0px); transform:translate3d(0,-115.650%,0) scale(1.000); }
-  60.061% { opacity:1; filter:blur(0px); transform:translate3d(0,-104.349%,0) scale(1.000); }
-  61.052% { opacity:1; filter:blur(0px); transform:translate3d(0,-92.156%,0) scale(1.000); }
-  62.043% { opacity:1; filter:blur(0px); transform:translate3d(0,-79.060%,0) scale(1.000); }
-  63.035% { opacity:1; filter:blur(0px); transform:translate3d(0,-65.046%,0) scale(1.000); }
-  64.026% { opacity:1; filter:blur(0px); transform:translate3d(0,-50.144%,0) scale(1.000); }
-  65.017% { opacity:1; filter:blur(0px); transform:translate3d(0,-34.338%,0) scale(1.000); }
-  66.009% { opacity:1; filter:blur(0px); transform:translate3d(0,-17.612%,0) scale(1.000); }
-  67% { opacity:1; filter:blur(0px); transform:translate3d(0,0.000%,0) scale(1.000); }
+  0%,46.5% { opacity:0; filter:blur(calc(7 * var(--u))); transform:translate3d(0,-180.694%,0) scale(1.050); }
+  47.174% { opacity:0.122; filter:blur(calc(6.24 * var(--u))); transform:translate3d(0,-180.694%,0) scale(1.046); }
+  48.165% { opacity:0.301; filter:blur(calc(5.12 * var(--u))); transform:translate3d(0,-180.243%,0) scale(1.040); }
+  49.156% { opacity:0.48; filter:blur(calc(4 * var(--u))); transform:translate3d(0,-178.888%,0) scale(1.034); }
+  50.042% { opacity:0.64; filter:blur(calc(3 * var(--u))); transform:translate3d(0,-176.913%,0) scale(1.029); }
+  51.139% { opacity:0.809; filter:blur(calc(2.36 * var(--u))); transform:translate3d(0,-173.467%,0) scale(1.023); }
+  51.405% { opacity:0.85; filter:blur(calc(2.2 * var(--u))); transform:translate3d(0,-172.464%,0) scale(1.021); }
+  52.13% { opacity:0.88; filter:blur(calc(1.74 * var(--u))); transform:translate3d(0,-169.402%,0) scale(1.017); }
+  53.122% { opacity:0.922; filter:blur(calc(1.12 * var(--u))); transform:translate3d(0,-164.430%,0) scale(1.011); }
+  54.113% { opacity:0.964; filter:blur(calc(0.51 * var(--u))); transform:translate3d(0,-158.559%,0) scale(1.005); }
+  54.947% { opacity:1; filter:blur(0); transform:translate3d(0,-152.918%,0) scale(1.000); }
+  56.096% { opacity:1; filter:blur(0); transform:translate3d(0,-144.100%,0) scale(1.000); }
+  57.087% { opacity:1; filter:blur(0); transform:translate3d(0,-135.520%,0) scale(1.000); }
+  58.078% { opacity:1; filter:blur(0); transform:translate3d(0,-126.036%,0) scale(1.000); }
+  59.069% { opacity:1; filter:blur(0); transform:translate3d(0,-115.650%,0) scale(1.000); }
+  60.061% { opacity:1; filter:blur(0); transform:translate3d(0,-104.349%,0) scale(1.000); }
+  61.052% { opacity:1; filter:blur(0); transform:translate3d(0,-92.156%,0) scale(1.000); }
+  62.043% { opacity:1; filter:blur(0); transform:translate3d(0,-79.060%,0) scale(1.000); }
+  63.035% { opacity:1; filter:blur(0); transform:translate3d(0,-65.046%,0) scale(1.000); }
+  64.026% { opacity:1; filter:blur(0); transform:translate3d(0,-50.144%,0) scale(1.000); }
+  65.017% { opacity:1; filter:blur(0); transform:translate3d(0,-34.338%,0) scale(1.000); }
+  66.009% { opacity:1; filter:blur(0); transform:translate3d(0,-17.612%,0) scale(1.000); }
+  67% { opacity:1; filter:blur(0); transform:translate3d(0,0.000%,0) scale(1.000); }
   100%           { opacity:1; filter:blur(0); transform:translate3d(0,0,0) scale(1); }
 }
 
@@ -358,8 +426,8 @@
   animation:pk-reveal-word var(--dur) linear infinite;
 }
 @keyframes pk-reveal-word{
-  0%,47.5% { opacity:0;   filter:blur(9px); transform:scale(1.06); }
-  53%    { opacity:.72; filter:blur(3px); }
+  0%,47.5% { opacity:0;   filter:blur(calc(9 * var(--u))); transform:scale(1.06); }
+  53%    { opacity:.72; filter:blur(calc(3 * var(--u))); }
   60%    { opacity:1;   filter:blur(0);   transform:scale(1); }
   100%           { opacity:1;   filter:blur(0);   transform:scale(1); }
 }
@@ -448,6 +516,7 @@
 /* ── a11y: with motion reduced, show the finished logo, no animation ── */
 @media (prefers-reduced-motion:reduce){
   .pk-stage *{ animation:none !important; }
+  .pk-veil::before,.pk-dust::before{ animation:none !important; }
   .pk-flash,.pk-veil,.pk-dust,.pk-leaves{ opacity:0 !important; }
   .pk-wheat > i,.pk-mark,.pk-mark > i{ opacity:1 !important; transform:none !important; filter:none !important; }
 }
