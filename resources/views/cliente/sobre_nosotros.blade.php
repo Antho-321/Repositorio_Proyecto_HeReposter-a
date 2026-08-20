@@ -22,7 +22,7 @@
         </li>
         <li class="rd-nav-item">
             <div class="dropdown">
-                <a class="rd-nav-link dropdown-trigger" href="#" aria-haspopup="true" aria-expanded="false"><b>Catalogo</b></a>
+                <a class="rd-nav-link dropdown-trigger" href="#" aria-haspopup="true" aria-expanded="false"><b>Catálogo</b></a>
                 <form class="dropdown-content" id="Menu_Catalogo" action="{{ route('cliente.categoria_seleccionada') }}" method="GET">
                     @csrf  
                     <input type="hidden" name="categoria_value" id="nombre_categoria">
