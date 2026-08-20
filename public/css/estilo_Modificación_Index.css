@@ -372,20 +372,141 @@ a {
     padding-top: 40px
 }
 
+/* ─── Tarjetas de «Productos destacados» ─────────────────────────
+   Síntoma: al pasar el puntero por una tarjeta, la foto bajaba a opacity .3 y
+   encima salía «Mostrar más información» en gris, centrado sobre el pastel.
+
+   Causa: sobre el fondo blanco de la sección, bajar la opacidad no atenúa la
+   foto, la destiñe. El pastel —que es justo lo que se está vendiendo— casi
+   desaparecía, y el texto gris sobre esa foto lavada se quedaba sin contraste.
+   Además la transición estaba declarada DENTRO del :hover, así que el efecto
+   entraba en 0.4 s pero al salir se cortaba de golpe; y la foto se apagaba al
+   instante (transition: initial) mientras el texto aún estaba entrando: dos
+   tiempos distintos para un mismo gesto.
+
+   Arreglo, el patrón de cualquier galería de producto seria: la foto no pierde
+   color, solo se acerca un poco; cae un velo oscuro degradado desde abajo, que
+   deja el pastel a la vista y da fondo al texto; y sobre él sube la etiqueta
+   «Ver detalles» en el amarillo de los botones del sitio (#ffe745). La tarjeta
+   se eleva un poco, que es lo que la anuncia como pulsable.
+
+   Las transiciones se declaran en el estado normal, NO dentro del :hover, para
+   que entrar y salir duren lo mismo.
+
+   Ajusta SOLO estas dos variables si quieres tocar el efecto: */
+:root {
+    --destacado-zoom: 1.06;
+    /* ← CUÁNTO SE ACERCA LA FOTO (1 = nada) */
+    --destacado-vel: .2s;
+    /* ← DURACIÓN DE LA ANIMACIÓN */
+}
+
+.imagen {
+    position: relative;
+    overflow: hidden;
+    /* recorta el zoom de la foto */
+    border-radius: 10px;
+    width: 300px;
+    max-width: 100%;
+    padding: 0;
+    /* la separación entre tarjetas la pone el gap del contenedor */
+    transition: transform var(--destacado-vel) ease-out,
+        box-shadow var(--destacado-vel) ease-out;
+}
+
+.imagen:hover,
+.imagen:focus-within {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgb(0 0 0 / .18);
+}
+
+.imagen img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    /* una foto que no sea cuadrada se recorta, no se deforma */
+    border-radius: inherit;
+    margin: 0;
+    transition: transform .3s ease-out;
+}
+
+/* El botón es la capa: va en absoluto (regla de más arriba) y tapa la tarjeta
+   entera, así que el velo y el texto se pintan sobre la foto. */
 .mostrar_informacion {
+    inset: 0;
+    width: auto !important;
+    height: auto !important;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 0 18px;
+    border: 0;
+    border-radius: inherit;
+    background: linear-gradient(to top,
+            rgb(0 0 0 / .78) 0%,
+            rgb(0 0 0 / .35) 38%,
+            rgb(0 0 0 / 0) 68%);
     font-size: 20px;
     opacity: 0;
-
+    transition: opacity var(--destacado-vel) ease-out;
 }
 
-.mostrar_informacion:hover {
+.mostrar_informacion:hover,
+.mostrar_informacion:focus-visible {
     opacity: 1;
-    transition: 0.4s;
 }
 
-.mostrar_informacion:hover+img {
-    opacity: .3;
-    transition: initial;
+.mostrar_informacion:hover+img,
+.mostrar_informacion:focus-visible+img {
+    transform: scale(var(--destacado-zoom));
+}
+
+/* La etiqueta, como píldora, en el amarillo de .button-primary */
+.mostrar_informacion span {
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: #ffe745;
+    color: #151515;
+    font-size: 15px;
+    letter-spacing: .02em;
+    transform: translateY(6px);
+    transition: transform var(--destacado-vel) ease-out;
+}
+
+.mostrar_informacion:hover span,
+.mostrar_informacion:focus-visible span {
+    transform: translateY(0);
+}
+
+/* Donde no hay puntero (móvil, tableta) tampoco hay hover: si el efecto se
+   dejara tal cual, en esas pantallas nadie llegaría a saber que la tarjeta
+   lleva algo detrás. Allí la etiqueta se queda puesta. */
+@media (hover: none) {
+    .mostrar_informacion {
+        opacity: 1;
+    }
+
+    .mostrar_informacion span {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .imagen,
+    .imagen img,
+    .mostrar_informacion,
+    .mostrar_informacion span {
+        transition: none;
+    }
+
+    .imagen:hover,
+    .imagen:focus-within,
+    .mostrar_informacion:hover+img,
+    .mostrar_informacion:focus-visible+img {
+        transform: none;
+    }
 }
 
 
@@ -420,8 +541,9 @@ a {
     /* Centers items on the line */
     align-items: center !important;
     /* Centers items vertically */
-    gap: 10px !important;
-    /* Adjust as needed for space between images */
+    gap: 24px !important;
+    /* Calles iguales entre tarjetas: antes eran 70px en horizontal
+       (gap + el padding de .imagen) y 30px en vertical. */
 }
 
 .categoria {
@@ -438,17 +560,10 @@ a {
     transition: .4s !important;
 }
 
-.imagen img {
-    margin: 0;
-}
-
-.imagen {
-    padding: 10px 30px;
-}
-
+/* El tamaño, el redondeo y el hover de estas tarjetas están más arriba, en el
+   bloque «Tarjetas de Productos destacados». Aquí solo queda lo que no forma
+   parte del efecto. */
 .mostrar_informacion {
-    width: 300px !important;
-    height: 300px !important;
     cursor: pointer !important;
     font-family: "Sanseriffic", sans-serif !important;
 }

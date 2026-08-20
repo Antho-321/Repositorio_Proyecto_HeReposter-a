@@ -224,8 +224,14 @@ function AgregarContenido(CategoríaSeleccionada) {
             let imagen = document.createElement("img");
             let h3 = document.createElement("button");
             imagen.src = array[i].img;
-            imagen.style = "height: 300px !important; width: 300px !important; border-radius: 10px;";
-            h3.innerHTML = "Mostrar más información";
+            // El tamaño y el redondeo los pone la hoja de estilos (.imagen img).
+            // Estaban aquí, en línea y con !important, y así no hay forma de
+            // sobrescribirlos desde el CSS: la rejilla no podía adaptarse al
+            // ancho de la pantalla y las fotos que no eran cuadradas salían
+            // deformadas.
+            imagen.alt = "Pastel destacado";
+            // El <span> es lo que el CSS convierte en la píldora amarilla.
+            h3.innerHTML = "<span>Ver detalles</span>";
             h3.className = "mostrar_informacion";
             div.appendChild(h3);
             h3.addEventListener("click", ProductoSeleccionado);
