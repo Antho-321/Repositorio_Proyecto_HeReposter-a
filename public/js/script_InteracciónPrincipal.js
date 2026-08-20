@@ -230,6 +230,9 @@ function AgregarContenido(CategoríaSeleccionada) {
             // ancho de la pantalla y las fotos que no eran cuadradas salían
             // deformadas.
             imagen.alt = "Pastel destacado";
+            // La misma foto, para el fondo desenfocado que rellena el cuadrado
+            // (.imagen::before la lee de aquí).
+            div.style.setProperty("--foto", 'url("' + array[i].img + '")');
             // El botón no lleva texto visible: es la zona pulsable que cubre la
             // tarjeta entera. El nombre se lo da el aria-label, que si no un
             // lector de pantalla solo anunciaría «botón».
