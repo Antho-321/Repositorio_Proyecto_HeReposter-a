@@ -81,9 +81,11 @@
 </form>
 @endsection
 @section('content')
+{{-- ?v=filemtime en las fotos del carrusel: mismo motivo que en style.css,
+     evita servir la imagen vieja de cache tras retocarla --}}
 <section class="section swiper-container swiper-slider swiper-slider-2 swiper-slider-3" data-loop="true" data-autoplay="5000" data-simulate-touch="false" data-slide-effect="fade">
     <div class="swiper-wrapper text-sm-left">
-        <div class="swiper-slide context-dark" data-slide-bg="{{ asset('images/slide-1-1920x753.jpg') }}">
+        <div class="swiper-slide context-dark" data-slide-bg="{{ asset('images/slide-1-1920x753.jpg') }}?v={{ filemtime(public_path('images/slide-1-1920x753.jpg')) }}">
             <div class="swiper-slide-caption section-md">
                 <div class="container">
                     <div class="row">
@@ -96,7 +98,7 @@
                 </div>
             </div>
         </div>
-        <div class="swiper-slide context-dark" data-slide-bg="{{ asset('images/slide-2-1920x753.jpg') }}">
+        <div class="swiper-slide context-dark" data-slide-bg="{{ asset('images/slide-2-1920x753.jpg') }}?v={{ filemtime(public_path('images/slide-2-1920x753.jpg')) }}">
             <div class="swiper-slide-caption section-md">
                 <div class="container">
                     <div class="row">

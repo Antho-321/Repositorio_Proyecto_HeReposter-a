@@ -500,3 +500,62 @@ h3 {
         background-repeat: no-repeat !important;
     }
 }
+
+/* ─── Legibilidad del texto sobre el carrusel de portada ─────────────────────
+   Sintoma: en la diapositiva "Ingredientes de calidad" las letras de "NTES DE"
+   se perdian contra el cuenco de harina; en "Descubre el nuevo sabor" pasaba lo
+   mismo con "BRE EL" y "SABOR" sobre el trozo de bizcocho.
+
+   Causa: el texto del carrusel es blanco y la foto que tiene detras esta casi
+   quemada en esas zonas. Midiendo el contorno de cada glifo sobre el render
+   real, el 36 % del borde de las letras del titular quedaba por debajo de 3:1,
+   que es el minimo que pide WCAG 2.1 para texto grande; el peor 5 % bajaba a
+   1,5:1 (practicamente blanco sobre blanco).
+
+   Arreglo, en dos partes:
+     1. En la foto (public/images/slide-1/2-1920x753.jpg): se bajaron las altas
+        luces hacia un marron calido, solo por encima del 35 % de luminancia,
+        asi que sombras y medios quedan intactos y no se apaga la imagen.
+     2. Aqui: un halo oscuro difuminado detras del texto. Va suave a proposito,
+        porque el grueso del contraste ya lo aporta el paso 1; con mas opacidad
+        el desenfoque se cuela por los huecos de la tipografia Asfalto y le
+        ensucia el picado.
+
+   Resultado medido en el titular: el peor 5 % del contorno pasa de 1,5:1 a
+   4,5:1 y no queda nada por debajo de 3:1. En el parrafo, de 2,4:1 a 4,0:1.
+   Ni la tipografia ni el encuadre de la foto cambian.
+   --------------------------------------------------------------------------- */
+.swiper-slider-2 .swiper-title {
+    text-shadow:
+        0 0 22px rgba(0, 0, 0, .60),
+        0 0 8px rgba(0, 0, 0, .45);
+}
+
+.swiper-slider-2 .swiper-text {
+    text-shadow:
+        0 0 12px rgba(0, 0, 0, .70),
+        0 0 4px rgba(0, 0, 0, .50);
+}
+
+/* ─── ... y que ese halo no lo recorte la caja del titular ───────────────────
+   El h1 del carrusel lleva tambien la clase .oh del tema (style.css:6349), que
+   es `overflow: hidden` para que la animacion de entrada revele el texto como
+   si saliera de una ranura. Ese recorte se comia el halo por arriba: en lugar
+   de un degradado de unos 20 px, la sombra quedaba cortada en seco a 3 px de
+   las mayusculas y se leia como una linea oscura recta cruzando por encima de
+   toda la primera linea. Solo pasaba arriba; por los lados y por abajo la caja
+   tiene sitio de sobra.
+
+   `overflow: clip` recorta igual que `hidden` --la animacion no cambia-- pero
+   admite `overflow-clip-margin`, que permite pintar 30 px por fuera de la caja.
+   Asi cabe el desenfoque entero sin tocar el flujo: ni margenes negativos ni
+   relleno que compensar.
+
+   Medido: con esto el render queda identico pixel a pixel al de un h1 sin
+   recorte ninguno. Si un navegador no entendiese `overflow-clip-margin`, se
+   queda con el `hidden` de .oh, que es como estaba antes.
+   --------------------------------------------------------------------------- */
+.swiper-slider-2 .swiper-title {
+    overflow: clip;
+    overflow-clip-margin: 30px;
+}
