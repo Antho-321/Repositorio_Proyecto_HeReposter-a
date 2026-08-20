@@ -249,7 +249,7 @@
                         domicio. Los pedidos que realices puedes
                         retirarlos de nuestro local desde las 24h
                         transcurridas.<br>
-                        Dirección: Av. Atahualpa y Tobías Mena, a
+                        Dirección: Antonio José de Sucre y Río Blanco, a
                         unos pasos del coliseo de la Bola Amarilla
                     </p>
                 </section>

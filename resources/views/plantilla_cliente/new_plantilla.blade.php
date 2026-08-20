@@ -295,7 +295,7 @@
         <div class="footer-modern-line-3">
             <div class="container">
                 <div class="row row-10 justify-content-between">
-                    <div class="col-md-6"><span>Av. Atahualpa y Tobías Mena, a unos pasos del coliseo de la Bola
+                    <div class="col-md-6"><span>Antonio José de Sucre y Río Blanco, a unos pasos del coliseo de la Bola
                             Amarilla &mdash; Ibarra</span></div>
                     <div class="col-md-auto">
                         <!-- Rights-->
