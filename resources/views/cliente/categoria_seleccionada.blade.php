@@ -5,10 +5,40 @@
 @endsection
 @section('navegacion')
 <style>
+    /* La caja del contenido mide 75vh aunque la categoria traiga pocas fotos,
+       para que el pie de pagina no suba hasta media pantalla. Lo que sobraba se
+       amontonaba entero debajo de las fotos (87 px abajo contra 14 px arriba,
+       medido con la ventana a 1366x768): la rejilla quedaba pegada al titulo y
+       colgando de el. Ahora #seccion_productos se queda con todo el hueco libre
+       que deja el titulo (flex: 1) y centra la rejilla dentro, asi el aire de
+       arriba y el de abajo son iguales.
+       min-height en vez de height: si una categoria trae mas fotos de las que
+       caben en 75vh, la caja crece en vez de meterse debajo del pie. */
     #contenido_principal {
         padding-top: 40px !important;
-        height: 75vh !important;
-}
+        min-height: 75vh !important;
+        height: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    #contenido_principal #seccion_productos {
+        flex: 1 1 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+    }
+
+    /* El hueco libre ya se reparte por igual, pero la caja de linea del titulo
+       lleva debajo de las letras el sitio de los trazos descendentes (la "y" de
+       "Baby Shower"): 0.25em, unos 14 px con el titular a 55 px. Ese espacio no
+       se ve, y el ojo lo suma al aire de arriba, asi que la separacion salia de
+       56 px arriba contra 44 px abajo. Descontandolo con un margen negativo las
+       dos quedan en ~50 px. En em, para que siga cuadrando en los cuatro
+       tamanos de titular (40/45/50/55 px). */
+    #contenido_principal .titulo-navbar {
+        margin-bottom: -0.25em !important;
+    }
 </style>
     <ul class="rd-navbar-nav">
         <li class="rd-nav-item">
