@@ -16828,3 +16828,11 @@ html {
 .oh-desktop{
 	padding-bottom: 40px !important;
 }
+
+/* El tema reparte .footer-modern-list en dos columnas dentro de un ancho máximo
+   de 300px, así que cada una queda en ~135px. Con etiquetas largas ("Pasteles
+   personalizados") el texto se sale de su columna y pisa la columna vecina del
+   pie; esta variante las apila en una sola. */
+.footer-modern-list--una-columna {
+	columns: 1;
+}
