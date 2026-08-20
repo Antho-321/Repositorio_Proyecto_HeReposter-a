@@ -230,8 +230,10 @@ function AgregarContenido(CategoríaSeleccionada) {
             // ancho de la pantalla y las fotos que no eran cuadradas salían
             // deformadas.
             imagen.alt = "Pastel destacado";
-            // El <span> es lo que el CSS convierte en la píldora amarilla.
-            h3.innerHTML = "<span>Ver detalles</span>";
+            // El botón no lleva texto visible: es la zona pulsable que cubre la
+            // tarjeta entera. El nombre se lo da el aria-label, que si no un
+            // lector de pantalla solo anunciaría «botón».
+            h3.setAttribute("aria-label", "Ver detalles del pastel");
             h3.className = "mostrar_informacion";
             div.appendChild(h3);
             h3.addEventListener("click", ProductoSeleccionado);

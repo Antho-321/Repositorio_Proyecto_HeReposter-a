@@ -384,11 +384,9 @@ a {
    instante (transition: initial) mientras el texto aún estaba entrando: dos
    tiempos distintos para un mismo gesto.
 
-   Arreglo, el patrón de cualquier galería de producto seria: la foto no pierde
-   color, solo se acerca un poco; cae un velo oscuro degradado desde abajo, que
-   deja el pastel a la vista y da fondo al texto; y sobre él sube la etiqueta
-   «Ver detalles» en el amarillo de los botones del sitio (#ffe745). La tarjeta
-   se eleva un poco, que es lo que la anuncia como pulsable.
+   Arreglo: el hover ya no tapa la foto ni le escribe nada encima. La tarjeta se
+   eleva con sombra y la foto se acerca un poco dentro de su marco; eso basta
+   para anunciarla como pulsable sin quitarle protagonismo al pastel.
 
    Las transiciones se declaran en el estado normal, NO dentro del :hover, para
    que entrar y salir duren lo mismo.
@@ -432,29 +430,17 @@ a {
     transition: transform .3s ease-out;
 }
 
-/* El botón es la capa: va en absoluto (regla de más arriba) y tapa la tarjeta
-   entera, así que el velo y el texto se pintan sobre la foto. */
+/* El botón ya no pinta nada: es solo la zona pulsable, que cubre la tarjeta
+   entera (va en absoluto por una regla de más arriba). Como no lleva texto
+   visible, su nombre accesible se lo da el aria-label que le pone el JS. */
 .mostrar_informacion {
     inset: 0;
     width: auto !important;
     height: auto !important;
-    align-items: flex-end;
-    justify-content: center;
-    padding: 0 0 18px;
+    padding: 0;
     border: 0;
     border-radius: inherit;
-    background: linear-gradient(to top,
-            rgb(0 0 0 / .78) 0%,
-            rgb(0 0 0 / .35) 38%,
-            rgb(0 0 0 / 0) 68%);
-    font-size: 20px;
-    opacity: 0;
-    transition: opacity var(--destacado-vel) ease-out;
-}
-
-.mostrar_informacion:hover,
-.mostrar_informacion:focus-visible {
-    opacity: 1;
+    background: transparent;
 }
 
 .mostrar_informacion:hover+img,
@@ -462,42 +448,22 @@ a {
     transform: scale(var(--destacado-zoom));
 }
 
-/* La etiqueta, como píldora, en el amarillo de .button-primary */
-.mostrar_informacion span {
-    padding: 9px 18px;
-    border-radius: 999px;
-    background: #ffe745;
-    color: #151515;
-    font-size: 15px;
-    letter-spacing: .02em;
-    transform: translateY(6px);
-    transition: transform var(--destacado-vel) ease-out;
-}
-
-.mostrar_informacion:hover span,
-.mostrar_informacion:focus-visible span {
-    transform: translateY(0);
-}
-
-/* Donde no hay puntero (móvil, tableta) tampoco hay hover: si el efecto se
-   dejara tal cual, en esas pantallas nadie llegaría a saber que la tarjeta
-   lleva algo detrás. Allí la etiqueta se queda puesta. */
-@media (hover: none) {
-    .mostrar_informacion {
-        opacity: 1;
-    }
-
-    .mostrar_informacion span {
-        transform: none;
-    }
+/* Con teclado no hay puntero encima que indique en qué tarjeta estás, así que
+   el foco tiene que verse. Va con !important porque style.css le quita el
+   contorno a todos los botones (button:focus { outline: none !important }), y
+   con offset NEGATIVO porque .imagen recorta lo que se salga (overflow:
+   hidden): un contorno por fuera no se vería. La sombra interior oscura es
+   para que el amarillo se distinga también sobre una foto clara. */
+.mostrar_informacion:focus-visible {
+    outline: 3px solid #ffe745 !important;
+    outline-offset: -3px;
+    box-shadow: inset 0 0 0 6px rgb(0 0 0 / .35);
 }
 
 @media (prefers-reduced-motion: reduce) {
 
     .imagen,
-    .imagen img,
-    .mostrar_informacion,
-    .mostrar_informacion span {
+    .imagen img {
         transition: none;
     }
 
