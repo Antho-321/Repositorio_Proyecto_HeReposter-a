@@ -300,7 +300,7 @@
                     <div class="col-md-auto">
                         <!-- Rights-->
                         <p class="rights"><span>&copy;&nbsp;</span><span
-                                class="copyright-year"></span><span>&nbsp;Pastelería Pankey.&nbsp;</span><span>Todos los
+                                class="copyright-year"></span><span>&nbsp;Panadería y Pastelería Pankey.&nbsp;</span><span>Todos los
                                 derechos reservados.</span></p>
                     </div>
                 </div>
