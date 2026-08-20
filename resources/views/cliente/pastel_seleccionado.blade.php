@@ -1,6 +1,7 @@
 @extends('plantilla_cliente.new_plantilla')
 @section('estilo')
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_ProductoSeleccionado.css') }}" id="estilo">
+    {{-- ?v=filemtime: mismo motivo que en style.css, evita servir el CSS viejo tras un cambio --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_ProductoSeleccionado.css') }}?v={{ filemtime(public_path('css/estilo_Modificación_ProductoSeleccionado.css')) }}" id="estilo">
 @endsection
 @section('navegacion')
 <ul class="rd-navbar-nav">

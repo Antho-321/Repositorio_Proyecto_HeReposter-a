@@ -2,17 +2,36 @@
     font-family: "Sanseriffic";
     src: url("../fonts/Sanseriffic.woff");
   }
-* {
+/* El pie de página no es de esta vista: lo pone la plantilla
+   (plantilla_cliente/new_plantilla.blade.php) y lo viste style.css, igual que
+   en el resto del sitio. Esta hoja es de la vista, así que se para en su
+   borde: sin el guardián, este `*` le imponía Sanseriffic a las tres franjas
+   del pie y la página quedaba con un pie distinto al de la portada.
+
+   En la lista van también `body` y `.page`, que son los ancestros del pie:
+   la tipografía se hereda, así que basta con que `*` se la ponga al
+   envoltorio para que el pie la reciba igual aunque él quede fuera. Ninguno
+   de los dos la necesita, porque todo lo que llevan dentro (salvo el pie) lo
+   alcanza `*` por su cuenta.
+
+   `:where()` no suma especificidad, así que la regla sigue pesando 0 y el
+   orden de la cascada para el resto de la página no cambia. Mismo criterio en
+   las demás reglas de elemento de este archivo que rozaban el pie. */
+*:where(:not(body, .page, footer, footer *)) {
     font-family: "Sanseriffic", Arial, sans-serif;
 }
-*:not(#Menu_Catalogo, #Menu_Catalogo *, #contenido_principal, #contenido_principal *) {
+*:not(#Menu_Catalogo, #Menu_Catalogo *, #contenido_principal, #contenido_principal *):where(:not(footer, footer *)) {
     transition: 0.4s !important;
 }
 body {
     margin: 0px;
     width: 100vw;
     /*overflow-x: hidden;*/
-    height: 100vh;
+    /* Sin `height: 100vh`. Con la altura clavada a la ventana, el pie -que es
+       otro hijo de este flex en columna- no cabía y se encogía: sus tres
+       franjas quedaban aplastadas en una banda negra sin nada legible. Sin
+       ella, la columna crece con el contenido y el pie ocupa su alto natural,
+       el mismo que en la portada. */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -170,13 +189,18 @@ a{
      color: aliceblue;
      text-align: center;
  }
- body>a{
+ /* El botón de «subir» que añade el tema (UItoTop) es un <a> colgado
+    directamente de <body>, así que caía aquí: con display:flex en columna la
+    flecha dejaba de ir centrada, y el :hover le ponía el color en negro en vez
+    del blanco del tema. En la portada no existe esta regla, y el botón es el
+    mismo en las dos páginas. */
+ body>a:where(:not(.ui-to-top)){
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
  }
- body>a:hover{
+ body>a:hover:where(:not(.ui-to-top)){
     cursor: auto;
     color: black !important;
  }
@@ -224,7 +248,10 @@ a{
     padding-right: calc((30vw - 96px) / 2);
 }
 
-p{
+/* Los párrafos del pie («Pedidos y retiro») los alinea style.css a la
+   izquierda y los separa con su propio margen; esta regla, pensada para el
+   contenido de la vista, los centraba y los dejaba pegados unos a otros. */
+p:where(:not(footer *)){
     padding: 5px 0px;
     margin: 0px;
     text-align: center;
@@ -353,15 +380,12 @@ input[name='dedicatoria']{
     cursor: text !important;
     margin: 9px;
 }
-footer {
-    display: flex;
-    width: 100%;
-    background: black;
-    text-align: center;
-    color: rgb(70, 70, 70);
-    align-items: center;
-    justify-content: center;
-}
+/* Aquí vivía un `footer { display:flex; align-items:center; ... }` del diseño
+   viejo, cuando el pie era una sola franja con los derechos reservados. El pie
+   de ahora son tres franjas apiladas (.footer-modern-line, -line-2 y -line-3):
+   ponerlas en fila las dejaba una al lado de otra, con las columnas del
+   catálogo estrujadas y la dirección saliéndose por la derecha. Lo mismo con
+   el `footer` que aparecía en los grupos de reglas de más abajo. */
 #Derechos {
     display: flex;
     width: 82%;
@@ -415,7 +439,6 @@ body,
 #DestacadoPrincipal ul,
 #seccion_productos>*:first-child,
 h3,
-footer,
 #Derechos {
     display: flex;
 }
@@ -464,7 +487,6 @@ body {
 #Menu_Catalogo,
 #seccion_busqueda,
 h3,
-footer,
 #Derechos {
     align-items: center;
 }
@@ -548,7 +570,6 @@ h1 {
 #Salto,
 #seccion_productos>div,
 h3,
-footer,
 #Derechos {
     justify-content: center;
 }
@@ -584,8 +605,7 @@ input,
 #seccion_botones a,
 button,
 #Salto,
-h1,
-footer {
+h1 {
     text-align: center;
 }
 
@@ -627,7 +647,7 @@ button {
     letter-spacing: 1.6px;
 }
 
-a {
+a:where(:not(footer *)) {
     text-decoration: none;
 }
 
@@ -646,8 +666,7 @@ a {
 #DestacadoPrincipal li,
 #DestacadoPrincipal img,
 #seccion_productos>*:first-child,
-#seccion_productos>div>div>img,
-footer {
+#seccion_productos>div>div>img {
     width: 100%;
 }
 
