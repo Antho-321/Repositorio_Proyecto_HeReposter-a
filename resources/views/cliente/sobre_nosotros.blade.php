@@ -119,7 +119,7 @@
             </section>
             <section class="capitulo">
                 @include('componentes.cuadro_foto', [
-                    'src' => asset('images/CupCake.png'),
+                    'src' => 'https://i.postimg.cc/wT5yCbKv/Gemini-Generated-Image-ckxfimckxfimckxf.jpg',
                     'alt' => 'Cupcake de chocolate coronado con una cereza',
                     'clase' => 'capitulo__marco',
                     'claseImagen' => 'capitulo__imagen',
