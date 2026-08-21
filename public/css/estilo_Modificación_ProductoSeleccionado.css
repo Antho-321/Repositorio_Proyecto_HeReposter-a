@@ -263,7 +263,7 @@ a{
     font-size: 14px;
     letter-spacing: 3.2px;
     text-transform: uppercase;
-    color: #8a8a8a !important;
+    color: #6f6f6f !important;
 }
 #contenido_principal *{
     color: black !important;
@@ -371,7 +371,7 @@ p:where(:not(footer *)){
 #label_cantidad{
     font-size: 17px;
     letter-spacing: 1px;
-    color: #6b6b6b !important;
+    color: #333333 !important;
 }
 
 #DestacadoPrincipal #disminuir_cantidad,
@@ -581,10 +581,15 @@ input[type='number']::-webkit-inner-spin-button {
 #infoDetallada .col:nth-child(1),
 #infoDetallada .col:nth-child(3){
     font-weight: normal;
-    font-size: 16px;
+    font-size: 17px;
     line-height: 1.35;
     letter-spacing: 1px;
-    color: #6b6b6b !important;
+    /* Estaban en #6b6b6b, que sobre el fondo casi blanco de la tarjeta y con
+       una Sanseriffic de trazo fino se apagaban: había que fijarse para leer
+       «Porciones:». Con este gris oscuro la etiqueta se lee de un vistazo y
+       sigue pesando menos que su valor, que es negro y va dos puntos más
+       grande: la jerarquía la marca el tamaño, no lo pálido del color. */
+    color: #333333 !important;
 }
 
 #infoDetallada .col:nth-child(2),
