@@ -345,18 +345,19 @@ p:where(:not(footer *)){
     width: auto;
 }
 
-#DestacadoPrincipal>img{
-    /* Antes: 300x300 clavados. Como las fotos vienen de fuera y no son
-       cuadradas, se deformaban. Ahora el hueco sí es cuadrado, pero la foto
-       entra entera (`contain`) sobre un fondo crema, que es el mismo criterio
-       que en la rejilla del catálogo: la foto no se recorta ni se estira. */
-    width: 100% !important;
-    height: auto;
-    aspect-ratio: 1;
-    object-fit: contain;
-    padding: 0;
-    background: #f9f5ef;
-    border-radius: 14px;
+/* La foto de la ficha. Antes: 300x300 clavados, y como las fotos vienen de
+   fuera y no son cuadradas, se deformaban. Ahora es un .cuadro-foto
+   (css/estilos_reutilizables.css), la misma pieza que usan las tarjetas de
+   «Productos destacados»: la foto entra entera y el hueco que sobra lo rellena
+   esa misma foto ampliada y desenfocada. Se entra aquí pulsando una de esas
+   tarjetas, así que la foto se ve igual antes y después de pulsar.
+
+   De la pieza compartida sólo se cambia el redondeo, un punto mayor que el del
+   catálogo porque aquí la foto es bastante más grande. Lo demás es propio de
+   la ficha: que ocupe el ancho de su columna y la sombra que la levanta. */
+#DestacadoPrincipal>.cuadro-foto{
+    --cuadro-foto-radio: 14px;
+    width: 100%;
     box-shadow: 0 10px 26px rgb(0 0 0 / .12);
 }
 

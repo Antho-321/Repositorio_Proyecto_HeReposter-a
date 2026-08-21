@@ -220,18 +220,23 @@ function AgregarContenido(CategoríaSeleccionada) {
         div_aux.className = "contenedor_imagenes";
         for (let i = 0; i < array.length; i++) {
             let div = document.createElement("div");
-            div.className = "imagen";
+            // Dos clases: `cuadro-foto` es la pieza compartida que enseña la
+            // foto entera sobre su propio fondo desenfocado (definida en
+            // css/estilos_reutilizables.css, la misma que usan la ficha de
+            // producto y «Sobre nosotros»); `imagen` añade lo que sólo es de
+            // la tarjeta del catálogo: el ancho y el efecto al apuntarla.
+            div.className = "imagen cuadro-foto";
             let imagen = document.createElement("img");
             let h3 = document.createElement("button");
             imagen.src = array[i].img;
-            // El tamaño y el redondeo los pone la hoja de estilos (.imagen img).
-            // Estaban aquí, en línea y con !important, y así no hay forma de
+            // El tamaño y el redondeo los pone la hoja de estilos. Estaban
+            // aquí, en línea y con !important, y así no hay forma de
             // sobrescribirlos desde el CSS: la rejilla no podía adaptarse al
             // ancho de la pantalla y las fotos que no eran cuadradas salían
             // deformadas.
             imagen.alt = "Pastel destacado";
-            // La misma foto, para el fondo desenfocado que rellena el cuadrado
-            // (.imagen::before la lee de aquí).
+            // La misma foto otra vez, que es de donde .cuadro-foto::before saca
+            // el fondo con el que rellena las bandas que deja la foto entera.
             div.style.setProperty("--foto", 'url("' + array[i].img + '")');
             // El botón no lleva texto visible: es la zona pulsable que cubre la
             // tarjeta entera. El nombre se lo da el aria-label, que si no un

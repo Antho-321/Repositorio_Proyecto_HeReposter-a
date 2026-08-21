@@ -30,6 +30,11 @@
     {{-- Después de style.css: la animación de carga reajusta el .preloader del tema --}}
     <link rel="stylesheet"
         href="{{ asset('css/pankey-loader.css') }}?v={{ filemtime(public_path('css/pankey-loader.css')) }}">
+    {{-- Las piezas que se repiten en varias vistas (de momento .cuadro-foto).
+         Van ANTES del @yield para que la hoja propia de cada página pueda
+         ajustarlas; si fueran después, ninguna vista podría cambiarles nada. --}}
+    <link rel="stylesheet"
+        href="{{ asset('css/estilos_reutilizables.css') }}?v={{ filemtime(public_path('css/estilos_reutilizables.css')) }}">
     @yield('estilo')
     <!--[if lt IE 10]>
     <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>

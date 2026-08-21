@@ -388,17 +388,15 @@ a {
    eleva con sombra y el fondo se mueve un poco detrás de la foto; eso basta
    para anunciarla como pulsable sin quitarle protagonismo al pastel.
 
-   Las fotos se ven ENTERAS (object-fit: contain) dentro de un cuadrado fijo.
-   Vienen con proporciones muy distintas —de 2:3 vertical a 3:2 apaisada—, así
-   que caben de dos maneras: recortándolas (se perdía media tarta) o estirándolas
-   al cuadrado (hasta un 50 % de deformación en un eje: una tarta redonda sale
-   ovalada). Ninguna vale. Puestas enteras sobran bandas a los lados, y esas
-   bandas las tapa la misma foto ampliada y desenfocada de fondo, así que el
-   cuadrado se ve lleno sin recortar ni deformar nada. La URL del fondo la pone
-   el JavaScript en la variable --foto de cada tarjeta.
+   Que la foto se vea ENTERA dentro del cuadrado, con el hueco que sobra
+   relleno por esa misma foto ampliada y desenfocada, ya no se escribe aquí:
+   es .cuadro-foto, en css/estilos_reutilizables.css, que se lo pone también a
+   la ficha de producto y a «Sobre nosotros». El JavaScript le pone a cada
+   tarjeta las dos clases —`imagen cuadro-foto`— y la variable --foto.
 
-   Las transiciones se declaran en el estado normal, NO dentro del :hover, para
-   que entrar y salir duren lo mismo.
+   Lo que queda en esta hoja es sólo lo propio de la tarjeta: cuánto mide y qué
+   hace al apuntarla. Las transiciones se declaran en el estado normal, NO
+   dentro del :hover, para que entrar y salir duren lo mismo.
 
    Ajusta SOLO estas dos variables si quieres tocar el efecto: */
 :root {
@@ -409,10 +407,6 @@ a {
 }
 
 .imagen {
-    position: relative;
-    overflow: hidden;
-    /* recorta el zoom de la foto */
-    border-radius: 10px;
     width: 300px;
     max-width: 100%;
     padding: 0;
@@ -427,39 +421,17 @@ a {
     box-shadow: 0 12px 28px rgb(0 0 0 / .18);
 }
 
-/* El fondo: la misma foto, ampliada y desenfocada, para que el cuadrado no
-   quede con bandas vacías a los lados de la foto entera. Va en un ::before
-   para poder desenfocarlo sin desenfocar tambien la foto de encima. */
+/* El acercamiento al apuntar la tarjeta va sobre el fondo desenfocado y no
+   sobre la foto: así se nota que la tarjeta responde sin que el pastel se
+   mueva ni se salga del cuadro. La escala de partida es la de .cuadro-foto,
+   que ya viene ampliado; aquí sólo se multiplica. */
 .imagen::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background-image: var(--foto);
-    background-size: cover;
-    background-position: center;
-    /* La escala se come el borde claro que deja el desenfoque. */
-    transform: scale(1.25);
-    filter: blur(18px) brightness(.85);
     transition: transform .3s ease-out;
 }
 
 .imagen:hover::before,
 .imagen:focus-within::before {
-    transform: scale(calc(1.25 * var(--destacado-zoom)));
-}
-
-.imagen img {
-    position: relative;
-    z-index: 1;
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1;
-    object-fit: contain;
-    /* la foto entera: ni recortada ni deformada, sea cual sea su proporción */
-    border-radius: inherit;
-    margin: 0;
+    transform: scale(calc(var(--cuadro-foto-escala) * var(--destacado-zoom)));
 }
 
 /* El botón ya no pinta nada: es solo la zona pulsable, que cubre la tarjeta
@@ -503,7 +475,7 @@ a {
 
     .imagen:hover::before,
     .imagen:focus-within::before {
-        transform: scale(1.25);
+        transform: scale(var(--cuadro-foto-escala));
     }
 }
 

@@ -549,15 +549,21 @@ input[type="text"], #num_tarjeta{
     flex-direction: row-reverse;
 }
 
-.capitulo__imagen {
+/* El cuadro de la foto. Que la imagen se vea entera, sin recortar ni deformar,
+   sobre el hueco relleno con esa misma foto ampliada y desenfocada, lo pone
+   .cuadro-foto (css/estilos_reutilizables.css), la misma pieza que usan las
+   tarjetas del catálogo y la ficha de producto.
+
+   Antes se recortaba (object-fit: cover) para llenar el cuadrado, porque las
+   tres fotos no tienen la misma proporción de origen: la del horno de leña es
+   apaisada y perdía a uno de los dos panaderos por un lado.
+
+   Aquí sólo se dice cuánto mide. flex-shrink: 0 para que no se estruje cuando
+   el párrafo de al lado es largo. */
+.capitulo__marco {
     width: var(--historia-foto);
     height: var(--historia-foto);
-    /* flex-shrink: 0 para que la foto no se estruje cuando el párrafo es largo;
-       object-fit: cover para que recorte en vez de deformarse, ya que las tres
-       imágenes no tienen la misma proporción de origen. */
     flex-shrink: 0;
-    object-fit: cover;
-    border-radius: 10px;
 }
 h1{
     font: normal normal normal 1.6vw/1.4em Sanseriffic;
@@ -685,11 +691,10 @@ p:where(:not(footer *)){
         flex-direction: column;
         gap: 18px;
       }
-      .capitulo__imagen {
+      .capitulo__marco {
         width: 100%;
         max-width: 320px;
         height: auto;
-        aspect-ratio: 1;
       }
       h1{
         position: static;

@@ -92,7 +92,17 @@
         <p id="ficha_categoria">{{ $pastel->getCategoriaPastel() }}</p>
     </div>
     <div id="DestacadoPrincipal">
-        <img src="{{$pastel->img}}" alt="Pastel de {{ $pastel->getSaborPastel() }} con cobertura de {{ $pastel->getCoberturaPastel() }}" name="img">
+        {{-- La foto entera sobre su propio fondo desenfocado, el mismo cuadro
+             que las tarjetas de «Productos destacados»: se entra aquí pulsando
+             una de ellas y la foto es la misma, así que no tendría sentido que
+             se recortara o se rellenara de otro modo al llegar. Antes el hueco
+             sobrante se tapaba con un crema fijo, que con las fotos oscuras se
+             notaba como un marco. --}}
+        @include('componentes.cuadro_foto', [
+            'src' => $pastel->img,
+            'alt' => 'Pastel de ' . $pastel->getSaborPastel() . ' con cobertura de ' . $pastel->getCoberturaPastel(),
+            'nombre' => 'img',
+        ])
         <p>${{$pastel->precio}}</p>
         <div id="seccion_cantidad">
             <label for="cantidad" id="label_cantidad">Cantidad:&nbsp;&nbsp;&nbsp;</label>
@@ -154,7 +164,17 @@
         <p id="ficha_categoria">{{ $pastel->getCategoriaPastel() }}</p>
     </div>
     <div id="DestacadoPrincipal">
-        <img src="{{$pastel->img}}" alt="Pastel de {{ $pastel->getSaborPastel() }} con cobertura de {{ $pastel->getCoberturaPastel() }}" name="img">
+        {{-- La foto entera sobre su propio fondo desenfocado, el mismo cuadro
+             que las tarjetas de «Productos destacados»: se entra aquí pulsando
+             una de ellas y la foto es la misma, así que no tendría sentido que
+             se recortara o se rellenara de otro modo al llegar. Antes el hueco
+             sobrante se tapaba con un crema fijo, que con las fotos oscuras se
+             notaba como un marco. --}}
+        @include('componentes.cuadro_foto', [
+            'src' => $pastel->img,
+            'alt' => 'Pastel de ' . $pastel->getSaborPastel() . ' con cobertura de ' . $pastel->getCoberturaPastel(),
+            'nombre' => 'img',
+        ])
         <p>${{$pastel->precio}}</p>
         <div id="seccion_cantidad">
             <label for="cantidad" id="label_cantidad">Cantidad:&nbsp;&nbsp;&nbsp;</label>

@@ -85,28 +85,45 @@
         <h1>Nuestra historia</h1>
         {{-- Cada párrafo con su imagen, alternando el lado: izquierda, derecha,
              izquierda. La alternancia la da .capitulo--espejo (row-reverse); en
-             móvil todos se apilan con la imagen arriba. --}}
+             móvil todos se apilan con la imagen arriba.
+
+             Las fotos van en el mismo cuadro que las del catálogo
+             (componentes.cuadro_foto): se ven enteras y el hueco que sobra lo
+             rellena esa misma foto ampliada y desenfocada. Antes se recortaban
+             para llenar el cuadrado, y a la del horno de leña que es
+             apaisada se le comía a uno de los dos panaderos. --}}
         <div id="texto">
             <section class="capitulo">
-                <img class="capitulo__imagen"
-                     src="https://rochinae.files.wordpress.com/2016/02/panadero.jpg?w=776"
-                     alt="Una pareja de panaderos sacando el pan del horno de leña">
+                @include('componentes.cuadro_foto', [
+                    'src' => 'https://rochinae.files.wordpress.com/2016/02/panadero.jpg?w=776',
+                    'alt' => 'Una pareja de panaderos sacando el pan del horno de leña',
+                    'clase' => 'capitulo__marco',
+                    'claseImagen' => 'capitulo__imagen',
+                ])
                 <p>Genny y Carlos crecieron entre dos oficios: el pan que horneaba su padre y los postres que su madre
                     preparaba por encargo, sin letrero ni marca; bastaba su nombre. Hace más de treinta años, los
                     hermanos decidieron reunir ambos oficios bajo un mismo letrero, <em>Panadería y Pastelería
                     Olivita<b>:</b></em> fue la primera vez que el trabajo de la familia tuvo un nombre propio.</p>
             </section>
             <section class="capitulo capitulo--espejo">
-                <img class="capitulo__imagen" src="{{ asset('images/Productos/_7.png') }}"
-                     alt="Pastel de chocolate decorado con grageas de colores y velas">
+                @include('componentes.cuadro_foto', [
+                    'src' => asset('images/Productos/_7.png'),
+                    'alt' => 'Pastel de chocolate decorado con grageas de colores y velas',
+                    'clase' => 'capitulo__marco',
+                    'claseImagen' => 'capitulo__imagen',
+                ])
                 <p>En un curso de Levapan, Genny conoció a Luis, con quien tiempo después se casó. Poco más tarde, ella
                     y Carlos decidieron seguir caminos distintos, y fue Luis quien compró el horno: esa venta selló la
                     separación. Genny se quedó con la pastelería que había aprendido de su madre, y Luis se quedó a
                     hornear junto a ella.</p>
             </section>
             <section class="capitulo">
-                <img class="capitulo__imagen" src="{{ asset('images/CupCake.png') }}"
-                     alt="Cupcake de chocolate coronado con una cereza">
+                @include('componentes.cuadro_foto', [
+                    'src' => asset('images/CupCake.png'),
+                    'alt' => 'Cupcake de chocolate coronado con una cereza',
+                    'clase' => 'capitulo__marco',
+                    'claseImagen' => 'capitulo__imagen',
+                ])
                 <p>A través de los años, tras un periplo por diversos rincones, nuestra historia se sintetizó en un
                     nombre tan breve como memorable: Pankey. Hoy condensamos nuestra esencia en un único refugio, donde
                     abrimos las puertas a nuestros visitantes mientras llevamos nuestras creaciones directamente hasta

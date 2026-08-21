@@ -1,0 +1,123 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Estilos reutilizables
+   ─────────────────────────────────────────────────────────────────────
+   Piezas que se usan en más de una vista. Es el equivalente en CSS de
+   js/funciones_reutilizables.js. Se carga en new_plantilla.blade.php ANTES
+   del @yield('estilo'), así que la hoja propia de cada página siempre puede
+   ajustar lo que necesite (el tamaño del cuadro, el redondeo, la sombra).
+
+   Todo lo de aquí va con clase propia y sin !important: nada se aplica solo
+   por estar cargada la hoja, hay que pedirlo poniendo la clase.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+
+/* ─── .cuadro-foto ────────────────────────────────────────────────────
+   La foto ENTERA dentro de un cuadro de proporción fija, con el hueco que
+   sobra relleno por la misma foto ampliada y desenfocada.
+
+   El problema que resuelve: las fotos de los pasteles vienen de fuera y no
+   tienen todas la misma proporción —de 2:3 vertical a 3:2 apaisada—, así que
+   en un cuadro fijo sólo caben de tres maneras:
+
+     · recortándolas (object-fit: cover): se pierde media tarta;
+     · estirándolas  (object-fit: fill):  hasta un 50 % de deformación en un
+       eje, y una tarta redonda sale ovalada;
+     · enteras       (object-fit: contain): no se recorta ni se deforma nada,
+       pero quedan bandas vacías a los lados.
+
+   Esta pieza escoge la tercera y tapa las bandas con la propia foto ampliada
+   y desenfocada de fondo, de modo que el cuadro se ve lleno y el color del
+   relleno siempre pega con la imagen, sea cual sea.
+
+   El fondo va en un ::before y no en el elemento porque el desenfoque
+   (filter) afecta a todo el elemento: puesto directamente, desenfocaría
+   también la foto de encima.
+
+   CÓMO SE USA
+   ───────────
+   Hace falta un contenedor con la clase y la URL de la foto repetida en la
+   variable --foto (es la que lee el fondo). Desde Blade lo más cómodo es el
+   parcial que ya hace las dos cosas:
+
+       @include('componentes.cuadro_foto', [
+           'src' => $pastel->img,
+           'alt' => 'Pastel de chocolate',
+       ])
+
+   Y en HTML o JavaScript, a mano:
+
+       <div class="cuadro-foto" style="--foto: url('foto.jpg')">
+           <img src="foto.jpg" alt="…">
+       </div>
+
+   El tamaño NO lo pone esta pieza: lo pone quien la usa (la tarjeta del
+   catálogo mide 300px de ancho, la ficha de producto ocupa toda su columna).
+   Aquí sólo se fija la PROPORCIÓN, cuadrada por defecto.
+
+   QUÉ SE PUEDE AJUSTAR desde fuera, redefiniendo estas variables en el
+   contenedor —no hace falta reescribir ninguna regla—: */
+:root {
+    --cuadro-foto-proporcion: 1;
+    /* ← FORMA DEL CUADRO (1 = cuadrado, 4/3, 16/9…) */
+
+    --cuadro-foto-radio: 10px;
+    /* ← REDONDEO DE LAS ESQUINAS */
+
+    --cuadro-foto-desenfoque: 18px;
+    /* ← CUÁNTO SE DESENFOCA EL FONDO */
+
+    --cuadro-foto-brillo: .85;
+    /* ← CUÁNTO SE APAGA EL FONDO (1 = igual que la foto) */
+
+    --cuadro-foto-escala: 1.25;
+    /* ← CUÁNTO SE AMPLÍA EL FONDO. Tiene que ser > 1: el desenfoque deja un
+         borde claro alrededor y la ampliación es la que se lo come. */
+
+    --cuadro-foto-reserva: #f9f5ef;
+    /* ← COLOR DE RESERVA, el que se ve si no hay --foto o la foto no carga */
+}
+
+.cuadro-foto {
+    position: relative;
+    /* recorta el fondo ampliado y cualquier zoom que añada quien la use */
+    overflow: hidden;
+    aspect-ratio: var(--cuadro-foto-proporcion);
+    border-radius: var(--cuadro-foto-radio);
+    /* Se ve mientras la foto carga, y se queda si la ruta está rota o si
+       quien puso la clase se olvidó de --foto. */
+    background-color: var(--cuadro-foto-reserva);
+}
+
+/* El fondo: la misma foto, ampliada y desenfocada. */
+.cuadro-foto::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    /* El valor de reserva es imprescindible: sin él, si --foto no está
+       definida la declaración entera se vuelve inválida y arrastra consigo a
+       las demás de la regla. */
+    background-image: var(--foto, none);
+    background-size: cover;
+    background-position: center;
+    transform: scale(var(--cuadro-foto-escala));
+    filter: blur(var(--cuadro-foto-desenfoque)) brightness(var(--cuadro-foto-brillo));
+}
+
+.cuadro-foto > img {
+    /* por encima del fondo */
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    /* Con un contenedor de alto definido (la foto de «Sobre nosotros» mide
+       300×300) la imagen lo llena; con uno de alto automático (la tarjeta del
+       catálogo, que sólo fija el ancho) el porcentaje no resuelve y manda el
+       aspect-ratio del contenedor. Las dos formas de usarlo dan un cuadro. */
+    height: 100%;
+    /* la foto entera: ni recortada ni deformada, sea cual sea su proporción */
+    object-fit: contain;
+    border-radius: inherit;
+    margin: 0;
+    padding: 0;
+}
