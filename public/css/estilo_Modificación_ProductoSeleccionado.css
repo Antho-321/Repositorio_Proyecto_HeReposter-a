@@ -212,25 +212,72 @@ a{
     padding: 10px;
 }
 #contenido_principal{
+    /* Antes era un `inline-flex` de dos cajas al 30vw/70vw, medidas contra el
+       ancho de la ventana: en una pantalla grande la ficha se estiraba de
+       borde a borde y en una pequeña se estrujaban las dos columnas a la vez.
+       Ahora es una rejilla con un ancho máximo y centrada: la foto en la
+       columna estrecha y, a su lado, lo que hace falta para decidir la compra.
+       La vista de actualizar un pastel del carrito comparte esta hoja y esta
+       misma estructura; lo único que no tiene es el encabezado, así que le
+       queda vacía la primera fila de la columna de la derecha. */
     position: relative !important;
-    display: inline-flex !important;
+    display: grid !important;
+    /* Dos filas: el encabezado a lo ancho y, debajo, la columna de la compra
+       -foto, precio, cantidad y botón- junto a la de los datos.
+       Las medidas de esta parte están apretadas a propósito: en una pantalla
+       de portátil (1366x768) todo esto tiene que caber sin desplazarse, y el
+       botón de comprar es lo último que entra. Si se agranda la foto o el
+       titular, el botón se va por debajo del corte. */
+    grid-template-columns: minmax(200px, 260px) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    align-items: start;
+    column-gap: clamp(24px, 4vw, 56px);
+    row-gap: 14px;
+    box-sizing: border-box;
     width: 100% !important;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 20px clamp(20px, 5vw, 56px) 64px !important;
     background-color: rgb(255, 255, 255) !important;
-    padding-top: 60px !important;
     font: normal normal normal 21px/1.4em Sanseriffic !important;
     letter-spacing: 1.4px !important;
+}
+
+/* El encabezado: de dónde viene el pastel y cómo se llama. Hasta ahora la
+   ficha abría con la foto y un precio suelto, sin decir en ningún sitio qué
+   se estaba mirando. El nombre se arma con el sabor, que es el dato que
+   distingue un pastel de otro dentro de una categoría. */
+#ficha_encabezado{
+    grid-column: 1 / -1;
+    grid-row: 1;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ececec;
+}
+/* La regla `#contenido_principal *` pinta de negro todo lo de dentro con
+   !important, así que para el gris de la categoría hace falta un selector más
+   específico que ella (dos ids), no solo llegar después. */
+#contenido_principal #ficha_categoria{
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+    font-size: 14px;
+    letter-spacing: 3.2px;
+    text-transform: uppercase;
+    color: #8a8a8a !important;
 }
 #contenido_principal *{
     color: black !important;
 }
 
 #DestacadoPrincipal{
-    position: relative;
-    width: 30vw;
+    /* La columna de la izquierda: la foto y todo lo que hace falta para
+       comprar, apilado y alineado al mismo borde. */
+    grid-column: 1;
+    grid-row: 2;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    align-items: stretch;
+    gap: 12px;
 }
 
 #DestacadoPrincipal input{
@@ -239,13 +286,41 @@ a{
 }
 
 #infoDetallada{
+    grid-column: 2;
+    grid-row: 2;
+    /* El ancho y el centrado los pone ahora la rejilla de #contenido_principal.
+       El `padding-right: calc((30vw - 96px) / 2)` que había aquí era un apaño
+       para compensar a ojo la columna de la foto. */
     position: relative !important;
-    width: 70vw !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding-right: calc((30vw - 96px) / 2);
+    width: auto !important;
+    display: block !important;
+    padding: 0 !important;
+}
+
+/* Todos los datos viven en una sola tarjeta. El truco está en `display:
+   contents` de más abajo: las dos «tablas» y sus filas desaparecen como cajas
+   y sus celdas pasan a ser casillas de ESTA rejilla, así que las etiquetas de
+   los dos bloques quedan alineadas en la misma columna. */
+#infoDetallada>div{
+    /* Ancho de la columna de etiquetas. El porcentaje es el que hace que
+       quepan en una línea las dos largas, «Dedicatoria para el pedido» y
+       «Especificación adicional», sin dejar por eso al valor sin sitio. */
+    --etiqueta: clamp(170px, 34%, 275px);
+    display: grid;
+    /* Una pareja de etiqueta y valor por línea. Se probó con dos por línea,
+       para aprovechar el ancho, y no cabían: el valor se quedaba en unos
+       180 px y «Normal (Con receta propia)» volvía a partirse en dos, que es
+       justo lo que se venía a arreglar. Con una pareja por línea el valor
+       tiene todo el ancho de la tarjeta y la altura acaba siendo la misma,
+       porque lo que se ahorraba en renglones se gastaba en líneas partidas. */
+    grid-template-columns: var(--etiqueta) minmax(0, 1fr);
+    align-items: center;
+    column-gap: clamp(16px, 2.5vw, 36px);
+    row-gap: 14px;
+    padding: clamp(20px, 3vw, 34px);
+    background: #fdfcfa;
+    border: 1px solid #eee;
+    border-radius: 16px;
 }
 
 /* Los párrafos del pie («Pedidos y retiro») los alinea style.css a la
@@ -261,20 +336,62 @@ p:where(:not(footer *)){
     width: auto;
 }
 
-#DestacadoPrincipal>img {
-    height: 300px;
-    width: 300px !important;
-    padding-top:2vh
+#DestacadoPrincipal>img{
+    /* Antes: 300x300 clavados. Como las fotos vienen de fuera y no son
+       cuadradas, se deformaban. Ahora el hueco sí es cuadrado, pero la foto
+       entra entera (`contain`) sobre un fondo crema, que es el mismo criterio
+       que en la rejilla del catálogo: la foto no se recorta ni se estira. */
+    width: 100% !important;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: contain;
+    padding: 0;
+    background: #f9f5ef;
+    border-radius: 14px;
+    box-shadow: 0 10px 26px rgb(0 0 0 / .12);
 }
 
-#seccion_cantidad {
-    display: inline-flex;
+/* El precio: es la cifra por la que se entra a la ficha y estaba con el mismo
+   cuerpo que cualquier otro texto. */
+#DestacadoPrincipal>p{
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+    font-size: 34px;
+    line-height: 1;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+#seccion_cantidad{
+    display: flex;
     align-items: center;
+    gap: 10px;
+}
+#label_cantidad{
+    font-size: 17px;
+    letter-spacing: 1px;
+    color: #6b6b6b !important;
 }
 
-#disminuir_cantidad,
-#aumentar_cantidad {
-    font-size: 25px;
+#DestacadoPrincipal #disminuir_cantidad,
+#DestacadoPrincipal #aumentar_cantidad{
+    width: 38px;
+    height: 38px;
+    padding: 0 !important;
+    font-size: 22px;
+    line-height: 1;
+    border: 1px solid #d9d9d9 !important;
+    border-radius: 10px;
+    background: #fff;
+}
+/* Sin esto, la regla general de `input:hover` los deja en negro al 25 % de
+   opacidad: el «-» y el «+» casi desaparecían justo al apuntarlos. */
+#DestacadoPrincipal #disminuir_cantidad:hover,
+#DestacadoPrincipal #aumentar_cantidad:hover{
+    color: #000 !important;
+    border-color: #111 !important;
+    background: #f6f6f6;
 }
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
@@ -298,6 +415,37 @@ input[type=number] {
 }
 #seccion_envio{
     display: flex;
+    flex-direction: column;
+}
+
+/* El botón de comprar era texto negro sobre blanco con el borde transparente
+   (lo dejaba así la regla general de `button`), o sea que no se leía como algo
+   pulsable. Se le da cuerpo de botón y el amarillo de la marca al apuntarlo.
+   Vale para los tres que caen aquí: «Añadir al carrito» con sesión iniciada
+   (#btn_add_carrito), sin ella (#add_carrito) y «Actualizar información» de la
+   vista del carrito, que no lleva id. */
+#seccion_envio button{
+    width: 100%;
+    padding: 15px 20px !important;
+    border: 0 !important;
+    border-radius: 12px;
+    background: #111 !important;
+    color: #fff !important;
+    font-size: 19px;
+    letter-spacing: 1.6px;
+    cursor: pointer;
+    transition: background .25s ease, color .25s ease,
+                box-shadow .25s ease, transform .15s ease;
+}
+#seccion_envio button:hover{
+    background: #ffe745 !important;
+    color: #111 !important;
+    box-shadow: 0 10px 22px rgb(0 0 0 / .18);
+    transform: translateY(-1px);
+}
+#seccion_envio button:active{
+    transform: translateY(0);
+    box-shadow: none;
 }
 #seccion_envio p{
     padding: 0px;
@@ -315,12 +463,19 @@ input[value='Feliz Cumpleaños...'] {
 }
 
 
-#cantidad{
+#DestacadoPrincipal #cantidad{
     cursor: auto;
-    width: 37px;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    width: 48px !important;
+    height: 38px;
+    padding: 0 !important;
     color: black;
     text-align: center;
-    position: relative;
+    font-size: 18px;
+    border: 1px solid #d9d9d9 !important;
+    border-radius: 10px;
+    background: #fff;
 }
 input[type='number']::-webkit-inner-spin-button {
     position: absolute;
@@ -339,46 +494,145 @@ input[type='number']::-webkit-inner-spin-button {
     width: 65vw;
 }
 
-.tabla_info {
-    display: table !important;
+/* Con `display: table` las filas de dos celdas y las de cuatro no compartían
+   columnas: el valor caía siempre en una columna estrecha marcada por el texto
+   más corto, y por eso «Normal (Con receta propia)» se partía en cinco líneas.
+   Deshechas las tablas, cada etiqueta y cada valor son casillas de la rejilla
+   de arriba: las filas de cuatro celdas se parten solas en dos renglones
+   (Tipo de pastel / Cobertura, Sabor / Relleno) y el valor tiene todo el ancho
+   que le sobra a la etiqueta. */
+.tabla_info{
+    display: contents !important;
 }
 
-.fila {
-    display: table-row;
+.fila{
+    display: contents;
 }
 
-.col {
-    display: table-cell;
-    padding: 15px;
+/* Excepción: la fila de la dedicatoria. Su celda del medio está vacía a
+   propósito -es donde script_InteracciónPrincipal.js mete el <select> con el
+   número de dedicatorias cuando se sube la cantidad, y la busca por posición
+   en el DOM (texto_dedicatoria.nextSibling.nextSibling)-, así que no se puede
+   quitar ni sacar de sitio. Como fila de la rejilla dejaría un hueco muerto
+   entre la etiqueta y el cuadro, así que esta va en una línea propia de ancho
+   completo: la celda vacía no ocupa nada y, cuando el JS la llena, el
+   desplegable aparece entre las dos. */
+.tabla_info:first-child>.fila{
+    grid-column: 1 / -1;
+    display: flex !important;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
 }
-.col:not(#adicional){
-    text-align: center !important;
+#texto_dedicatoria{
+    flex: 0 0 var(--etiqueta);
+}
+#cuadros_dedicatoria{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1 1 260px;
+    max-width: 520px;
+}
+
+.col{
+    display: block;
+    padding: 0;
+}
+/* Todo iba centrado dentro de su celda, que con las tablas era lo único que
+   disimulaba las columnas descuadradas. En dos columnas de verdad se lee mucho
+   mejor con las etiquetas y los valores alineados a la izquierda. */
+#infoDetallada .col{
+    text-align: left !important;
     vertical-align: middle !important;
 }
 #txtadicional{
-    padding: 3.5% 0px !important;
+    grid-column: 1;
+    padding: 10px 0 0 !important;
+    align-self: start;
+}
+#adicional{
+    grid-column: 2 / -1;
 }
 #espAdicional{
-    position: absolute !important;
-    width: 400% !important;
-    height: 80% !important;
-    font-family:Sanseriffic !important;
-    font-size: 19px !important;
-    letter-spacing: 0.1vw !important;
-    resize: none !important;
+    /* Estaba en `position: absolute` con `width: 400%`: se salía de su celda y
+       tapaba lo que tuviera debajo, y su alto dependía de una caja que no
+       tenía altura propia. Dentro de la rejilla ya no hace falta nada de eso. */
+    position: static !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    height: 96px !important;
+    padding: 10px 12px !important;
+    font-family: Sanseriffic !important;
+    font-size: 17px !important;
+    letter-spacing: 0.6px !important;
+    line-height: 1.4 !important;
+    color: #111 !important;
+    background: #fff !important;
+    border: 1px solid #d9d9d9 !important;
+    border-radius: 10px !important;
+    resize: vertical !important;
 }
 
-.col:nth-child(1) {
-    font-weight: bold;
+/* Etiquetas (celdas 1 y 3 de cada fila) y valores (2 y 4). Antes las
+   etiquetas iban en negrita y del mismo tamaño que el valor, así que las dos
+   cosas pesaban igual; ahora la etiqueta es el apoyo gris y el valor, lo que
+   se lee. */
+#infoDetallada .col:nth-child(1),
+#infoDetallada .col:nth-child(3){
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 1.35;
+    letter-spacing: 1px;
+    color: #6b6b6b !important;
 }
 
-.col:nth-child(3):not(input[name='dedicatoria']) {
-    font-weight: bold;
+#infoDetallada .col:nth-child(2),
+#infoDetallada .col:nth-child(4){
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 1.35;
 }
 input[name='dedicatoria']{
-    border: 1px solid black;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 12px;
+    margin: 0;
+    font-size: 17px;
+    background: #fff;
+    border: 1px solid #d9d9d9 !important;
+    border-radius: 10px;
     cursor: text !important;
-    margin: 9px;
+}
+/* `#contenido_principal input {width: auto}` gana por especificidad a la regla
+   de arriba, así que el ancho se pide otra vez desde el mismo peso. */
+#cuadros_dedicatoria input[name='dedicatoria']{
+    width: 100%;
+}
+/* El desplegable del número de dedicatorias lo crea el JS, así que no está en
+   la plantilla: se viste aquí para que no desentone con los cuadros de texto. */
+#num_dedicatorias{
+    padding: 8px 10px;
+    font-size: 17px;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Un foco visible en todo lo que se puede escribir o pulsar dentro de la
+   ficha: el tema no marcaba de ninguna forma dónde estaba el cursor al
+   recorrerla con el tabulador. */
+#contenido_principal input:focus-visible,
+#contenido_principal textarea:focus-visible,
+#contenido_principal select:focus-visible,
+#contenido_principal button:focus-visible{
+    outline: 3px solid #ffe745;
+    outline-offset: 2px;
+}
+#cuadros_dedicatoria input:focus,
+#espAdicional:focus{
+    border-color: #111 !important;
 }
 /* Aquí vivía un `footer { display:flex; align-items:center; ... }` del diseño
    viejo, cuando el pie era una sola franja con los derechos reservados. El pie
@@ -425,11 +679,8 @@ button:hover{
     color: #7c7c7c41 !important;
     transition: 0.4s !important;
 }
-#btn_add_carrito:hover{
-    cursor: pointer;
-    color: rgba(0, 0, 0, 0.521) !important;
-    transition: 0.4s !important;
-}
+/* El hover de «Añadir al carrito» se define con los demás botones de compra,
+   arriba, en #seccion_envio button:hover. */
 /*--------------------AGREGO---------------------*/
 
 body,
@@ -878,4 +1129,60 @@ a:where(:not(footer *)) {
     padding: 0px !important;
     line-height: 30px !important; /* Ensure the line height is equal to the height for vertical alignment */
     height: 30px !important;
+}
+/* ─── La ficha según el ancho de la ventana ─────────────────────────────────
+   La ficha no tenía ningún punto de ruptura: sus dos columnas seguían al
+   30 %/70 % hasta en un móvil, con la foto diminuta a un lado y los datos
+   estrujados al otro. Aquí se va soltando en dos escalones: primero la compra
+   y los datos se apilan en una columna, y después la etiqueta se pone encima
+   de su valor, que es lo único que cabe. */
+@media screen and (max-width: 900px) {
+    #contenido_principal {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: none;
+        padding: 28px clamp(16px, 5vw, 32px) 56px !important;
+        row-gap: 20px;
+    }
+
+    /* En una sola columna manda el orden del HTML: encabezado, foto, precio,
+       cantidad, botón y datos. Hay que soltar las casillas fijas de la rejilla
+       ancha o cada pieza seguiría buscando su fila y su columna. */
+    #ficha_encabezado,
+    #DestacadoPrincipal,
+    #infoDetallada {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    #DestacadoPrincipal>img {
+        max-width: 420px;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    #infoDetallada>div {
+        --etiqueta: 100%;
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 4px;
+    }
+
+    /* Con una sola columna, etiqueta y valor se alternan en vertical: el aire
+       va encima de la etiqueta para que cada pareja se lea junta. */
+    #infoDetallada .col:nth-child(1),
+    #infoDetallada .col:nth-child(3) {
+        margin-top: 14px;
+    }
+
+    .tabla_info:first-child>.fila {
+        gap: 4px;
+    }
+
+    #texto_dedicatoria {
+        flex-basis: 100%;
+    }
+
+    #adicional,
+    #txtadicional {
+        grid-column: 1;
+    }
 }

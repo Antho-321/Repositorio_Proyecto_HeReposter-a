@@ -1,4 +1,5 @@
 @extends('plantilla_cliente.new_plantilla')
+@section('titulo', $pastel->getCategoriaPastel() . ' | Pankey')
 @section('estilo')
     {{-- ?v=filemtime: mismo motivo que en style.css, evita servir el CSS viejo tras un cambio --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo_Modificación_ProductoSeleccionado.css') }}?v={{ filemtime(public_path('css/estilo_Modificación_ProductoSeleccionado.css')) }}" id="estilo">
@@ -84,8 +85,14 @@
 @if (isset($cliente))
 <form id="contenido_principal" action="{{ route('cliente.ingreso_carrito',$pastel) }}" method="GET">
     @csrf
+    {{-- La categoría de la que se viene, como referencia de dónde está uno.
+         El pastel no tiene nombre en la base de datos, así que no hay ningún
+         titular que poner: cualquiera habría que inventárselo. --}}
+    <div id="ficha_encabezado">
+        <p id="ficha_categoria">{{ $pastel->getCategoriaPastel() }}</p>
+    </div>
     <div id="DestacadoPrincipal">
-        <img src="{{$pastel->img}}" alt="imagenes" name="img">
+        <img src="{{$pastel->img}}" alt="Pastel de {{ $pastel->getSaborPastel() }} con cobertura de {{ $pastel->getCoberturaPastel() }}" name="img">
         <p>${{$pastel->precio}}</p>
         <div id="seccion_cantidad">
             <label for="cantidad" id="label_cantidad">Cantidad:&nbsp;&nbsp;&nbsp;</label>
@@ -140,8 +147,14 @@
 </form>
 @else
 <div id="contenido_principal">
+    {{-- La categoría de la que se viene, como referencia de dónde está uno.
+         El pastel no tiene nombre en la base de datos, así que no hay ningún
+         titular que poner: cualquiera habría que inventárselo. --}}
+    <div id="ficha_encabezado">
+        <p id="ficha_categoria">{{ $pastel->getCategoriaPastel() }}</p>
+    </div>
     <div id="DestacadoPrincipal">
-        <img src="{{$pastel->img}}" alt="imagenes" name="img">
+        <img src="{{$pastel->img}}" alt="Pastel de {{ $pastel->getSaborPastel() }} con cobertura de {{ $pastel->getCoberturaPastel() }}" name="img">
         <p>${{$pastel->precio}}</p>
         <div id="seccion_cantidad">
             <label for="cantidad" id="label_cantidad">Cantidad:&nbsp;&nbsp;&nbsp;</label>

@@ -6,7 +6,11 @@
 <html class="wide wow-animation" lang="es">
 
 <head>
-    <title>Inicio</title>
+    {{-- El título estaba fijo en «Inicio» para todo el sitio, así que la pestaña
+         decía lo mismo en la portada que en la ficha de un pastel. Con el
+         valor por defecto, las vistas que no digan nada siguen igual que hasta
+         ahora; las que definan @section('titulo') ponen el suyo. --}}
+    <title>@yield('titulo', 'Inicio')</title>
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport"
         content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
