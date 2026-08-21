@@ -325,7 +325,11 @@
         src="{{ asset('js/script_InteracciónPrincipal.js') }}?v={{ filemtime(public_path('js/script_InteracciónPrincipal.js')) }}"></script>
     <script src="{{ asset('js/core.min.js') }}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
-    <script type="module" src="{{ asset('js/funciones_reutilizables.js') }}"></script>
+    {{-- Con ?v=filemtime, como los demás. Era el único que no lo llevaba, y
+         Cloudflare lo cachea 4 h: al tocarlo, los navegadores seguían
+         ejecutando la versión vieja durante toda la tarde. --}}
+    <script type="module"
+        src="{{ asset('js/funciones_reutilizables.js') }}?v={{ filemtime(public_path('js/funciones_reutilizables.js')) }}"></script>
     @yield('script')
     <!-- coded by Himic-->
 </body>

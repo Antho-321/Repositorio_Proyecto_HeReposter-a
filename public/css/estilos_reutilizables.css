@@ -121,3 +121,36 @@
     margin: 0;
     padding: 0;
 }
+
+
+/* ─── .cuadro-foto--transparente ──────────────────────────────────────
+   Las fotos recortadas, sin fondo (PNG con canal alfa: Crosant.png está
+   transparente en un 85 % de su superficie, Rollo de canela.png en un 33 %) no
+   tapan lo que tienen detrás, así que el relleno desenfocado se les cuela POR
+   DENTRO: donde debería verse el croissant limpio se ve el croissant sobre una
+   mancha borrosa de sí mismo.
+
+   Y además el relleno ahí no pinta nada. Está para tapar las bandas que deja
+   una foto entera dentro del cuadro, y una foto recortada no tiene bandas: lo
+   que sobra es transparente por todas partes, no sólo a los lados. Así que se
+   quita y queda blanco puro, que es como se presenta un producto recortado en
+   cualquier catálogo.
+
+   Blanco puro y no el crema de --cuadro-foto-reserva: el crema está pensado
+   para verse un instante mientras la foto carga, no para quedarse. De fondo
+   permanente le da al producto un tono cálido que no es el suyo, y en la ficha
+   —donde la tarjeta de los datos ya es #fdfcfa— se leerían como dos cremas
+   distintos puestos uno al lado del otro.
+
+   La clase la pone sola marcarCuadrosTransparentes(), en
+   js/funciones_reutilizables.js, mirando la foto ya cargada. También se puede
+   escribir a mano en el HTML cuando se sepa de antemano que la foto viene
+   recortada (por ejemplo si es de otro dominio y el navegador no deja
+   mirarla). */
+.cuadro-foto--transparente {
+    background-color: #fff;
+}
+
+.cuadro-foto--transparente::before {
+    display: none;
+}

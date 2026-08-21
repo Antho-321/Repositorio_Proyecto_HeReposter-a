@@ -1,4 +1,12 @@
 import { estilo_Ingreso_Registro, salto, divVentana, CerrarVentana } from './funciones_reutilizables.js';
+/* Aparte, y como espacio de nombres a propósito: los import entre módulos van
+   por ruta fija, sin el ?v=filemtime que la plantilla les pone a los <script>, y
+   Cloudflare cachea los assets 4 h. Con `import { nombreNuevo }`, mientras el
+   navegador siga teniendo la copia vieja del fichero no encuentra ese nombre y
+   revienta el módulo ENTERO: la portada se quedó sin un solo producto. Con
+   `import * as` no falla; a lo sumo el nombre no está todavía, y eso se
+   comprueba antes de usarlo. */
+import * as reutilizables from './funciones_reutilizables.js';
 
 let num_productos, cantidad_producto_carr, img, id_imagen, direccion_producto,
     dedicatoria, cuadros_dedicatoria, opciones, id_producto, precio_producto,
@@ -249,6 +257,16 @@ function AgregarContenido(CategoríaSeleccionada) {
             div_aux.appendChild(div);
         }
         seccion_productos.appendChild(div_aux);
+        // Las fotos recortadas (PNG sin fondo) llevan el cuadro en blanco, no
+        // el relleno desenfocado, que se les colaría por dentro del producto.
+        // Va aquí y no en funciones_reutilizables.js porque cuando aquel se
+        // ejecuta estas tarjetas todavía no existen. La comprobación es por lo
+        // dicho arriba en el import: si el navegador aún sirve la copia vieja
+        // del fichero, esto no está, y prefiero que falte el fondo blanco a que
+        // se caiga la rejilla de productos.
+        if (typeof reutilizables.marcarCuadrosTransparentes === "function") {
+            reutilizables.marcarCuadrosTransparentes(seccion_productos);
+        }
 
     } else {
         if (CategoríaSeleccionada == " Navidad") {
