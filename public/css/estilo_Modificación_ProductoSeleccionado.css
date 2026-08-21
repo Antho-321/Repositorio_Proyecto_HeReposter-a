@@ -250,7 +250,16 @@ a{
 #ficha_encabezado{
     grid-column: 1 / -1;
     grid-row: 1;
-    padding-bottom: 10px;
+    /* Sin relleno debajo del nombre, para que el hueco que queda hasta la
+       línea gris sea el mismo que el de encima.
+       El de encima no son los 20px de `padding-top` de la ficha: la banda
+       negra de #Salto va fija justo donde la ficha arranca y tapa 18.75px de
+       ese relleno, así que por debajo de la banda solo asoman 1.25px. Con los
+       9px que la caja de la línea -29.4px heredados del texto de 21px- deja
+       sobre las mayúsculas, el nombre queda a 10px de la banda.
+       Debajo, esa misma caja ya deja 10.4px hasta la línea; los 10px de
+       relleno que había aquí los duplicaban -20px contra 10px- y eso era lo
+       que se veía descentrado. */
     border-bottom: 1px solid #ececec;
 }
 /* La regla `#contenido_principal *` pinta de negro todo lo de dentro con
@@ -1157,6 +1166,14 @@ a:where(:not(footer *)) {
     #infoDetallada {
         grid-column: 1;
         grid-row: auto;
+    }
+
+    /* Aquí la ficha abre con 28px de relleno arriba y la banda negra tapa los
+       mismos 18.75px, así que encima del nombre quedan 18px en vez de los 10
+       de escritorio. La caja de la línea solo pone 11 de esos 18 por debajo:
+       los 7 que faltan para igualar los dos huecos se ponen a mano. */
+    #ficha_encabezado {
+        padding-bottom: 7px;
     }
 
     #DestacadoPrincipal>img {
