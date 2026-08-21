@@ -95,7 +95,7 @@
         <div id="texto">
             <section class="capitulo">
                 @include('componentes.cuadro_foto', [
-                    'src' => 'https://rochinae.files.wordpress.com/2016/02/panadero.jpg?w=776',
+                    'src' => 'https://i.postimg.cc/905n6jfk/Chat-GPT-Image-9-ago-2026-16-54-44(1).png',
                     'alt' => 'Una pareja de panaderos sacando el pan del horno de leña',
                     'clase' => 'capitulo__marco',
                     'claseImagen' => 'capitulo__imagen',
