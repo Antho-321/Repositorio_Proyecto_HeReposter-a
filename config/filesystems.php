@@ -36,6 +36,33 @@ return [
             'throw' => false,
         ],
 
+        /*
+         * Disco compartido por NFS entre el nodo web y el de datos
+         * (/srv/compartido, ver 06-disco-compartido.sh). Es el unico sitio
+         * donde los dos nodos ven los mismos ficheros: lo que el worker
+         * escribe aqui, el nodo web lo sirve en /imagenes/ sin copiar nada.
+         * No usa storage/app/public porque ese arbol lo sobrescribe el tar
+         * del release en cada despliegue.
+         */
+        'compartido' => [
+            'driver' => 'local',
+            'root' => env('DISCO_COMPARTIDO', '/srv/compartido').'/imagenes',
+            'url' => env('APP_URL').'/imagenes',
+            'visibility' => 'public',
+            'throw' => false,
+            /*
+             * 0664 y 02775 (no los 0644/0755 de Laravel) porque aqui escriben
+             * DOS usuarios distintos: nginx (PHP-FPM, el vhost del :80) y opc
+             * (el "artisan serve" que hay detras del tunel de Cloudflare).
+             * Con 0644 el segundo no podria modificar lo que crea el primero.
+             * El setgid del directorio mantiene el grupo nginx en lo nuevo.
+             */
+            'permissions' => [
+                'file' => ['public' => 0664, 'private' => 0664],
+                'dir'  => ['public' => 02775, 'private' => 02775],
+            ],
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
