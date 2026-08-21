@@ -107,7 +107,7 @@
             </section>
             <section class="capitulo capitulo--espejo">
                 @include('componentes.cuadro_foto', [
-                    'src' => asset('images/Productos/_7.png'),
+                    'src' => 'https://i.postimg.cc/vZ52nmGv/Gemini-Generated-Image-fzjbuyfzjbuyfzjb.jpg',
                     'alt' => 'Pastel de chocolate decorado con grageas de colores y velas',
                     'clase' => 'capitulo__marco',
                     'claseImagen' => 'capitulo__imagen',
